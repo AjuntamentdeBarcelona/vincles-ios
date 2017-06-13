@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="15G31" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="Cita" representedClassName=".Cita" syncable="YES">
+        <attribute name="calendarId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="descript" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="duration" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userCreator" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="InitFeed" representedClassName=".InitFeed" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idUsrVincles" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isRead" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="objectDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="textBody" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vincleLastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vincleName" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Missatges" representedClassName=".Missatges" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idAdjuntContents" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="idUserFrom" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idUserTo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="metadataTipus" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sendTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="watched" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+    </entity>
+    <entity name="UserCercle" representedClassName=".UserCercle" syncable="YES">
+        <attribute name="active" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="cognom" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dataNeixament" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="fotoPerfil" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="genere" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idCalendar" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idCircle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idInstallation" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idLibrary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mail" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nom" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="password" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="photoMimeType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="telefon" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vincleSelected" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="viusBcn" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+    </entity>
+    <entity name="UserVincle" representedClassName=".UserVincle" syncable="YES">
+        <attribute name="alias" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="birthdate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="eventsFirstLoad" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idCalendar" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idCircle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idContentPhoto" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idInstallation" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idLibrary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastname" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="liveInBarcelona" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="photo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="photoMimeType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Cita" positionX="-18" positionY="36" width="128" height="150"/>
+        <element name="InitFeed" positionX="-36" positionY="81" width="128" height="180"/>
+        <element name="Missatges" positionX="-36" positionY="81" width="128" height="165"/>
+        <element name="UserCercle" positionX="-36" positionY="-54" width="128" height="315"/>
+        <element name="UserVincle" positionX="-54" positionY="-9" width="128" height="315"/>
+    </elements>
+</model>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Akkurat.ttf">
+            <string>Akkurat</string>
+            <string>Akkurat</string>
+            <string>Akkurat</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="85" id="3GB-wh-kIp" customClass="CitaBTableViewCell" customModule="Vincles" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="85"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3GB-wh-kIp" id="QKI-mS-UV5">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-time" translatesAutoresizingMaskIntoConstraints="NO" id="RQG-Hn-Zpi">
+                        <rect key="frame" x="13" y="13" width="18" height="18"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="18" id="AK1-P7-Kh0"/>
+                            <constraint firstAttribute="width" constant="18" id="W6f-Ty-CzT"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bQR-H4-4iN">
+                        <rect key="frame" x="46" y="13" width="51" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="51" id="aeh-wj-Cvl"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="17"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GQB-VL-RKk" userLabel="separa">
+                        <rect key="frame" x="105" y="17" width="1" height="48"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="1" id="H0W-Ls-2Ur"/>
+                            <constraint firstAttribute="height" constant="48" id="mIk-Kb-5gg"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ocupat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PiO-yr-b0R">
+                        <rect key="frame" x="119" y="13" width="111" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="111" id="Wke-jI-fzd"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="17"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1fz-cb-5gt">
+                        <rect key="frame" x="46" y="47" width="51" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="51" id="UQy-Wa-W3L"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="17"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="1fz-cb-5gt" firstAttribute="centerX" secondItem="bQR-H4-4iN" secondAttribute="centerX" id="7r2-nY-dbT"/>
+                    <constraint firstItem="bQR-H4-4iN" firstAttribute="top" secondItem="QKI-mS-UV5" secondAttribute="topMargin" constant="5" id="8mv-56-NAy"/>
+                    <constraint firstItem="RQG-Hn-Zpi" firstAttribute="top" secondItem="QKI-mS-UV5" secondAttribute="topMargin" constant="5" id="Q6B-bY-dZP"/>
+                    <constraint firstItem="GQB-VL-RKk" firstAttribute="leading" secondItem="1fz-cb-5gt" secondAttribute="trailing" constant="8" id="TrS-j0-0Mq"/>
+                    <constraint firstItem="1fz-cb-5gt" firstAttribute="top" secondItem="bQR-H4-4iN" secondAttribute="bottom" constant="13" id="WeV-UL-B7A"/>
+                    <constraint firstItem="GQB-VL-RKk" firstAttribute="top" secondItem="QKI-mS-UV5" secondAttribute="topMargin" constant="9" id="eMn-g9-nyl"/>
+                    <constraint firstItem="bQR-H4-4iN" firstAttribute="leading" secondItem="RQG-Hn-Zpi" secondAttribute="trailing" constant="15" id="ibq-Z6-7s1"/>
+                    <constraint firstItem="PiO-yr-b0R" firstAttribute="top" secondItem="QKI-mS-UV5" secondAttribute="topMargin" constant="5" id="kIJ-Nj-Iv5"/>
+                    <constraint firstItem="PiO-yr-b0R" firstAttribute="leading" secondItem="GQB-VL-RKk" secondAttribute="trailing" constant="13" id="nsq-Yg-oe3"/>
+                    <constraint firstItem="RQG-Hn-Zpi" firstAttribute="leading" secondItem="QKI-mS-UV5" secondAttribute="leadingMargin" constant="5" id="wTw-Z6-e5c"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="fromTimeLabel" destination="bQR-H4-4iN" id="oJj-XK-d6e"/>
+                <outlet property="iconImageView" destination="RQG-Hn-Zpi" id="fpO-Ep-bZL"/>
+                <outlet property="ocupatTitle" destination="PiO-yr-b0R" id="bL9-9v-nOP"/>
+                <outlet property="toTimeLabel" destination="1fz-cb-5gt" id="Vaj-VG-wXr"/>
+            </connections>
+            <point key="canvasLocation" x="366" y="311.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon-time" width="20" height="20"/>
+    </resources>
+</document>

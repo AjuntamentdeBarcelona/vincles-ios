@@ -1,0 +1,109 @@
+PODS:
+  - Alamofire (3.5.1)
+  - Crashlytics (3.8.3):
+    - Fabric (~> 1.6.3)
+  - CryptoSwift (0.5.2)
+  - Fabric (1.6.11)
+  - Firebase/Core (3.10.0):
+    - FirebaseAnalytics (= 3.6.0)
+    - FirebaseCore (= 3.4.5)
+  - Firebase/Messaging (3.10.0):
+    - Firebase/Core
+    - FirebaseMessaging (= 1.2.1)
+  - FirebaseAnalytics (3.6.0):
+    - FirebaseCore (~> 3.4)
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseCore (3.4.5):
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseInstanceID (1.0.8)
+  - FirebaseMessaging (1.2.1):
+    - FirebaseAnalytics (~> 3.4)
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+  - Google/Analytics (3.0.3):
+    - Google/Core
+    - GoogleAnalytics (~> 3.12)
+  - Google/Core (3.0.3):
+    - FirebaseAnalytics (~> 3.2)
+  - GoogleAnalytics (3.17.0)
+  - GoogleInterchangeUtilities (1.2.2):
+    - GoogleSymbolUtilities (~> 1.1)
+  - GoogleSymbolUtilities (1.1.2)
+  - GoogleToolboxForMac/Defines (2.1.0)
+  - GoogleToolboxForMac/Logger (2.1.0):
+    - GoogleToolboxForMac/Defines (= 2.1.0)
+  - GoogleToolboxForMac/NSData+zlib (2.1.0):
+    - GoogleToolboxForMac/Defines (= 2.1.0)
+  - SocketRocket (0.5.1)
+  - SVProgressHUD (2.0.3)
+  - SwiftPages (1.1.0)
+  - SwiftyJSON (2.3.2)
+
+DEPENDENCIES:
+  - Alamofire (~> 3.3)
+  - Crashlytics
+  - CryptoSwift (from `https://github.com/krzyzanowskim/CryptoSwift`, branch `swift2`)
+  - Fabric
+  - Firebase/Messaging
+  - Google/Analytics
+  - SocketRocket
+  - SVProgressHUD (from `https://github.com/SVProgressHUD/SVProgressHUD.git`, tag `2.0.3`)
+  - SwiftPages (from `https://github.com/GabrielAlva/SwiftPages.git`)
+  - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`, tag `2.3.3`)
+
+EXTERNAL SOURCES:
+  CryptoSwift:
+    :branch: swift2
+    :git: https://github.com/krzyzanowskim/CryptoSwift
+  SVProgressHUD:
+    :git: https://github.com/SVProgressHUD/SVProgressHUD.git
+    :tag: 2.0.3
+  SwiftPages:
+    :git: https://github.com/GabrielAlva/SwiftPages.git
+  SwiftyJSON:
+    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
+    :tag: 2.3.3
+
+CHECKOUT OPTIONS:
+  CryptoSwift:
+    :commit: 03a745bb6533ed97b055c1a2883be2b542a50252
+    :git: https://github.com/krzyzanowskim/CryptoSwift
+  SVProgressHUD:
+    :git: https://github.com/SVProgressHUD/SVProgressHUD.git
+    :tag: 2.0.3
+  SwiftPages:
+    :commit: da2301b7b608186413ec231643c02c91802cc281
+    :git: https://github.com/GabrielAlva/SwiftPages.git
+  SwiftyJSON:
+    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
+    :tag: 2.3.3
+
+SPEC CHECKSUMS:
+  Alamofire: 0dfba1184a543e2aa160f4e39cac4e8aba48d223
+  Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
+  CryptoSwift: c1ef79f901b86099a6fe8b3c7524cf9f3f3c8c40
+  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
+  Firebase: 387f37c7dca894a02708da9ff35ba147040eae9e
+  FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
+  FirebaseCore: 1e383fdfe37b6b5d6ff88e84204bdee30276af0f
+  FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
+  FirebaseMessaging: acf66347e43c5637c697060c3001d25c809a4131
+  Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
+  GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
+  GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
+  GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
+  GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
+  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
+  SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
+  SwiftPages: 6a123935985f0f8029442ec0cf296b4e9e2fe123
+  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
+
+PODFILE CHECKSUM: bbb6413a1f78770ae0daa66f4e54ad2ba7b0ceb5
+
+COCOAPODS: 1.2.1

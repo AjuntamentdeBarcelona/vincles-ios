@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="customTitleHeaderCell" rowHeight="60" id="T5f-kI-Fdr" customClass="CustomTitleHeaderCell" customModule="Vincles" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T5f-kI-Fdr" id="WiS-xj-VpU">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kGw-jz-udg">
+                        <rect key="frame" x="8" y="19" width="304" height="22"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" red="0.21025641025641006" green="0.21025641025641006" blue="0.21025641025641006" alpha="1" colorSpace="calibratedRGB"/>
+                <constraints>
+                    <constraint firstItem="kGw-jz-udg" firstAttribute="centerY" secondItem="WiS-xj-VpU" secondAttribute="centerY" id="ZUg-8A-lBH"/>
+                    <constraint firstItem="kGw-jz-udg" firstAttribute="centerX" secondItem="WiS-xj-VpU" secondAttribute="centerX" id="aCX-TB-Iv1"/>
+                    <constraint firstItem="kGw-jz-udg" firstAttribute="trailing" secondItem="WiS-xj-VpU" secondAttribute="trailingMargin" id="iX8-ja-xMX"/>
+                    <constraint firstItem="kGw-jz-udg" firstAttribute="leading" secondItem="WiS-xj-VpU" secondAttribute="leadingMargin" id="kLo-4N-8FA"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" red="0.51153846150000004" green="0.51153846150000004" blue="0.51153846150000004" alpha="1" colorSpace="calibratedRGB"/>
+            <connections>
+                <outlet property="headerTitleLbl" destination="kGw-jz-udg" id="ZgV-do-17g"/>
+            </connections>
+            <point key="canvasLocation" x="329" y="399"/>
+        </tableViewCell>
+    </objects>
+</document>
