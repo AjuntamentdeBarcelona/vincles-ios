@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>client.iceServers</key>
+	<array>
+		<dict>
+			<key>url</key>
+			<string>turn:webrtcat.i2cat.net:3478?transport=udp</string>
+			<key>username</key>
+			<string>i2cat</string>
+			<key>password</key>
+			<string>i2catdev</string>
+		</dict>
+		<dict>
+			<key>url</key>
+			<string>turn:webrtcat.i2cat.net:3478?transport=tcp</string>
+			<key>username</key>
+			<string>i2cat</string>
+			<key>password</key>
+			<string>i2catdev</string>
+		</dict>
+	</array>
+	<key>client.stunServer</key>
+	<string>stun:webrtcat.i2cat.net:3478</string>
+	<key>client.serverHostUrl</key>
+	<string>https://webrtcat.i2cat.net:4567</string>
+</dict>
+</plist>

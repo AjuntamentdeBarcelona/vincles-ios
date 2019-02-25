@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Akkurat-Light.ttf">
+            <string>Akkurat-Light</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GaleriaInfoHoraView" customModule="VinclesDev" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="gIP-bH-kec"/>
+                <outlet property="timeLabel" destination="92Z-au-pbk" id="nsQ-6Y-ai3"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="214" height="165"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="mxW-Bg-Ua1">
+                    <rect key="frame" x="0.0" y="0.0" width="214" height="165"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Info_hora" translatesAutoresizingMaskIntoConstraints="NO" id="BB6-Xc-KlJ">
+                            <rect key="frame" x="0.0" y="58" width="49" height="49.5"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="BB6-Xc-KlJ" secondAttribute="height" id="Pq0-1r-9ZQ"/>
+                            </constraints>
+                        </imageView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3SV-Io-ZcQ">
+                            <rect key="frame" x="54" y="39" width="160" height="87"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="92Z-au-pbk">
+                                    <rect key="frame" x="0.0" y="0.0" width="160" height="87"/>
+                                    <fontDescription key="fontDescription" name="Akkurat-Light" family="Akkurat-Light" pointSize="19"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                    <variation key="widthClass=compact">
+                                        <fontDescription key="fontDescription" name="Akkurat-Light" family="Akkurat-Light" pointSize="15"/>
+                                    </variation>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="92Z-au-pbk" firstAttribute="centerY" secondItem="3SV-Io-ZcQ" secondAttribute="centerY" id="5hz-6T-mrt"/>
+                                <constraint firstItem="92Z-au-pbk" firstAttribute="width" secondItem="3SV-Io-ZcQ" secondAttribute="width" id="OF1-aW-7v9"/>
+                                <constraint firstItem="92Z-au-pbk" firstAttribute="height" secondItem="3SV-Io-ZcQ" secondAttribute="height" id="UQ2-yX-lbW"/>
+                                <constraint firstItem="92Z-au-pbk" firstAttribute="centerX" secondItem="3SV-Io-ZcQ" secondAttribute="centerX" id="lLz-wi-93C"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="BB6-Xc-KlJ" firstAttribute="height" secondItem="mxW-Bg-Ua1" secondAttribute="height" multiplier="0.3" id="zTD-l8-FeK"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="WsE-ef-3lU"/>
+                </stackView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="mxW-Bg-Ua1" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="6u4-tC-Ybj"/>
+                <constraint firstItem="mxW-Bg-Ua1" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="Fqc-gg-kuj"/>
+                <constraint firstItem="mxW-Bg-Ua1" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="SN4-bX-Fvu"/>
+                <constraint firstItem="mxW-Bg-Ua1" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="fOu-ef-b8s"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="-47" y="-107.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Info_hora" width="56" height="56"/>
+    </resources>
+</document>

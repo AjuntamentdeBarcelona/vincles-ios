@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Akkurat.ttf">
+            <string>Akkurat</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--About View Controller-->
+        <scene sceneID="0Xq-JI-mnd">
+            <objects>
+                <viewController storyboardIdentifier="AboutViewController" id="maZ-Wi-RRg" customClass="AboutViewController" customModule="VinclesDev" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="g78-Ny-TYn">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="STs-kI-k5A">
+                                <rect key="frame" x="15.5" y="20" width="345" height="572"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="test" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hgf-9l-Vx1">
+                                        <rect key="frame" x="20" y="0.0" width="305" height="572"/>
+                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES" shipmentTrackingNumber="YES" flightNumber="YES"/>
+                                    </textView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="hgf-9l-Vx1" secondAttribute="bottom" id="Ihn-CM-vN9"/>
+                                    <constraint firstItem="hgf-9l-Vx1" firstAttribute="top" secondItem="STs-kI-k5A" secondAttribute="top" id="JkR-GQ-B7w"/>
+                                    <constraint firstItem="hgf-9l-Vx1" firstAttribute="centerX" secondItem="STs-kI-k5A" secondAttribute="centerX" id="Tu2-CD-Lwd"/>
+                                    <constraint firstItem="hgf-9l-Vx1" firstAttribute="leading" secondItem="STs-kI-k5A" secondAttribute="leading" constant="20" id="qb6-Yo-IqY"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoabout" translatesAutoresizingMaskIntoConstraints="NO" id="9sD-jP-yeB">
+                                <rect key="frame" x="15" y="612" width="117" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="YDf-bJ-Gga"/>
+                                    <constraint firstAttribute="width" secondItem="9sD-jP-yeB" secondAttribute="height" multiplier="320:110" id="dm3-wh-IEo"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bloomberg" translatesAutoresizingMaskIntoConstraints="NO" id="MHv-0q-CTU">
+                                <rect key="frame" x="212" y="612" width="148" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="evo-Md-8gb"/>
+                                    <constraint firstAttribute="width" secondItem="MHv-0q-CTU" secondAttribute="height" multiplier="100:27" id="jPd-D4-8A0"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="STs-kI-k5A" firstAttribute="centerX" secondItem="xaO-ck-bQk" secondAttribute="centerX" id="0QF-Uw-nBT"/>
+                            <constraint firstItem="xaO-ck-bQk" firstAttribute="bottom" secondItem="9sD-jP-yeB" secondAttribute="bottom" constant="15" id="UCW-Fb-3mA"/>
+                            <constraint firstItem="STs-kI-k5A" firstAttribute="top" secondItem="xaO-ck-bQk" secondAttribute="top" id="a3g-Cf-7YC"/>
+                            <constraint firstItem="xaO-ck-bQk" firstAttribute="trailing" secondItem="MHv-0q-CTU" secondAttribute="trailing" constant="15" id="aHe-bo-CzY"/>
+                            <constraint firstItem="9sD-jP-yeB" firstAttribute="width" secondItem="9sD-jP-yeB" secondAttribute="height" multiplier="320:110" id="axM-IN-loN"/>
+                            <constraint firstItem="9sD-jP-yeB" firstAttribute="leading" secondItem="xaO-ck-bQk" secondAttribute="leading" constant="15" id="ld4-xg-HeY"/>
+                            <constraint firstItem="STs-kI-k5A" firstAttribute="width" secondItem="g78-Ny-TYn" secondAttribute="width" constant="-30" id="oh2-ls-APQ"/>
+                            <constraint firstItem="9sD-jP-yeB" firstAttribute="top" secondItem="STs-kI-k5A" secondAttribute="bottom" constant="20" id="qcg-ro-grD"/>
+                            <constraint firstItem="MHv-0q-CTU" firstAttribute="centerY" secondItem="9sD-jP-yeB" secondAttribute="centerY" id="qhX-ea-7eW"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="xaO-ck-bQk"/>
+                    </view>
+                    <connections>
+                        <outlet property="termsTextView" destination="hgf-9l-Vx1" id="gRB-Yu-T8R"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OPL-Fd-NTp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="202" y="71"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="bloomberg" width="301" height="81"/>
+        <image name="logoabout" width="266" height="90"/>
+    </resources>
+</document>

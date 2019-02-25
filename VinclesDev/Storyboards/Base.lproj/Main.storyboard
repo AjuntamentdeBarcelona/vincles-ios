@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="ipad10_5" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Home View Controller-->
+        <scene sceneID="kf4-YB-nve">
+            <objects>
+                <viewController storyboardIdentifier="HomeViewController" id="H2U-jA-r1g" customClass="HomeViewController" customModule="VinclesDev" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jKd-g0-BAc">
+                        <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jsw-YS-94c">
+                                <rect key="frame" x="0.0" y="20" width="1112" height="814"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="bfH-ea-ooD">
+                                        <rect key="frame" x="54.5" y="61" width="1003" height="692"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="xVJ-8P-RyD">
+                                                <rect key="frame" x="0.0" y="0.0" width="1003" height="98"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eba-IA-JOp" customClass="WelcomeHeaderView" customModule="VinclesDev" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="626" height="98"/>
+                                                        <color key="backgroundColor" red="0.97254901959999995" green="0.4039215686" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nJN-wZ-bgs" customClass="NotificationsView" customModule="VinclesDev" customModuleProvider="target">
+                                                        <rect key="frame" x="636" y="0.0" width="367" height="98"/>
+                                                    </view>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="nJN-wZ-bgs" firstAttribute="height" secondItem="eba-IA-JOp" secondAttribute="height" id="A6M-JQ-LWn"/>
+                                                </constraints>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="wc0-Aw-HAo" userLabel="Stack View Info">
+                                                <rect key="frame" x="0.0" y="113" width="1003" height="579"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="kR6-v1-Kc1" userLabel="Stack View Contactes">
+                                                        <rect key="frame" x="0.0" y="0.0" width="626" height="579"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fzs-RC-L9r" userLabel="View CV Contactes" customClass="ContactesGridView" customModule="VinclesDev" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="0.0" width="626" height="434.5"/>
+                                                            </view>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="7E6-X4-tP0">
+                                                                <rect key="frame" x="0.0" y="439.5" width="626" height="139.5"/>
+                                                                <subviews>
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vud-Dr-ICz" userLabel="View All Contactes" customClass="ContactesView" customModule="VinclesDev" customModuleProvider="target">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="308" height="139.5"/>
+                                                                    </view>
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dGF-Jt-O31" userLabel="View All Contactes" customClass="GroupsView" customModule="VinclesDev" customModuleProvider="target">
+                                                                        <rect key="frame" x="318" y="0.0" width="308" height="139.5"/>
+                                                                    </view>
+                                                                </subviews>
+                                                            </stackView>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="7E6-X4-tP0" firstAttribute="width" secondItem="Fzs-RC-L9r" secondAttribute="width" id="msc-ho-ZXf"/>
+                                                            <constraint firstItem="7E6-X4-tP0" firstAttribute="centerX" secondItem="Fzs-RC-L9r" secondAttribute="centerX" id="x3q-Om-OhJ"/>
+                                                        </constraints>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="9Mz-Ns-fLs" userLabel="Stack View Visuals">
+                                                        <rect key="frame" x="636" y="1" width="367" height="576.5"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lKO-Bv-n0t" userLabel="View Album" customClass="AlbumView" customModule="VinclesDev" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="0.0" width="367" height="317.5"/>
+                                                            </view>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rX0-Wn-q5F" userLabel="View Cites" customClass="CalendariView" customModule="VinclesDev" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="327.5" width="367" height="249"/>
+                                                            </view>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="rX0-Wn-q5F" firstAttribute="width" secondItem="lKO-Bv-n0t" secondAttribute="width" id="Ug5-Co-wGY"/>
+                                                            <constraint firstItem="rX0-Wn-q5F" firstAttribute="height" secondItem="lKO-Bv-n0t" secondAttribute="height" id="iKB-6R-Jvt"/>
+                                                            <constraint firstItem="rX0-Wn-q5F" firstAttribute="height" secondItem="lKO-Bv-n0t" secondAttribute="height" id="vCv-Ay-jRx"/>
+                                                        </constraints>
+                                                        <variation key="heightClass=compact">
+                                                            <mask key="constraints">
+                                                                <exclude reference="iKB-6R-Jvt"/>
+                                                                <exclude reference="vCv-Ay-jRx"/>
+                                                            </mask>
+                                                        </variation>
+                                                        <variation key="heightClass=regular-widthClass=regular">
+                                                            <mask key="constraints">
+                                                                <exclude reference="iKB-6R-Jvt"/>
+                                                                <exclude reference="vCv-Ay-jRx"/>
+                                                            </mask>
+                                                        </variation>
+                                                    </stackView>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="lKO-Bv-n0t" firstAttribute="width" secondItem="Fzs-RC-L9r" secondAttribute="width" id="LPK-ph-iuB"/>
+                                                </constraints>
+                                                <variation key="heightClass=compact" axis="horizontal">
+                                                    <mask key="constraints">
+                                                        <exclude reference="LPK-ph-iuB"/>
+                                                    </mask>
+                                                </variation>
+                                                <variation key="heightClass=regular-widthClass=regular" axis="horizontal">
+                                                    <mask key="constraints">
+                                                        <exclude reference="LPK-ph-iuB"/>
+                                                    </mask>
+                                                </variation>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="Fzs-RC-L9r" firstAttribute="width" secondItem="eba-IA-JOp" secondAttribute="width" id="88e-dJ-Guv"/>
+                                            <constraint firstItem="lKO-Bv-n0t" firstAttribute="width" secondItem="nJN-wZ-bgs" secondAttribute="width" id="nfo-hs-yNI"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="88e-dJ-Guv"/>
+                                                <exclude reference="nfo-hs-yNI"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="heightClass=compact">
+                                            <mask key="constraints">
+                                                <include reference="88e-dJ-Guv"/>
+                                                <include reference="nfo-hs-yNI"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <mask key="constraints">
+                                                <include reference="88e-dJ-Guv"/>
+                                                <include reference="nfo-hs-yNI"/>
+                                            </mask>
+                                        </variation>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="eba-IA-JOp" firstAttribute="width" secondItem="jsw-YS-94c" secondAttribute="width" multiplier="0.563" id="9CT-O4-u8B"/>
+                                    <constraint firstItem="Fzs-RC-L9r" firstAttribute="width" secondItem="jsw-YS-94c" secondAttribute="width" multiplier="0.9" id="Amc-mj-zld"/>
+                                    <constraint firstItem="eba-IA-JOp" firstAttribute="height" secondItem="jsw-YS-94c" secondAttribute="height" multiplier="0.127" id="Bdp-A5-HZc"/>
+                                    <constraint firstItem="bfH-ea-ooD" firstAttribute="centerX" secondItem="jsw-YS-94c" secondAttribute="centerX" id="IAZ-LC-SMX"/>
+                                    <constraint firstItem="eba-IA-JOp" firstAttribute="height" secondItem="jsw-YS-94c" secondAttribute="height" multiplier="0.12" id="Ksa-W9-ujx"/>
+                                    <constraint firstItem="eba-IA-JOp" firstAttribute="width" secondItem="jsw-YS-94c" secondAttribute="width" multiplier="0.675" id="MNy-95-ZTa"/>
+                                    <constraint firstItem="Fzs-RC-L9r" firstAttribute="height" secondItem="jsw-YS-94c" secondAttribute="height" multiplier="0.534" id="OxH-Ay-h5z"/>
+                                    <constraint firstItem="vud-Dr-ICz" firstAttribute="height" secondItem="jsw-YS-94c" secondAttribute="height" multiplier="0.088" id="ST2-oT-Sn4"/>
+                                    <constraint firstItem="lKO-Bv-n0t" firstAttribute="height" secondItem="jsw-YS-94c" secondAttribute="height" multiplier="0.39" id="Tir-7i-udh"/>
+                                    <constraint firstItem="nJN-wZ-bgs" firstAttribute="width" secondItem="jsw-YS-94c" secondAttribute="width" multiplier="0.203" id="dwj-pm-fZa"/>
+                                    <constraint firstItem="lKO-Bv-n0t" firstAttribute="height" secondItem="jsw-YS-94c" secondAttribute="height" multiplier="0.12" id="f9w-CJ-1Oc"/>
+                                    <constraint firstItem="vud-Dr-ICz" firstAttribute="height" secondItem="jsw-YS-94c" secondAttribute="height" multiplier="0.171" id="jkr-AK-blE"/>
+                                    <constraint firstItem="bfH-ea-ooD" firstAttribute="centerY" secondItem="jsw-YS-94c" secondAttribute="centerY" id="mJs-lh-nkA"/>
+                                    <constraint firstItem="rX0-Wn-q5F" firstAttribute="height" secondItem="jsw-YS-94c" secondAttribute="height" multiplier="0.306" id="mRb-ub-hJ9"/>
+                                    <constraint firstItem="nJN-wZ-bgs" firstAttribute="width" secondItem="jsw-YS-94c" secondAttribute="width" multiplier="0.33" id="tGM-yd-txo"/>
+                                    <constraint firstItem="Fzs-RC-L9r" firstAttribute="height" secondItem="jsw-YS-94c" secondAttribute="height" multiplier="0.381" id="zw7-ej-G9a"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="9CT-O4-u8B"/>
+                                        <exclude reference="Ksa-W9-ujx"/>
+                                        <exclude reference="OxH-Ay-h5z"/>
+                                        <exclude reference="jkr-AK-blE"/>
+                                        <exclude reference="tGM-yd-txo"/>
+                                        <exclude reference="Tir-7i-udh"/>
+                                        <exclude reference="mRb-ub-hJ9"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="9CT-O4-u8B"/>
+                                        <exclude reference="Bdp-A5-HZc"/>
+                                        <include reference="Ksa-W9-ujx"/>
+                                        <exclude reference="MNy-95-ZTa"/>
+                                        <exclude reference="Amc-mj-zld"/>
+                                        <include reference="OxH-Ay-h5z"/>
+                                        <exclude reference="zw7-ej-G9a"/>
+                                        <exclude reference="ST2-oT-Sn4"/>
+                                        <include reference="jkr-AK-blE"/>
+                                        <exclude reference="dwj-pm-fZa"/>
+                                        <include reference="tGM-yd-txo"/>
+                                        <include reference="Tir-7i-udh"/>
+                                        <exclude reference="f9w-CJ-1Oc"/>
+                                        <include reference="mRb-ub-hJ9"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <mask key="constraints">
+                                        <include reference="9CT-O4-u8B"/>
+                                        <exclude reference="Bdp-A5-HZc"/>
+                                        <include reference="Ksa-W9-ujx"/>
+                                        <exclude reference="MNy-95-ZTa"/>
+                                        <exclude reference="Amc-mj-zld"/>
+                                        <include reference="OxH-Ay-h5z"/>
+                                        <exclude reference="zw7-ej-G9a"/>
+                                        <exclude reference="ST2-oT-Sn4"/>
+                                        <include reference="jkr-AK-blE"/>
+                                        <exclude reference="dwj-pm-fZa"/>
+                                        <include reference="tGM-yd-txo"/>
+                                        <include reference="Tir-7i-udh"/>
+                                        <exclude reference="f9w-CJ-1Oc"/>
+                                        <include reference="mRb-ub-hJ9"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="jsw-YS-94c" firstAttribute="leading" secondItem="Lfp-ne-mL2" secondAttribute="leading" id="AH1-i1-KKi"/>
+                            <constraint firstItem="Lfp-ne-mL2" firstAttribute="top" secondItem="jsw-YS-94c" secondAttribute="top" id="J5C-0c-Yi0"/>
+                            <constraint firstItem="jsw-YS-94c" firstAttribute="bottom" secondItem="Lfp-ne-mL2" secondAttribute="bottom" id="MOR-gQ-Egj"/>
+                            <constraint firstItem="jsw-YS-94c" firstAttribute="centerX" secondItem="Lfp-ne-mL2" secondAttribute="centerX" id="ma0-eX-5DR"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Lfp-ne-mL2"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Ewx-Mz-A6Q"/>
+                    <connections>
+                        <outlet property="stackContactes" destination="7E6-X4-tP0" id="tFX-75-2xK"/>
+                        <outlet property="viewAlbums" destination="lKO-Bv-n0t" id="oPj-al-0tP"/>
+                        <outlet property="viewAllContacts" destination="vud-Dr-ICz" id="Cfz-ZM-njg"/>
+                        <outlet property="viewAllGroups" destination="dGF-Jt-O31" id="yya-CL-4wx"/>
+                        <outlet property="viewCites" destination="rX0-Wn-q5F" id="a3x-Gg-iga"/>
+                        <outlet property="viewContactes" destination="Fzs-RC-L9r" id="py5-3y-Rj9"/>
+                        <outlet property="viewHeader" destination="eba-IA-JOp" id="P8e-zd-iuw"/>
+                        <outlet property="viewNotifications" destination="nJN-wZ-bgs" id="M3y-U4-xij"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8af-xP-eOV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="685.60000000000002" y="44.527736131934034"/>
+        </scene>
+    </scenes>
+</document>

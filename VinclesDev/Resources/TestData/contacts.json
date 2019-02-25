@@ -1,0 +1,38 @@
+[
+  {
+    "id":1,
+    "name": "Manel Roca",
+    "imageUrl": "http://dehayf5mhw1h7.cloudfront.net/wp-content/uploads/sites/470/2015/10/23122001/CommonMan.jpg",
+    "notificationsNumber": 5
+  },
+  {
+    "id":2,
+    "name": "Caterina Barceló",
+    "imageUrl": "https://cbsnews2.cbsistatic.com/hub/i/r/2017/05/11/759f70c0-804e-4afa-8493-f80fc1b09ab3/thumbnail/620x350/f1625b916682d938a132af464524193a/istock-526142422.jpg",
+    "notificationsNumber": 2
+  },
+ {
+ "id":3,
+ "name": "Joana Soler",
+ "imageUrl": "http://www.womenandinfants.org/images/women-and-infants-breast-exam-options.jpg",
+ "notificationsNumber": 0
+ },
+ {
+ "id":4,
+ "name": "Grup de formació",
+ "imageUrl": "http://bpar.org/wp-content/uploads/2014/04/circle-of-hands.jpg",
+ "notificationsNumber": 0
+ },
+ {
+ "id":5,
+ "name": "Joan Carreras",
+ "imageUrl": "https://ichef.bbci.co.uk/news/660/cpsprodpb/493A/production/_90464781_mannybbc.jpg",
+ "notificationsNumber": 0
+ },
+ {
+ "id":6,
+ "name": "Maria Conejero",
+ "imageUrl": "http://assets.nydailynews.com/polopoly_fs/1.3128149.1493704720!/img/httpImage/image.jpg_gen/derivatives/article_750/belize2n-1-web.jpg",
+ "notificationsNumber": 0
+ }
+]

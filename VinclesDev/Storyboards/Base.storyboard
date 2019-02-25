@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Base View Controller-->
+        <scene sceneID="4mf-xd-7V4">
+            <objects>
+                <viewController storyboardIdentifier="BaseViewController" id="eNA-aZ-zr9" customClass="BaseViewController" customModule="VinclesDev" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2hr-4B-W1K">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ycI-2D-vYz">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <subviews>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7C0-s0-8d6" customClass="NavigationBar" customModule="VinclesDev" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="-20" width="375" height="100"/>
+                                        <color key="backgroundColor" red="0.81176470590000005" green="0.81176470590000005" blue="0.81176470590000005" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="buv-5c-EUi"/>
+                                        </constraints>
+                                    </view>
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EnK-ra-uld">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                    </containerView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ycI-2D-vYz" firstAttribute="width" secondItem="2hr-4B-W1K" secondAttribute="width" id="bDP-QT-Cxn"/>
+                            <constraint firstItem="ycI-2D-vYz" firstAttribute="bottom" secondItem="3VW-ge-icC" secondAttribute="bottom" id="fbk-jd-F9u"/>
+                            <constraint firstItem="ycI-2D-vYz" firstAttribute="centerX" secondItem="3VW-ge-icC" secondAttribute="centerX" id="vGr-L2-lMG"/>
+                            <constraint firstItem="3VW-ge-icC" firstAttribute="top" secondItem="ycI-2D-vYz" secondAttribute="top" id="xG9-Qt-kwM"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="3VW-ge-icC"/>
+                    </view>
+                    <connections>
+                        <outlet property="container" destination="EnK-ra-uld" id="ZW1-CM-Z4d"/>
+                        <outlet property="navigationBar" destination="7C0-s0-8d6" id="DeT-8v-9as"/>
+                        <outlet property="navigationBarHeight" destination="buv-5c-EUi" id="Hiw-dH-1Oo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KBX-Be-kZt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="482" y="-291"/>
+        </scene>
+    </scenes>
+</document>

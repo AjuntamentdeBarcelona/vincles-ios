@@ -1,0 +1,13 @@
+darkRed    : #d41536
+clearGray    : #e6e6e6
+clearGrayChat    : #f2f2f2
+darkGray    : #666666
+darkGrayWelcome    : #333333
+grayChatReceived    : #CCCCCC
+grayChatSent    : #333333
+redNew    : #eea1af
+redNotifications    : #f6d0d7
+clearPink    : #f5d0d7
+acceptGreen: #32b140
+
+

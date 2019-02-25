@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Akkurat-Bold.ttf">
+            <string>Akkurat-Bold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GalleryDetailUserHeader" customModule="VinclesDev" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="dGw-HQ-5dR"/>
+                <outlet property="userImage" destination="tbJ-3f-5zS" id="Obg-Zo-s3C"/>
+                <outlet property="userName" destination="gif-cg-t3v" id="F6u-h2-qnL"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="281" height="87"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="nv3-s5-JGi">
+                    <rect key="frame" x="0.0" y="-0.5" width="281" height="87"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tbJ-3f-5zS" customClass="CircularImageView" customModule="VinclesDev" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="13" width="61" height="61"/>
+                            <color key="backgroundColor" red="0.8784313725490196" green="0.8784313725490196" blue="0.8784313725490196" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="tbJ-3f-5zS" secondAttribute="height" id="Jh7-Vz-ROq"/>
+                            </constraints>
+                        </imageView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yKt-bO-zZE">
+                            <rect key="frame" x="71" y="0.0" width="210" height="87"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gif-cg-t3v">
+                                    <rect key="frame" x="0.0" y="0.0" width="210" height="87"/>
+                                    <fontDescription key="fontDescription" name="Akkurat-Bold" family="Akkurat-Bold" pointSize="20"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                    <variation key="widthClass=compact">
+                                        <fontDescription key="fontDescription" name="Akkurat-Bold" family="Akkurat-Bold" pointSize="15"/>
+                                    </variation>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="gif-cg-t3v" firstAttribute="centerX" secondItem="yKt-bO-zZE" secondAttribute="centerX" id="eYR-es-lls"/>
+                                <constraint firstItem="gif-cg-t3v" firstAttribute="width" secondItem="yKt-bO-zZE" secondAttribute="width" id="nDu-zy-0eF"/>
+                                <constraint firstItem="gif-cg-t3v" firstAttribute="centerY" secondItem="yKt-bO-zZE" secondAttribute="centerY" id="qG9-4j-c2L"/>
+                                <constraint firstItem="gif-cg-t3v" firstAttribute="height" secondItem="yKt-bO-zZE" secondAttribute="height" id="yrw-Vx-dZb"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="tbJ-3f-5zS" firstAttribute="height" secondItem="nv3-s5-JGi" secondAttribute="height" multiplier="0.7" id="I1b-bR-0XX"/>
+                    </constraints>
+                </stackView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="nv3-s5-JGi" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="CM0-vi-gaD"/>
+                <constraint firstItem="nv3-s5-JGi" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="UZq-9E-gtd"/>
+                <constraint firstItem="nv3-s5-JGi" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="XRB-zn-nHc"/>
+                <constraint firstItem="nv3-s5-JGi" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="gQh-Ye-Lp1"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="-13.5" y="-146.5"/>
+        </view>
+    </objects>
+</document>

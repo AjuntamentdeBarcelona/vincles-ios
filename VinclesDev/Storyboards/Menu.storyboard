@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Akkurat-Bold.ttf">
+            <string>Akkurat-Bold</string>
+        </array>
+        <array key="Akkurat.ttf">
+            <string>Akkurat</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Left Menu Table View Controller-->
+        <scene sceneID="Jka-cw-i2U">
+            <objects>
+                <tableViewController storyboardIdentifier="LeftMenuTableViewController" id="f5I-Wi-iNY" customClass="LeftMenuTableViewController" customModule="VinclesDev" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="bqy-yn-Z0G">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.90588235289999997" green="0.1960784314" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="rg0-VP-Veq">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fNv-GV-4Ao">
+                                    <rect key="frame" x="37.5" y="42.5" width="300" height="115"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="woman-1138435_640" translatesAutoresizingMaskIntoConstraints="NO" id="1UJ-jV-vMu" customClass="CircularImageView" customModule="VinclesDev" customModuleProvider="target">
+                                            <rect key="frame" x="100" y="0.0" width="100" height="100"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="1UJ-jV-vMu" secondAttribute="height" id="T7I-zE-Eg5"/>
+                                                <constraint firstAttribute="width" constant="100" id="wsB-1f-joY"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aLZ-Pc-C6g">
+                                            <rect key="frame" x="0.0" y="115" width="300" height="0.0"/>
+                                            <fontDescription key="fontDescription" name="Akkurat-Bold" family="Akkurat-Bold" pointSize="22"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="aLZ-Pc-C6g" firstAttribute="top" secondItem="1UJ-jV-vMu" secondAttribute="bottom" constant="15" id="6h4-4y-3W4"/>
+                                        <constraint firstItem="1UJ-jV-vMu" firstAttribute="top" secondItem="fNv-GV-4Ao" secondAttribute="top" id="Bqt-mW-sma"/>
+                                        <constraint firstAttribute="bottom" secondItem="aLZ-Pc-C6g" secondAttribute="bottom" id="DTb-YP-EJY"/>
+                                        <constraint firstItem="aLZ-Pc-C6g" firstAttribute="width" secondItem="fNv-GV-4Ao" secondAttribute="width" id="MQb-fd-DHa"/>
+                                        <constraint firstItem="aLZ-Pc-C6g" firstAttribute="centerX" secondItem="fNv-GV-4Ao" secondAttribute="centerX" id="gyj-PO-nYs"/>
+                                        <constraint firstItem="1UJ-jV-vMu" firstAttribute="centerX" secondItem="fNv-GV-4Ao" secondAttribute="centerX" id="tSA-ld-qCt"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="fNv-GV-4Ao" firstAttribute="width" secondItem="rg0-VP-Veq" secondAttribute="width" multiplier="0.8" id="Eaj-d8-igS"/>
+                                <constraint firstItem="fNv-GV-4Ao" firstAttribute="centerX" secondItem="rg0-VP-Veq" secondAttribute="centerX" id="MNP-7e-Tc7"/>
+                                <constraint firstItem="fNv-GV-4Ao" firstAttribute="centerY" secondItem="rg0-VP-Veq" secondAttribute="centerY" id="TDm-QU-9eV"/>
+                            </constraints>
+                        </view>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="menuCell" rowHeight="70" id="0ws-xg-4aA" customClass="MenuTableViewCell" customModule="VinclesDev" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="228" width="375" height="70"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0ws-xg-4aA" id="clE-ud-Yy5">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="69.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="c3n-a2-96K">
+                                            <rect key="frame" x="15" y="17.5" width="35" height="34.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="c3n-a2-96K" secondAttribute="height" id="DPK-F6-Nnh"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QdW-tN-2eQ">
+                                            <rect key="frame" x="65" y="23" width="48.5" height="23.5"/>
+                                            <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="19"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="QdW-tN-2eQ" firstAttribute="leading" secondItem="c3n-a2-96K" secondAttribute="trailing" constant="15" id="8l4-bi-WJa"/>
+                                        <constraint firstItem="c3n-a2-96K" firstAttribute="leading" secondItem="clE-ud-Yy5" secondAttribute="leading" constant="15" id="R0Y-AI-t9v"/>
+                                        <constraint firstItem="c3n-a2-96K" firstAttribute="height" secondItem="clE-ud-Yy5" secondAttribute="height" multiplier="0.5" id="dr5-fA-ZZP"/>
+                                        <constraint firstItem="c3n-a2-96K" firstAttribute="centerY" secondItem="clE-ud-Yy5" secondAttribute="centerY" id="i43-L8-76E"/>
+                                        <constraint firstItem="QdW-tN-2eQ" firstAttribute="centerY" secondItem="clE-ud-Yy5" secondAttribute="centerY" id="p4Y-cG-gIb"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="menuIcon" destination="c3n-a2-96K" id="trl-VY-ey9"/>
+                                    <outlet property="menuLabel" destination="QdW-tN-2eQ" id="lRZ-Xm-1Oe"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="f5I-Wi-iNY" id="uCX-P9-3mj"/>
+                            <outlet property="delegate" destination="f5I-Wi-iNY" id="wj4-cR-ufn"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="headerView" destination="rg0-VP-Veq" id="nfa-xc-bBS"/>
+                        <outlet property="userImageView" destination="1UJ-jV-vMu" id="lpC-yt-LHN"/>
+                        <outlet property="userLabel" destination="aLZ-Pc-C6g" id="23F-aj-j5h"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9TU-Wc-hFw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="484" y="-142.57871064467767"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="woman-1138435_640" width="1500" height="844"/>
+    </resources>
+</document>

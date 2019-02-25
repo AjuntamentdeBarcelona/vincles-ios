@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Akkurat.ttf">
+            <string>Akkurat</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="3Bg-2I-LTV" customClass="GroupParticipantCollectionViewCell" customModule="VinclesDev" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="340" height="394"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" distribution="equalSpacing" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="rRN-Bb-bpM">
+                    <rect key="frame" x="10" y="0.0" width="320" height="10213"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eFM-ag-QLS" customClass="CircularView" customModule="VinclesDev" customModuleProvider="target">
+                            <rect key="frame" x="83.5" y="0.0" width="153" height="153"/>
+                            <subviews>
+                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kJS-5E-yjv" customClass="CircularView" customModule="VinclesDev" customModuleProvider="target">
+                                    <rect key="frame" x="3" y="2.5" width="147" height="147"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
+                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="FOe-3W-qtR">
+                                    <rect key="frame" x="66.5" y="66" width="20" height="20"/>
+                                </activityIndicatorView>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bgE-1Z-G9F" customClass="CircularImageView" customModule="VinclesDev" customModuleProvider="target">
+                                    <rect key="frame" x="2.5" y="2.5" width="147" height="147"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="bgE-1Z-G9F" secondAttribute="height" id="nsb-hF-Huf"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="bgE-1Z-G9F" firstAttribute="centerX" secondItem="eFM-ag-QLS" secondAttribute="centerX" id="41O-ms-beV"/>
+                                <constraint firstItem="FOe-3W-qtR" firstAttribute="centerX" secondItem="bgE-1Z-G9F" secondAttribute="centerX" id="7Hy-VO-S14"/>
+                                <constraint firstItem="bgE-1Z-G9F" firstAttribute="width" secondItem="eFM-ag-QLS" secondAttribute="width" constant="-6" id="CXf-Hq-6Pb"/>
+                                <constraint firstItem="bgE-1Z-G9F" firstAttribute="centerY" secondItem="eFM-ag-QLS" secondAttribute="centerY" id="ChY-wd-m84"/>
+                                <constraint firstItem="FOe-3W-qtR" firstAttribute="centerY" secondItem="bgE-1Z-G9F" secondAttribute="centerY" id="RdZ-8O-ZF0"/>
+                                <constraint firstAttribute="width" secondItem="eFM-ag-QLS" secondAttribute="height" id="TfD-1L-v0e"/>
+                                <constraint firstItem="kJS-5E-yjv" firstAttribute="height" secondItem="bgE-1Z-G9F" secondAttribute="height" id="bYf-2V-Q9x"/>
+                                <constraint firstItem="kJS-5E-yjv" firstAttribute="width" secondItem="bgE-1Z-G9F" secondAttribute="width" id="nqi-s3-2oi"/>
+                                <constraint firstItem="kJS-5E-yjv" firstAttribute="centerY" secondItem="bgE-1Z-G9F" secondAttribute="centerY" id="skl-ZT-nFa"/>
+                                <constraint firstItem="kJS-5E-yjv" firstAttribute="centerX" secondItem="bgE-1Z-G9F" secondAttribute="centerX" id="ye9-hG-tVc"/>
+                            </constraints>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="8DV-Xe-hKE">
+                            <rect key="frame" x="0.0" y="163" width="320" height="10000"/>
+                            <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gt8-LG-cgY">
+                            <rect key="frame" x="0.0" y="10173" width="320" height="40"/>
+                            <subviews>
+                                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WK3-nE-ive">
+                                    <rect key="frame" x="70.5" y="5.5" width="179" height="30"/>
+                                    <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="21"/>
+                                    <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="-5" maxY="0.0"/>
+                                    <state key="normal" title="Enviar invitacio" image="EnviarInvitacio">
+                                        <color key="titleColor" red="0.83137254900000002" green="0.08235294118" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </state>
+                                </button>
+                                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G8n-hG-cUa">
+                                    <rect key="frame" x="80" y="6" width="161" height="29"/>
+                                    <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="21"/>
+                                    <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="-5" maxY="0.0"/>
+                                    <state key="normal" title="Dinamitzador" image="identificador_dinamitzador">
+                                        <color key="titleColor" red="0.302045077085495" green="0.3058045506477356" blue="0.309804767370224" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </state>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="DPu-3u-NV6"/>
+                                <constraint firstItem="G8n-hG-cUa" firstAttribute="centerX" secondItem="gt8-LG-cgY" secondAttribute="centerX" id="FsH-dG-BD0"/>
+                                <constraint firstItem="WK3-nE-ive" firstAttribute="centerX" secondItem="gt8-LG-cgY" secondAttribute="centerX" id="pgW-i3-WDp"/>
+                                <constraint firstItem="WK3-nE-ive" firstAttribute="centerY" secondItem="gt8-LG-cgY" secondAttribute="centerY" id="zND-VR-Y0O"/>
+                                <constraint firstItem="G8n-hG-cUa" firstAttribute="centerY" secondItem="gt8-LG-cgY" secondAttribute="centerY" id="zbe-RQ-usT"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="gt8-LG-cgY" firstAttribute="width" secondItem="rRN-Bb-bpM" secondAttribute="width" id="oMf-3W-yJ7"/>
+                    </constraints>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="eFM-ag-QLS" firstAttribute="width" secondItem="3Bg-2I-LTV" secondAttribute="width" multiplier="0.45" id="Lgm-fF-GdM"/>
+                <constraint firstItem="8DV-Xe-hKE" firstAttribute="centerX" secondItem="9jH-K2-He1" secondAttribute="centerX" id="N4N-ze-zwN"/>
+                <constraint firstItem="rRN-Bb-bpM" firstAttribute="centerY" secondItem="9jH-K2-He1" secondAttribute="centerY" id="O7l-FO-pso"/>
+                <constraint firstItem="9jH-K2-He1" firstAttribute="leading" secondItem="8DV-Xe-hKE" secondAttribute="leading" constant="-10" id="O9v-r7-kBQ"/>
+                <constraint firstItem="rRN-Bb-bpM" firstAttribute="centerX" secondItem="9jH-K2-He1" secondAttribute="centerX" id="nyH-36-X6B"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="9jH-K2-He1"/>
+            <connections>
+                <outlet property="actInd" destination="FOe-3W-qtR" id="MfJ-Fa-ndm"/>
+                <outlet property="dinamitzadorButton" destination="G8n-hG-cUa" id="ca3-Xl-P5Z"/>
+                <outlet property="invitarButton" destination="WK3-nE-ive" id="rx0-cF-lsb"/>
+                <outlet property="stack" destination="rRN-Bb-bpM" id="bZA-ku-TPy"/>
+                <outlet property="userContainer" destination="eFM-ag-QLS" id="eTO-gp-vzC"/>
+                <outlet property="userImage" destination="bgE-1Z-G9F" id="ZSp-Hm-e8I"/>
+                <outlet property="userLabel" destination="8DV-Xe-hKE" id="F88-tp-8g9"/>
+            </connections>
+            <point key="canvasLocation" x="16" y="-83"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="EnviarInvitacio" width="30" height="30"/>
+        <image name="identificador_dinamitzador" width="30" height="29"/>
+    </resources>
+</document>

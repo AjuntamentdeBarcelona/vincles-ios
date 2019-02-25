@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="SinglePhotoCollectionViewCell" customModule="VinclesDev" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="308" height="337"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U6j-Xi-jaF">
+                    <rect key="frame" x="0.0" y="0.0" width="308" height="337"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTk-hg-bG4">
+                    <rect key="frame" x="108" y="122.5" width="92" height="92"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="xTk-hg-bG4" secondAttribute="height" multiplier="1:1" id="4gZ-Eq-RFt"/>
+                    </constraints>
+                    <state key="normal" image="download"/>
+                </button>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="wfk-3l-MWh">
+                    <rect key="frame" x="136" y="150" width="37" height="37"/>
+                </activityIndicatorView>
+            </subviews>
+            <color key="backgroundColor" red="0.8784313725490196" green="0.8784313725490196" blue="0.8784313725490196" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="xTk-hg-bG4" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.3" id="1mx-uB-1xc"/>
+                <constraint firstItem="xTk-hg-bG4" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="3Hy-GI-t9g"/>
+                <constraint firstItem="U6j-Xi-jaF" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="92v-X0-NPx"/>
+                <constraint firstItem="wfk-3l-MWh" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="9MJ-f0-aCm"/>
+                <constraint firstItem="xTk-hg-bG4" firstAttribute="width" secondItem="xTk-hg-bG4" secondAttribute="height" multiplier="1:1" id="HTW-gb-7Nu"/>
+                <constraint firstItem="wfk-3l-MWh" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="O2L-Ws-vDT"/>
+                <constraint firstItem="U6j-Xi-jaF" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="QfU-vD-XFY"/>
+                <constraint firstItem="U6j-Xi-jaF" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="bab-ba-nM9"/>
+                <constraint firstItem="xTk-hg-bG4" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="elr-S1-db8"/>
+                <constraint firstItem="xTk-hg-bG4" firstAttribute="width" secondItem="xTk-hg-bG4" secondAttribute="height" multiplier="1:1" id="klj-rS-CeZ"/>
+                <constraint firstItem="U6j-Xi-jaF" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="raI-YU-icx"/>
+                <constraint firstItem="xTk-hg-bG4" firstAttribute="width" secondItem="xTk-hg-bG4" secondAttribute="height" multiplier="1:1" id="wWS-bP-ZFY"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="activityIndicator" destination="wfk-3l-MWh" id="UOP-xW-NgB"/>
+                <outlet property="downloadButton" destination="xTk-hg-bG4" id="PbS-Rd-MLx"/>
+                <outlet property="photoImage" destination="U6j-Xi-jaF" id="BZ8-ce-3uX"/>
+            </connections>
+            <point key="canvasLocation" x="0.0" y="221.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="download" width="144" height="144"/>
+    </resources>
+</document>

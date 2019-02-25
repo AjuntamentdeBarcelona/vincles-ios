@@ -1,0 +1,24 @@
+{
+    "id": 100,
+    "name": "develop@i2cat.net",
+    "lastname": "cognom",
+    "alias": "alias",
+    "gender": "FEMALE",
+    "idContentPhoto": 5083,
+    "photo": {
+        "idContent": 5083,
+        "photo": null,
+        "photoMimeType": null
+    },
+    "active": true,
+    "idInstallation": -1,
+    "idCircle": -1,
+    "idLibrary": -1,
+    "idCalendar": -1,
+    "username": "develop@i2cat.net",
+    "birthdate": 638890078,
+    "email": "develop@i2cat.net",
+    "phone": "123456789",
+    "liveInBarcelona": false
+}
+

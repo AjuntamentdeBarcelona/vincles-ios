@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Akkurat.ttf">
+            <string>Akkurat</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Gallery View Controller-->
+        <scene sceneID="41k-Eh-RAE">
+            <objects>
+                <viewController storyboardIdentifier="GalleryViewController" id="Ojq-EZ-GU8" customClass="GalleryViewController" customModule="VinclesDev" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="pXK-2H-cKp">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="IyX-mX-Tcv">
+                                <rect key="frame" x="0.0" y="20" width="375" height="562"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="mEv-Ov-9TU">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MkB-yi-S4N">
+                                <rect key="frame" x="0.0" y="582" width="375" height="85"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="aAe-03-eer">
+                                        <rect key="frame" x="10" y="12.5" width="355" height="60"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTX-8E-PMI" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="81.5" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="8he-Mp-jSl"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                                <state key="normal" title="Filtrar" image="filtrar"/>
+                                                <connections>
+                                                    <action selector="filtrarAction:" destination="Ojq-EZ-GU8" eventType="touchUpInside" id="Q6M-wx-vMf"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BV7-76-tAk" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                <rect key="frame" x="91.5" y="0.0" width="81" height="60"/>
+                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                                <state key="normal" title="Compartir" image="Compartir"/>
+                                                <connections>
+                                                    <action selector="compartirAction:" destination="Ojq-EZ-GU8" eventType="touchUpInside" id="xd4-uH-yEY"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xA8-y9-z7H" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                <rect key="frame" x="182.5" y="0.0" width="81.5" height="60"/>
+                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                                <state key="normal" title="Nova foto" image="nova_foto"/>
+                                                <connections>
+                                                    <action selector="newPhotoAction:" destination="Ojq-EZ-GU8" eventType="touchUpInside" id="AXn-VX-SPz"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hlz-04-mvX" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                <rect key="frame" x="274" y="0.0" width="81" height="60"/>
+                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                                <state key="normal" title="Nuevo video" image="Nou_video"/>
+                                                <connections>
+                                                    <action selector="newVideoAction:" destination="Ojq-EZ-GU8" eventType="touchUpInside" id="MsY-ek-XuA"/>
+                                                </connections>
+                                            </button>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbB-C2-uCc" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                <rect key="frame" x="355" y="0.0" width="0.0" height="60"/>
+                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                                <state key="normal" title="Nuevo video" image="Tornar_no_compartir"/>
+                                                <connections>
+                                                    <action selector="cancelarCompartirAction:" destination="Ojq-EZ-GU8" eventType="touchUpInside" id="oiP-1U-Dvt"/>
+                                                </connections>
+                                            </button>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="waA-pw-Of3" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                <rect key="frame" x="355" y="0.0" width="0.0" height="60"/>
+                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                                <state key="normal" title="Filtrar" image="eliminar"/>
+                                                <connections>
+                                                    <action selector="eliminarAction:" destination="Ojq-EZ-GU8" eventType="touchUpInside" id="ZK8-Zg-WWx"/>
+                                                </connections>
+                                            </button>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBZ-aV-VSb" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                <rect key="frame" x="355" y="0.0" width="0.0" height="60"/>
+                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                                <state key="normal" title="Nuevo video" image="Compartir"/>
+                                                <connections>
+                                                    <action selector="confirmarCompartirAction:" destination="Ojq-EZ-GU8" eventType="touchUpInside" id="gpi-V3-OdA"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="hlz-04-mvX" firstAttribute="height" secondItem="xTX-8E-PMI" secondAttribute="height" id="5Ql-l2-18w"/>
+                                            <constraint firstItem="waA-pw-Of3" firstAttribute="height" secondItem="xTX-8E-PMI" secondAttribute="height" id="5ch-XQ-3Eq"/>
+                                            <constraint firstItem="pbB-C2-uCc" firstAttribute="height" secondItem="xTX-8E-PMI" secondAttribute="height" id="9aB-P0-VzQ"/>
+                                            <constraint firstItem="EBZ-aV-VSb" firstAttribute="height" secondItem="xTX-8E-PMI" secondAttribute="height" id="Vcq-r5-ogl"/>
+                                            <constraint firstItem="BV7-76-tAk" firstAttribute="height" secondItem="xTX-8E-PMI" secondAttribute="height" id="ZpG-eh-2F6"/>
+                                            <constraint firstItem="xA8-y9-z7H" firstAttribute="height" secondItem="xTX-8E-PMI" secondAttribute="height" id="nhp-hx-gjz"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="aAe-03-eer" firstAttribute="leading" secondItem="MkB-yi-S4N" secondAttribute="leading" constant="10" id="62B-D7-Ure"/>
+                                    <constraint firstItem="aAe-03-eer" firstAttribute="centerY" secondItem="MkB-yi-S4N" secondAttribute="centerY" id="84j-4o-zOc"/>
+                                    <constraint firstItem="aAe-03-eer" firstAttribute="centerX" secondItem="MkB-yi-S4N" secondAttribute="centerX" id="q8X-JV-UGV"/>
+                                    <constraint firstAttribute="height" constant="85" id="ro8-Yb-nEc"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="IyX-mX-Tcv" firstAttribute="width" secondItem="pXK-2H-cKp" secondAttribute="width" id="0r3-Et-z3j"/>
+                            <constraint firstItem="5wW-Hh-b3B" firstAttribute="top" secondItem="IyX-mX-Tcv" secondAttribute="top" id="4dw-Ud-Tgq"/>
+                            <constraint firstItem="MkB-yi-S4N" firstAttribute="centerX" secondItem="5wW-Hh-b3B" secondAttribute="centerX" id="EG5-Xs-Pvu"/>
+                            <constraint firstItem="MkB-yi-S4N" firstAttribute="top" secondItem="IyX-mX-Tcv" secondAttribute="bottom" id="Foi-C4-EJZ"/>
+                            <constraint firstItem="MkB-yi-S4N" firstAttribute="width" secondItem="pXK-2H-cKp" secondAttribute="width" id="KhT-dk-OpT"/>
+                            <constraint firstItem="IyX-mX-Tcv" firstAttribute="centerX" secondItem="5wW-Hh-b3B" secondAttribute="centerX" id="KvB-hE-bSk"/>
+                            <constraint firstItem="5wW-Hh-b3B" firstAttribute="bottom" secondItem="MkB-yi-S4N" secondAttribute="bottom" id="zf4-QS-Kj2"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="5wW-Hh-b3B"/>
+                    </view>
+                    <connections>
+                        <outlet property="cancelarCompartirButton" destination="pbB-C2-uCc" id="wzE-WN-2P3"/>
+                        <outlet property="collectionView" destination="IyX-mX-Tcv" id="Ovv-g5-tzD"/>
+                        <outlet property="compartirButton" destination="BV7-76-tAk" id="GDa-YK-e16"/>
+                        <outlet property="confirmarCompartirButton" destination="EBZ-aV-VSb" id="cCO-4q-1v2"/>
+                        <outlet property="eliminarButton" destination="waA-pw-Of3" id="P47-B5-7Yt"/>
+                        <outlet property="filtrarButton" destination="xTX-8E-PMI" id="0Qx-ir-kR8"/>
+                        <outlet property="nuevaFotoButton" destination="xA8-y9-z7H" id="K71-sk-B3F"/>
+                        <outlet property="nuevoVideoButton" destination="hlz-04-mvX" id="4tl-u5-kaD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Cj-RU-HaC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="68" y="108.39580209895054"/>
+        </scene>
+        <!--Gallery Compartir Contacts View Controller-->
+        <scene sceneID="9Pz-4B-7Q2">
+            <objects>
+                <viewController storyboardIdentifier="GalleryCompartirContactsViewController" id="Mw2-yJ-fhr" customClass="GalleryCompartirContactsViewController" customModule="VinclesDev" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7n0-iE-avE">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="LJh-3l-URP">
+                                <rect key="frame" x="0.0" y="20" width="375" height="562"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="lga-FB-6Mi">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVm-yH-izb">
+                                <rect key="frame" x="0.0" y="582" width="375" height="85"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="twi-7l-lcE">
+                                        <rect key="frame" x="10" y="12.5" width="355" height="60"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AS9-Im-JGl" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="172.5" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="hLK-tZ-r7y"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                                <state key="normal" title="Nuevo video" image="Tornar_no_compartir"/>
+                                                <connections>
+                                                    <action selector="cancelarCompartirAction:" destination="Mw2-yJ-fhr" eventType="touchUpInside" id="lEf-p8-Sxz"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kWu-gx-N1y" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                <rect key="frame" x="182.5" y="0.0" width="172.5" height="60"/>
+                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                                <state key="normal" title="Nuevo video" image="check_filtre"/>
+                                                <connections>
+                                                    <action selector="confirmarCompartirAction:" destination="Mw2-yJ-fhr" eventType="touchUpInside" id="2Tt-jj-wX3"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="kWu-gx-N1y" firstAttribute="height" secondItem="AS9-Im-JGl" secondAttribute="height" id="7pr-BU-TWf"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="twi-7l-lcE" firstAttribute="centerX" secondItem="RVm-yH-izb" secondAttribute="centerX" id="LXD-zA-KyD"/>
+                                    <constraint firstItem="twi-7l-lcE" firstAttribute="leading" secondItem="RVm-yH-izb" secondAttribute="leading" constant="10" id="PvC-6s-fho"/>
+                                    <constraint firstItem="twi-7l-lcE" firstAttribute="centerY" secondItem="RVm-yH-izb" secondAttribute="centerY" id="RwK-l7-jhs"/>
+                                    <constraint firstAttribute="height" constant="85" id="d3b-Lf-JvR"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="SO1-kC-aRv" firstAttribute="top" secondItem="LJh-3l-URP" secondAttribute="top" id="KbB-4D-6M5"/>
+                            <constraint firstItem="RVm-yH-izb" firstAttribute="centerX" secondItem="SO1-kC-aRv" secondAttribute="centerX" id="L2O-iz-nwQ"/>
+                            <constraint firstItem="RVm-yH-izb" firstAttribute="top" secondItem="LJh-3l-URP" secondAttribute="bottom" id="dQz-Qh-9Fa"/>
+                            <constraint firstItem="SO1-kC-aRv" firstAttribute="bottom" secondItem="RVm-yH-izb" secondAttribute="bottom" id="feG-fK-3af"/>
+                            <constraint firstItem="LJh-3l-URP" firstAttribute="width" secondItem="7n0-iE-avE" secondAttribute="width" id="mUe-ET-Syb"/>
+                            <constraint firstItem="RVm-yH-izb" firstAttribute="width" secondItem="7n0-iE-avE" secondAttribute="width" id="uAf-D6-wuH"/>
+                            <constraint firstItem="LJh-3l-URP" firstAttribute="centerX" secondItem="SO1-kC-aRv" secondAttribute="centerX" id="yTf-wD-MRQ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="SO1-kC-aRv"/>
+                    </view>
+                    <connections>
+                        <outlet property="cancelarCompartirButton" destination="AS9-Im-JGl" id="j1j-Du-WK3"/>
+                        <outlet property="collectionView" destination="LJh-3l-URP" id="FfY-UA-lgE"/>
+                        <outlet property="confirmarCompartirButton" destination="kWu-gx-N1y" id="ksv-jH-fKU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CY8-Py-BMx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="68" y="802"/>
+        </scene>
+        <!--Gallery Detail View Controller-->
+        <scene sceneID="0FS-Xe-Hoz">
+            <objects>
+                <viewController storyboardIdentifier="GalleryDetailViewController" id="6Dh-FJ-rZb" customClass="GalleryDetailViewController" customModule="VinclesDev" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hzD-tL-k61">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="HPN-1u-tlj">
+                                <rect key="frame" x="20" y="20" width="335" height="562"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="zBj-QH-0h7">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="562"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n0d-XI-CMi">
+                                                <rect key="frame" x="0.0" y="256" width="50" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="n0d-XI-CMi" secondAttribute="height" id="XWC-ba-ItT"/>
+                                                    <constraint firstAttribute="width" constant="50" id="egf-DR-U0Q"/>
+                                                </constraints>
+                                                <state key="normal" image="Anterior"/>
+                                                <connections>
+                                                    <action selector="prevAction:" destination="6Dh-FJ-rZb" eventType="touchUpInside" id="RKZ-Jn-Rkv"/>
+                                                </connections>
+                                            </button>
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bna-nE-NMB">
+                                                <rect key="frame" x="60" y="0.0" width="215" height="562"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Vdh-Zh-ccC">
+                                                    <size key="itemSize" width="50" height="50"/>
+                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                </collectionViewFlowLayout>
+                                                <cells/>
+                                            </collectionView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Bs-fN-C3l">
+                                                <rect key="frame" x="285" y="256" width="50" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="50" id="HtA-su-yHf"/>
+                                                    <constraint firstAttribute="width" secondItem="7Bs-fN-C3l" secondAttribute="height" id="Qkh-If-9Ez"/>
+                                                </constraints>
+                                                <state key="normal" image="Seguent"/>
+                                                <connections>
+                                                    <action selector="nextAction:" destination="6Dh-FJ-rZb" eventType="touchUpInside" id="Es7-vF-qXb"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="bna-nE-NMB" firstAttribute="centerY" secondItem="zBj-QH-0h7" secondAttribute="centerY" id="Bd5-Q5-aqk"/>
+                                            <constraint firstItem="bna-nE-NMB" firstAttribute="height" secondItem="zBj-QH-0h7" secondAttribute="height" id="ZeJ-z4-aRl"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="zBj-QH-0h7" firstAttribute="width" secondItem="HPN-1u-tlj" secondAttribute="width" id="am1-me-rxy"/>
+                                    <constraint firstItem="zBj-QH-0h7" firstAttribute="centerX" secondItem="HPN-1u-tlj" secondAttribute="centerX" id="xF0-QP-nD0"/>
+                                </constraints>
+                            </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XgO-bx-XoJ">
+                                <rect key="frame" x="0.0" y="582" width="375" height="85"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="8oB-ok-AlZ">
+                                        <rect key="frame" x="10" y="12.5" width="355" height="60"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yNt-Lh-n4S" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="172.5" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="Ym5-wd-Vyd"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                                <state key="normal" title="Filtrar" image="eliminar"/>
+                                                <connections>
+                                                    <action selector="removeContentAction:" destination="6Dh-FJ-rZb" eventType="touchUpInside" id="muY-Un-ABy"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wMh-Qp-0m9" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                <rect key="frame" x="182.5" y="0.0" width="172.5" height="60"/>
+                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                                <state key="normal" title="Compartir" image="Compartir"/>
+                                                <connections>
+                                                    <action selector="confirmarCompartirAction:" destination="6Dh-FJ-rZb" eventType="touchUpInside" id="03N-3w-FVb"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="wMh-Qp-0m9" firstAttribute="height" secondItem="yNt-Lh-n4S" secondAttribute="height" id="340-Y1-Qo4"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="85" id="AmE-Pe-5sI"/>
+                                    <constraint firstItem="8oB-ok-AlZ" firstAttribute="centerX" secondItem="XgO-bx-XoJ" secondAttribute="centerX" id="HdQ-fI-lfj"/>
+                                    <constraint firstItem="8oB-ok-AlZ" firstAttribute="centerY" secondItem="XgO-bx-XoJ" secondAttribute="centerY" id="i9o-tY-tsW"/>
+                                    <constraint firstItem="8oB-ok-AlZ" firstAttribute="leading" secondItem="XgO-bx-XoJ" secondAttribute="leading" constant="10" id="zRX-sl-dq4"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="HPN-1u-tlj" firstAttribute="leading" secondItem="Z5A-Ya-FSg" secondAttribute="leading" constant="20" id="EcX-Qm-PB1"/>
+                            <constraint firstItem="HPN-1u-tlj" firstAttribute="centerX" secondItem="Z5A-Ya-FSg" secondAttribute="centerX" id="ZGE-rz-SrB"/>
+                            <constraint firstItem="HPN-1u-tlj" firstAttribute="top" secondItem="Z5A-Ya-FSg" secondAttribute="top" id="ZbF-gV-DTJ"/>
+                            <constraint firstItem="XgO-bx-XoJ" firstAttribute="width" secondItem="hzD-tL-k61" secondAttribute="width" id="afH-RB-77K"/>
+                            <constraint firstItem="XgO-bx-XoJ" firstAttribute="centerX" secondItem="Z5A-Ya-FSg" secondAttribute="centerX" id="db1-UW-NzT"/>
+                            <constraint firstItem="XgO-bx-XoJ" firstAttribute="top" secondItem="HPN-1u-tlj" secondAttribute="bottom" id="rcq-aC-hqh"/>
+                            <constraint firstItem="Z5A-Ya-FSg" firstAttribute="bottom" secondItem="XgO-bx-XoJ" secondAttribute="bottom" id="tVS-fF-R7H"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Z5A-Ya-FSg"/>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="bna-nE-NMB" id="eWn-jd-Dho"/>
+                        <outlet property="compartirButton" destination="wMh-Qp-0m9" id="2bl-YY-3UU"/>
+                        <outlet property="eliminarButton" destination="yNt-Lh-n4S" id="Gef-4b-ALR"/>
+                        <outlet property="mainStack" destination="HPN-1u-tlj" id="BdE-wQ-a5p"/>
+                        <outlet property="nextButton" destination="7Bs-fN-C3l" id="urh-xA-fMa"/>
+                        <outlet property="prevButton" destination="n0d-XI-CMi" id="8Nr-6B-oD0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I6T-FE-DZU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="896.79999999999995" y="107.49625187406298"/>
+        </scene>
+        <!--Gallery Swipe View Controller-->
+        <scene sceneID="HVs-og-Edu">
+            <objects>
+                <viewController storyboardIdentifier="GallerySwipeViewController" modalPresentationStyle="overFullScreen" id="48b-av-wcp" customClass="GallerySwipeViewController" customModule="VinclesDev" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="iKi-SL-ylS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="78u-d7-Mzj">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="EuJ-PF-ROG">
+                                    <size key="itemSize" width="250" height="250"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="SwipeImageCell" id="yPu-xt-BXs" customClass="GallerySwipeCollectionViewCell" customModule="VinclesDev" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nRV-Ub-axr">
+                                                    <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y2T-mt-da1">
+                                                            <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="Y2T-mt-da1" firstAttribute="height" secondItem="nRV-Ub-axr" secondAttribute="height" id="64X-aQ-iKr"/>
+                                                        <constraint firstItem="Y2T-mt-da1" firstAttribute="centerY" secondItem="nRV-Ub-axr" secondAttribute="centerY" id="DCb-ci-erl"/>
+                                                        <constraint firstItem="Y2T-mt-da1" firstAttribute="centerX" secondItem="nRV-Ub-axr" secondAttribute="centerX" id="Xsg-TI-e0w"/>
+                                                        <constraint firstItem="Y2T-mt-da1" firstAttribute="width" secondItem="nRV-Ub-axr" secondAttribute="width" id="vLd-vw-MKb"/>
+                                                    </constraints>
+                                                </scrollView>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="nRV-Ub-axr" firstAttribute="centerX" secondItem="yPu-xt-BXs" secondAttribute="centerX" id="7cR-P7-eRu"/>
+                                            <constraint firstItem="nRV-Ub-axr" firstAttribute="width" secondItem="yPu-xt-BXs" secondAttribute="width" id="VDg-vx-wdH"/>
+                                            <constraint firstItem="nRV-Ub-axr" firstAttribute="centerY" secondItem="yPu-xt-BXs" secondAttribute="centerY" id="WqC-cc-Lfy"/>
+                                            <constraint firstItem="nRV-Ub-axr" firstAttribute="height" secondItem="yPu-xt-BXs" secondAttribute="height" id="Zqd-rB-maz"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="imageView" destination="Y2T-mt-da1" id="Z12-mY-DKj"/>
+                                            <outlet property="scrollView" destination="nRV-Ub-axr" id="Wry-jx-ogt"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yr6-zG-fSq">
+                                <rect key="frame" x="16" y="30" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Yr6-zG-fSq" secondAttribute="height" multiplier="1:1" id="OR2-q6-CmV"/>
+                                    <constraint firstAttribute="height" constant="30" id="S6T-ot-bq4"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="Eliminar_contacte"/>
+                                <connections>
+                                    <action selector="dismissAction:" destination="48b-av-wcp" eventType="touchUpInside" id="d9Q-CD-TQJ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="JBT-8w-qat" firstAttribute="leading" secondItem="Yr6-zG-fSq" secondAttribute="leading" constant="-16" id="4kd-ir-1wY"/>
+                            <constraint firstItem="78u-d7-Mzj" firstAttribute="leading" secondItem="JBT-8w-qat" secondAttribute="leading" id="7XZ-JQ-rlz"/>
+                            <constraint firstItem="JBT-8w-qat" firstAttribute="top" secondItem="Yr6-zG-fSq" secondAttribute="top" constant="-10" id="ANo-Ae-RmM"/>
+                            <constraint firstItem="JBT-8w-qat" firstAttribute="top" secondItem="78u-d7-Mzj" secondAttribute="top" constant="20" id="NrB-YV-a4U"/>
+                            <constraint firstItem="JBT-8w-qat" firstAttribute="trailing" secondItem="78u-d7-Mzj" secondAttribute="trailing" id="UdQ-zX-oEj"/>
+                            <constraint firstItem="JBT-8w-qat" firstAttribute="bottom" secondItem="78u-d7-Mzj" secondAttribute="bottom" id="cGJ-ju-Mqj"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="JBT-8w-qat"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="Xzg-oU-GRa" appends="YES" id="xpN-sF-FBD"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="78u-d7-Mzj" id="xg1-id-bcf"/>
+                        <outlet property="dismissButton" destination="Yr6-zG-fSq" id="cKx-cQ-4xW"/>
+                        <outlet property="dismissButtonSize" destination="S6T-ot-bq4" id="Gvk-HF-JUv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fux-Kz-lbW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="Xzg-oU-GRa">
+                    <connections>
+                        <action selector="panGestureRecognizerHandler:" destination="48b-av-wcp" id="KZc-U3-3rW"/>
+                    </connections>
+                </panGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="896.79999999999995" y="801.94902548725645"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Anterior" width="50" height="50.5"/>
+        <image name="Compartir" width="30" height="30"/>
+        <image name="Eliminar_contacte" width="30" height="30"/>
+        <image name="Nou_video" width="30" height="30"/>
+        <image name="Seguent" width="100" height="100"/>
+        <image name="Tornar_no_compartir" width="30" height="30"/>
+        <image name="check_filtre" width="30" height="30"/>
+        <image name="eliminar" width="30" height="30"/>
+        <image name="filtrar" width="30" height="30"/>
+        <image name="nova_foto" width="30" height="30"/>
+    </resources>
+</document>

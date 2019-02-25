@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="GaleriaItemCollectionViewCell" customModule="VinclesDev" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="378" height="367"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="pkM-nW-wes">
+                    <rect key="frame" x="171" y="165" width="37" height="37"/>
+                </activityIndicatorView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CAb-fV-Qvg" customClass="ImageView" customModule="VinclesDev" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="378" height="367"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aQR-5V-QDY">
+                    <rect key="frame" x="95" y="89" width="189" height="189"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="aQR-5V-QDY" secondAttribute="height" multiplier="1:1" id="Hqb-Gl-RwQ"/>
+                    </constraints>
+                    <state key="normal" image="Video"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ibM-Mf-MtN">
+                    <rect key="frame" x="94" y="89" width="189" height="189"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="ibM-Mf-MtN" secondAttribute="height" multiplier="1:1" id="sXk-uZ-c9e"/>
+                    </constraints>
+                    <state key="normal" image="download"/>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kGV-mz-QF0" customClass="BEMCheckBox">
+                    <rect key="frame" x="338" y="10" width="30" height="30"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="Idd-Yp-fTd"/>
+                        <constraint firstAttribute="width" secondItem="kGV-mz-QF0" secondAttribute="height" id="Iie-ta-SGP"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="onFillColor">
+                            <color key="value" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="onCheckColor">
+                            <color key="value" red="0.92549019610000005" green="0.058823529409999999" blue="0.1333333333" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
+                            <real key="value" value="2"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="onTintColor">
+                            <color key="value" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
+                            <color key="value" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K9e-fH-awq">
+                    <rect key="frame" x="168" y="326" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="aQR-5V-QDY" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="4xD-cV-QRh"/>
+                <constraint firstItem="CAb-fV-Qvg" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="85O-48-XVT"/>
+                <constraint firstItem="pkM-nW-wes" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="GYD-NL-MNM"/>
+                <constraint firstItem="ibM-Mf-MtN" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="H2z-4c-ypf"/>
+                <constraint firstItem="ibM-Mf-MtN" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="IW3-Rs-2Ah"/>
+                <constraint firstItem="CAb-fV-Qvg" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="LTK-Ue-GOq"/>
+                <constraint firstItem="CAb-fV-Qvg" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="OG1-ku-uRr"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="kGV-mz-QF0" secondAttribute="trailing" constant="10" id="TS9-le-s8b"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="K9e-fH-awq" secondAttribute="bottom" constant="20" id="Uvu-aj-RR0"/>
+                <constraint firstItem="ibM-Mf-MtN" firstAttribute="width" secondItem="ibM-Mf-MtN" secondAttribute="height" multiplier="1:1" id="ab5-0U-t6G"/>
+                <constraint firstItem="aQR-5V-QDY" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.5" id="fQ0-1Q-ZzS"/>
+                <constraint firstItem="aQR-5V-QDY" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="gGE-tG-RRQ"/>
+                <constraint firstItem="pkM-nW-wes" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="iYH-Fn-t35"/>
+                <constraint firstItem="CAb-fV-Qvg" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="lfc-Ja-6wS"/>
+                <constraint firstItem="kGV-mz-QF0" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="n5R-Eu-WXh"/>
+                <constraint firstItem="K9e-fH-awq" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="pg7-pr-mna"/>
+                <constraint firstItem="ibM-Mf-MtN" firstAttribute="width" secondItem="aQR-5V-QDY" secondAttribute="width" id="w34-rX-u8p"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="activityIndicator" destination="pkM-nW-wes" id="TbZ-mu-tsK"/>
+                <outlet property="checkBox" destination="kGV-mz-QF0" id="jpJ-BL-HD3"/>
+                <outlet property="downloadButton" destination="ibM-Mf-MtN" id="Ju6-oo-NvV"/>
+                <outlet property="playButton" destination="aQR-5V-QDY" id="NeA-zf-d0d"/>
+                <outlet property="thumbImage" destination="CAb-fV-Qvg" id="z3B-dv-CDm"/>
+                <outlet property="typeLabel" destination="K9e-fH-awq" id="BKU-Ss-Hve"/>
+            </connections>
+            <point key="canvasLocation" x="35" y="-6.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Video" width="144" height="144"/>
+        <image name="download" width="144" height="144"/>
+    </resources>
+</document>

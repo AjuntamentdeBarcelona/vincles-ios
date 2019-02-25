@@ -1,0 +1,218 @@
+PODS:
+  - Alamofire (4.7.2)
+  - AlamofireImage (3.3.1):
+    - Alamofire (~> 4.5)
+  - AudioPlayerSwift (1.6.1)
+  - BEMCheckBox (1.4.1)
+  - CoreDataManager (0.8.2):
+    - SwiftyJSON (~> 4.1.0)
+  - Crashlytics (3.10.1):
+    - Fabric (~> 1.7.5)
+  - CryptoSwift (0.10.0)
+  - Fabric (1.7.6)
+  - FirebaseAnalytics (3.9.0):
+    - FirebaseCore (~> 3.6)
+    - FirebaseInstanceID (~> 1.0)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+  - FirebaseCore (3.6.0):
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+  - FirebaseInstanceID (1.0.10):
+    - FirebaseCore (~> 3.6)
+  - Google/Analytics (3.1.0):
+    - Google/Core
+    - GoogleAnalytics (~> 3.12)
+  - Google/Core (3.1.0):
+    - FirebaseAnalytics (~> 3.2)
+  - Google/SignIn (3.1.0):
+    - Google/Core
+    - GoogleSignIn (~> 4.0)
+  - GoogleAnalytics (3.17.0)
+  - GoogleSignIn (4.1.2):
+    - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
+    - "GoogleToolboxForMac/NSString+URLArguments (~> 2.1)"
+    - GTMOAuth2 (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GoogleToolboxForMac/DebugUtils (2.1.4):
+    - GoogleToolboxForMac/Defines (= 2.1.4)
+  - GoogleToolboxForMac/Defines (2.1.4)
+  - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
+    - GoogleToolboxForMac/Defines (= 2.1.4)
+  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.1.4)":
+    - GoogleToolboxForMac/DebugUtils (= 2.1.4)
+    - GoogleToolboxForMac/Defines (= 2.1.4)
+    - "GoogleToolboxForMac/NSString+URLArguments (= 2.1.4)"
+  - "GoogleToolboxForMac/NSString+URLArguments (2.1.4)"
+  - GoogleWebRTC (1.1.23181)
+  - GTMOAuth2 (1.1.6):
+    - GTMSessionFetcher (~> 1.1)
+  - GTMSessionFetcher (1.1.15):
+    - GTMSessionFetcher/Full (= 1.1.15)
+  - GTMSessionFetcher/Core (1.1.15)
+  - GTMSessionFetcher/Full (1.1.15):
+    - GTMSessionFetcher/Core (= 1.1.15)
+  - IQKeyboardManagerSwift (6.0.2)
+  - KeychainAccess (3.1.1)
+  - NextGrowingTextView (1.2.2)
+  - OHHTTPStubs (6.1.0):
+    - OHHTTPStubs/Default (= 6.1.0)
+  - OHHTTPStubs/Core (6.1.0)
+  - OHHTTPStubs/Default (6.1.0):
+    - OHHTTPStubs/Core
+    - OHHTTPStubs/JSON
+    - OHHTTPStubs/NSURLSession
+    - OHHTTPStubs/OHPathHelpers
+  - OHHTTPStubs/JSON (6.1.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/NSURLSession (6.1.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/OHPathHelpers (6.1.0)
+  - OHHTTPStubs/Swift (6.1.0):
+    - OHHTTPStubs/Default
+  - Popover (1.2.0)
+  - RatingModule (1.3)
+  - ReachabilitySwift (4.1.0)
+  - Realm (3.4.0):
+    - Realm/Headers (= 3.4.0)
+  - Realm/Headers (3.4.0)
+  - RealmSwift (3.4.0):
+    - Realm (= 3.4.0)
+  - SimpleImageViewer (1.1.1)
+  - SlideMenuControllerSwift (4.0.0)
+  - SocketRocket (0.5.1)
+  - SVProgressHUD (2.2.5)
+  - SwiftGen (5.2.1)
+  - SwiftyJSON (4.1.0)
+  - SwiftyTimer (2.0.0)
+  - VersionControl (2.9)
+  - webrtcat4 (0.1.0):
+    - GoogleWebRTC
+    - SocketRocket
+
+DEPENDENCIES:
+  - Alamofire (~> 4.6)
+  - AlamofireImage (~> 3.3)
+  - AudioPlayerSwift
+  - BEMCheckBox (~> 1.4)
+  - CoreDataManager (~> 0.8.2)
+  - Crashlytics
+  - CryptoSwift
+  - Fabric
+  - Google/Analytics
+  - Google/SignIn
+  - IQKeyboardManagerSwift
+  - KeychainAccess
+  - NextGrowingTextView (~> 1.2)
+  - OHHTTPStubs (~> 6.1)
+  - OHHTTPStubs/Swift
+  - Popover (~> 1.2)
+  - RatingModule (from `https://github.com/AjuntamentdeBarcelona/osam-valoracions-ios.git`, tag `1.3`)
+  - ReachabilitySwift
+  - RealmSwift (~> 3.1)
+  - SimpleImageViewer (~> 1.1)
+  - SlideMenuControllerSwift (~> 4.0)
+  - SVProgressHUD
+  - SwiftGen (= 5.2.1)
+  - SwiftyJSON (~> 4.0)
+  - SwiftyTimer (~> 2.0)
+  - VersionControl (from `https://github.com/AjuntamentdeBarcelona/osam-controldeversions-ios.git`, tag `2.9`)
+  - webrtcat4 (from `./`)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - AlamofireImage
+    - AudioPlayerSwift
+    - BEMCheckBox
+    - CoreDataManager
+    - Crashlytics
+    - CryptoSwift
+    - Fabric
+    - FirebaseAnalytics
+    - FirebaseCore
+    - FirebaseInstanceID
+    - Google
+    - GoogleAnalytics
+    - GoogleSignIn
+    - GoogleToolboxForMac
+    - GoogleWebRTC
+    - GTMOAuth2
+    - GTMSessionFetcher
+    - IQKeyboardManagerSwift
+    - KeychainAccess
+    - NextGrowingTextView
+    - OHHTTPStubs
+    - Popover
+    - ReachabilitySwift
+    - Realm
+    - RealmSwift
+    - SimpleImageViewer
+    - SlideMenuControllerSwift
+    - SocketRocket
+    - SVProgressHUD
+    - SwiftGen
+    - SwiftyJSON
+    - SwiftyTimer
+
+EXTERNAL SOURCES:
+  RatingModule:
+    :git: https://github.com/AjuntamentdeBarcelona/osam-valoracions-ios.git
+    :tag: '1.3'
+  VersionControl:
+    :git: https://github.com/AjuntamentdeBarcelona/osam-controldeversions-ios.git
+    :tag: '2.9'
+  webrtcat4:
+    :path: "./"
+
+CHECKOUT OPTIONS:
+  RatingModule:
+    :git: https://github.com/AjuntamentdeBarcelona/osam-valoracions-ios.git
+    :tag: '1.3'
+  VersionControl:
+    :git: https://github.com/AjuntamentdeBarcelona/osam-controldeversions-ios.git
+    :tag: '2.9'
+
+SPEC CHECKSUMS:
+  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
+  AlamofireImage: 3b35b586853abaf94ca1250f4e94cff3c21a4c0d
+  AudioPlayerSwift: 90b1bbd228bde3eca6bc59320091c3672486328d
+  BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
+  CoreDataManager: 1bece6540ec61d2332b52a0e06a5aa85d53225fe
+  Crashlytics: aee1a064cbbf99b32efa3f056a5f458d846bc8ff
+  CryptoSwift: 6c778d69282bed3b4e975ff97a79d074f20bb011
+  Fabric: f8d42c893bb187326a7968b62abe55c36a987a46
+  FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
+  FirebaseCore: 9691ee2ade70c098d7cf92440f4303f16d83ca75
+  FirebaseInstanceID: b9eedd6846fb5e1f0f7279e1deaa7a7e4cf8392e
+  Google: 98da4b1a60ed0beb80a290387a28333406a1eb90
+  GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
+  GoogleSignIn: d9ef55b10f0aa401a5de2747f59b725e4b9732ac
+  GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
+  GoogleWebRTC: 2ad1f48475ce89a9f90955d065ac9b7663c38e07
+  GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
+  GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
+  IQKeyboardManagerSwift: 59d4b0e140bc546c3c76ae5bb35b3dafd10b8172
+  KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
+  NextGrowingTextView: 78c8b96f7ac6dc845f5babb27dcf7c18dd3210ec
+  OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
+  Popover: 28c1ac8e937ab2b3965bd2da7dd18324357abc41
+  RatingModule: 1f075a091b56fb19c65894cfe775946b61433323
+  ReachabilitySwift: 6849231cd4e06559f3b9ef4a97a0a0f96d41e09f
+  Realm: 9527c7baa2260f3a3aad6823d2d71cafff9b046b
+  RealmSwift: f40a747beaea1cadde7dcef41ee5a34b3001677b
+  SimpleImageViewer: 34c3a2cde2d9ac022146772cefc27fca14b0c8b1
+  SlideMenuControllerSwift: 021d6318201c53d4d4d3710517d43d6c556c7dd0
+  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  SwiftGen: 444b4c467e512a4812b8a800d731643fd265139e
+  SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
+  SwiftyTimer: 2efd74b060d69ad4f1496baf5bbedbe132125fcf
+  VersionControl: 290475a1bdb3cc433625c5e6afc2037b6ee1eebd
+  webrtcat4: 7a74e6cba37680372c5dd0a9e2c9d75ebe49420b
+
+<<<<<<< HEAD
+PODFILE CHECKSUM: 0213f1d1543b0f3e8d700997984fa42066be43f3
+=======
+PODFILE CHECKSUM: e5b8a0c18a5eda750f927b23f5ff6ac88f6bc129
+>>>>>>> 4d571eba7460ea72d9f6749d52e1e37744ab1662
+
+COCOAPODS: 1.5.0

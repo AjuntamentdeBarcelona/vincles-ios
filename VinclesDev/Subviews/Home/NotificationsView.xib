@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Akkurat-Bold.ttf">
+            <string>Akkurat-Bold</string>
+        </array>
+        <array key="Akkurat.ttf">
+            <string>Akkurat</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NotificationsView" customModule="VinclesDev" customModuleProvider="target">
+            <connections>
+                <outlet property="alignLeftBell" destination="c5n-xp-q6E" id="rZj-A2-Jda"/>
+                <outlet property="centerBell" destination="YQD-C5-h78" id="dHN-5J-fWg"/>
+                <outlet property="labelAvisos" destination="KgQ-yK-z5v" id="CQx-Sa-ffn"/>
+                <outlet property="notificationsBubble" destination="YCX-G2-PnT" id="SLO-hQ-STI"/>
+                <outlet property="notificationsLabel" destination="bYR-wj-WJW" id="VfO-BW-fhU"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="rqk-Ih-MbH" customClass="RoundedView" customModule="VinclesDev" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="1302" height="282"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="8kC-OX-mbM">
+                    <rect key="frame" x="0.0" y="0.0" width="1302" height="282"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="guo-Xy-BgO">
+                            <rect key="frame" x="0.0" y="0.0" width="1302" height="282"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zfq-QO-a9J">
+                                    <rect key="frame" x="503.5" y="42.5" width="295.5" height="197"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bell" translatesAutoresizingMaskIntoConstraints="NO" id="uwH-Yk-xBX">
+                                            <rect key="frame" x="0.0" y="0.0" width="178" height="197"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="uwH-Yk-xBX" secondAttribute="height" multiplier="270:300" id="oj2-3R-fAf"/>
+                                            </constraints>
+                                        </imageView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YCX-G2-PnT" customClass="CircularView" customModule="VinclesDev" customModuleProvider="target">
+                                            <rect key="frame" x="98" y="0.5" width="197.5" height="197"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.29999999999999999" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bYR-wj-WJW">
+                                                    <rect key="frame" x="39.5" y="88" width="118.5" height="22"/>
+                                                    <fontDescription key="fontDescription" name="Akkurat-Bold" family="Akkurat-Bold" pointSize="24"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=compact">
+                                                        <fontDescription key="fontDescription" name="Akkurat-Bold" family="Akkurat-Bold" pointSize="17"/>
+                                                    </variation>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="bYR-wj-WJW" firstAttribute="centerX" secondItem="YCX-G2-PnT" secondAttribute="centerX" id="0tI-SE-9JJ"/>
+                                                <constraint firstAttribute="width" secondItem="YCX-G2-PnT" secondAttribute="height" id="IPW-wu-m32"/>
+                                                <constraint firstItem="bYR-wj-WJW" firstAttribute="width" secondItem="YCX-G2-PnT" secondAttribute="width" multiplier="0.6" id="MXp-dU-wOj"/>
+                                                <constraint firstItem="bYR-wj-WJW" firstAttribute="centerY" secondItem="YCX-G2-PnT" secondAttribute="centerY" id="YiD-Ud-aQd"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="uwH-Yk-xBX" firstAttribute="centerY" secondItem="zfq-QO-a9J" secondAttribute="centerY" id="E4n-oV-glw"/>
+                                        <constraint firstAttribute="trailing" secondItem="YCX-G2-PnT" secondAttribute="trailing" id="Eo3-FQ-z5g"/>
+                                        <constraint firstItem="YCX-G2-PnT" firstAttribute="height" secondItem="uwH-Yk-xBX" secondAttribute="height" id="SwH-7Z-MeS"/>
+                                        <constraint firstItem="YCX-G2-PnT" firstAttribute="centerY" secondItem="zfq-QO-a9J" secondAttribute="centerY" id="VaD-fi-Tng"/>
+                                        <constraint firstItem="uwH-Yk-xBX" firstAttribute="centerX" secondItem="zfq-QO-a9J" secondAttribute="centerX" id="YQD-C5-h78"/>
+                                        <constraint firstItem="uwH-Yk-xBX" firstAttribute="leading" secondItem="zfq-QO-a9J" secondAttribute="leading" id="c5n-xp-q6E"/>
+                                        <constraint firstItem="YCX-G2-PnT" firstAttribute="height" secondItem="uwH-Yk-xBX" secondAttribute="height" multiplier="0.75" id="cDs-b5-pAr"/>
+                                        <constraint firstAttribute="width" secondItem="zfq-QO-a9J" secondAttribute="height" multiplier="3:2" id="uai-Qy-brW"/>
+                                        <constraint firstItem="uwH-Yk-xBX" firstAttribute="height" secondItem="zfq-QO-a9J" secondAttribute="height" id="xcY-SZ-pZd"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="SwH-7Z-MeS"/>
+                                        </mask>
+                                    </variation>
+                                    <variation key="heightClass=compact">
+                                        <mask key="constraints">
+                                            <include reference="SwH-7Z-MeS"/>
+                                            <exclude reference="cDs-b5-pAr"/>
+                                        </mask>
+                                    </variation>
+                                </view>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="zfq-QO-a9J" firstAttribute="centerX" secondItem="guo-Xy-BgO" secondAttribute="centerX" id="GvA-VX-gSd"/>
+                                <constraint firstItem="zfq-QO-a9J" firstAttribute="height" secondItem="guo-Xy-BgO" secondAttribute="height" multiplier="0.7" id="Jbp-Lc-dXo"/>
+                                <constraint firstItem="zfq-QO-a9J" firstAttribute="height" secondItem="guo-Xy-BgO" secondAttribute="height" multiplier="0.5" id="pnH-ia-Hjk"/>
+                                <constraint firstItem="zfq-QO-a9J" firstAttribute="centerY" secondItem="guo-Xy-BgO" secondAttribute="centerY" id="t9L-t8-KjY"/>
+                            </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="Jbp-Lc-dXo"/>
+                                </mask>
+                            </variation>
+                            <variation key="heightClass=compact">
+                                <mask key="constraints">
+                                    <include reference="Jbp-Lc-dXo"/>
+                                    <exclude reference="pnH-ia-Hjk"/>
+                                </mask>
+                            </variation>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aW6-uk-bUJ">
+                            <rect key="frame" x="1302" y="82" width="0.0" height="118.5"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Consulta els  avisos" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="KgQ-yK-z5v">
+                                    <rect key="frame" x="0.5" y="4.5" width="0.0" height="108.5"/>
+                                    <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="27"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="KgQ-yK-z5v" firstAttribute="centerX" secondItem="aW6-uk-bUJ" secondAttribute="centerX" id="M6k-vb-5cF"/>
+                                <constraint firstItem="KgQ-yK-z5v" firstAttribute="centerY" secondItem="aW6-uk-bUJ" secondAttribute="centerY" id="Xq0-od-eL1"/>
+                                <constraint firstItem="KgQ-yK-z5v" firstAttribute="width" secondItem="aW6-uk-bUJ" secondAttribute="width" id="Z2f-TU-B37"/>
+                                <constraint firstItem="KgQ-yK-z5v" firstAttribute="height" secondItem="aW6-uk-bUJ" secondAttribute="height" constant="-10" id="d05-Kx-1cp"/>
+                                <constraint firstAttribute="width" id="zJp-HH-lqY"/>
+                            </constraints>
+                            <variation key="heightClass=regular-widthClass=regular">
+                                <mask key="constraints">
+                                    <exclude reference="zJp-HH-lqY"/>
+                                </mask>
+                            </variation>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="guo-Xy-BgO" firstAttribute="centerY" secondItem="8kC-OX-mbM" secondAttribute="centerY" id="Iyt-oE-fBD"/>
+                    </constraints>
+                </stackView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="aW6-uk-bUJ" firstAttribute="width" secondItem="rqk-Ih-MbH" secondAttribute="width" multiplier="0.5" id="Dt7-QV-w7q"/>
+                <constraint firstItem="guo-Xy-BgO" firstAttribute="width" secondItem="rqk-Ih-MbH" secondAttribute="width" multiplier="0.3" id="EGu-k4-HjE"/>
+                <constraint firstItem="guo-Xy-BgO" firstAttribute="width" secondItem="rqk-Ih-MbH" secondAttribute="width" id="FiK-vA-mGo"/>
+                <constraint firstItem="8kC-OX-mbM" firstAttribute="centerX" secondItem="rqk-Ih-MbH" secondAttribute="centerX" id="K7H-aA-Ifa"/>
+                <constraint firstItem="guo-Xy-BgO" firstAttribute="height" secondItem="rqk-Ih-MbH" secondAttribute="height" id="Wri-bT-lPR"/>
+                <constraint firstItem="guo-Xy-BgO" firstAttribute="centerY" secondItem="rqk-Ih-MbH" secondAttribute="centerY" id="YD0-k9-0F6"/>
+                <constraint firstItem="8kC-OX-mbM" firstAttribute="centerY" secondItem="rqk-Ih-MbH" secondAttribute="centerY" id="qWS-4U-kwx"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="GJz-kT-UwY"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="EGu-k4-HjE"/>
+                    <exclude reference="Dt7-QV-w7q"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=regular">
+                <mask key="constraints">
+                    <include reference="EGu-k4-HjE"/>
+                    <exclude reference="FiK-vA-mGo"/>
+                    <include reference="Dt7-QV-w7q"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="173" y="-189"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bell" width="90" height="100"/>
+    </resources>
+</document>

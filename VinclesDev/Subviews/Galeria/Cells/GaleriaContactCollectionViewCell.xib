@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Akkurat.ttf">
+            <string>Akkurat</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="qTQ-LW-ZRT" customClass="GaleriaContactCollectionViewCell" customModule="VinclesDev" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="340" height="394"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0FG-gc-ZjV">
+                    <rect key="frame" x="0.0" y="10" width="340" height="266"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R5E-aI-Fle" customClass="CircularView" customModule="VinclesDev" customModuleProvider="target">
+                            <rect key="frame" x="76.5" y="39.5" width="187" height="187"/>
+                            <subviews>
+                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="y3Q-wm-7t6">
+                                    <rect key="frame" x="83.5" y="83.5" width="20" height="20"/>
+                                </activityIndicatorView>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KOj-Bl-n7I" customClass="CircularImageView" customModule="VinclesDev" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="187" height="187"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="KOj-Bl-n7I" secondAttribute="height" id="Idq-ce-wZ7"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="y3Q-wm-7t6" firstAttribute="centerX" secondItem="R5E-aI-Fle" secondAttribute="centerX" id="2A0-kC-WE5"/>
+                                <constraint firstItem="KOj-Bl-n7I" firstAttribute="width" secondItem="R5E-aI-Fle" secondAttribute="width" id="37y-rl-rNh"/>
+                                <constraint firstAttribute="width" secondItem="R5E-aI-Fle" secondAttribute="height" id="4lf-9a-fNh"/>
+                                <constraint firstItem="y3Q-wm-7t6" firstAttribute="centerY" secondItem="R5E-aI-Fle" secondAttribute="centerY" id="NRf-wy-BG6"/>
+                                <constraint firstItem="KOj-Bl-n7I" firstAttribute="centerY" secondItem="R5E-aI-Fle" secondAttribute="centerY" id="k7p-3H-CBp"/>
+                                <constraint firstItem="KOj-Bl-n7I" firstAttribute="centerX" secondItem="R5E-aI-Fle" secondAttribute="centerX" id="lD7-Oa-TMp"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="R5E-aI-Fle" firstAttribute="centerX" secondItem="0FG-gc-ZjV" secondAttribute="centerX" id="VPW-I2-Pgk"/>
+                        <constraint firstItem="R5E-aI-Fle" firstAttribute="centerY" secondItem="0FG-gc-ZjV" secondAttribute="centerY" id="cOC-e3-R1d"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7gS-eL-OTg">
+                    <rect key="frame" x="0.0" y="276" width="340" height="118"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Skw-qc-IrP">
+                            <rect key="frame" x="20" y="0.0" width="300" height="118"/>
+                            <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="Skw-qc-IrP" firstAttribute="centerX" secondItem="7gS-eL-OTg" secondAttribute="centerX" id="ZYI-VD-wap"/>
+                        <constraint firstItem="Skw-qc-IrP" firstAttribute="leading" secondItem="7gS-eL-OTg" secondAttribute="leading" constant="20" id="d0R-iv-Fvc"/>
+                        <constraint firstItem="Skw-qc-IrP" firstAttribute="height" secondItem="7gS-eL-OTg" secondAttribute="height" id="lia-sn-iUH"/>
+                        <constraint firstItem="Skw-qc-IrP" firstAttribute="centerY" secondItem="7gS-eL-OTg" secondAttribute="centerY" id="q7W-0t-Kph"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qz0-fd-kvV" customClass="BEMCheckBox">
+                    <rect key="frame" x="300" y="10" width="30" height="30"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="Qz0-fd-kvV" secondAttribute="height" id="eL7-Xx-Nwr"/>
+                        <constraint firstAttribute="width" constant="30" id="gmb-9s-7V5"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="jTo-Mk-4iX"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="onFillColor">
+                            <color key="value" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="onCheckColor">
+                            <color key="value" red="0.92549019610000005" green="0.058823529409999999" blue="0.1333333333" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
+                            <real key="value" value="2"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="onTintColor">
+                            <color key="value" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
+                            <color key="value" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="7gS-eL-OTg" firstAttribute="width" secondItem="qTQ-LW-ZRT" secondAttribute="width" id="1lf-X4-P3E"/>
+                <constraint firstItem="pMI-gf-FBB" firstAttribute="top" secondItem="Qz0-fd-kvV" secondAttribute="top" constant="-10" id="3AF-Hk-AYE"/>
+                <constraint firstItem="R5E-aI-Fle" firstAttribute="width" secondItem="qTQ-LW-ZRT" secondAttribute="width" multiplier="0.55" id="7fE-QP-bhi"/>
+                <constraint firstItem="pMI-gf-FBB" firstAttribute="top" secondItem="0FG-gc-ZjV" secondAttribute="top" constant="-10" id="Jrc-ml-8rC"/>
+                <constraint firstItem="7gS-eL-OTg" firstAttribute="centerX" secondItem="pMI-gf-FBB" secondAttribute="centerX" id="Php-hv-6br"/>
+                <constraint firstItem="7gS-eL-OTg" firstAttribute="height" secondItem="qTQ-LW-ZRT" secondAttribute="height" multiplier="0.3" id="SRw-0w-eZ8"/>
+                <constraint firstItem="7gS-eL-OTg" firstAttribute="top" secondItem="0FG-gc-ZjV" secondAttribute="bottom" id="SqZ-CU-rzd"/>
+                <constraint firstItem="0FG-gc-ZjV" firstAttribute="width" secondItem="qTQ-LW-ZRT" secondAttribute="width" id="ZXK-Dh-Wg7"/>
+                <constraint firstItem="Qz0-fd-kvV" firstAttribute="trailing" secondItem="0FG-gc-ZjV" secondAttribute="trailing" constant="-10" id="njJ-eC-HG7"/>
+                <constraint firstItem="0FG-gc-ZjV" firstAttribute="centerX" secondItem="pMI-gf-FBB" secondAttribute="centerX" id="oSa-ww-NtU"/>
+                <constraint firstItem="pMI-gf-FBB" firstAttribute="bottom" secondItem="7gS-eL-OTg" secondAttribute="bottom" id="u9q-Tw-DUZ"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="pMI-gf-FBB"/>
+            <connections>
+                <outlet property="actInd" destination="y3Q-wm-7t6" id="UnF-Rw-1YG"/>
+                <outlet property="checkBox" destination="Qz0-fd-kvV" id="6yf-rg-SJc"/>
+                <outlet property="userContainer" destination="R5E-aI-Fle" id="cRb-jz-Zgg"/>
+                <outlet property="userImage" destination="KOj-Bl-n7I" id="fif-y3-E2s"/>
+                <outlet property="userLabel" destination="Skw-qc-IrP" id="WoQ-BF-bU8"/>
+            </connections>
+            <point key="canvasLocation" x="16" y="-83"/>
+        </view>
+    </objects>
+</document>

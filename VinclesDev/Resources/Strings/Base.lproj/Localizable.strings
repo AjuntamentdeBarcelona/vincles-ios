@@ -1,0 +1,605 @@
+/*
+ Localizable.strings
+ //  Vincles BCN
+ //
+ //  Copyright © 2018 i2Cat. All rights reserved.
+ 
+ 
+ */
+
+// Generic
+"Cargando" = "Carregant";
+"Cancelar" = "Cancel·lar";
+"ErrorGenerico" = "Ho sentim, hi ha hagut un error.";
+"Volver" = "Tornar";
+"Ok" = "Entesos";
+"AppName" = "Vincles BCN";
+
+// Login
+"LoginHeader" = "ENTRAR";
+"LoginDescription" = "Introdueix les teves credencials per accedir a Vincles BCN:";
+"LoginEmail" =  "Usuari o correu electrònic";
+"LoginPassword" =  "Contrasenya";
+"LoginForgot" = "Recuperar contrasenya";
+"LoginRegistrar" = "Registrar un nou usuari";
+"LoginEntrar" =  "Entrar";
+"LoginErrorData" = "Dades d'accés incorrectes";
+"LoginErrorServer" = "Error recuperant les dades de l'usuari";
+"LoginLoadingEnviant" = "Enviant informació al servidor";
+"LoginLoadingRecuperant" = "Recuperant informació d’usuari";
+"LoginErrorRecuperant" = "Hi ha hagut un error recuperant les teves dades. Si us plau, intenta-ho de nou";
+"LoginGuardarDades" = "Guardar dades d'accés";
+
+
+// Register
+"RegisterHeader" = "REGISTRAR";
+"RegisterLanguage" = "Idioma de l'app Vincles BCN";
+"RegisterFoto" = "La meva foto";
+"RegisterName" = "Nom";
+"RegisterSurname" = "Cognoms";
+"RegisterBirthdate" = "Data de naixement";
+"RegisterEmail" = "Correu electrònic";
+"RegisterPassword" = "Contrasenya";
+"RegisterRepeatPassword" = "Repetir contrasenya";
+"RegisterPhone" = "Telèfon";
+"RegisterGender" = "Gènere";
+"RegisterGenderMasc" = "HOME";
+"RegisterGenderFem" = "DONA";
+"RegisterBcn" = "Vius a Barcelona?";
+"RegisterButton" = "Registrar";
+"RegisterFotoTitle" = "Fotografia";
+"RegisterPersonalData" = "Dades personals";
+"RegisterErrorServer" = "Error al registrar l'usuari";
+"RegisterErrorData" = "El correu indicat ja està vinculat a un usuari";
+"RegisterEscogeFoto" = "Escull una foto";
+"RegisterFotoCamara" = "Càmera";
+"RegisterFotoGaleria" = "Galeria";
+"RegisterCatala" = "Català";
+"RegisterCastellano" = "Castellà";
+// Validación registro
+"ValidacionHeader" = "CLAU DE VALIDACIÓ";
+"ValidacionPlaceholder" = "Clau de validació";
+"ValidacionDescripcion" = "Si us plau, introdueix en el següent camp el codi que has rebut per email per a validar el teu usuari.";
+"ValidacionValidar" = "Validar";
+"ValidacionReenviar" = "Reenviar correu";
+"ValidacionVolver" = "Tornar";
+"ValidacionEnviado" = "S'ha enviat el codi de confirmació al correu electrònic indicat al registrar.";
+"ValidacionErrorEmail" = "Error a l'enviar el codi de confirmació al correu electrònic";
+"ValidacionErrorIncorrect" = "La clau de validació no és correcta.";
+
+// Validators
+"InvalidEmail" = "El correu electrònic introduït no és vàlid";
+"InvalidPassword" = "La contrasenya ha de tenir un mínim de 8 caràcters i un màxim de 16";
+"DifferentPasswords" = "Les contrasenyes no coincideixen";
+"RequiredField" = "El camp és obligatori";
+"AgeRequired" = "Has de tenir 14 anys com a mínim per poder registrat-te";
+"PhoneNumeric" = "El número de telèfon no pot contenir lletres o símbols";
+
+// Terms
+"TermsOk" = "Entesos";
+"TermsHeader" = "TERMES I CONDICIONS";
+"TermsText" = "Condicions Generals d’ús dels participants de la xarxa personal de les persones usuàries del servei Vincles BCN\
+\
+\
+VINCLES BCN és un nou servei de l'Ajuntament de Barcelona adreçat a persones de 65 anys o més. VINCLES BCN vol reforçar les relacions socials de les persones grans que se senten soles i millorar el seu benestar, utilitzant la tecnologia com a eina. Podeu trobar més informació a http://www.barcelona.cat/vinclesbcn.\
+\
+\
+Aquestes Condicions Generals d’ús (d’ara endavant, les “Condicions Generals”) regeixen l’accés i l’ús del servei que s’ofereix amb l’aplicació mòbil VINCLES BCN (d’ara endavant, “VINCLES BCN”), titularitat de l’Ajuntament de Barcelona.\
+\
+L’ús de VINCLES BCN atribueix a qui en faci ús la condició de participant, segons correspongui, i implica l’acceptació de tots els termes inclosos en aquestes Condicions Generals. En cas de no estar d’acord amb aquestes Condicions Generals, el participant ha de deixar d’utilitzar VINCLES BCN immediatament.\
+\
+En acceptar aquestes Condicions Generals, el participant manifesta:\
+\
+Que ha llegit, entén i compren el que s’exposa aquí;\
+que té mes de 14 anys; i\
+que assumeix totes les obligacions que es disposen aquí.\
+\
+\
+1.    Definicions:\
+\
+1.1.    VINCLES BCN: fa referència al servei de suport social que l’Ajuntament de Barcelona ofereix a les persones grans per a la conservació, l’enfortiment i la creació de vincles relacionals. Actualment, aquest servei és un pilot en fase de proves.\
+\
+1.2.     Ajuntament: l’Ajuntament de Barcelona, titular de VINCLES BCN.\
+\
+1.3.     Participant: persona física que utilitza VINCLES BCN i que té relació directa amb la persona usuària del servei Vincles BCN.\
+\
+\
+2.    Contacte:\
+\
+2.1.     Si vol contactar amb el servei d’atenció de VINCLES BCN, pot:\
+\
+Trucar al número de telèfon d’informació i tramitació 010\
+enviar un missatge a través del servei d’atenció en línia del web http://www.barcelona.cat/; o\
+consultar informació general sobre el projecte VINCLES BCN a la pàgina web http://www.barcelona.cat/vinclesbcn\
+\
+\
+3.    Modificacions:\
+\
+3.1.    Tenint en compte l’esforç per mantenir en constant evolució el projecte VINCLES BCN, l’Ajuntament de Barcelona es reserva la facultat de modificar-lo o actualitzar-lo en qualsevol moment, així com de modificar o actualitzar aquestes Condicions Generals. Quan la modificació o actualització impliqui una modificació substancial de les condicions del servei, se n’informarà al participant, com a mínim enviant un missatge per mitjans electrònics.\
+\
+L’última versió d’aquestes Condicions Generals es pot consultar a la pàgina web següent:\
+http://ajuntament.barcelona.cat/vinclesbcn/.\
+\
+\
+4.    Accés a VINCLES BCN:\
+\
+4.1.    Per poder utilitzar VINCLES BCN, és necessari haver rebut una invitació de la persona usuària, disposar de connexió a Internet, descarregar l’aplicació mòbil titularitat de l’Ajuntament de Barcelona i instal·lar-la en un dispositiu mòbil que reuneixi els requisits tècnics mínimament necessaris per fer-ho. Per accedir a VINCLES BCN, el participant s’hi ha d’haver registrat, proporcionant, com a mínim, les dades assenyalades com a obligatòries que se li sol·licitin.\
+\
+4.2.    El participant registrat serà responsable en tot moment de la custòdia del seu password, assumint en conseqüència qualsevol dany i perjudici que es pogués derivar del seu ús indegut, així com de la cessió, revelació o pèrdua del mateix. A aquests efectes, l’accés a àrees restringides i/o l’ús dels serveis i continguts realitzats sota el password d’un participant registrat es reputaran realitzats per aquest participant registrat, qui respondrà en tot cas d’aquest accés i ús.\
+\
+4.3.    L’aplicació mòbil esmentada només està disponible per als dispositius que tinguin el sistema operatiu Android o iOS. Al web del servei VINCLES BCN es podrà consultar més detall de les versions dels dispositius compatibles amb l'aplicació mòbil.\
+\
+4.4.    L’Ajuntament de Barcelona es reserva el dret a restringir o cancel·lar, en qualsevol moment i sense avís previ, l’accés de qualsevol participant a VINCLES BCN. De la mateixa manera, l’Ajuntament podrà cancel·lar o donar per finalitzat en qualsevol moment el projecte VINCLES BCN. En aquests supòsits, l’Ajuntament no estarà obligat a indemnitzar ni a compensar de cap manera el participant.\
+\
+4.5.     Es recorda al participant que l’ús d’Internet des d’un dispositiu electrònic pot suposar-li un cost addicional.\
+\
+4.6.     Els requisits tècnics mínims es poden consultar a la pàgina web següent:\
+http://ajuntament.barcelona.cat/vinclesbcn/ca/\
+\
+\
+5.    Analítica d’ús:\
+\
+Amb la finalitat de fer seguiment de l'ús del servei VINCLES BCN, els participants saben i accepten que l’Ajuntament podrà dur a terme anàlisis estadístiques de l’ús de l’activitat amb relació a les comunicacions que s’estableixin a través de VINCLES BCN.\
+\
+6.    Informació facilitada pel participant:\
+\
+Les dades i la informació personal indicades pel participant han de ser exactes, actuals i veraces. El participant serà responsable a cada moment de les dades i la informació que proporcioni a través de VINCLES BCN.\
+\
+\
+7.    Normes d’ús de VINCLES BCN:\
+\
+7.1.    El participant s’obliga a utilitzar VINCLES BCN conforme al que s’estableix a la Llei, la moral, l’ordre públic i en aquestes Condicions Generals.\
+\
+7.2.    A tall enunciatiu, però en cap cas limitatiu o excloent, el participant es compromet a:\
+\
+No introduir o difondre contingut o propaganda de caràcter racista, xenòfob, pornogràfic, relatius a l’apologia del terrorisme o que atemptin contra els drets humans;\
+no introduir o difondre virus o software nocius susceptibles de provocar danys als sistemes informàtics de l’Ajuntament, a d’altres participants o a qualsevol altre tercer;\
+No difondre, transmetre o posar a disposició de tercers:\
+Cap tipus d’informació, element o contingut que atempti contra els drets fonamentals i les llibertats públiques reconegudes constitucionalment i en els tractats internacionals;\
+informació, elements o continguts que constitueixin publicitat il·lícita o deslleial;\
+publicitat no sol·licitada o no autoritzada, material publicitari, “correu brossa”, “cartes en cadena” o “estructures piramidals”;\
+informació o continguts falsos, ambigus o inexactes, que indueixin a error als receptors de la informació;\
+informació, elements o continguts que suposin una violació dels drets de propietat intel·lectual o industrial;\
+informació, elements o continguts que suposin una violació del secret de les comunicacions o de la legislació sobre la protecció de dades personals.\
+no suplantar altres participants.\
+\
+\
+8.    Propietat intel·lectual i industrial:\
+\
+8.1.    VINCLES BCN i tots els elements que el componen (entesos aquests, a tall merament enunciatiu, com els textos, fotografies, gràfics, imatges, icones, tecnologia, software, enllaços i d’altres continguts audiovisuals o sonors, així com el seu disseny gràfic i els codis font) són propietat intel·lectual de l’Ajuntament de Barcelona o de tercers llicenciants d’aquest.\
+\
+8.2.    L’Ajuntament de Barcelona concedeix al participant una llicència no exclusiva d’ús sobre VINCLES BCN. El participant podrà utilitzar l'aplicació tant dins del territori espanyol com fora d'aquest.\
+\
+8.3.     Amb relació als continguts introduïts o publicats pel participant a VINCLES BCN, conserva tots els drets sobre aquests i assumeix tota la responsabilitat en cas que els continguts vulnerin els drets de tercers. En aquest sentit, el participant es fa responsable dels continguts que carregui o introdueixi a VINCLES BCN.\
+\
+8.4.    La marca VINCLES BCN® és titularitat de l’Ajuntament de Barcelona, sense que es pugui entendre que s’ha cedit cap dret sobre la marca al participant.\
+\
+\
+9.    Responsabilitat:\
+\
+9.1.    VINCLES BCN no és un mitjà oficial de comunicació amb l’Ajuntament\
+\
+9.2.    El participant s’obliga a mantenir completament indemne l’Ajuntament en el cas de qualsevol possible reclamació, multa, pena o sanció que pugui estar obligat a suportar com a conseqüència del seu incompliment del que s’estableix en aquestes Condicions Generals. L’Ajuntament també es reserva el dret a sol·licitar la indemnització per danys i perjudicis que li pugui correspondre.\
+\
+9.3.    El participant no podrà fer cap tipus de reclamació a l’Ajuntament de Barcelona en cas que la persona usuària decideixi donar-se de baixa de VINCLES BCN.\
+\
+9.4.    L’Ajuntament de Barcelona no es responsabilitza dels danys i/o perjudicis produïts al dispositiu mòbil del participant durant l’ús de VINCLES BCN, ni dels danys o perjudicis de qualsevol tipus produïts al participant com a conseqüència d’errors o desconnexions de les xarxes de telecomunicacions que produeixin la suspensió, cancel·lació, interrupció o mal funcionament de VINCLES BCN.\
+\
+9.5.     L’Ajuntament no garanteix ni efectua cap manifestació sobre la idoneïtat de VINCLES BCN amb relació a les expectatives o les finalitats perseguides pel participant.\
+\
+9.6.    Sense perjudici de les limitacions de responsabilitat establertes en aquestes Condicions Generals, i en la mesura en què la legislació aplicable ho permeti, la responsabilitat màxima de l’Ajuntament per qualsevol perjudici derivat de l’ús de VINCLES BCN estarà limitada als danys dolosos i directes que pugui sofrir el participant, sempre que hagin estat causats directament per l’Ajuntament.\
+\
+\
+10.        Protecció de dades personals:\
+\
+10.1.    Les dades personals que el participant faciliti durant el seu registre a VINCLES BCN, i les que proporcioni en el transcurs de la seva participació, així com el tractament posterior, s’inclouran en un fitxer titularitat de l’Ajuntament de Barcelona per a les següents finalitats: (i) gestionar la seva participació a VINCLES BCN; (ii) monitoritzar i dur a terme anàlisis estadístiques de l’activitat dels participants; i (iii) mantenir informat el participant, fins i tot per mitjans electrònics, dels serveis socials i les notícies de temàtica social relacionades amb l’Ajuntament.\
+\
+10.2.    El fet d’utilitzar VINCLES BCN implica l’acceptació en bloc de totes les finalitats de tractament indicades al paràgraf anterior.\
+\
+10.3.    En cas que sigui necessari prestar suport social a la persona gran usuària principal del servei, l'Ajuntament de Barcelona pot accedir a la informació que el participant publiqui i comparteixi a VINCLES BCN. Pel fet d’utilitzar una aplicació mòbil que té per objecte prestar serveis socials de suport, el participant del projecte sap i accepta que l’Ajuntament de Barcelona pot tenir accés a la informació que publiqui i comparteixi a VINCLES BCN. Les finalitats de l'accés són prestar el suport social necessari a les persones grans en l'ús de les tecnologies de la informació i optimitzar la prestació dels serveis socials adreçats a l'usuari en el marc del projecte. Aquests accessos es realitzaran sempre garantint la confidencialitat de la informació.\
+\
+10.4.     El participant pot exercir els seus drets d’accés, rectificació, cancel·lació i oposició, així com els que la normativa de protecció de dades vigent reconegui, enviant una sol·licitud escrita, indicant “Exercici de drets LOPD” al\
+Registre General de l’Ajuntament de Barcelona, Pl. Sant Jaume, 1, 08002 Barcelona\
+Per obtenir-ne més informació, pot consultar la pàgina web de la Seu electrònica municipal: https://ajuntament.barcelona.cat/protecciodedades\
+\
+\
+11.    Baixa del participant:\
+\
+11.1.    Perfil del participant: el participant pot donar-se de baixa de VINCLES BCN desinstal·lant l’aplicació mòbil. En el moment en què el participant desinstal·li VINCLES BCN, perdrà l’accés a les dades contingudes a l’aplicació i tot el contingut s’esborrarà automàticament, exceptuant les que l’Ajuntament hagi de conservar per motius legals durant un termini de 5 anys. Un cop transcorregut aquest termini, es procedirà a la cancel·lació de les dades, i només quedaran a disposició de l’Ajuntament les que siguin necessàries per a finalitats estadístiques.\
+\
+11.2.    En cas que el participant pertanyi a més d’una xarxa personal dins de VINCLES BCN, podrà donar-se de baixa de qualsevol d’aquestes mitjançant la funcionalitat per a aquest objectiu.\
+\
+11.3.    L’aplicació VINCLES BCN no està dissenyada per ser utilitzada com a sistema de backup o d’emmagatzematge de dades i continguts, de manera que el participant haurà d’abstenir-se d’utilitzar-la amb aquesta finalitat, d’acord amb el que s’estableix en el contracte d’alta de l’usuari.\
+\
+12.    Nul·litat i ineficàcia de les clàusules\
+\
+Si qualsevol clàusula inclosa en aquestes Condicions Generals fos declarada nul·la o ineficaç de manera total o parcial, aquesta nul·litat o ineficàcia només afectarà la clàusula o la part de la clàusula que resulti nul·la o ineficaç; la resta d’aquestes Condicions Generals romandrà inalterada i la disposició en qüestió es considerarà no inclosa de manera total o parcial.\
+\
+13.        Legislació aplicable i jurisdicció competent\
+\
+Aquestes Condicions Generals es regiran i interpretaran d’acord amb les lleis espanyoles. Qualsevol controvèrsia que es pogués suscitar sobre VINCLES BCN o sobre aquestes Condicions Generals es sotmetrà als Jutjats i Tribunals de la ciutat de Barcelona, Espanya, tret que la llei estableixi obligatòriament una altra cosa.\
+\
+\
+El projecte VINCLES BCN, titularitat de l’Ajuntament de Barcelona, ha estat una de les cinc idees guanyadores del premi Mayors Challenge, atorgat per Bloomberg Philanthropies ( http://www.bloomberg.org ).";
+"TermsAccept" = "Acceptar";
+"TermsCancel" = "Cancel·lar";
+"TermsMustAccept" = "Has d'acceptar els termes i condicions per poder continuar";
+
+// Forgot password
+"ForgotHeader" = "RECUPERAR CONTRASENYA";
+"ForgotButton" = "Recuperar contrasenya";
+"ForgotEmail" = "Correu electrònic";
+"ForgotAlert" = "Hem enviat un correu amb instruccions del procés per recuperar la seva contrasenya, si us plau revisa el teu correu electrònic per completar el procés";
+"ForgotAlertError" = "Hi ha hagut un error enviant el correu electrònic de recuperació de contrasenya";
+
+// Menu items
+"Principal" = "Inici";
+"Contactos" = "Contactes";
+"Calendario" = "Calendari";
+"Galeria" = "Galeria";
+"Configuracion" = "Configuració";
+"Notificaciones" = "Notificacions";
+"SobreVincles" = "Sobre Vincles BCN";
+"Salir" = "Sortir";
+
+// Tutorial
+"TutorialMenu" = "Prem aquí per veure el menú d'opcions";
+"TutorialAyuda" = "Prem aquí per vuere la ajuda";
+"TutorialCerrar" = "Tancar";
+
+// Home
+"HomeBienvenido" = "Benvingut a Vincles,";
+"HomeBienvenida" = "Benvinguda a Vincles,";
+"HomeAvisos" = "Consulta els avisos";
+"HomeContactos" = "Veure tots els contactes";
+"HomeFotos" = "Fotos i vídeos";
+"HomeCalendario" = "Calendari";
+"HomeNoContacts" = "Encara no tens contactes";
+"HomeVinclesFamilia" = "Família i amics";
+"HomeVinclesGrups" = "Grups Vincles";
+// NavBar
+"Menu" = "Menú";
+"Ayuda" = "Ajuda";
+
+// Galería
+"GaleriaTitle" = "Galeria";
+"GaleriaFiltrar" = "Filtrar";
+"GaleriaCompartir" = "Compartir";
+"GaleriaNuevaFoto" = "Nova foto";
+"GaleriaNuevoVideo" = "Nou video";
+"GaleriaVerTodos" = "Veure tots els arxius";
+"GaleriaVerMios" = "Veure només els meus arxius";
+"GaleriaVerRecibidos" = "Veure només els arxius rebuts";
+"GaleriaEliminar" = "Eliminar";
+"GaleriaCancelarCompartir" = "Tornar";
+"GaleriaConfirmarCompartirUn" = "Compartir l'arxiu";
+"GaleriaConfirmarCompartirVaris" = "Compartir els arxius";
+"GaleriaCompartirTitle" = "Clica sobre l'arxiu que vulguis compartir";
+"GaleriaCompartirContactesTitle" = "Clica el contacte amb el que vulguis compartir els arxius";
+"GaleriaSeleccionar" = "Seleccionar";
+"GaleriaCompartido" = "Continguts compartits correctament";
+"GaleriaTodos" = "Tots els arxius";
+"GaleriaMios" = "Els meus arxius";
+"GaleriaCompartidos" = "Arxius rebuts";
+"GaleriaEliminarTitle" = "Segur que vol eliminar l'arxiu?";
+"GaleriaErrorSubir" = "Hi ha hagut un error al guardar l'arxiu. Vol tornar a intentar-ho?";
+"GaleriaErrorSubirReintentar" = "Reintentar";
+"GaleriaEliminarErrorVaris" = "Hi ha hagut un error al eliminar els arxius. Vol tornar a intentar-ho?";
+"GaleriaEliminarErrorUn" = "Hi ha hagut un error al eliminar l'arxiu. Vol tornar a intentar-ho?";
+"GaleriaCompartirError" = "Ha succeït un error al compartir. Vol tornar a intentar-ho?";
+
+// Contactes
+"ContactsFilterVerTodos" = "Veure tots els contactes";
+"ContactsVerFamilia" = "Veure família i amics";
+"ContactsFilterVerGrupos" = "Veure grups Vincles";
+"ContactsFilterVerDinamizadores" = "Veure els dinamitzadors";
+"ContactsAfegirContacte" = "Afegir contacte";
+"ContactsCancelar" = "No vull eliminar cap contacte";
+"ContactsAfegirCancelar" = "No afegir i tornar a contactes";
+"ContactsAfegirCodi" = "Vull veure el meu codi de vinculació perquè un altre contacte m'afegeixi";
+"ContactsAfegirVeureCodiButton" = "Veure el meu codi";
+"ContactsAfegirTincCodi" = "Tengo el código de vinculación de otro usuario y el quiero añadir (incluya, por favor, la relación de parentesco)";
+"ContactsAfegirRelacionButton" = " Relación";
+"ContactsAfegirRelacionError" = "Por favor, seleccione la relación de parentesco.";
+"ContactsAfegirRelacionOptionTitle" = "Opciones";
+"ContactsAfegirEscriuCodi" = "Escriu aquí el codi";
+"EliminarPopupTitle" = "Eliminar contacte";
+"EliminarPopupDesc1" = "Estàs a punt d'eliminar a ";
+"EliminarPopupDesc2" = " de la teva xarxa de contactes. N'estàs segur?";
+"EliminarPopupButton1" = "No. Tornar i no eliminar";
+"EliminarPopupButton2" = "Sí. Eliminar contacte";
+"EliminarPopupTitleReintentar" = "Reintentar eliminar contacte";
+"ContacteAfegit1" = "L'usuari ";
+"ContacteAfegit2" = " ha estat afegit correctament";
+"ContacteAfegitTitle" = "Contacte afegit";
+"ContacteEliminar" = "Eliminar contacte";
+"ContactsFiltradoTodos" = "Tots els contactes";
+"ContactsFiltradoFamilia" = "Família i amics";
+"ContactsFiltradoGrupos" = "Grups Vincles";
+"ContactsFiltradoDinamizadores" = "Dinamitzadors";
+
+// Logout
+"LogoutPopupTitle" = "Tancar sessió";
+"LogoutPopupDesc" = "Segur que vol tancar la sessió?";
+"LogoutPopupButton1" = "Cancel·lar";
+"LogoutPopupButton2" = "Tancar sessió";
+
+// Chat
+"Trucar" = "Trucar";
+"ChatText" = "Text";
+"ChatFoto" = "Foto";
+"ChatVideo" = "Vídeo";
+"ChatAudio" = "Àudio";
+"ChatGaleria" = "Triar\nde l'àlbum";
+"ChatSortirText" = "Sortir de text";
+"ChatPlaceholder" = "Escriu aquí el teu text";
+"ChatEnviar" = "Enviar";
+"ChatSortirAudio" = "Cancel.lar";
+"ChatErrorGrabacio" = "No pots enregistrar sense donar el pemís.";
+"ChatGrabando" = "Enregistrant";
+"ChatHoy" = "Avui";
+"ChatAyer" = "Ahir";
+"ChatNuevosMensajes" = "Missatges no llegits";
+"ChatPushImagen" = "Nova imatge";
+"ChatPushVideo" = "Nou vídeo";
+"ChatPushAudio" = "Nou missatge d'àudio";
+"ChatErrorSubirTexto" = "Ha succeït un error al enviar el text. Vol tornar a intentar-ho?";
+"ChatErrorSubirImagen" ="Ha succeït un error al enviar la imatge. Vol tornar a intentar-ho?";
+"ChatErrorSubirVideo" = "Ha succeït un error al enviar el vídeo. Vol tornar a intentar-ho?";
+"ChatErrorSubirAudio" = "Ha succeït un error al enviar l'àudio. Vol tornar a intentar-ho?";
+"ChatPushItems" = "Nous items compartits";
+"ChatTu" = "Tu";
+
+// Grups
+"AfegirContacteTitol" = "Sol.licitud de contacte";
+"AfegirContacteDesc" = "La teva sol.licitud de contacte s'ha enviat correctament";
+"GrupEnviarInvitacio" = "Enviar invitació";
+"GrupEnviarDinamitzador" = "Dinamitzador";
+
+// Agenda
+"AgendaHoy" = "Veure avui";
+"AgendaManana" = "Veure demà";
+"AgendaMes" = "Veure mes sencer";
+"AgendaNuevaCita" = "Crear nova cita";
+"AgendaLunes" = "DIL";
+"AgendaMartes" = "DIM";
+"AgendaMiercoles" = "DX";
+"AgendaJueves" = "DIJ";
+"AgendaViernes" = "DIV";
+"AgendaSabado" = "DIS";
+"AgendaDomingo" = "DIU";
+"CrearCita" = "Crear la cita";
+"NuevaCitaPlaceholder" = "Escriu aquí el títol de la cita";
+"IniciCita" = "Inici de la cita";
+"DuracionCita" = "Durada de la cita";
+"DuracionMediaHora" = "30 minuts";
+"DuracionUnaHora" = "1 hora";
+"DuracionHoraMedia" = "1 hora 30 minuts";
+"DuracionDosHoras" = "2 hores";
+"ConvidarCita" = "Convidar a altres contactes a la cita";
+"ConvidarCitaContactes" = "Clica els contactes que vulguis convidar a la cita";
+"ConvidarCitaCancelar" = "Tornar i no convidar";
+"ConvidarCitaAcceptar" = "Convidar-los a la cita";
+"ConvidarCitaDeixar" = "Deixar de\nconvidar";
+"CitaCreadaPer" = "Cita creada per: ";
+"CitaParticipants" = "Participants: ";
+"CitaCreadaTi" = "Tu";
+"AgendaAvui" = "Avui, ";
+"AgendaDema" = "Demà, ";
+"CitaCancela" = "Cancel·la la cita";
+"CitaCancelaPhone" = "Cancel·la";
+"CitaEdita" = "Edita la cita";
+"CitaEditaPhone" = "Edita";
+"CitaAccepta" = "Acceptar la cita";
+"CitaAcceptaPhone" = "Acceptar";
+"CitaRebutjar" = "Rebutjar la cita";
+"CitaCitaRebutjarPhone" = "Rebutjar";
+"CitaNoAsistire" = "No assistiré";
+"EditarLaCita" = "Editar la cita";
+"CitaPopUpEliminar" = "Segur que vol eliminar la cita?";
+"CitaEliminarError" = "Ha succeït un error al eliminar la cita. Vol tornar a intentar-ho?";
+"CitaGuardarError" = "Ha succeït un error al guardar la cita. Vol tornar a intentar-ho?";
+"CitesNo" = "No tens cites programades per aquest dia";
+"CitaDetallConvidats" = "Convidats";
+"CitaDetallDetallCita" = "Detalls de la cita";
+"CitaDetallDataHora" = "Data i hora";
+"CitaRecordatori" = "Recordatori";
+"CitaPopUpDurada" = "Durada";
+"CitaPopUpMinutos" = "minuts";
+"NovaCitaTitleObligatorio" = "La descripció de la cita és obligatoria";
+"CitaRebutjarPopUpTitle" = "Rebutjar";
+"CitaEliminarPopUpTitle" = "Eliminar";
+"CitaPopUpRechazar" = "Segur que vol rebutjar la cita?";
+"CitaDescConvidat" = "Convidat";
+"CitaDescAssistira" = "Assistirà";
+"CitaDescNoAssistira" = "No assistirà";
+
+// Notifications
+"NoNotifications" = "Encara no tens avisos";
+
+"Avisos" = "Avisos";
+"NotificacioUserLinked" = "%@ és el teu nou contacte";
+"NotificacioUserUnlinked" = "%@ ja no és el teu contacte";
+"NotificacioButtonChat" = "Anar al xat";
+"NotificacioButtonContacts" = "Veure contactes";
+"NotificacioNousMissatges" = "%i missatges nous de %@";
+"NotificacioNousMissatge" = "%i missatge nou de %@";
+"NotificacioNovaImage" = "Nova foto";
+"NotificacioNouVideo" = "Nou vídeo";
+"NotificacioNouAudio" = "Nou àudio";
+"NotificacioNouMulti" = "Nou missatge";
+"NotificacioNouGrup" = "T’han convidat al grup %@";
+"NotificacioEliminatGrup" = "T’han eliminat del grup %@";
+"NotificacioButtonGroups" = "Veure grups";
+"NotificacioNousMissatgesGrup" = "%i missatges nous al xat de grup %@";
+"NotificacioNousMissatgesDinam" = "%i missatges nous de %@";
+"NotificacioNousMissatgesGrupUn" = "%i missatge nou al xat de grup %@";
+"NotificacioNousMissatgesDinamUn" = "%i missatge nou de %@";
+"NotificacioInvitedMeeting" = "%@ t'ha convidat a una cita el dia %@ a les %@";
+"NotificacioIAcceptedMeeting" = "%@ ha acceptat la invitació del dia %@ a les %@";
+"NotificacioIDeclinedMeeting" = "%@ ha rebutjat la invitació del dia %@ a les %@";
+"NotificacioChangedMeeting" = "%@ ha actualitzat la cita del dia %@ a les %@";
+"NotificacioInvitationRevokedMeeting" = "%@ ha cancel·lat la invitació del dia %@ a les %@";
+"NotificacioButtonCita" = "Veure cita";
+"NotificacioButtonCalendari" = "Anar al calendari";
+"NotificacioButtonTrucar" = "Trucar ara";
+"NotificacioUserInvitation" = "%@ t'ha convidat a formar part dels seus contactes. El seu codi de vinculació és %@";
+"NotificacioButtonUserInvitation" = "Afegir usuari";
+
+
+// Config
+"Configuracio" = "Configuració";
+"ConfiguracioResident" = "Resident a Barcelona";
+"ConfiguracioNoResident" = "Resident fora de Barcelona";
+"ConfiguracioTamany" = "Mida de la lletra";
+"ConfiguracioTamanyPetit" = "Petita";
+"ConfiguracioTamanyMitja" = "Mitjana";
+"ConfiguracioTamanyGran" = "Gran";
+"ConfiguracioSincronitzar" = "Sincronitzar cites amb el calendari del mòbil";
+"ConfiguracioTamanyGuardar" = "Guardar";
+"ConfigGuardarError" = "Ha succeït un error al guardar les dades. Vol tornar a intentar-ho?";
+"CondifuracioDescarrega" = "Descàrrega automàtica d’arxius";
+"ConfiguracioAlias" = "Nom d'usuari";
+"ConfiguracioGaleria" = "Copiar imatges i videos a la galeria del dispositiu";
+"ConfiguracioNovaContrasenya" = "Nova contrasenya";
+"ConfiguracioRepeteixContrasenya" = "Repeteix la contrasenya";
+"ConfiguracioContrasenyaActual" = "Contrasenya actual";
+"ConfiguracioContrasenyaNoCoincideixen" = "Les contrasenyes no coincideixen";
+"ConfiguracioFaltaContrasenyaActual" = "Si us plau, escriu la teva contrasenya actual al camp pertinent";
+
+// Call
+"Calling" = "Trucant a";
+"CallFrom" = "Trucada de";
+"CallNoContesta" = "no està disponible";
+"CallEnd" = "Penjar";
+"CallCancel" = "Rebutjar";
+"CallGet" = "Despenjar";
+"CallMessage" = "Enviar missatge";
+"CallRetry" = "Reintentar";
+"LostCall" = "Trucada perduda de";
+"CallMessagePhone" = "Enviar\nmissatge";
+"ChatNotification" = "%@ %@ t'ha trucat el %@ a les %@";
+"CallConnection" = "No es pot establir la trucada, si us plau, torni a intentar-ho";
+
+// Avisos
+"BatteryLow" = "La bateria està al %@";
+"NoNetwork" = "No tens connectivitat amb la xarxa";
+
+// Sobre
+"SobreVinclesText" = "Vincles és un servei de suport i acompanyament en la conservació, enfortiment i creació de vincles relacionals de les persones grans usuàries del servei.\n\nD\'una banda, el servei Vincles consisteix en donar suport en la dinamització de la xarxa personal de la persona gran; tot incorporant familiars, amics, veïns i persones del seu entorn de confiança a la seva xarxa. D\'altra banda, el servei Vincles pretén incorporar la persona gran en grups creats amb altres usuaris del servei, tot fomentant la interacció i promovent la participació en activitats tant online com presencials.\n\nAjuntament de Barcelona\n\nEn cas de consultes, queixes, suggeriments o incidències, si us plau, utilitzeu el formulari disponible a la següent web: http://www.bcn.cat/cgi-bin/queixesIRIS?id=391\n\nVersió de l'aplicació: %@";
+
+// Tutorial
+"Tancar" = "Tancar";
+
+// API Errors
+
+"Error1001" = "L’usuari no pot accedir a aquest contingut";
+"Error1002" = "L’usuari no pot accedir a les dades d’aquest altre usuari";
+"Error1003" = "No s’ha pogut generar el contrasenya.";
+"Error1004" = "Format de contrasenya incorrecte. La contrasenya ha de tenir entre 8 i 16 caràcters, un format alfanumèric i pot incloure els següents caràcters:  _!&%$-@";
+"Error1005" = "El contrasenya s’ha fet servir amb anterioritat i no es pot tornar a fer servir.";
+"Error1006" = "Contrasenya incorrecta";
+"Error1101" = "Usuari no trobat";
+"Error1102" = "L’usuari no és un usuari vincles";
+"Error1103" = "L’usuari no pot ser un usuari vincles";
+"Error1106" = "Un usuari no pot ser vincles i vinculat a la vegada";
+"Error1107" = "L’usuari ha de ser vinculat";
+"Error1108" = "L’usuari no pot ser un usuari vinculat";
+"Error1109" = "L’usuari no és manager";
+"Error1110" = "El email es troba en ús";
+"Error1111" = "El dni/nie es troba en ús";
+"Error1112" = "El nom d’usuari es troba en ús";
+"Error1113" = "El telèfon és obligatori";
+"Error1114" = "Els usuaris han de ser majors de 14 anys";
+"Error1301" = "El codi de registre és invàlid";
+"Error1302" = "El codi de registre ha caducat";
+"Error1310" = "Cercle no trobat";
+"Error1320" = "L’usuari no és part del cercle";
+"Error1321" = "L’usuari ja està en aquest cercle";
+"Error1322" = "Un usuari no es pot afegit al seu propi cercle";
+"Error1401" = "Contingut no trobat";
+"Error1402" = "Només el propietari d’un contingut el pot eliminar";
+"Error1501" = "El contingut no es troba a la biblioteca";
+"Error1601" = "L’usuari no pot enviar aquest missatge";
+"Error1602" = "Els missatges només es poden enviar entre usuaris vincles i usuaris vinculats del mateix cercle";
+"Error1603" = "Els missatges han de tenir text o tenir un o més adjunts";
+"Error1604" = "Missatge no trobat";
+"Error1605" = "L’usuari no pot accedir a aquest missatge";
+"Error1606" = "Només el receptor del missatge el pot marcar com a llegit";
+"Error1607" = "Només el receptor del missatge el pot esborrar";
+"Error1701" = "Només un usuari logat pot afegir una instal·lació";
+"Error1702" = "Ja tens una instal·lació";
+"Error1703" = "No tens cap instal·lació";
+"Error1704" = "No tens cap instal·lació";
+"Error1801" = "La notificació no existeix";
+"Error1802" = "L’usuari no pot accedir a aquesta notificació";
+"Error1901" = "Calendari no trobat";
+"Error1902" = "Esdeveniment no trobat";
+"Error1903" = "L’esdeveniment no pertany al calendari";
+"Error1904" = "L’usuari no pot accedir aquest calendari";
+"Error1905" = "Només els esdeveniments pendents poden ser recordats";
+"Error1906" = "Només el propietari d’un calendari pot acceptar o rebutjar un esdeveniment";
+"Error1907" = "L’usuari no pot accedir a aquest esdeveniment";
+"Error1908" = "L’usuari no pot modificar a aquest esdeveniment";
+"Error1909" = "L’usuari no pot eliminar a aquest esdeveniment";
+"Error1910" = "L’usuari no pot afegir esdeveniments a aquest calendari";
+"Error1911" = "L’usuari que ha creat un esdeveniment és l’únic que el pot recordar";
+"Error2001" = "No s’ha trobat el grup";
+"Error2002" = "El usuari no és dinamitzador";
+"Error2003" = "L’usuari no pot enviar la invitació";
+"Error2004" = "Invitació no trobada";
+"Error2005" = "La invitació no és per aquest grup";
+"Error2006" = "La invitació no és per aquest usuari";
+"Error2007" = "L’usuari ja forma part del grup";
+"Error2008" = "L’usuari no pot accedir a la informació d’aquest grup";
+"Error2009" = "L’usuari no està autoritzat a afegir usuaris en aquest grup";
+"Error2101" = "No s’ha trobat el xat";
+"Error2102" = "L’usuari no pot accedir a aquest xat";
+"Error2103" = "Missatge de xat no trobat";
+"Error2104" = "El missatge no forma part d’aquest xat";
+"Error2105" = "El missatge de xat no té cap contingut";
+"Error2106" = "Els missatges han de tenir text o un adjunt";
+"Error2201" = "L’usuari no pot realitzar aquesta trucada";
+"Error2601" = "Mail no enviat";
+"Error2602" = "Format de mail invàlid";
+"Error2701" = "Codi de registre d’usuari incorrecte";
+"Error2801" = "Només es poden migrar els usuaris vincles";
+"Error2802" = "L’usuari ja està migrat";
+"Error2803" = "Codi de migració d’usuari incorrecte";
+"Error2011" = "L'usuari no pertany al grup";
+
+
+// Walkthrough
+
+"WTHomeNotificacions" = "Polsant aquí, podràs veure tots els avisos pendents de revisar. Cites pendents, missatges i/o trucades perdudes.";
+"WTHomeCalendari" = "En polsar aquí, podràs accedir al teu calendari i crear noves cites.";
+"WTHomeContactes" = "En polsar aquí, podràs accedir a tots els contactes des d'aquí.";
+"WTHomeGaleria" = "En polsar aquí, podràs accedir a tot el contingut multimèdia creat per tu o compartit pels teus contactes.";
+
+"WTCalendariAvui" = "En polsar aquí, podràs veure les cites d'avui.";
+"WTCalendariDema" = "En polsar aquí, podràs veure les cites de demà.";
+"WTCalendariMes" = "En polsar aquí, podràs veure el mes sencer i navegar pel calendari, consultar altres cites en altres dies i crear-ne de noves.";
+"WTCalendariCrear" = "Polsant aquí, podràs afegir esdeveniments al calendari i convidar a qualsevol dels nostres contactes.";
+
+"WTContactesFiltrar" = "Polsant aquí, es poden filtrar els contactes per grups, dinamitzadors o familiars i amics.";
+"WTContactesAfegir" = "En polsar aquí, es pot accedir a les opcions per afegir un nou contacte.";
+"WTContactesEliminar" = "En polsar aquí, es podrà seleccionar els contactes que es volen eliminar.";
+"WTContactesEliminarBoto" = "En polsar aquí, tornaràs sense eliminar cap contacte";
+
+"WTGaleriaFiltrar" = "Polsant aquí, es poden filtrar el contingut en fitxers propis o rebuts.";
+"WTGaleriaCompartir" = "En polsar aquí, es podrà seleccionar el contingut que es vol esborrar o compartir, i amb quin dels nostres contactes es vol compartir.";
+"WTGaleriaNovaFoto" = "En polsar aquí, podrà fer fotos que s'afegiran a la seva galeria.";
+"WTGaleriaNouVideo" = "En polsar aquí, podrà crear vídeos que s'afegiran a la seva galeria.";
+"WTGaleriaTornar" = "En polsar aquí, tornaràs sense compartir o esborrar cap element.";
+"WTGaleriaEliminar" = "En polsar aquí,  podrà eliminar els elements seleccionats";
+"WTGaleriaCompartirContactes" = "En polsar aquí, es podrà seleccionar els contactes amb els quals compartir les fotos i vídeos.";
+
+"WTChatText" = "En polsar aquí, es podrà desplegar el teclat i enviar missatges de text al moment.";
+"WTChatFoto" = "En polsar aquí, es podrà fer una foto per enviar-la al moment.";
+"WTChatVideo" = "En polsar aquí, es podrà crear un vídeo per a enviar-lo al moment.";
+"WTChatAudio" = "En polsar aquí, es podrà enviar missatges d'àudio al moment.";
+"WTChatGaleria" = "En polsar aquí, es podrà compartir arxius de la galeria del dispositiu.";
+"WTChatTrucar" = "En polsar aquí, es podrà s'iniciarà una videotrucada amb el contacte del xat.";
+"WTChatCompte" = "En polsar aquí podrà accedir al xat privat amb el dinamitzador.";
+"WTChatRecord" = "Aquí veurà els controls per gravar el missatge d'àudio.";
+"WTChatSendText" = "Aquí veurà els controls per escriure un missatge de text.";

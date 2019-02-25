@@ -1,0 +1,192 @@
+ [
+  {
+  "id": 5364,
+  "mimeType": "image/jpeg",
+  "userCreator": {
+  "id": 270,
+  "name": "testVincles2",
+  "lastname": "Vincles",
+  "alias": "testVincles2",
+  "gender": "FEMALE",
+  "idContentPhoto": 5255,
+  "photo": {
+  "idContent": 5255,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "inclusionTime": 1521048794033
+  },
+  {
+  "id": 5363,
+  "mimeType": "image/jpeg",
+  "userCreator": {
+  "id": 270,
+  "name": "testVincles2",
+  "lastname": "Vincles",
+  "alias": "testVincles2",
+  "gender": "FEMALE",
+  "idContentPhoto": 5255,
+  "photo": {
+  "idContent": 5255,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "inclusionTime": 1521040214617
+  },
+  {
+  "id": 5362,
+  "mimeType": "image/jpeg",
+  "userCreator": {
+  "id": 270,
+  "name": "testVincles2",
+  "lastname": "Vincles",
+  "alias": "testVincles2",
+  "gender": "FEMALE",
+  "idContentPhoto": 5255,
+  "photo": {
+  "idContent": 5255,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "inclusionTime": 1521039324717
+  },
+  {
+  "id": 5361,
+  "mimeType": "image/jpeg",
+  "userCreator": {
+  "id": 270,
+  "name": "testVincles2",
+  "lastname": "Vincles",
+  "alias": "testVincles2",
+  "gender": "FEMALE",
+  "idContentPhoto": 5255,
+  "photo": {
+  "idContent": 5255,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "inclusionTime": 1521038985327
+  },
+  {
+  "id": 5360,
+  "mimeType": "image/jpeg",
+  "userCreator": {
+  "id": 270,
+  "name": "testVincles2",
+  "lastname": "Vincles",
+  "alias": "testVincles2",
+  "gender": "FEMALE",
+  "idContentPhoto": 5255,
+  "photo": {
+  "idContent": 5255,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "inclusionTime": 1521038849710
+  },
+  {
+  "id": 5357,
+  "mimeType": "image/jpeg",
+  "userCreator": {
+  "id": 270,
+  "name": "testVincles2",
+  "lastname": "Vincles",
+  "alias": "testVincles2",
+  "gender": "FEMALE",
+  "idContentPhoto": 5255,
+  "photo": {
+  "idContent": 5255,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "inclusionTime": 1521031612538
+  },
+  {
+  "id": 5356,
+  "mimeType": "image/jpeg",
+  "userCreator": {
+  "id": 270,
+  "name": "testVincles2",
+  "lastname": "Vincles",
+  "alias": "testVincles2",
+  "gender": "FEMALE",
+  "idContentPhoto": 5255,
+  "photo": {
+  "idContent": 5255,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "inclusionTime": 1521031480371
+  },
+  {
+  "id": 5355,
+  "mimeType": "image/jpeg",
+  "userCreator": {
+  "id": 270,
+  "name": "testVincles2",
+  "lastname": "Vincles",
+  "alias": "testVincles2",
+  "gender": "FEMALE",
+  "idContentPhoto": 5255,
+  "photo": {
+  "idContent": 5255,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "inclusionTime": 1521031301957
+  },
+  {
+  "id": 5208,
+  "mimeType": "image/jpeg",
+  "userCreator": {
+  "id": 271,
+  "name": "nom xarxa personal",
+  "lastname": "cognom xarxa personal",
+  "alias": "nom xarxa personal",
+  "gender": "MALE",
+  "idContentPhoto": 5131,
+  "photo": {
+  "idContent": 5131,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "inclusionTime": 1519903150634
+  },
+  {
+  "id": 5207,
+  "mimeType": "image/jpeg",
+  "userCreator": {
+  "id": 271,
+  "name": "nom xarxa personal",
+  "lastname": "cognom xarxa personal",
+  "alias": "nom xarxa personal",
+  "gender": "MALE",
+  "idContentPhoto": 5131,
+  "photo": {
+  "idContent": 5131,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "inclusionTime": 1519903150633
+  }
+  ]

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="ipad12_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Akkurat-Bold.ttf">
+            <string>Akkurat-Bold</string>
+        </array>
+        <array key="Akkurat.ttf">
+            <string>Akkurat</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CalendariView" customModule="VinclesDev" customModuleProvider="target">
+            <connections>
+                <outlet property="albumLabel" destination="vcq-C8-Xnh" id="a7a-vw-gHP"/>
+                <outlet property="counterLabel" destination="ylS-1r-6La" id="xtd-aH-WWL"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="p6P-b5-O5d" customClass="RoundedView" customModule="VinclesDev" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="351" height="245"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="calendari" translatesAutoresizingMaskIntoConstraints="NO" id="9fk-0p-avN">
+                    <rect key="frame" x="0.0" y="10" width="351" height="245"/>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5eL-AM-ZsG">
+                    <rect key="frame" x="0.0" y="10" width="351" height="245"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.70095180459999995" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="jBk-eb-qSD">
+                    <rect key="frame" x="0.0" y="47.5" width="351" height="170"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yjj-x2-HWr">
+                            <rect key="frame" x="105.5" y="0.0" width="140" height="80"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="calendari_icon" translatesAutoresizingMaskIntoConstraints="NO" id="TOB-O6-ws5">
+                                    <rect key="frame" x="35.5" y="0.5" width="70.5" height="79.5"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="TOB-O6-ws5" secondAttribute="height" multiplier="176:200" id="7vf-7w-1F2"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="TOB-O6-ws5" firstAttribute="centerX" secondItem="Yjj-x2-HWr" secondAttribute="centerX" id="Pn0-5e-msO"/>
+                                <constraint firstItem="TOB-O6-ws5" firstAttribute="centerY" secondItem="Yjj-x2-HWr" secondAttribute="centerY" id="aPi-sB-jfo"/>
+                                <constraint firstItem="TOB-O6-ws5" firstAttribute="width" secondItem="Yjj-x2-HWr" secondAttribute="width" multiplier="0.4" id="dsR-tt-wtj"/>
+                                <constraint firstItem="TOB-O6-ws5" firstAttribute="width" secondItem="Yjj-x2-HWr" secondAttribute="width" multiplier="0.5" id="h3C-4K-bx9"/>
+                                <constraint firstAttribute="height" secondItem="TOB-O6-ws5" secondAttribute="height" id="hQT-on-Ulq"/>
+                                <constraint firstItem="TOB-O6-ws5" firstAttribute="centerY" secondItem="Yjj-x2-HWr" secondAttribute="centerY" id="sF5-z9-EPw"/>
+                            </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="h3C-4K-bx9"/>
+                                </mask>
+                            </variation>
+                            <variation key="heightClass=compact">
+                                <mask key="constraints">
+                                    <exclude reference="dsR-tt-wtj"/>
+                                    <include reference="h3C-4K-bx9"/>
+                                    <exclude reference="sF5-z9-EPw"/>
+                                </mask>
+                            </variation>
+                            <variation key="heightClass=regular-widthClass=regular">
+                                <mask key="constraints">
+                                    <exclude reference="dsR-tt-wtj"/>
+                                    <include reference="h3C-4K-bx9"/>
+                                    <exclude reference="sF5-z9-EPw"/>
+                                </mask>
+                            </variation>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TTp-fv-aRI">
+                            <rect key="frame" x="0.0" y="120" width="351" height="50"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Veure totes les cites" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vcq-C8-Xnh">
+                                    <rect key="frame" x="0.0" y="7.5" width="351" height="34.5"/>
+                                    <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="28"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="vcq-C8-Xnh" firstAttribute="width" secondItem="TTp-fv-aRI" secondAttribute="width" id="LOx-yd-p2N"/>
+                                <constraint firstItem="vcq-C8-Xnh" firstAttribute="centerY" secondItem="TTp-fv-aRI" secondAttribute="centerY" id="TkF-8p-eqN"/>
+                                <constraint firstItem="vcq-C8-Xnh" firstAttribute="leading" secondItem="TTp-fv-aRI" secondAttribute="leading" id="o57-Po-Hmn"/>
+                                <constraint firstItem="vcq-C8-Xnh" firstAttribute="width" secondItem="TTp-fv-aRI" secondAttribute="width" id="qVy-c2-vUa"/>
+                            </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="qVy-c2-vUa"/>
+                                </mask>
+                            </variation>
+                            <variation key="heightClass=compact">
+                                <mask key="constraints">
+                                    <exclude reference="LOx-yd-p2N"/>
+                                    <include reference="qVy-c2-vUa"/>
+                                </mask>
+                            </variation>
+                            <variation key="heightClass=regular-widthClass=regular">
+                                <mask key="constraints">
+                                    <exclude reference="LOx-yd-p2N"/>
+                                    <include reference="qVy-c2-vUa"/>
+                                </mask>
+                            </variation>
+                        </view>
+                    </subviews>
+                    <variation key="heightClass=compact" axis="vertical" spacing="20"/>
+                    <variation key="heightClass=regular-widthClass=regular" axis="vertical" spacing="40"/>
+                </stackView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4" textAlignment="center" lineBreakMode="tailTruncation" minimumScaleFactor="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="ylS-1r-6La" customClass="CircularLabel" customModule="VinclesDev" customModuleProvider="target">
+                    <rect key="frame" x="216.5" y="38" width="49" height="49"/>
+                    <color key="backgroundColor" red="0.83137254900000002" green="0.08235294118" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="ylS-1r-6La" secondAttribute="height" id="Qf2-f9-dyr"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Akkurat-Bold" family="Akkurat-Bold" pointSize="23"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                    <variation key="heightClass=compact">
+                        <fontDescription key="fontDescription" name="Akkurat-Bold" family="Akkurat-Bold" pointSize="17"/>
+                    </variation>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="5eL-AM-ZsG" firstAttribute="centerY" secondItem="Fww-ZQ-M0J" secondAttribute="centerY" id="1hQ-pM-xoG"/>
+                <constraint firstItem="ylS-1r-6La" firstAttribute="leading" secondItem="TOB-O6-ws5" secondAttribute="trailing" constant="5" id="2fO-tb-DbI"/>
+                <constraint firstItem="9fk-0p-avN" firstAttribute="centerX" secondItem="Fww-ZQ-M0J" secondAttribute="centerX" id="7Dx-yf-1NX"/>
+                <constraint firstItem="5eL-AM-ZsG" firstAttribute="height" secondItem="p6P-b5-O5d" secondAttribute="height" id="AHc-4B-Qb1"/>
+                <constraint firstItem="ylS-1r-6La" firstAttribute="height" secondItem="TOB-O6-ws5" secondAttribute="height" id="CQv-iB-TMc"/>
+                <constraint firstItem="TTp-fv-aRI" firstAttribute="width" secondItem="p6P-b5-O5d" secondAttribute="width" multiplier="0.7" id="Fgv-iY-Ah4"/>
+                <constraint firstItem="9fk-0p-avN" firstAttribute="centerY" secondItem="Fww-ZQ-M0J" secondAttribute="centerY" id="LPS-aW-Zkg"/>
+                <constraint firstItem="jBk-eb-qSD" firstAttribute="centerX" secondItem="Fww-ZQ-M0J" secondAttribute="centerX" id="QhC-TT-lcX"/>
+                <constraint firstItem="Fww-ZQ-M0J" firstAttribute="trailing" secondItem="ylS-1r-6La" secondAttribute="trailing" constant="25" id="SGf-Gp-ckL"/>
+                <constraint firstItem="Yjj-x2-HWr" firstAttribute="width" secondItem="p6P-b5-O5d" secondAttribute="width" multiplier="0.2" id="WQA-mn-pdr"/>
+                <constraint firstItem="Yjj-x2-HWr" firstAttribute="width" secondItem="p6P-b5-O5d" secondAttribute="width" multiplier="0.3" id="b8L-Qj-SGY"/>
+                <constraint firstItem="Yjj-x2-HWr" firstAttribute="width" secondItem="p6P-b5-O5d" secondAttribute="width" multiplier="0.4" id="fT5-wo-lFt"/>
+                <constraint firstItem="ylS-1r-6La" firstAttribute="centerY" secondItem="Fww-ZQ-M0J" secondAttribute="centerY" id="fiI-Dg-gZx"/>
+                <constraint firstItem="jBk-eb-qSD" firstAttribute="centerY" secondItem="Fww-ZQ-M0J" secondAttribute="centerY" id="i3Z-5p-f6T"/>
+                <constraint firstItem="9fk-0p-avN" firstAttribute="height" secondItem="p6P-b5-O5d" secondAttribute="height" id="ocI-jb-LnU"/>
+                <constraint firstItem="5eL-AM-ZsG" firstAttribute="width" secondItem="p6P-b5-O5d" secondAttribute="width" id="p5a-pJ-LPO"/>
+                <constraint firstItem="ylS-1r-6La" firstAttribute="width" secondItem="TOB-O6-ws5" secondAttribute="width" multiplier="0.7" id="prf-AD-WSv"/>
+                <constraint firstItem="5eL-AM-ZsG" firstAttribute="centerX" secondItem="Fww-ZQ-M0J" secondAttribute="centerX" id="tIQ-EB-Rbe"/>
+                <constraint firstItem="9fk-0p-avN" firstAttribute="width" secondItem="p6P-b5-O5d" secondAttribute="width" id="tjL-vd-DO7"/>
+                <constraint firstItem="ylS-1r-6La" firstAttribute="top" secondItem="TOB-O6-ws5" secondAttribute="top" constant="-10" id="ufo-HN-TdP"/>
+                <constraint firstItem="TTp-fv-aRI" firstAttribute="width" secondItem="p6P-b5-O5d" secondAttribute="width" id="xIx-tA-xnH"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="Fww-ZQ-M0J"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="b8L-Qj-SGY"/>
+                    <exclude reference="fT5-wo-lFt"/>
+                    <exclude reference="xIx-tA-xnH"/>
+                    <exclude reference="2fO-tb-DbI"/>
+                    <exclude reference="prf-AD-WSv"/>
+                    <exclude reference="ufo-HN-TdP"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=compact">
+                <mask key="constraints">
+                    <exclude reference="SGf-Gp-ckL"/>
+                    <exclude reference="WQA-mn-pdr"/>
+                    <include reference="b8L-Qj-SGY"/>
+                    <exclude reference="fT5-wo-lFt"/>
+                    <exclude reference="Fgv-iY-Ah4"/>
+                    <include reference="xIx-tA-xnH"/>
+                    <include reference="2fO-tb-DbI"/>
+                    <exclude reference="CQv-iB-TMc"/>
+                    <exclude reference="fiI-Dg-gZx"/>
+                    <include reference="prf-AD-WSv"/>
+                    <include reference="ufo-HN-TdP"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=regular">
+                <mask key="constraints">
+                    <exclude reference="SGf-Gp-ckL"/>
+                    <exclude reference="WQA-mn-pdr"/>
+                    <include reference="fT5-wo-lFt"/>
+                    <exclude reference="Fgv-iY-Ah4"/>
+                    <include reference="xIx-tA-xnH"/>
+                    <include reference="2fO-tb-DbI"/>
+                    <exclude reference="CQv-iB-TMc"/>
+                    <exclude reference="fiI-Dg-gZx"/>
+                    <include reference="prf-AD-WSv"/>
+                    <include reference="ufo-HN-TdP"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="21.5" y="-76.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="calendari" width="627" height="427"/>
+        <image name="calendari_icon" width="58" height="66"/>
+    </resources>
+</document>

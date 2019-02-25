@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Akkurat-Bold.ttf">
+            <string>Akkurat-Bold</string>
+        </array>
+        <array key="Akkurat-Light.ttf">
+            <string>Akkurat-Light</string>
+        </array>
+        <array key="Akkurat.ttf">
+            <string>Akkurat</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Config Main View Controller-->
+        <scene sceneID="GCg-3u-E6z">
+            <objects>
+                <viewController storyboardIdentifier="ConfigMainViewController" id="1Ri-eY-1C0" customClass="ConfigMainViewController" customModule="VinclesDev" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FCe-O9-IsE">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1400"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" canCancelContentTouches="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84c-89-mee">
+                                <rect key="frame" x="0.0" y="20" width="375" height="1380"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="84U-K7-20R">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1380"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1ID-oi-XQ3">
+                                                <rect key="frame" x="13.5" y="324.5" width="348.5" height="731"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="8Lx-j0-LZT">
+                                                        <rect key="frame" x="15" y="15" width="318.5" height="701"/>
+                                                        <subviews>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="1F8-8k-FSD">
+                                                                <rect key="frame" x="0.0" y="0.0" width="318.5" height="153"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fotografia:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0a8-Y9-aTP">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="318.5" height="20"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
+                                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x06-ky-lmm">
+                                                                        <rect key="frame" x="0.0" y="20" width="318.5" height="133"/>
+                                                                        <subviews>
+                                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RLg-bt-tlI" userLabel="foto">
+                                                                                <rect key="frame" x="0.0" y="0.0" width="318.5" height="133"/>
+                                                                                <subviews>
+                                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo-circle" translatesAutoresizingMaskIntoConstraints="NO" id="IBn-8Z-lLu" customClass="CircularImageView" customModule="VinclesDev" customModuleProvider="target">
+                                                                                        <rect key="frame" x="109.5" y="6" width="100" height="100"/>
+                                                                                        <constraints>
+                                                                                            <constraint firstAttribute="height" constant="100" id="Do6-ZH-8If"/>
+                                                                                            <constraint firstAttribute="width" constant="100" id="es4-iQ-CGr"/>
+                                                                                        </constraints>
+                                                                                    </imageView>
+                                                                                    <button opaque="NO" contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M6z-Bh-by5">
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="318.5" height="133"/>
+                                                                                        <connections>
+                                                                                            <action selector="fotoAction:" destination="1Ri-eY-1C0" eventType="touchUpInside" id="OUQ-TW-da7"/>
+                                                                                            <action selector="fotoAction:" destination="y2w-A3-Ko8" eventType="touchUpInside" id="xPv-kz-ygQ"/>
+                                                                                        </connections>
+                                                                                    </button>
+                                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tria una foto" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2IG-Rk-xXv">
+                                                                                        <rect key="frame" x="116.5" y="111" width="87" height="16"/>
+                                                                                        <constraints>
+                                                                                            <constraint firstAttribute="height" constant="16" id="tmI-iZ-9gK"/>
+                                                                                            <constraint firstAttribute="width" constant="87" id="zW0-1k-RRt"/>
+                                                                                        </constraints>
+                                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="14"/>
+                                                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                        <nil key="highlightedColor"/>
+                                                                                    </label>
+                                                                                </subviews>
+                                                                                <constraints>
+                                                                                    <constraint firstItem="IBn-8Z-lLu" firstAttribute="top" secondItem="RLg-bt-tlI" secondAttribute="top" constant="6" id="0Wf-gO-mcu"/>
+                                                                                    <constraint firstItem="IBn-8Z-lLu" firstAttribute="centerX" secondItem="RLg-bt-tlI" secondAttribute="centerX" id="6QO-s4-tCa"/>
+                                                                                    <constraint firstItem="2IG-Rk-xXv" firstAttribute="centerX" secondItem="IBn-8Z-lLu" secondAttribute="centerX" id="RWO-L2-j1b"/>
+                                                                                    <constraint firstItem="M6z-Bh-by5" firstAttribute="centerY" secondItem="RLg-bt-tlI" secondAttribute="centerY" id="Ryp-Qq-QvB"/>
+                                                                                    <constraint firstItem="2IG-Rk-xXv" firstAttribute="top" secondItem="IBn-8Z-lLu" secondAttribute="bottom" constant="5" id="XRB-Qc-eVS"/>
+                                                                                    <constraint firstItem="M6z-Bh-by5" firstAttribute="centerX" secondItem="RLg-bt-tlI" secondAttribute="centerX" id="YYf-xh-Dvq"/>
+                                                                                    <constraint firstItem="M6z-Bh-by5" firstAttribute="height" secondItem="RLg-bt-tlI" secondAttribute="height" id="iWx-mC-L4N"/>
+                                                                                    <constraint firstItem="M6z-Bh-by5" firstAttribute="width" secondItem="RLg-bt-tlI" secondAttribute="width" id="qOA-cl-CvK"/>
+                                                                                </constraints>
+                                                                            </view>
+                                                                        </subviews>
+                                                                        <constraints>
+                                                                            <constraint firstItem="RLg-bt-tlI" firstAttribute="height" secondItem="x06-ky-lmm" secondAttribute="height" id="78b-k0-zX8"/>
+                                                                            <constraint firstItem="RLg-bt-tlI" firstAttribute="centerX" secondItem="x06-ky-lmm" secondAttribute="centerX" id="PYa-ht-ICs"/>
+                                                                            <constraint firstItem="RLg-bt-tlI" firstAttribute="centerY" secondItem="x06-ky-lmm" secondAttribute="centerY" id="kOD-Dw-LfO"/>
+                                                                            <constraint firstItem="RLg-bt-tlI" firstAttribute="width" secondItem="x06-ky-lmm" secondAttribute="width" id="z8c-S8-yOh"/>
+                                                                            <constraint firstAttribute="height" constant="133" id="zyS-Kp-aEF"/>
+                                                                        </constraints>
+                                                                    </view>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B3F-4z-rfP">
+                                                                <rect key="frame" x="0.0" y="173" width="318.5" height="128"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epj-VK-DQ7">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="269" height="93"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
+                                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uWh-D4-5pH">
+                                                                        <rect key="frame" x="0.0" y="108" width="268.5" height="20"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat-Light" family="Akkurat-Light" pointSize="16"/>
+                                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0iv-Cj-NNc">
+                                                                        <rect key="frame" x="288.5" y="0.0" width="30" height="30"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" secondItem="0iv-Cj-NNc" secondAttribute="height" id="10u-Oe-C3d"/>
+                                                                            <constraint firstAttribute="width" constant="30" id="xhX-oV-urI"/>
+                                                                        </constraints>
+                                                                        <state key="normal" image="edit"/>
+                                                                        <connections>
+                                                                            <action selector="editDataAction:" destination="1Ri-eY-1C0" eventType="touchUpInside" id="1jN-Ff-Bjh"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                </subviews>
+                                                                <constraints>
+                                                                    <constraint firstItem="epj-VK-DQ7" firstAttribute="leading" secondItem="uWh-D4-5pH" secondAttribute="leading" id="9BP-0T-TvF"/>
+                                                                    <constraint firstItem="epj-VK-DQ7" firstAttribute="top" secondItem="B3F-4z-rfP" secondAttribute="top" id="BN5-0w-YPL"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="uWh-D4-5pH" secondAttribute="trailing" constant="50" id="DlM-2E-b3n"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="0iv-Cj-NNc" secondAttribute="trailing" id="GiQ-gR-nb1"/>
+                                                                    <constraint firstItem="uWh-D4-5pH" firstAttribute="top" secondItem="epj-VK-DQ7" secondAttribute="bottom" constant="15" id="IWR-sy-ezJ"/>
+                                                                    <constraint firstItem="epj-VK-DQ7" firstAttribute="leading" secondItem="B3F-4z-rfP" secondAttribute="leading" id="MXZ-8K-5UG"/>
+                                                                    <constraint firstItem="epj-VK-DQ7" firstAttribute="width" secondItem="uWh-D4-5pH" secondAttribute="width" id="QYx-NA-iq8"/>
+                                                                    <constraint firstItem="0iv-Cj-NNc" firstAttribute="top" secondItem="B3F-4z-rfP" secondAttribute="top" id="TY3-n3-5gj"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="uWh-D4-5pH" secondAttribute="bottom" id="Tsb-gI-a4j"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="4IZ-wY-75U">
+                                                                <rect key="frame" x="0.0" y="321" width="318.5" height="60"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Idioma de l'app Vincles BCN:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RSJ-VS-5if">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="318.5" height="20"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
+                                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dq3-iY-rcV">
+                                                                        <rect key="frame" x="0.0" y="30" width="318.5" height="31"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="30" id="m01-1v-cJc"/>
+                                                                        </constraints>
+                                                                        <segments>
+                                                                            <segment title="CAT"/>
+                                                                            <segment title="CAST"/>
+                                                                        </segments>
+                                                                        <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <connections>
+                                                                            <action selector="segmentedChanged:" destination="1Ri-eY-1C0" eventType="valueChanged" id="tvz-pA-hgk"/>
+                                                                        </connections>
+                                                                    </segmentedControl>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="MIv-VJ-SRF">
+                                                                <rect key="frame" x="0.0" y="401" width="318.5" height="60"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Idioma de l'app Vincles BCN:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Psa-EK-ITi">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="318.5" height="20"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
+                                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Dor-O7-tL7">
+                                                                        <rect key="frame" x="0.0" y="30" width="318.5" height="31"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="30" id="oaM-X0-TSP"/>
+                                                                        </constraints>
+                                                                        <segments>
+                                                                            <segment title="Petit"/>
+                                                                            <segment title="Mitjà"/>
+                                                                            <segment title="Gran"/>
+                                                                        </segments>
+                                                                        <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <connections>
+                                                                            <action selector="segmentedChanged:" destination="1Ri-eY-1C0" eventType="valueChanged" id="HKO-TP-dhE"/>
+                                                                        </connections>
+                                                                    </segmentedControl>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="pFD-h0-sDT">
+                                                                <rect key="frame" x="0.0" y="481" width="318.5" height="60"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Idioma de l'app Vincles BCN:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7fd-UN-fZc">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="318.5" height="20"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
+                                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RbY-CJ-RMl">
+                                                                        <rect key="frame" x="0.0" y="30" width="318.5" height="31"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="30" id="IdM-eH-mwV"/>
+                                                                        </constraints>
+                                                                        <segments>
+                                                                            <segment title="SÍ"/>
+                                                                            <segment title="NO"/>
+                                                                        </segments>
+                                                                        <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <connections>
+                                                                            <action selector="segmentedChanged:" destination="1Ri-eY-1C0" eventType="valueChanged" id="5gh-KK-jaY"/>
+                                                                        </connections>
+                                                                    </segmentedControl>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="5XO-R4-aSh">
+                                                                <rect key="frame" x="0.0" y="561" width="318.5" height="60"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Idioma de l'app Vincles BCN:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m9E-Yv-W1z">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="318.5" height="20"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
+                                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="rjp-GO-0Cp">
+                                                                        <rect key="frame" x="0.0" y="30" width="318.5" height="31"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="30" id="EcU-IX-woV"/>
+                                                                        </constraints>
+                                                                        <segments>
+                                                                            <segment title="SÍ"/>
+                                                                            <segment title="NO"/>
+                                                                        </segments>
+                                                                        <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <connections>
+                                                                            <action selector="segmentedChanged:" destination="1Ri-eY-1C0" eventType="valueChanged" id="FVy-4u-lrL"/>
+                                                                        </connections>
+                                                                    </segmentedControl>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="yuz-9z-r4W">
+                                                                <rect key="frame" x="0.0" y="641" width="318.5" height="60"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Idioma de l'app Vincles BCN:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3sa-pB-mbD">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="318.5" height="20"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
+                                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Cwq-bT-5Gf">
+                                                                        <rect key="frame" x="0.0" y="30" width="318.5" height="31"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="30" id="rul-nH-YkJ"/>
+                                                                        </constraints>
+                                                                        <segments>
+                                                                            <segment title="SÍ"/>
+                                                                            <segment title="NO"/>
+                                                                        </segments>
+                                                                        <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <connections>
+                                                                            <action selector="segmentedChanged:" destination="1Ri-eY-1C0" eventType="valueChanged" id="tfS-ex-23Q"/>
+                                                                        </connections>
+                                                                    </segmentedControl>
+                                                                </subviews>
+                                                            </stackView>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                                <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstItem="8Lx-j0-LZT" firstAttribute="centerX" secondItem="1ID-oi-XQ3" secondAttribute="centerX" id="EO6-JX-Y2F"/>
+                                                    <constraint firstItem="8Lx-j0-LZT" firstAttribute="width" secondItem="1ID-oi-XQ3" secondAttribute="width" constant="-30" id="VO9-0T-gQ6"/>
+                                                    <constraint firstItem="8Lx-j0-LZT" firstAttribute="height" secondItem="1ID-oi-XQ3" secondAttribute="height" constant="-30" id="ZxO-Lp-Nm1"/>
+                                                    <constraint firstItem="8Lx-j0-LZT" firstAttribute="centerY" secondItem="1ID-oi-XQ3" secondAttribute="centerY" id="l43-Zk-dAt"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="8"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="1ID-oi-XQ3" firstAttribute="centerX" secondItem="84U-K7-20R" secondAttribute="centerX" id="8X3-9R-jwt"/>
+                                            <constraint firstItem="1ID-oi-XQ3" firstAttribute="top" relation="greaterThanOrEqual" secondItem="84U-K7-20R" secondAttribute="top" id="Xed-Fn-VVL"/>
+                                            <constraint firstItem="1ID-oi-XQ3" firstAttribute="width" secondItem="84U-K7-20R" secondAttribute="width" multiplier="0.93" id="arU-vZ-pWB"/>
+                                            <constraint firstItem="1ID-oi-XQ3" firstAttribute="centerY" secondItem="84U-K7-20R" secondAttribute="centerY" id="rwG-32-dUR"/>
+                                            <constraint firstItem="1ID-oi-XQ3" firstAttribute="width" secondItem="84U-K7-20R" secondAttribute="width" multiplier="0.6" id="zFh-TM-jgd"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="zFh-TM-jgd"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <mask key="constraints">
+                                                <exclude reference="arU-vZ-pWB"/>
+                                                <include reference="zFh-TM-jgd"/>
+                                            </mask>
+                                        </variation>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="84U-K7-20R" firstAttribute="top" secondItem="84c-89-mee" secondAttribute="top" id="H5n-wQ-Jan"/>
+                                    <constraint firstAttribute="bottom" secondItem="84U-K7-20R" secondAttribute="bottom" id="PTn-N9-zXs"/>
+                                    <constraint firstItem="84U-K7-20R" firstAttribute="height" secondItem="84c-89-mee" secondAttribute="height" priority="250" id="SYe-5n-ha9"/>
+                                    <constraint firstAttribute="trailing" secondItem="84U-K7-20R" secondAttribute="trailing" id="XAu-R5-RC3"/>
+                                    <constraint firstItem="84U-K7-20R" firstAttribute="width" secondItem="84c-89-mee" secondAttribute="width" id="Zgk-wu-5wB"/>
+                                    <constraint firstItem="84U-K7-20R" firstAttribute="leading" secondItem="84c-89-mee" secondAttribute="leading" id="eWZ-MT-goq"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="84c-89-mee" firstAttribute="bottom" secondItem="wgP-4l-6hJ" secondAttribute="bottom" id="CnT-VJ-Vd8"/>
+                            <constraint firstItem="84c-89-mee" firstAttribute="centerX" secondItem="wgP-4l-6hJ" secondAttribute="centerX" id="XzP-QH-Mjh"/>
+                            <constraint firstItem="84c-89-mee" firstAttribute="leading" secondItem="wgP-4l-6hJ" secondAttribute="leading" id="a6q-Wk-UXD"/>
+                            <constraint firstItem="wgP-4l-6hJ" firstAttribute="top" secondItem="84c-89-mee" secondAttribute="top" id="cVD-m4-G8h"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="wgP-4l-6hJ"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="DPD-1U-XKb"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="1400"/>
+                    <connections>
+                        <outlet property="descarregaLabel" destination="m9E-Yv-W1z" id="TLc-Ml-EJB"/>
+                        <outlet property="descarregaSegmentedControl" destination="rjp-GO-0Cp" id="nzk-kW-OGD"/>
+                        <outlet property="fotoChooseLabel" destination="2IG-Rk-xXv" id="jD7-f0-Jk4"/>
+                        <outlet property="fotoTitleLabel" destination="0a8-Y9-aTP" id="HjZ-At-MnQ"/>
+                        <outlet property="galeriaLabel" destination="3sa-pB-mbD" id="qbY-zx-qhO"/>
+                        <outlet property="galeriaSegmentedControl" destination="Cwq-bT-5Gf" id="EEf-BJ-rde"/>
+                        <outlet property="idiomaLabel" destination="RSJ-VS-5if" id="iEu-4J-AHe"/>
+                        <outlet property="idiomaSegmentedControl" destination="dq3-iY-rcV" id="Vtd-Ps-nhX"/>
+                        <outlet property="personalDataLabel" destination="epj-VK-DQ7" id="9ES-qY-jF0"/>
+                        <outlet property="sincronitzarLabel" destination="7fd-UN-fZc" id="JIU-y8-KVE"/>
+                        <outlet property="sincronitzarSegmentedControl" destination="RbY-CJ-RMl" id="di9-1D-RXP"/>
+                        <outlet property="tamanyLabel" destination="Psa-EK-ITi" id="o5k-2N-6vY"/>
+                        <outlet property="tamanySegmentedControl" destination="Dor-O7-tL7" id="J7f-XC-1LZ"/>
+                        <outlet property="userDataLabel" destination="uWh-D4-5pH" id="nIZ-O1-PYy"/>
+                        <outlet property="userImageView" destination="IBn-8Z-lLu" id="cl9-Dr-sPf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zrf-Qt-1Z7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1088.8" y="26.086956521739133"/>
+        </scene>
+        <!--Config Personal Data View Controller-->
+        <scene sceneID="R7w-b5-gn9">
+            <objects>
+                <viewController storyboardIdentifier="ConfigPersonalDataViewController" id="y2w-A3-Ko8" customClass="ConfigPersonalDataViewController" customModule="VinclesDev" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GUf-fM-Tef">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="1400"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" canCancelContentTouches="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7aH-UL-Bp0">
+                                <rect key="frame" x="0.0" y="20" width="375" height="1380"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="per-YG-9Cu">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1380"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gBd-cs-LMj">
+                                                <rect key="frame" x="13.5" y="308" width="348.5" height="765"/>
+                                                <subviews>
+                                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dades personals" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xya-qU-gmF">
+                                                        <rect key="frame" x="17.5" y="15" width="313.5" height="20"/>
+                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
+                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="mou-Cm-P7Z">
+                                                        <rect key="frame" x="18" y="15" width="313.5" height="355"/>
+                                                        <subviews>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="mkJ-O9-DjR">
+                                                                <rect key="frame" x="0.0" y="0.0" width="313.5" height="59"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TkJ-zd-s7d">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="313.5" height="16"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="13"/>
+                                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SsM-al-9rf" customClass="RequiredTextField" customModule="VinclesDev" customModuleProvider="target">
+                                                                        <rect key="frame" x="0.0" y="19" width="313.5" height="40"/>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="40" id="Ml2-jC-agF"/>
+                                                                        </constraints>
+                                                                        <nil key="textColor"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="15"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                <integer key="value" value="6"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </textField>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="qY7-r4-vbA">
+                                                                <rect key="frame" x="0.0" y="74" width="313.5" height="59"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RrA-qR-1F2">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="313.5" height="16"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="13"/>
+                                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="570-f8-rrK" customClass="RequiredTextField" customModule="VinclesDev" customModuleProvider="target">
+                                                                        <rect key="frame" x="0.0" y="19" width="313.5" height="40"/>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="40" id="fq3-io-HwW"/>
+                                                                        </constraints>
+                                                                        <nil key="textColor"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="15"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                <integer key="value" value="6"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </textField>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="oY3-QT-t2t">
+                                                                <rect key="frame" x="0.0" y="148" width="313.5" height="59"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lkm-VT-x1l">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="313.5" height="16"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="13"/>
+                                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GzW-Oi-k0T" customClass="OptionalTextField" customModule="VinclesDev" customModuleProvider="target">
+                                                                        <rect key="frame" x="0.0" y="19" width="313.5" height="40"/>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="40" id="UsR-Wu-ODM"/>
+                                                                        </constraints>
+                                                                        <nil key="textColor"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="15"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                <integer key="value" value="6"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </textField>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="W2w-jw-rYu">
+                                                                <rect key="frame" x="0.0" y="222" width="313.5" height="59"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YFd-ll-is5">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="313.5" height="16"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="13"/>
+                                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YWH-uR-axu" customClass="OptionalTextField" customModule="VinclesDev" customModuleProvider="target">
+                                                                        <rect key="frame" x="0.0" y="19" width="313.5" height="40"/>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="40" id="jTP-rr-GEn"/>
+                                                                        </constraints>
+                                                                        <nil key="textColor"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="15"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                <integer key="value" value="6"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </textField>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="PKD-6w-ZQe">
+                                                                <rect key="frame" x="0.0" y="296" width="313.5" height="59"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bjh-Kg-qlV">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="313.5" height="16"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="13"/>
+                                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7L4-MG-VOj" customClass="NumericTextField" customModule="VinclesDev" customModuleProvider="target">
+                                                                        <rect key="frame" x="0.0" y="19" width="313.5" height="40"/>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="40" id="cCf-P3-RPz"/>
+                                                                        </constraints>
+                                                                        <nil key="textColor"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="15"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                <integer key="value" value="6"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </textField>
+                                                                </subviews>
+                                                            </stackView>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vius a Barcelona?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HIz-3E-HrM">
+                                                        <rect key="frame" x="17.5" y="385" width="313.5" height="20"/>
+                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
+                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Uty-wh-twU">
+                                                        <rect key="frame" x="17.5" y="420" width="313.5" height="29"/>
+                                                        <segments>
+                                                            <segment title="SÍ"/>
+                                                            <segment title="NO"/>
+                                                        </segments>
+                                                        <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </segmentedControl>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="9PR-86-F37">
+                                                        <rect key="frame" x="17.5" y="468" width="313.5" height="207"/>
+                                                        <subviews>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="1Ng-Ko-ZJB">
+                                                                <rect key="frame" x="0.0" y="0.0" width="313.5" height="59"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sjq-NH-V99">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="313.5" height="16"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="13"/>
+                                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6ux-b3-Igz" customClass="OptionalTextField" customModule="VinclesDev" customModuleProvider="target">
+                                                                        <rect key="frame" x="0.0" y="19" width="313.5" height="40"/>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="40" id="92V-oe-d9x"/>
+                                                                        </constraints>
+                                                                        <nil key="textColor"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="15"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                <integer key="value" value="6"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </textField>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="kjc-c6-ppM">
+                                                                <rect key="frame" x="0.0" y="74" width="313.5" height="59"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qe9-Eg-Hzf">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="313.5" height="16"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="13"/>
+                                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zOI-vW-tCR" customClass="OptionalTextField" customModule="VinclesDev" customModuleProvider="target">
+                                                                        <rect key="frame" x="0.0" y="19" width="313.5" height="40"/>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="40" id="BEp-CY-goo"/>
+                                                                        </constraints>
+                                                                        <nil key="textColor"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="15"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                <integer key="value" value="6"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </textField>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="Ikq-iF-cd2">
+                                                                <rect key="frame" x="0.0" y="148" width="313.5" height="59"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VB3-kX-cj9">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="313.5" height="16"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="13"/>
+                                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rQM-s4-Suh" customClass="OptionalTextField" customModule="VinclesDev" customModuleProvider="target">
+                                                                        <rect key="frame" x="0.0" y="19" width="313.5" height="40"/>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="40" id="sBF-Ch-2N9"/>
+                                                                        </constraints>
+                                                                        <nil key="textColor"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="15"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                <integer key="value" value="6"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </textField>
+                                                                </subviews>
+                                                            </stackView>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8in-hx-EZo" customClass="AlphaButton" customModule="VinclesDev" customModuleProvider="target">
+                                                        <rect key="frame" x="17.5" y="695" width="313" height="50"/>
+                                                        <color key="backgroundColor" red="0.83137254900000002" green="0.08235294118" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="r9g-gw-olF"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="Akkurat-Bold" family="Akkurat-Bold" pointSize="17"/>
+                                                        <state key="normal" title="Registrar">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                <integer key="value" value="6"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstItem="Uty-wh-twU" firstAttribute="bottom" secondItem="9PR-86-F37" secondAttribute="top" constant="-20" id="3ny-hK-g0K"/>
+                                                    <constraint firstAttribute="bottom" secondItem="8in-hx-EZo" secondAttribute="bottom" constant="20" id="Emb-eZ-aEQ"/>
+                                                    <constraint firstItem="Uty-wh-twU" firstAttribute="top" secondItem="HIz-3E-HrM" secondAttribute="bottom" constant="15" id="RW8-jS-5lf"/>
+                                                    <constraint firstItem="8in-hx-EZo" firstAttribute="centerX" secondItem="Uty-wh-twU" secondAttribute="centerX" id="TYa-a0-hhR"/>
+                                                    <constraint firstItem="mou-Cm-P7Z" firstAttribute="width" secondItem="xya-qU-gmF" secondAttribute="width" id="TZF-so-YaD"/>
+                                                    <constraint firstItem="HIz-3E-HrM" firstAttribute="leading" secondItem="gBd-cs-LMj" secondAttribute="leading" constant="17.5" id="YEy-pG-E5P"/>
+                                                    <constraint firstItem="mou-Cm-P7Z" firstAttribute="top" secondItem="gBd-cs-LMj" secondAttribute="top" constant="15" id="bc1-gG-SoS"/>
+                                                    <constraint firstItem="9PR-86-F37" firstAttribute="centerX" secondItem="mou-Cm-P7Z" secondAttribute="centerX" id="emL-9f-jm3"/>
+                                                    <constraint firstItem="8in-hx-EZo" firstAttribute="width" secondItem="Uty-wh-twU" secondAttribute="width" id="g3K-Cr-Hkm"/>
+                                                    <constraint firstItem="xya-qU-gmF" firstAttribute="leading" secondItem="gBd-cs-LMj" secondAttribute="leading" constant="17.5" id="hAC-sz-Q6P"/>
+                                                    <constraint firstItem="9PR-86-F37" firstAttribute="width" secondItem="mou-Cm-P7Z" secondAttribute="width" id="jOS-4V-FeO"/>
+                                                    <constraint firstItem="8in-hx-EZo" firstAttribute="top" secondItem="9PR-86-F37" secondAttribute="bottom" constant="20" id="rZ9-jp-wFV"/>
+                                                    <constraint firstItem="xya-qU-gmF" firstAttribute="top" secondItem="gBd-cs-LMj" secondAttribute="top" constant="15" id="rtJ-LC-ueV"/>
+                                                    <constraint firstItem="Uty-wh-twU" firstAttribute="width" secondItem="HIz-3E-HrM" secondAttribute="width" id="vSH-GP-Usq"/>
+                                                    <constraint firstItem="xya-qU-gmF" firstAttribute="centerX" secondItem="gBd-cs-LMj" secondAttribute="centerX" id="wXx-7R-mAs"/>
+                                                    <constraint firstItem="mou-Cm-P7Z" firstAttribute="centerX" secondItem="gBd-cs-LMj" secondAttribute="centerX" id="wc9-Gh-plO"/>
+                                                    <constraint firstItem="HIz-3E-HrM" firstAttribute="top" secondItem="mou-Cm-P7Z" secondAttribute="bottom" constant="15" id="wkZ-nK-A6n"/>
+                                                    <constraint firstItem="HIz-3E-HrM" firstAttribute="centerX" secondItem="gBd-cs-LMj" secondAttribute="centerX" id="xQA-jH-a08"/>
+                                                    <constraint firstItem="Uty-wh-twU" firstAttribute="centerX" secondItem="HIz-3E-HrM" secondAttribute="centerX" id="xiM-nG-Fc2"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="8"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="gBd-cs-LMj" firstAttribute="centerX" secondItem="per-YG-9Cu" secondAttribute="centerX" id="FwT-6k-Bh2"/>
+                                            <constraint firstItem="gBd-cs-LMj" firstAttribute="width" secondItem="per-YG-9Cu" secondAttribute="width" multiplier="0.93" id="JIL-a6-7Gb"/>
+                                            <constraint firstItem="gBd-cs-LMj" firstAttribute="top" relation="greaterThanOrEqual" secondItem="per-YG-9Cu" secondAttribute="top" id="VA3-5S-Kkz"/>
+                                            <constraint firstItem="gBd-cs-LMj" firstAttribute="centerY" secondItem="per-YG-9Cu" secondAttribute="centerY" id="Yli-DO-bTd"/>
+                                            <constraint firstItem="gBd-cs-LMj" firstAttribute="width" secondItem="per-YG-9Cu" secondAttribute="width" multiplier="0.6" id="ZaY-k9-3Op"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="ZaY-k9-3Op"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <mask key="constraints">
+                                                <exclude reference="JIL-a6-7Gb"/>
+                                                <include reference="ZaY-k9-3Op"/>
+                                            </mask>
+                                        </variation>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="per-YG-9Cu" secondAttribute="trailing" id="FlU-pO-Jae"/>
+                                    <constraint firstItem="per-YG-9Cu" firstAttribute="top" secondItem="7aH-UL-Bp0" secondAttribute="top" id="Sts-1t-dQ2"/>
+                                    <constraint firstAttribute="bottom" secondItem="per-YG-9Cu" secondAttribute="bottom" id="TE7-dk-iEs"/>
+                                    <constraint firstItem="per-YG-9Cu" firstAttribute="height" secondItem="7aH-UL-Bp0" secondAttribute="height" priority="250" id="VRh-0N-iWq"/>
+                                    <constraint firstItem="per-YG-9Cu" firstAttribute="width" secondItem="7aH-UL-Bp0" secondAttribute="width" id="eOd-L6-6es"/>
+                                    <constraint firstItem="per-YG-9Cu" firstAttribute="leading" secondItem="7aH-UL-Bp0" secondAttribute="leading" id="kYR-JD-gdS"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Fab-0c-0Pl" firstAttribute="top" secondItem="7aH-UL-Bp0" secondAttribute="top" id="9vn-jQ-aTy"/>
+                            <constraint firstItem="7aH-UL-Bp0" firstAttribute="centerX" secondItem="Fab-0c-0Pl" secondAttribute="centerX" id="azS-Rf-Ccr"/>
+                            <constraint firstItem="7aH-UL-Bp0" firstAttribute="bottom" secondItem="Fab-0c-0Pl" secondAttribute="bottom" id="ibh-Nh-naZ"/>
+                            <constraint firstItem="7aH-UL-Bp0" firstAttribute="leading" secondItem="Fab-0c-0Pl" secondAttribute="leading" id="vbP-uX-cme"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Fab-0c-0Pl"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="2vC-2O-59n"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="1400"/>
+                    <connections>
+                        <outlet property="barcelonaLabel" destination="HIz-3E-HrM" id="TRY-PG-ahD"/>
+                        <outlet property="barcelonaSegmentedControl" destination="Uty-wh-twU" id="XE1-oE-sUp"/>
+                        <outlet property="cognomsLabel" destination="RrA-qR-1F2" id="8DY-Cz-KpL"/>
+                        <outlet property="cognomsTF" destination="570-f8-rrK" id="B6K-OC-1gK"/>
+                        <outlet property="contrasenyaActualLabel" destination="VB3-kX-cj9" id="lF5-Q2-KSB"/>
+                        <outlet property="contrasenyaActualTF" destination="rQM-s4-Suh" id="03X-VZ-Lpq"/>
+                        <outlet property="emailLabel" destination="YFd-ll-is5" id="vih-IS-OLU"/>
+                        <outlet property="emailTF" destination="YWH-uR-axu" id="862-fJ-NDA"/>
+                        <outlet property="nomLabel" destination="TkJ-zd-s7d" id="OI7-B2-Xxx"/>
+                        <outlet property="nomTF" destination="SsM-al-9rf" id="lRr-8R-9aG"/>
+                        <outlet property="novaContrasenyaLabel" destination="Sjq-NH-V99" id="tsh-Aa-iIn"/>
+                        <outlet property="novaContrasenyaTF" destination="6ux-b3-Igz" id="A5c-vy-FR8"/>
+                        <outlet property="personalDataLabel" destination="xya-qU-gmF" id="ACu-qS-roQ"/>
+                        <outlet property="phoneLabel" destination="bjh-Kg-qlV" id="VBa-aI-40r"/>
+                        <outlet property="phoneTF" destination="7L4-MG-VOj" id="xJ2-2l-UaS"/>
+                        <outlet property="registrarAlphaButton" destination="8in-hx-EZo" id="yy3-bc-wDh"/>
+                        <outlet property="repeteixContrasenyaLabel" destination="Qe9-Eg-Hzf" id="ZDb-2b-o9L"/>
+                        <outlet property="repeteixContrasenyaTF" destination="zOI-vW-tCR" id="th5-g6-3Ig"/>
+                        <outlet property="usuariLabel" destination="lkm-VT-x1l" id="gpO-GC-cU8"/>
+                        <outlet property="usuariTF" destination="GzW-Oi-k0T" id="qv8-Rr-UOB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kb0-9v-HAO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1865" y="26"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="edit" width="42" height="42"/>
+        <image name="photo-circle" width="121" height="121"/>
+    </resources>
+</document>

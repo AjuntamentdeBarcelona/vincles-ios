@@ -1,0 +1,23 @@
+{
+    "id": 268,
+    "name": "testVincles",
+    "lastname": "PrimerCognomTest",
+    "alias": "testVincles",
+    "gender": "MALE",
+    "idContentPhoto": 5093,
+    "photo": {
+        "idContent": 5093,
+        "photo": null,
+        "photoMimeType": null
+    },
+    "active": true,
+    "idInstallation": -1,
+    "idCircle": 33,
+    "idLibrary": 33,
+    "idCalendar": 33,
+    "username": "testVincles",
+    "birthdate": -312944400000,
+    "email": null,
+    "phone": "666999777",
+    "liveInBarcelona": true
+}

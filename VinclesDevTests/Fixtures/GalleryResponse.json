@@ -1,0 +1,182 @@
+ [
+  {
+  "idDynamizerChat": 134,
+  "user": {
+  "id": 270,
+  "name": "testVincles2",
+  "lastname": "Vincles",
+  "alias": "testVincles2",
+  "gender": "FEMALE",
+  "idContentPhoto": 5255,
+  "photo": {
+  "idContent": 5255,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "group": {
+  "id": 10,
+  "name": "aqua",
+  "topic": "i2cat",
+  "neighborhood": {
+  "id": 61,
+  "name": "El Congrés i els Indians",
+  "idDistrict": 9,
+  "nameDistrict": "Sant Andreu"
+  },
+  "description": null,
+  "idUserDynamizer": 84,
+  "dynamizer": {
+  "id": 84,
+  "name": "i2cat2",
+  "lastname": "i2cat2",
+  "alias": "i2cat2",
+  "gender": "MALE",
+  "idContentPhoto": 188,
+  "photo": {
+  "idContent": 188,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "idChat": 18
+  }
+  },
+  {
+  "idDynamizerChat": 135,
+  "user": {
+  "id": 270,
+  "name": "testVincles2",
+  "lastname": "Vincles",
+  "alias": "testVincles2",
+  "gender": "FEMALE",
+  "idContentPhoto": 5255,
+  "photo": {
+  "idContent": 5255,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "group": {
+  "id": 9,
+  "name": "formació",
+  "topic": "i2cat",
+  "neighborhood": {
+  "id": 36,
+  "name": "El Guinardó",
+  "idDistrict": 7,
+  "nameDistrict": "Horta-Guinardó"
+  },
+  "description": null,
+  "idUserDynamizer": 84,
+  "dynamizer": {
+  "id": 84,
+  "name": "i2cat2",
+  "lastname": "i2cat2",
+  "alias": "i2cat2",
+  "gender": "MALE",
+  "idContentPhoto": 188,
+  "photo": {
+  "idContent": 188,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "idChat": 16
+  }
+  },
+  {
+  "idDynamizerChat": 136,
+  "user": {
+  "id": 270,
+  "name": "testVincles2",
+  "lastname": "Vincles",
+  "alias": "testVincles2",
+  "gender": "FEMALE",
+  "idContentPhoto": 5255,
+  "photo": {
+  "idContent": 5255,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "group": {
+  "id": 5,
+  "name": "Fotografia",
+  "topic": "i2cat",
+  "neighborhood": {
+  "id": 2,
+  "name": "El Gòtic",
+  "idDistrict": 1,
+  "nameDistrict": "Ciutat Vella"
+  },
+  "description": null,
+  "idUserDynamizer": 253,
+  "dynamizer": {
+  "id": 253,
+  "name": "NomDinamitzadorTest2",
+  "lastname": "PrimerCognomDinamitzadorTest2",
+  "alias": "AliasDinamitzadorTest2",
+  "gender": "MALE",
+  "idContentPhoto": 4989,
+  "photo": {
+  "idContent": 4989,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "idChat": 9
+  }
+  },
+  {
+  "idDynamizerChat": 137,
+  "user": {
+  "id": 270,
+  "name": "testVincles2",
+  "lastname": "Vincles",
+  "alias": "testVincles2",
+  "gender": "FEMALE",
+  "idContentPhoto": 5255,
+  "photo": {
+  "idContent": 5255,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "group": {
+  "id": 3,
+  "name": "gym modificat",
+  "topic": "i2CAT",
+  "neighborhood": {
+  "id": 33,
+  "name": "El Coll",
+  "idDistrict": 6,
+  "nameDistrict": "Gràcia"
+  },
+  "description": "descripció curta",
+  "idUserDynamizer": 251,
+  "dynamizer": {
+  "id": 251,
+  "name": "NomDinamitzadorTest",
+  "lastname": "PrimerCognomDinamitzadorTest",
+  "alias": "aliasDinamitzadorTest",
+  "gender": "MALE",
+  "idContentPhoto": 4903,
+  "photo": {
+  "idContent": 4903,
+  "photo": null,
+  "photoMimeType": null
+  },
+  "active": true
+  },
+  "idChat": 5
+  }
+  }
+  ]

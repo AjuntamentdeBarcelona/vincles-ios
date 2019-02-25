@@ -1,0 +1,7 @@
+{
+    "scope": "default",
+    "token_type": "Bearer",
+    "expires_in": 3600,
+    "refresh_token": "a83a065adc3663d703f261f0d26aaf6f",
+    "access_token": "a447a832517b59e723af09779500229b"
+}

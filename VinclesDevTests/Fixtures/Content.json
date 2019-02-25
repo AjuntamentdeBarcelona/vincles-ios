@@ -1,0 +1,19 @@
+{
+    "id": 5196,
+    "mimeType": "video/mp4",
+    "userCreator": {
+        "id": 268,
+        "name": "testVincles",
+        "lastname": "PrimerCognomTest",
+        "alias": "testVincles",
+        "gender": "MALE",
+        "idContentPhoto": 5093,
+        "photo": {
+            "idContent": 5093,
+            "photo": null,
+            "photoMimeType": null
+        },
+        "active": true
+    },
+    "inclusionTime": 1519903056512
+}

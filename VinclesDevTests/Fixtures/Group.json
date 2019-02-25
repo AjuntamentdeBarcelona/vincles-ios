@@ -1,0 +1,45 @@
+{
+    "idDynamizerChat": 134,
+    "user": {
+        "id": 270,
+        "name": "testVincles2",
+        "lastname": "Vincles",
+        "alias": "testVincles2",
+        "gender": "FEMALE",
+        "idContentPhoto": 5255,
+        "photo": {
+            "idContent": 5255,
+            "photo": null,
+            "photoMimeType": null
+        },
+        "active": true
+    },
+    "group": {
+        "id": 100,
+        "name": "aqua",
+        "topic": "i2cat",
+        "neighborhood": {
+            "id": 61,
+            "name": "El Congrés i els Indians",
+            "idDistrict": 9,
+            "nameDistrict": "Sant Andreu"
+        },
+        "description": null,
+        "idUserDynamizer": 84,
+        "dynamizer": {
+            "id": 84,
+            "name": "i2cat2",
+            "lastname": "i2cat2",
+            "alias": "i2cat2",
+            "gender": "MALE",
+            "idContentPhoto": 188,
+            "photo": {
+                "idContent": 188,
+                "photo": null,
+                "photoMimeType": null
+            },
+            "active": true
+        },
+        "idChat": 18
+    }
+}

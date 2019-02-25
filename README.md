@@ -1,5 +1,4 @@
-# VINCLES-BCN-FAMILIAR-IOS #
-**Version 2.0.4**
+# VINCLES-BCN-IOS #
 
 Vincles BCN is a new service of the City of Barcelona's Social Services Department to help us keep in touch with our seniors.
 Vincles BCN allows you to make videocalls to the senior, send them videos, photos, and suggest meetings. For this app to be activated

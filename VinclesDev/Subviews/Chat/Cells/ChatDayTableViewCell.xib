@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Akkurat.ttf">
+            <string>Akkurat</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ChatDayTableViewCell" customModule="VinclesDev" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="388" height="76"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ACd-rH-L4O">
+                    <rect key="frame" x="0.0" y="15" width="388" height="46"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RBi-iu-LIF">
+                            <rect key="frame" x="20" y="10" width="348" height="26"/>
+                            <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
+                            <color key="textColor" red="0.83137254901960778" green="0.082352941176470587" blue="0.21176470588235294" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.96470588239999999" green="0.81568627449999997" blue="0.84313725490000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="RBi-iu-LIF" firstAttribute="top" secondItem="ACd-rH-L4O" secondAttribute="top" constant="10" id="PfJ-GF-GLc"/>
+                        <constraint firstItem="RBi-iu-LIF" firstAttribute="centerY" secondItem="ACd-rH-L4O" secondAttribute="centerY" id="ntm-35-NtX"/>
+                        <constraint firstItem="RBi-iu-LIF" firstAttribute="centerX" secondItem="ACd-rH-L4O" secondAttribute="centerX" id="rjg-Mf-nEm"/>
+                        <constraint firstItem="RBi-iu-LIF" firstAttribute="leading" secondItem="ACd-rH-L4O" secondAttribute="leading" constant="20" id="tPz-R5-NRi"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstItem="ACd-rH-L4O" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="FvV-IV-c0C"/>
+                <constraint firstItem="ACd-rH-L4O" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="SNj-GT-121"/>
+                <constraint firstItem="ACd-rH-L4O" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="15" id="hGV-Jw-tzd"/>
+                <constraint firstItem="ACd-rH-L4O" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="i63-Tp-6PL"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="contView" destination="ACd-rH-L4O" id="Ciq-Me-EZY"/>
+                <outlet property="dateLabel" destination="RBi-iu-LIF" id="BXP-Xm-eXk"/>
+            </connections>
+            <point key="canvasLocation" x="40" y="-218"/>
+        </view>
+    </objects>
+</document>

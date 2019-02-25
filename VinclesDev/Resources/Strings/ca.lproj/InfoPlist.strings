@@ -1,0 +1,8 @@
+/* 
+  InfoPlist.strings
+  VinclesDev
+
+*/
+NSCameraUsageDescription = "Farem servir la càmera per fer fotos i vídeos, ja que el servei de missatgeria i videoconferència que ofereix Vincles ho necessita.";
+NSMicrophoneUsageDescription = "Farem servir el micròfon per poder enviar missatges d'àudio i realitzar videoconferències, ja que aquests serveis que ofereix Vincles ho necessiten.";
+//NSPhotoLibraryUsageDescription = "";

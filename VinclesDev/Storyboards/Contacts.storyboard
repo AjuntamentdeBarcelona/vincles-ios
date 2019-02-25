@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="ipad9_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Akkurat.ttf">
+            <string>Akkurat</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Contacts View Controller-->
+        <scene sceneID="uMI-1r-sVf">
+            <objects>
+                <viewController storyboardIdentifier="ContactsViewController" id="ir0-nd-fC6" customClass="ContactsViewController" customModule="VinclesDev" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Uvl-NR-iSm">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eMZ-IE-Q1y">
+                                <rect key="frame" x="0.0" y="20" width="768" height="919"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ZFs-Zt-IHH">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Encara no tens contactes" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gg1-YM-uQs">
+                                <rect key="frame" x="42" y="321" width="291" height="24.5"/>
+                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="28"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=compact">
+                                    <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                </variation>
+                                <variation key="widthClass=compact">
+                                    <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                </variation>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hnx-bg-SBx">
+                                <rect key="frame" x="0.0" y="939" width="768" height="85"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="cM5-v3-JVR">
+                                        <rect key="frame" x="10" y="12.5" width="748" height="60"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lmT-qj-LH5" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="242.5" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="2UH-0w-88N"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                                <state key="normal" title="Filtrar" image="filtrar"/>
+                                                <connections>
+                                                    <action selector="filtrarAction:" destination="ir0-nd-fC6" eventType="touchUpInside" id="JOG-nh-0NB"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xct-kR-v7m" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                <rect key="frame" x="252.5" y="0.0" width="243" height="60"/>
+                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                                <state key="normal" title="Filtrar" image="Afegir_contacte"/>
+                                                <connections>
+                                                    <action selector="addContact:" destination="ir0-nd-fC6" eventType="touchUpInside" id="Rpr-rc-Q01"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h7e-jH-cBH" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                <rect key="frame" x="505.5" y="0.0" width="242.5" height="60"/>
+                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                                <state key="normal" title="Filtrar" image="eliminar"/>
+                                                <connections>
+                                                    <action selector="eliminarAction:" destination="ir0-nd-fC6" eventType="touchUpInside" id="hJo-pM-Iq2"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="xct-kR-v7m" firstAttribute="height" secondItem="lmT-qj-LH5" secondAttribute="height" id="7FK-np-XrB"/>
+                                            <constraint firstItem="h7e-jH-cBH" firstAttribute="height" secondItem="lmT-qj-LH5" secondAttribute="height" id="twq-tC-5EZ"/>
+                                        </constraints>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fui-F8-c2s" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                        <rect key="frame" x="192" y="12.5" width="384" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="uzu-Lg-KOe"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                        <state key="normal" title="Filtrar" image="No_eliminar"/>
+                                        <connections>
+                                            <action selector="cancelar:" destination="ir0-nd-fC6" eventType="touchUpInside" id="nsz-Lz-s6E"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="cM5-v3-JVR" firstAttribute="centerX" secondItem="hnx-bg-SBx" secondAttribute="centerX" id="DWf-zS-mVz"/>
+                                    <constraint firstItem="fui-F8-c2s" firstAttribute="width" secondItem="hnx-bg-SBx" secondAttribute="width" multiplier="0.5" id="WeS-Xz-nai"/>
+                                    <constraint firstItem="cM5-v3-JVR" firstAttribute="centerY" secondItem="hnx-bg-SBx" secondAttribute="centerY" id="az6-9j-Di0"/>
+                                    <constraint firstItem="fui-F8-c2s" firstAttribute="centerX" secondItem="hnx-bg-SBx" secondAttribute="centerX" id="eVo-hg-xcH"/>
+                                    <constraint firstItem="cM5-v3-JVR" firstAttribute="leading" secondItem="hnx-bg-SBx" secondAttribute="leading" constant="10" id="jj5-Z5-8Zm"/>
+                                    <constraint firstItem="fui-F8-c2s" firstAttribute="width" secondItem="hnx-bg-SBx" secondAttribute="width" constant="-30" id="rrr-qC-nm9"/>
+                                    <constraint firstItem="fui-F8-c2s" firstAttribute="centerY" secondItem="hnx-bg-SBx" secondAttribute="centerY" id="snW-Ic-EEJ"/>
+                                    <constraint firstAttribute="height" constant="85" id="yZn-RW-cfv"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="rrr-qC-nm9"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="WeS-Xz-nai"/>
+                                        <include reference="rrr-qC-nm9"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="hnx-bg-SBx" firstAttribute="top" secondItem="eMZ-IE-Q1y" secondAttribute="bottom" id="5Kd-ld-sav"/>
+                            <constraint firstItem="eMZ-IE-Q1y" firstAttribute="centerX" secondItem="H9d-FZ-Qv9" secondAttribute="centerX" id="6db-bq-6ro"/>
+                            <constraint firstItem="gg1-YM-uQs" firstAttribute="centerY" secondItem="eMZ-IE-Q1y" secondAttribute="centerY" id="7ad-jf-gtc"/>
+                            <constraint firstItem="gg1-YM-uQs" firstAttribute="centerX" secondItem="eMZ-IE-Q1y" secondAttribute="centerX" id="IHJ-kE-gTw"/>
+                            <constraint firstItem="hnx-bg-SBx" firstAttribute="width" secondItem="Uvl-NR-iSm" secondAttribute="width" id="TuM-54-Jeh"/>
+                            <constraint firstItem="H9d-FZ-Qv9" firstAttribute="bottom" secondItem="hnx-bg-SBx" secondAttribute="bottom" id="ZKc-FZ-7gh"/>
+                            <constraint firstItem="eMZ-IE-Q1y" firstAttribute="width" secondItem="Uvl-NR-iSm" secondAttribute="width" id="hUX-h3-g8D"/>
+                            <constraint firstItem="hnx-bg-SBx" firstAttribute="centerX" secondItem="H9d-FZ-Qv9" secondAttribute="centerX" id="l4Q-Rj-TnW"/>
+                            <constraint firstItem="H9d-FZ-Qv9" firstAttribute="top" secondItem="eMZ-IE-Q1y" secondAttribute="top" id="m8k-vH-Rxe"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="H9d-FZ-Qv9"/>
+                    </view>
+                    <connections>
+                        <outlet property="afegirButton" destination="xct-kR-v7m" id="tPd-x6-o3D"/>
+                        <outlet property="cancelarButton" destination="fui-F8-c2s" id="atj-Lz-onV"/>
+                        <outlet property="collectionView" destination="eMZ-IE-Q1y" id="xS5-sA-926"/>
+                        <outlet property="eliminarButton" destination="h7e-jH-cBH" id="uSl-Cc-etj"/>
+                        <outlet property="filtrarButton" destination="lmT-qj-LH5" id="0Lf-mF-aui"/>
+                        <outlet property="noContactsLabel" destination="gg1-YM-uQs" id="riU-Mi-qmK"/>
+                        <outlet property="optionsStack" destination="cM5-v3-JVR" id="TiD-3Y-qcR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b5s-uc-KL3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="68" y="108.39580209895054"/>
+        </scene>
+        <!--Add Contact View Controller-->
+        <scene sceneID="i6D-ru-9fK">
+            <objects>
+                <viewController storyboardIdentifier="AddContactViewController" id="Nk5-1r-nio" customClass="AddContactViewController" customModule="VinclesDev" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Wbv-Yr-qTQ">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qxi-Ra-6LD">
+                                <rect key="frame" x="0.0" y="939" width="769" height="85"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pLP-pA-RkV" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                        <rect key="frame" x="192.5" y="12.5" width="384" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="FXb-DX-utX"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                        <state key="normal" image="Tornar_no_compartir"/>
+                                        <connections>
+                                            <action selector="backAction:" destination="Nk5-1r-nio" eventType="touchUpInside" id="6zK-4G-Fxn"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="pLP-pA-RkV" firstAttribute="centerY" secondItem="qxi-Ra-6LD" secondAttribute="centerY" id="92h-wc-gU6"/>
+                                    <constraint firstItem="pLP-pA-RkV" firstAttribute="width" secondItem="qxi-Ra-6LD" secondAttribute="width" constant="-30" id="YqQ-N3-AoV"/>
+                                    <constraint firstItem="pLP-pA-RkV" firstAttribute="width" secondItem="qxi-Ra-6LD" secondAttribute="width" multiplier="0.5" id="faR-om-niT"/>
+                                    <constraint firstItem="pLP-pA-RkV" firstAttribute="centerX" secondItem="qxi-Ra-6LD" secondAttribute="centerX" id="ivJ-Cs-9vr"/>
+                                    <constraint firstAttribute="height" constant="85" id="qCi-vx-THf"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="YqQ-N3-AoV"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="YqQ-N3-AoV"/>
+                                        <exclude reference="faR-om-niT"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hbv-To-E58">
+                                <rect key="frame" x="30" y="30" width="709" height="899"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="dbO-QB-Gz3">
+                                        <rect key="frame" x="0.0" y="0.0" width="709" height="899"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1dX-x0-bqN">
+                                                <rect key="frame" x="0.0" y="0.0" width="352" height="899"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="eBP-iI-t5n">
+                                                        <rect key="frame" x="61.5" y="-4605.5" width="229" height="10110"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="H3u-Xb-Z0O">
+                                                                <rect key="frame" x="0.0" y="0.0" width="229" height="0.0"/>
+                                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="21"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xUm-qq-6NT" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="25" width="229" height="60"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="60" id="yjx-78-YvL"/>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                                                <state key="normal" title="Button" image="Veure_codi"/>
+                                                                <connections>
+                                                                    <action selector="generateCode:" destination="Nk5-1r-nio" eventType="touchUpInside" id="op4-IZ-gm5"/>
+                                                                </connections>
+                                                            </button>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ol-dB-EBx">
+                                                                <rect key="frame" x="0.0" y="110" width="229" height="10000"/>
+                                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="30"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                                <color key="backgroundColor" red="0.89812660217285156" green="0.90187656879425049" blue="0.90588361024856567" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <constraints>
+                                                    <constraint firstItem="H3u-Xb-Z0O" firstAttribute="width" secondItem="1dX-x0-bqN" secondAttribute="width" multiplier="0.8" id="3fx-dI-meU"/>
+                                                    <constraint firstItem="xUm-qq-6NT" firstAttribute="centerX" secondItem="1dX-x0-bqN" secondAttribute="centerX" id="YvX-cw-TcA"/>
+                                                    <constraint firstItem="xUm-qq-6NT" firstAttribute="width" secondItem="1dX-x0-bqN" secondAttribute="width" multiplier="0.65" id="bKS-yF-2x7"/>
+                                                    <constraint firstItem="H3u-Xb-Z0O" firstAttribute="centerX" secondItem="1dX-x0-bqN" secondAttribute="centerX" id="deE-ld-Esg"/>
+                                                    <constraint firstItem="eBP-iI-t5n" firstAttribute="centerX" secondItem="1dX-x0-bqN" secondAttribute="centerX" id="s3q-33-vuG"/>
+                                                    <constraint firstItem="eBP-iI-t5n" firstAttribute="centerY" secondItem="1dX-x0-bqN" secondAttribute="centerY" id="uWy-fH-lAx"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vSJ-jX-IZm">
+                                                <rect key="frame" x="357" y="0.0" width="352" height="899"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="71b-mo-lgN">
+                                                        <rect key="frame" x="35" y="361.5" width="281.5" height="176"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ih2-xH-boi">
+                                                                <rect key="frame" x="0.0" y="0.0" width="281.5" height="26"/>
+                                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="21"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nq9-XZ-W83">
+                                                                <rect key="frame" x="0.0" y="51" width="281.5" height="40"/>
+                                                                <subviews>
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lO3-Py-h38">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="127" height="40"/>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="40" id="Frj-3b-G71"/>
+                                                                        </constraints>
+                                                                        <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="22"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                    </textField>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a7G-r2-Qes" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                                        <rect key="frame" x="155" y="0.0" width="126.5" height="40"/>
+                                                                        <state key="normal" title="Button"/>
+                                                                        <connections>
+                                                                            <action selector="selectKinkship:" destination="Nk5-1r-nio" eventType="touchUpInside" id="LIf-Kv-REl"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                </subviews>
+                                                                <constraints>
+                                                                    <constraint firstItem="lO3-Py-h38" firstAttribute="centerY" secondItem="Nq9-XZ-W83" secondAttribute="centerY" id="8RA-mx-9nG"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="a7G-r2-Qes" secondAttribute="trailing" id="LHr-4M-5Tl"/>
+                                                                    <constraint firstItem="lO3-Py-h38" firstAttribute="width" secondItem="Nq9-XZ-W83" secondAttribute="width" multiplier="0.45" id="PMn-2N-qbd"/>
+                                                                    <constraint firstItem="a7G-r2-Qes" firstAttribute="height" secondItem="lO3-Py-h38" secondAttribute="height" id="RDj-ra-6CO"/>
+                                                                    <constraint firstAttribute="height" secondItem="lO3-Py-h38" secondAttribute="height" id="aeG-IS-7FM"/>
+                                                                    <constraint firstItem="a7G-r2-Qes" firstAttribute="centerY" secondItem="Nq9-XZ-W83" secondAttribute="centerY" id="iWu-Nq-uIC"/>
+                                                                    <constraint firstItem="lO3-Py-h38" firstAttribute="leading" secondItem="Nq9-XZ-W83" secondAttribute="leading" id="mir-iI-84b"/>
+                                                                    <constraint firstItem="a7G-r2-Qes" firstAttribute="width" secondItem="lO3-Py-h38" secondAttribute="width" id="tg9-38-tCB"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M3O-3m-xHx" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="116" width="281.5" height="60"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="60" id="w8k-ck-qKh"/>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                                                                <state key="normal" title="Button" image="check_filtre"/>
+                                                                <connections>
+                                                                    <action selector="addCode:" destination="Nk5-1r-nio" eventType="touchUpInside" id="hBL-cb-nm6"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                                <color key="backgroundColor" red="0.89812660219999996" green="0.9018765688" blue="0.90588361019999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <constraints>
+                                                    <constraint firstItem="71b-mo-lgN" firstAttribute="centerY" secondItem="vSJ-jX-IZm" secondAttribute="centerY" id="44q-mA-kIj"/>
+                                                    <constraint firstItem="M3O-3m-xHx" firstAttribute="centerX" secondItem="vSJ-jX-IZm" secondAttribute="centerX" id="Ced-wo-TfC"/>
+                                                    <constraint firstItem="ih2-xH-boi" firstAttribute="width" secondItem="vSJ-jX-IZm" secondAttribute="width" multiplier="0.8" id="ERA-zV-cYw"/>
+                                                    <constraint firstItem="71b-mo-lgN" firstAttribute="centerX" secondItem="vSJ-jX-IZm" secondAttribute="centerX" id="SOy-VW-UjL"/>
+                                                    <constraint firstItem="ih2-xH-boi" firstAttribute="centerX" secondItem="vSJ-jX-IZm" secondAttribute="centerX" id="Vfr-0d-7h4"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <variation key="heightClass=regular-widthClass=compact" axis="vertical"/>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="dbO-QB-Gz3" firstAttribute="centerX" secondItem="Hbv-To-E58" secondAttribute="centerX" id="3ed-o8-iqj"/>
+                                    <constraint firstItem="dbO-QB-Gz3" firstAttribute="centerY" secondItem="Hbv-To-E58" secondAttribute="centerY" id="PAr-QT-6kG"/>
+                                    <constraint firstItem="dbO-QB-Gz3" firstAttribute="height" secondItem="Hbv-To-E58" secondAttribute="height" id="dHS-pR-kK4"/>
+                                    <constraint firstItem="dbO-QB-Gz3" firstAttribute="width" secondItem="Hbv-To-E58" secondAttribute="width" id="diC-H1-EUW"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Hbv-To-E58" firstAttribute="leading" secondItem="Yaq-6j-5MW" secondAttribute="leading" constant="30" id="1Fg-xL-I35"/>
+                            <constraint firstItem="Hbv-To-E58" firstAttribute="centerX" secondItem="Yaq-6j-5MW" secondAttribute="centerX" id="49S-1C-FtM"/>
+                            <constraint firstItem="qxi-Ra-6LD" firstAttribute="top" secondItem="Hbv-To-E58" secondAttribute="bottom" constant="10" id="9Wv-z6-lLN"/>
+                            <constraint firstItem="Yaq-6j-5MW" firstAttribute="bottom" secondItem="qxi-Ra-6LD" secondAttribute="bottom" id="DSB-Uo-mHe"/>
+                            <constraint firstItem="qxi-Ra-6LD" firstAttribute="centerX" secondItem="Yaq-6j-5MW" secondAttribute="centerX" id="kI6-Lf-Cr2"/>
+                            <constraint firstItem="qxi-Ra-6LD" firstAttribute="width" secondItem="Wbv-Yr-qTQ" secondAttribute="width" id="kSU-E3-T2h"/>
+                            <constraint firstItem="Hbv-To-E58" firstAttribute="top" secondItem="Yaq-6j-5MW" secondAttribute="top" constant="10" id="lvp-4x-4BS"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Yaq-6j-5MW"/>
+                    </view>
+                    <connections>
+                        <outlet property="afegirContacteButton" destination="M3O-3m-xHx" id="pfe-yz-S6Q"/>
+                        <outlet property="cancelarButton" destination="pLP-pA-RkV" id="dfU-zu-EhD"/>
+                        <outlet property="codiLabel" destination="8ol-dB-EBx" id="rjc-mT-ggF"/>
+                        <outlet property="codiTextField" destination="lO3-Py-h38" id="pfv-dG-mdQ"/>
+                        <outlet property="heightPosarButton" destination="w8k-ck-qKh" id="0KY-ou-VB6"/>
+                        <outlet property="heightTF" destination="Frj-3b-G71" id="pxP-PU-pA6"/>
+                        <outlet property="heightVeureButton" destination="yjx-78-YvL" id="OEl-fn-SrI"/>
+                        <outlet property="selectKinkshipButton" destination="a7G-r2-Qes" id="7QE-ud-tsq"/>
+                        <outlet property="stackViewPosar" destination="71b-mo-lgN" id="PI8-d3-Iaa"/>
+                        <outlet property="stackViewVeure" destination="eBP-iI-t5n" id="dIL-kl-Dzq"/>
+                        <outlet property="tincCodiLabel" destination="ih2-xH-boi" id="gKd-62-VEl"/>
+                        <outlet property="veureCodiButton" destination="xUm-qq-6NT" id="03a-7c-QwN"/>
+                        <outlet property="veureCodiLabel" destination="H3u-Xb-Z0O" id="0F7-bj-JDL"/>
+                        <outlet property="viewVeure" destination="1dX-x0-bqN" id="Ttk-br-ttq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Uuu-RS-d86" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="804" y="108"/>
+        </scene>
+        <!--Drop Down View Controller-->
+        <scene sceneID="MXF-2g-zSo">
+            <objects>
+                <viewController storyboardIdentifier="DropDownViewController" id="bsg-8D-gkM" customClass="DropDownViewController" customModule="VinclesDev" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qeY-lG-E7l">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Wm3-zg-sgr">
+                                <rect key="frame" x="0.0" y="10" width="768" height="1024"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="46J-xR-K49">
+                                    <rect key="frame" x="0.0" y="98" width="768" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DropDownTableViewCell" rowHeight="70" id="5m4-Yt-VL6" customClass="DropDownTableViewCell" customModule="VinclesDev" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="768" height="70"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5m4-Yt-VL6" id="lUD-TD-Ws0">
+                                            <rect key="frame" x="0.0" y="0.0" width="768" height="69.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mu9-AZ-xv5">
+                                                    <rect key="frame" x="0.0" y="0.0" width="768" height="69.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Mu9-AZ-xv5" firstAttribute="height" secondItem="lUD-TD-Ws0" secondAttribute="height" id="1yi-kw-TEz"/>
+                                                <constraint firstItem="Mu9-AZ-xv5" firstAttribute="width" secondItem="lUD-TD-Ws0" secondAttribute="width" id="Wqo-us-iDB"/>
+                                                <constraint firstItem="Mu9-AZ-xv5" firstAttribute="centerY" secondItem="lUD-TD-Ws0" secondAttribute="centerY" id="gNh-dH-Glh"/>
+                                                <constraint firstItem="Mu9-AZ-xv5" firstAttribute="centerX" secondItem="lUD-TD-Ws0" secondAttribute="centerX" id="pok-1k-tjA"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="label" destination="Mu9-AZ-xv5" id="Ye5-vM-g8L"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Wm3-zg-sgr" firstAttribute="centerX" secondItem="jVd-Q7-gyL" secondAttribute="centerX" id="1Zw-LC-yxG"/>
+                            <constraint firstItem="Wm3-zg-sgr" firstAttribute="centerY" secondItem="jVd-Q7-gyL" secondAttribute="centerY" id="B70-Em-Nyw"/>
+                            <constraint firstItem="Wm3-zg-sgr" firstAttribute="height" secondItem="qeY-lG-E7l" secondAttribute="height" id="a5P-hr-FWz"/>
+                            <constraint firstItem="Wm3-zg-sgr" firstAttribute="width" secondItem="qeY-lG-E7l" secondAttribute="width" id="tDN-ab-vGz"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="jVd-Q7-gyL"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="Wm3-zg-sgr" id="ulS-w2-9cm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LAw-Al-e0M" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1635.9375" y="107.8125"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Afegir_contacte" width="30" height="30"/>
+        <image name="No_eliminar" width="30" height="30"/>
+        <image name="Tornar_no_compartir" width="30" height="30"/>
+        <image name="Veure_codi" width="30" height="30"/>
+        <image name="check_filtre" width="30" height="30"/>
+        <image name="eliminar" width="30" height="30"/>
+        <image name="filtrar" width="30" height="30"/>
+    </resources>
+</document>

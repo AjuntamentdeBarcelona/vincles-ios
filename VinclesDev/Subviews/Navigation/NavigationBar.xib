@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Akkurat-Bold.ttf">
+            <string>Akkurat-Bold</string>
+        </array>
+        <array key="Akkurat.ttf">
+            <string>Akkurat</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NavigationBar" customModule="VinclesDev" customModuleProvider="target">
+            <connections>
+                <outlet property="buttonsTop" destination="Ogy-Bc-lan" id="5cj-1l-fTy"/>
+                <outlet property="leftButton" destination="5II-N5-ohc" id="9uQ-S3-TME"/>
+                <outlet property="rightButton" destination="DSL-ZY-4Da" id="EqM-Uq-N1v"/>
+                <outlet property="titleLabel" destination="awD-Jq-WCt" id="Wnt-Vt-S0t"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="483" height="84"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="249" text="Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="awD-Jq-WCt">
+                    <rect key="frame" x="215.5" y="26.5" width="53" height="32"/>
+                    <fontDescription key="fontDescription" name="Akkurat-Bold" family="Akkurat-Bold" pointSize="25"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5II-N5-ohc">
+                    <rect key="frame" x="0.0" y="13" width="159" height="58"/>
+                    <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                    <inset key="imageEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                    <state key="normal" title=" Tornar" image="tornar">
+                        <color key="titleColor" red="0.83137254901960778" green="0.082352941176470587" blue="0.21176470588235294" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DSL-ZY-4Da">
+                    <rect key="frame" x="323" y="13" width="160" height="58"/>
+                    <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                    <inset key="imageEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                    <state key="normal" title=" Tornar" image="tornar">
+                        <color key="titleColor" red="0.83137254900000002" green="0.08235294118" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </state>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="awD-Jq-WCt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5II-N5-ohc" secondAttribute="trailing" constant="5" id="6xD-om-QdX"/>
+                <constraint firstItem="awD-Jq-WCt" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="E8k-Ue-f1O"/>
+                <constraint firstItem="5II-N5-ohc" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="F7Y-e6-kpQ"/>
+                <constraint firstItem="5II-N5-ohc" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="13" id="Ogy-Bc-lan"/>
+                <constraint firstItem="5II-N5-ohc" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Pcf-Mc-ryZ"/>
+                <constraint firstItem="DSL-ZY-4Da" firstAttribute="height" secondItem="5II-N5-ohc" secondAttribute="height" id="VkV-6r-fJg"/>
+                <constraint firstItem="DSL-ZY-4Da" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="awD-Jq-WCt" secondAttribute="trailing" constant="5" id="ZGH-OK-1rK"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="DSL-ZY-4Da" secondAttribute="trailing" id="esG-tR-EpH"/>
+                <constraint firstItem="DSL-ZY-4Da" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="jJb-Hq-Ema"/>
+                <constraint firstItem="awD-Jq-WCt" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="tuR-4v-XYr"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="174.5" y="-101"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="tornar" width="95" height="95"/>
+    </resources>
+</document>

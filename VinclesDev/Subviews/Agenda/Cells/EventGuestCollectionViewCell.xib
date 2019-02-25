@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Akkurat-Bold.ttf">
+            <string>Akkurat-Bold</string>
+        </array>
+        <array key="Akkurat.ttf">
+            <string>Akkurat</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="D2j-xg-3Ho" customClass="EventGuestCollectionViewCell" customModule="VinclesDev" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="340" height="394"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" distribution="equalSpacing" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="0Wv-64-zLJ">
+                    <rect key="frame" x="10" y="0.0" width="320" height="20173"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e8w-d3-lQZ" customClass="CircularView" customModule="VinclesDev" customModuleProvider="target">
+                            <rect key="frame" x="83.5" y="0.0" width="153" height="153"/>
+                            <subviews>
+                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IH5-zj-rEh" customClass="CircularView" customModule="VinclesDev" customModuleProvider="target">
+                                    <rect key="frame" x="3" y="3" width="147" height="147"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
+                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="nJL-7O-fSw">
+                                    <rect key="frame" x="66.5" y="66.5" width="20" height="20"/>
+                                </activityIndicatorView>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FAp-hg-DkA" customClass="CircularImageView" customModule="VinclesDev" customModuleProvider="target">
+                                    <rect key="frame" x="3" y="3" width="147" height="147"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="FAp-hg-DkA" secondAttribute="height" id="MlT-Lf-thR"/>
+                                    </constraints>
+                                </imageView>
+                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zsa-6f-88z" customClass="CircularView" customModule="VinclesDev" customModuleProvider="target">
+                                    <rect key="frame" x="91" y="3" width="59" height="59"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.30000001192092896" translatesAutoresizingMaskIntoConstraints="NO" id="s4n-kU-LOH">
+                                            <rect key="frame" x="1.5" y="0.0" width="56" height="59"/>
+                                            <fontDescription key="fontDescription" name="Akkurat-Bold" family="Akkurat-Bold" pointSize="20"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstItem="s4n-kU-LOH" firstAttribute="width" secondItem="zsa-6f-88z" secondAttribute="width" multiplier="0.95" id="2fm-T6-W6O"/>
+                                        <constraint firstAttribute="width" secondItem="zsa-6f-88z" secondAttribute="height" id="RLC-Fq-ioM"/>
+                                        <constraint firstItem="s4n-kU-LOH" firstAttribute="centerY" secondItem="zsa-6f-88z" secondAttribute="centerY" id="Ucq-Ct-zbO"/>
+                                        <constraint firstItem="s4n-kU-LOH" firstAttribute="centerX" secondItem="zsa-6f-88z" secondAttribute="centerX" id="ovL-Fi-Kda"/>
+                                        <constraint firstItem="s4n-kU-LOH" firstAttribute="height" secondItem="zsa-6f-88z" secondAttribute="height" id="vjf-10-0ae"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="nJL-7O-fSw" firstAttribute="centerX" secondItem="FAp-hg-DkA" secondAttribute="centerX" id="71a-FF-hDs"/>
+                                <constraint firstItem="FAp-hg-DkA" firstAttribute="width" secondItem="e8w-d3-lQZ" secondAttribute="width" constant="-6" id="IeG-x3-mWk"/>
+                                <constraint firstItem="IH5-zj-rEh" firstAttribute="centerX" secondItem="FAp-hg-DkA" secondAttribute="centerX" id="PBv-3J-Fhg"/>
+                                <constraint firstAttribute="width" secondItem="e8w-d3-lQZ" secondAttribute="height" id="QwQ-3X-e5a"/>
+                                <constraint firstItem="zsa-6f-88z" firstAttribute="height" secondItem="FAp-hg-DkA" secondAttribute="height" multiplier="0.4" id="UWa-QE-RaC"/>
+                                <constraint firstItem="nJL-7O-fSw" firstAttribute="centerY" secondItem="FAp-hg-DkA" secondAttribute="centerY" id="dnv-bd-nGr"/>
+                                <constraint firstItem="zsa-6f-88z" firstAttribute="trailing" secondItem="FAp-hg-DkA" secondAttribute="trailing" id="iEf-KR-p2G"/>
+                                <constraint firstItem="FAp-hg-DkA" firstAttribute="centerY" secondItem="e8w-d3-lQZ" secondAttribute="centerY" id="ihA-Nr-S0Q"/>
+                                <constraint firstItem="IH5-zj-rEh" firstAttribute="centerY" secondItem="FAp-hg-DkA" secondAttribute="centerY" id="nnL-BP-PnT"/>
+                                <constraint firstItem="IH5-zj-rEh" firstAttribute="height" secondItem="FAp-hg-DkA" secondAttribute="height" id="ntm-my-Tvc"/>
+                                <constraint firstItem="IH5-zj-rEh" firstAttribute="width" secondItem="FAp-hg-DkA" secondAttribute="width" id="qNh-wj-pUH"/>
+                                <constraint firstItem="zsa-6f-88z" firstAttribute="top" secondItem="FAp-hg-DkA" secondAttribute="top" id="scf-o5-SW2"/>
+                                <constraint firstItem="FAp-hg-DkA" firstAttribute="centerX" secondItem="e8w-d3-lQZ" secondAttribute="centerX" id="zsl-n6-0LE"/>
+                            </constraints>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="7W4-RT-3iF">
+                            <rect key="frame" x="0.0" y="163" width="320" height="10000"/>
+                            <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0qf-ci-P5f">
+                            <rect key="frame" x="0.0" y="10173" width="320" height="10000"/>
+                            <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="20"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="p03-v6-YxN" firstAttribute="leading" secondItem="7W4-RT-3iF" secondAttribute="leading" constant="-10" id="5ce-Ae-gve"/>
+                <constraint firstItem="e8w-d3-lQZ" firstAttribute="width" secondItem="D2j-xg-3Ho" secondAttribute="width" multiplier="0.45" id="BNe-ze-P5S"/>
+                <constraint firstItem="0Wv-64-zLJ" firstAttribute="centerY" secondItem="p03-v6-YxN" secondAttribute="centerY" id="Jrx-Na-RhD"/>
+                <constraint firstItem="7W4-RT-3iF" firstAttribute="centerX" secondItem="p03-v6-YxN" secondAttribute="centerX" id="Rts-7P-t0d"/>
+                <constraint firstItem="0Wv-64-zLJ" firstAttribute="centerX" secondItem="p03-v6-YxN" secondAttribute="centerX" id="f91-Bk-Kdk"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="p03-v6-YxN"/>
+            <connections>
+                <outlet property="actInd" destination="nJL-7O-fSw" id="svJ-hk-o0n"/>
+                <outlet property="stack" destination="0Wv-64-zLJ" id="MgE-r3-5cv"/>
+                <outlet property="statusLabel" destination="0qf-ci-P5f" id="xNZ-6s-kYe"/>
+                <outlet property="userContainer" destination="e8w-d3-lQZ" id="O8Z-LP-oiR"/>
+                <outlet property="userImage" destination="FAp-hg-DkA" id="oMh-az-4wm"/>
+                <outlet property="userLabel" destination="7W4-RT-3iF" id="oFf-uU-Jei"/>
+            </connections>
+            <point key="canvasLocation" x="16" y="-83"/>
+        </view>
+    </objects>
+</document>

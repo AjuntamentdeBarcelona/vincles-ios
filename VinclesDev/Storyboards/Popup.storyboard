@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Akkurat-Bold.ttf">
+            <string>Akkurat-Bold</string>
+        </array>
+        <array key="Akkurat.ttf">
+            <string>Akkurat</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Popup View Controller-->
+        <scene sceneID="iEi-Xv-hSn">
+            <objects>
+                <viewController storyboardIdentifier="PopupViewController" id="iFI-TM-9A8" customClass="PopupViewController" customModule="VinclesDev" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XTF-ZB-QWH">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N3M-9h-BVg">
+                                <rect key="frame" x="-0.5" y="-24" width="375" height="691"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.66400748239436624" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t19-OR-QMV">
+                                <rect key="frame" x="22" y="164.5" width="330" height="359.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Eliminar contacte" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Nf-W3-w19">
+                                        <rect key="frame" x="15" y="15" width="141" height="22"/>
+                                        <fontDescription key="fontDescription" name="Akkurat-Bold" family="Akkurat-Bold" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8CB-qE-aXR" customClass="CircularImageView" customModule="VinclesDev" customModuleProvider="target">
+                                        <rect key="frame" x="115" y="52" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="8CB-qE-aXR" secondAttribute="height" id="1dP-SU-sbj"/>
+                                            <constraint firstAttribute="width" constant="100" id="FRu-wS-l3n"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g3g-6b-wXD">
+                                        <rect key="frame" x="292" y="11" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="g3g-6b-wXD" secondAttribute="height" id="6RR-E9-3wK"/>
+                                            <constraint firstAttribute="width" constant="30" id="dxI-zR-ucz"/>
+                                        </constraints>
+                                        <state key="normal" image="Eliminar_contacte"/>
+                                        <connections>
+                                            <action selector="closeAction:" destination="iFI-TM-9A8" eventType="touchUpInside" id="VOH-dV-J6w"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Estàs a punt d'eliminar a Pau Garcia Hernàndez de la teva xarxa de contactes. M'estàs segur?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xq8-qe-oz2">
+                                        <rect key="frame" x="15" y="167" width="300" height="62.5"/>
+                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="17"/>
+                                        <color key="textColor" red="0.30196078431372547" green="0.30196078431372547" blue="0.30196078431372547" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="nuR-fQ-xX3">
+                                        <rect key="frame" x="15" y="249.5" width="300" height="90"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3h8-hH-yxd" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="300" height="40"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="3oU-Pa-pGV"/>
+                                                </constraints>
+                                                <state key="normal" title="No. Tornar i no eliminar"/>
+                                                <connections>
+                                                    <action selector="button1Clicked:" destination="iFI-TM-9A8" eventType="touchUpInside" id="zie-Dq-y27"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tgi-A5-hjd" customClass="HoverButton" customModule="VinclesDev" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="50" width="300" height="40"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="oLa-sr-na4"/>
+                                                </constraints>
+                                                <state key="normal" title="Sí. Eliminar contacte."/>
+                                                <connections>
+                                                    <action selector="button2Clicked:" destination="iFI-TM-9A8" eventType="touchUpInside" id="9mz-Ne-7Q9"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="300" id="0LY-Ah-sH4"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="g3g-6b-wXD" secondAttribute="trailing" constant="8" id="2Yk-hL-AAe"/>
+                                    <constraint firstItem="8CB-qE-aXR" firstAttribute="top" secondItem="1Nf-W3-w19" secondAttribute="bottom" constant="15" id="CKO-Wb-Kbh"/>
+                                    <constraint firstAttribute="bottom" secondItem="nuR-fQ-xX3" secondAttribute="bottom" constant="20" id="FWS-nD-Yn3"/>
+                                    <constraint firstItem="nuR-fQ-xX3" firstAttribute="top" secondItem="Xq8-qe-oz2" secondAttribute="bottom" constant="20" id="Inf-ha-qU1"/>
+                                    <constraint firstItem="Xq8-qe-oz2" firstAttribute="centerX" secondItem="t19-OR-QMV" secondAttribute="centerX" id="Ivz-3Q-Dn0"/>
+                                    <constraint firstItem="nuR-fQ-xX3" firstAttribute="centerX" secondItem="t19-OR-QMV" secondAttribute="centerX" id="Njd-wN-PGm"/>
+                                    <constraint firstItem="1Nf-W3-w19" firstAttribute="top" secondItem="t19-OR-QMV" secondAttribute="top" constant="15" id="ODl-Gx-GwA"/>
+                                    <constraint firstItem="g3g-6b-wXD" firstAttribute="centerY" secondItem="1Nf-W3-w19" secondAttribute="centerY" id="OV6-IT-BRH"/>
+                                    <constraint firstItem="g3g-6b-wXD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1Nf-W3-w19" secondAttribute="trailing" constant="10" id="UNR-xn-gLO"/>
+                                    <constraint firstItem="1Nf-W3-w19" firstAttribute="leading" secondItem="t19-OR-QMV" secondAttribute="leading" constant="15" id="XX0-4x-ggA"/>
+                                    <constraint firstItem="Xq8-qe-oz2" firstAttribute="top" secondItem="8CB-qE-aXR" secondAttribute="bottom" constant="15" id="an7-cu-Iga"/>
+                                    <constraint firstItem="8CB-qE-aXR" firstAttribute="centerX" secondItem="t19-OR-QMV" secondAttribute="centerX" id="cha-lm-KSO"/>
+                                    <constraint firstItem="Xq8-qe-oz2" firstAttribute="leading" secondItem="1Nf-W3-w19" secondAttribute="leading" id="eLF-dk-QKm"/>
+                                    <constraint firstItem="nuR-fQ-xX3" firstAttribute="leading" secondItem="t19-OR-QMV" secondAttribute="leading" constant="15" id="rLJ-4G-zjN"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="t19-OR-QMV" firstAttribute="centerX" secondItem="FwA-Fy-p5H" secondAttribute="centerX" id="9DO-ak-Wbm"/>
+                            <constraint firstItem="N3M-9h-BVg" firstAttribute="width" secondItem="XTF-ZB-QWH" secondAttribute="width" id="Fqj-C5-4Pa"/>
+                            <constraint firstItem="FwA-Fy-p5H" firstAttribute="top" secondItem="N3M-9h-BVg" secondAttribute="top" constant="44" id="b5t-3q-HDZ"/>
+                            <constraint firstItem="N3M-9h-BVg" firstAttribute="bottom" secondItem="FwA-Fy-p5H" secondAttribute="bottom" id="eBR-An-fa0"/>
+                            <constraint firstItem="t19-OR-QMV" firstAttribute="centerY" secondItem="FwA-Fy-p5H" secondAttribute="centerY" id="flj-vv-7nQ"/>
+                            <constraint firstItem="N3M-9h-BVg" firstAttribute="centerX" secondItem="FwA-Fy-p5H" secondAttribute="centerX" id="hFJ-hQ-U5O"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="FwA-Fy-p5H"/>
+                    </view>
+                    <connections>
+                        <outlet property="alphaView" destination="N3M-9h-BVg" id="YIm-8T-fQJ"/>
+                        <outlet property="button1Height" destination="3oU-Pa-pGV" id="GgA-uJ-qsc"/>
+                        <outlet property="button2Height" destination="oLa-sr-na4" id="j4F-QX-39q"/>
+                        <outlet property="circularImageView" destination="8CB-qE-aXR" id="dt7-QE-ReZ"/>
+                        <outlet property="circularImageViewHeight" destination="FRu-wS-l3n" id="keh-U5-i8g"/>
+                        <outlet property="descriptionLabel" destination="Xq8-qe-oz2" id="u4a-E7-y7b"/>
+                        <outlet property="distanceImageDescription" destination="an7-cu-Iga" id="Cd6-tF-hPp"/>
+                        <outlet property="firstButton" destination="3h8-hH-yxd" id="USk-hu-ed1"/>
+                        <outlet property="secondButton" destination="tgi-A5-hjd" id="Hcv-4f-iN6"/>
+                        <outlet property="stackView" destination="nuR-fQ-xX3" id="zVv-Uv-eps"/>
+                        <outlet property="stackWidth" destination="0LY-Ah-sH4" id="QLy-sk-mrQ"/>
+                        <outlet property="titleLabel" destination="1Nf-W3-w19" id="Au9-UZ-jsv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oqw-ZZ-qKK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="597.60000000000002" y="-125.4872563718141"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Eliminar_contacte" width="30" height="30"/>
+    </resources>
+</document>
