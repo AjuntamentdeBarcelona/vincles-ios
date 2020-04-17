@@ -12,6 +12,7 @@ class ChatCallTableViewCell: UITableViewCell {
     @IBOutlet weak var contView: UIView!
     @IBOutlet weak var userImage: CircularImageView!
 
+    var userId = -1
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -49,18 +50,15 @@ class ChatCallTableViewCell: UITableViewCell {
             dateFormatterGet.locale = Locale(identifier: "ca")
         }
         
-        let mediaManager = MediaManager()
-        userImage.tag = notification.idUser
+        userId = notification.idUser
         
-        mediaManager.setProfilePicture(userId: notification.idUser, imageView: userImage) {
-            
-        }
+        setAvatar()
         
         var gender = ""
         
         if let lang = UserDefaults.standard.string(forKey: "i18n_language"){
             if(lang == "ca"){
-                let circlesModelManager = CirclesGroupsModelManager()
+                let circlesModelManager = CirclesGroupsModelManager.shared
                 if let user = circlesModelManager.contactWithId(id: notification.idUser){
                     if user.gender == "MALE"{
                         gender = "El"
@@ -74,7 +72,7 @@ class ChatCallTableViewCell: UITableViewCell {
                 }
             }
             else if(lang == "es"){
-                let circlesModelManager = CirclesGroupsModelManager()
+                let circlesModelManager = CirclesGroupsModelManager.shared
                 if let user = circlesModelManager.contactWithId(id: notification.idUser){
                     if user.gender == "MALE"{
                         gender = ""
@@ -91,5 +89,14 @@ class ChatCallTableViewCell: UITableViewCell {
         }
         
         
+    }
+    
+    func setAvatar(){
+        if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: userId), let image = UIImage(contentsOfFile: url.path){
+            userImage.image = image
+        }
+        else{
+            userImage.image = UIImage(named: "perfilplaceholder")
+        }
     }
 }

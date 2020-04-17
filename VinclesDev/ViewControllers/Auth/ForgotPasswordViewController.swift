@@ -7,6 +7,7 @@
 
 
 import UIKit
+import Firebase
 
 class ForgotPasswordViewController: UIViewController {
 
@@ -33,10 +34,12 @@ class ForgotPasswordViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_FORGOT_PASSWORD)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        
+        Analytics.setScreenName(ANALYTICS_FORGOT_PASSWORD, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_FORGOT_PASSWORD)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     
     func addDelegates(){

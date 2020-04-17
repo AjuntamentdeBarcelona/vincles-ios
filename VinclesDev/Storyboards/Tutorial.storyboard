@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -30,7 +30,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="1875" height="647"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mqx-or-pPI">
-                                                <rect key="frame" x="-0.5" y="-0.5" width="375" height="647"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Homealbum" translatesAutoresizingMaskIntoConstraints="NO" id="cFe-5P-Q4G">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
@@ -137,6 +137,7 @@
                                     <constraint firstItem="vXy-UH-4LQ" firstAttribute="leading" secondItem="GkH-yb-amt" secondAttribute="leading" id="HCo-MI-bbU"/>
                                     <constraint firstItem="vXy-UH-4LQ" firstAttribute="top" secondItem="GkH-yb-amt" secondAttribute="top" id="Y98-xj-lgM"/>
                                     <constraint firstAttribute="trailing" secondItem="vXy-UH-4LQ" secondAttribute="trailing" id="tLf-rh-7R9"/>
+                                    <constraint firstItem="Mqx-or-pPI" firstAttribute="width" secondItem="GkH-yb-amt" secondAttribute="width" id="u6v-Bk-u0Q"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="delegate" destination="zir-FG-pWu" id="GLm-vd-GNE"/>
@@ -178,7 +179,6 @@
                             <constraint firstItem="pM2-j2-hzb" firstAttribute="centerY" secondItem="KCo-Ut-7QX" secondAttribute="centerY" id="Re9-ss-0nX"/>
                             <constraint firstItem="KCo-Ut-7QX" firstAttribute="centerX" secondItem="wYm-o0-89B" secondAttribute="centerX" id="eE7-yU-Cpn"/>
                             <constraint firstItem="GkH-yb-amt" firstAttribute="top" secondItem="wYm-o0-89B" secondAttribute="top" id="hfE-qh-CYE"/>
-                            <constraint firstItem="Mqx-or-pPI" firstAttribute="width" secondItem="oMC-6a-ZLo" secondAttribute="width" id="p5S-MP-DQj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wYm-o0-89B"/>
                     </view>
@@ -200,6 +200,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Homealbum" width="628" height="543"/>
+        <image name="Homealbum" width="628.66668701171875" height="543"/>
     </resources>
 </document>

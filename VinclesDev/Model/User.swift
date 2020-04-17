@@ -60,7 +60,6 @@ class User: Object {
         phone = json["phone"].stringValue
         liveInBarcelona = json["liveInBarcelona"].boolValue
         relationship = relation
-        print("preactive \(active)")
 
     }
 }

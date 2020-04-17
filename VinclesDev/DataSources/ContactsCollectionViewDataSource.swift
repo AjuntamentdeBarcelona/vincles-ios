@@ -37,6 +37,9 @@ class ContactsCollectionViewDataSource: NSObject, UICollectionViewDataSource, UI
         if profileModelManager.userIsVincle{
             if let auth = realm.objects(AuthResponse.self).first, let user = realm.objects(User.self).filter("id == %i", auth.userId).first{
                 for contact in user.circles{
+                    print(contact.name)
+                    print(contact.username)
+                    print(contact.id)
                     let contactItem = ContactItem()
                     contactItem.name = contact.name
                     contactItem.surname = contact.lastname
@@ -77,53 +80,23 @@ class ContactsCollectionViewDataSource: NSObject, UICollectionViewDataSource, UI
                     contactItems.append(contactItem)
                 }
                 
-                print("dinams \(user.dinamizadores.count)")
 
                 for dinam in user.dinamizadores{
                     // DONE WATCHED
-                    print("name \(dinam.name)")
+                    
                     let contactItem = ContactItem()
                     contactItem.name = dinam.name
                     contactItem.surname = dinam.lastname
-                    print("messages \(dinam.messages.count)")
-
-                    let circlesManager = CirclesManager()
-
-                    if let group = circlesManager.groupForDinamitzador(id: dinam.id){
-                        let number = chatModelManager.numberOfUnwatchedGroupMessages(idChat: group.idDynamizerChat)
-                        let numberTotal = chatModelManager.numberOfGroupMessages(idChat: group.idDynamizerChat)
-
-                        
-                        contactItem.unreadMessagesAndLostCalls = number
-                        contactItem.totalMessages = numberTotal
-                        contactItem.user = dinam
-                        
-                        
-                        let messages = chatModelManager.groupMessages(idChat: group.idDynamizerChat)
-                        print(messages.count)
-                        var interactionDate = Date(timeIntervalSince1970: 0)
-                        if let lastMessageDate = messages.sorted(by: { $0.sendTime > $1.sendTime }).first{
-                            interactionDate = lastMessageDate.sendTime
-                        }
-                        if let lastCallDate = notificationsModelManager.lastCall(circleId: dinam.id){
-                            if lastCallDate > interactionDate{
-                                interactionDate = lastCallDate
-                            }
-                        }
-                        contactItem.lastInteraction = interactionDate
-                    }
-                    
-                  
+                    contactItem.unreadMessagesAndLostCalls = dinam.messages.filter("watched == %@", false).count
+                    contactItem.totalMessages = dinam.messages.count
+                    contactItem.user = dinam
+                    contactItem.isDinam = true
                     
                     contactItems.append(contactItem)
                 }
-                
+       
             
-                for item in contactItems{
-                    print(item.name)
-                    print(item.unreadMessagesAndLostCalls)
-                }
-                
+               
                 contactItems.sort{ //sort(_:) in Swift 3
                     if $0.unreadMessagesAndLostCalls != $1.unreadMessagesAndLostCalls {
                         return $0.unreadMessagesAndLostCalls > $1.unreadMessagesAndLostCalls
@@ -161,12 +134,7 @@ class ContactsCollectionViewDataSource: NSObject, UICollectionViewDataSource, UI
                     contactItems.append(contactItem)
                 }
                
-                for item in contactItems{
-                    print(item.name)
-                    print(item.unreadMessagesAndLostCalls)
-                }
-                
-                contactItems.sort{ //sort(_:) in Swift 3
+                contactItems.sort{
                     if $0.unreadMessagesAndLostCalls != $1.unreadMessagesAndLostCalls {
                         return $0.unreadMessagesAndLostCalls > $1.unreadMessagesAndLostCalls
                     }
@@ -185,32 +153,22 @@ class ContactsCollectionViewDataSource: NSObject, UICollectionViewDataSource, UI
                 if itemAtIndex.user != nil{
                     return itemAtIndex.user!
                 }
-               
             }
         }
         
         return ""
-        /*
-            if profileModelManager.userIsVincle{
-                if indexPath < circlesManager.numberOfContacts{
-                    return circlesManager.contactAt(index: indexPath)
-                }
-                else if (indexPath >= circlesManager.numberOfContacts) && (indexPath < circlesManager.numberOfContacts + circlesManager.numberOfGroups){
-                    return circlesManager.groupAt(index: indexPath - circlesManager.numberOfContacts)
-                }
-                else{
-                    return circlesManager.dinamizadorAt(index: indexPath - (circlesManager.numberOfContacts + circlesManager.numberOfGroups))
-                }
-            }
-            else{
-                return circlesManager.contactAt(index: indexPath)
-            }
- */
     }
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+      
         return columns * rows
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let cell = cell as? ContactCollectionViewCell{
+            cell.setAvatar()
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -251,7 +209,6 @@ class ContactsCollectionViewDataSource: NSObject, UICollectionViewDataSource, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        print(CGSize(width: collectionView.bounds.size.width/CGFloat(columns) - cellSpacing, height: collectionView.bounds.size.height/CGFloat(rows) - cellSpacing))
         return CGSize(width: collectionView.bounds.size.width/CGFloat(columns) - cellSpacing, height: collectionView.bounds.size.height/CGFloat(rows) - cellSpacing)
     }
     

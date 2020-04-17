@@ -146,7 +146,6 @@ class AgendaMeetingTableViewCell: UITableViewCell {
             // INVITED
             
             if let myState = meeting.guests.filter("userInfo.id == %i", profileModelManager.getUserMe()?.id ?? -1).first?.state{
-                print(myState)
                 switch myState{
                 case "PENDING":
                     firstButton.greenMode = true
@@ -162,7 +161,7 @@ class AgendaMeetingTableViewCell: UITableViewCell {
                         firstButton.setTitle(L10n.citaAcceptaPhone, for: .normal)
                         secondButton.setTitle(L10n.citaCitaRebutjarPhone, for: .normal)
                     }
-                    firstButton.setImage(UIImage(asset: Asset.Icons.Galeria.checkFiltre), for: .normal)
+                    firstButton.setImage(UIImage(asset: Asset.Icons.Agenda.checkGreen), for: .normal)
 
                     secondButton.setImage(UIImage(asset: Asset.Icons.Galeria.tornarNoCompartir), for: .normal)
                     

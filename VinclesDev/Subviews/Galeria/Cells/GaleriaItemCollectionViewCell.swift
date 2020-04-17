@@ -18,111 +18,134 @@
         @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
         @IBOutlet weak var downloadButton: UIButton!
         @IBOutlet weak var typeLabel: UILabel!
+        @IBOutlet weak var videoCorruptedButton: UIButton!
 
-        var loadingImage = false
-        var loadingVideo = false
-        
-        var index = -1
         var contentId = -1
+        var isVideo = false
         
         override func awakeFromNib() {
-            self.thumbImage.image = UIImage()
             checkBox.onAnimationType = .stroke
-            
+            self.playButton.isHidden = true
+            self.videoCorruptedButton.isHidden = true
         }
         
-        func configWithCont(content: Content, selectionMode: Bool, selected: Bool){
-            let mediaManager = MediaManager()
-            typeLabel.isHidden = true
-            activityIndicator.hidesWhenStopped = true
+      
+        func configWithCont(contentId: Int, selectionMode: Bool, selected: Bool, isVideo: Bool){
             thumbImage.image = UIImage()
+
+          
+            self.contentId = contentId
+            self.isVideo = isVideo
+            downloadButton.isHidden = true
+
+            typeLabel.isHidden = true
+            typeLabel.backgroundColor = .white
+            self.videoCorruptedButton.isHidden = true
+            self.playButton.isHidden = true
+            typeLabel.text = "\(contentId) \(isVideo)"
+            activityIndicator.hidesWhenStopped = true
             
-            checkBox.isHidden = !selectionMode
-            checkBox.on = selected
-            
-            typeLabel.text = "\(content.id) \(content.mimeType)"
-            if UserDefaults.standard.bool(forKey: "manualDownload") && !mediaManager.existingItem(id: content.id, mimeType: content.mimeType){
-                playButton.isHidden = true
-                self.activityIndicator.isHidden = true
-                downloadButton.isHidden = false
-            }
-            else{
-                downloadButton.isHidden = true
-                
-                self.downloadContent(content: content)
-            }
+            checkBox.isHidden = true
             
             downloadButton.addTargetClosure { (sender) in
-                self.downloadContent(content: content)
+                self.downloadButton.isHidden = true
+                self.setImageWith(contentId: contentId, selectionMode: selectionMode, selected: selected, isVideo: isVideo)
             }
-        }
+            
+            if ContentManager.sharedInstance.corruptedIds.contains(contentId){
+                setVideoCorrupted()
+
+                return
+            }
+            
+            if ContentManager.sharedInstance.errorIds.contains(contentId){
+                setError()
+
+                return
+            }
+            
         
-        func downloadContent(content: Content){
-            let mediaManager = MediaManager()
             
-            downloadButton.isHidden = true
-            
-            activityIndicator.startAnimating()
-            self.activityIndicator.isHidden = false
+                if let url = ContentManager.sharedInstance.getGalleryMediaImageUrl(contentId: contentId, isGroup: false, messageType: isVideo ? .video : .image),  let image = UIImage(contentsOfFile: url.path){
+                    thumbImage.image = image
 
-            if content.mimeType.contains("image"){
-                playButton.isHidden = true
-                thumbImage.tag = content.idContent
-                downloadButton.tag = content.idContent
-                playButton.tag = content.idContent
-                activityIndicator.tag = content.idContent
-
-                mediaManager.setGalleryPicture(contentId: content.idContent, imageView: thumbImage, playButton: playButton, downloadButton: downloadButton, activityIndicator: activityIndicator, isThumb: true, onCompletion: { (success, id) in
-                    /*
-                    DispatchQueue.main.async {
-                        if success && id == content.id{
-                            self.downloadButton.isHidden = true
-                            self.playButton.isHidden = true
-
-                        }
-                        else{
-                            self.playButton.isHidden = true
-                            self.activityIndicator.isHidden = true
-                            self.downloadButton.isHidden = false
-                        }
+                    if self.isVideo{
+                        self.playButton.isHidden = false
                     }
-     */
-                   
-                   
-                })
-            }
-            else if content.mimeType.contains("video"){
-                
-                thumbImage.tag = content.idContent
-                self.playButton.isHidden = true
-                
-                downloadButton.tag = content.idContent
-                playButton.tag = content.idContent
-                activityIndicator.tag = content.idContent
+                    checkBox.isHidden = !selectionMode
+                    checkBox.on = selected
+                    videoCorruptedButton.isHidden = true
 
-                
-                mediaManager.setGalleryVideo(contentId: content.idContent, imageView: thumbImage,playButton: playButton, downloadButton: downloadButton, activityIndicator: activityIndicator, isThumb: true, onCompletion: { (success, fileUrl, id) in
-                  
-                    /*
-                    DispatchQueue.main.async {
-                        if success && id == content.id{
-                            self.downloadButton.isHidden = true
-                            self.playButton.isHidden = false
-
-                        }
-                        else{
-                            self.playButton.isHidden = true
-                            self.activityIndicator.isHidden = true
-                            self.downloadButton.isHidden = false
-                        }
+                }
+                else{
+                    if UserDefaults.standard.bool(forKey: "manualDownload") && !ContentManager.sharedInstance.galleryMediaExists(contentId: contentId, isGroup: false){
+                        thumbImage.image = UIImage()
+                        playButton.isHidden = true
+                        self.activityIndicator.isHidden = true
+                        downloadButton.isHidden = false
                     }
-     */
+                    else if isVideo && ContentManager.sharedInstance.corruptedIds.contains(contentId){
+
+                        setVideoCorrupted()
+                    }
+                    else{
+                        downloadButton.isHidden = true
+
+                        self.setImageWith(contentId: contentId, selectionMode: selectionMode, selected: selected, isVideo: isVideo)
+                    }
                     
-                })
+        
+             }
+        
+
+          
+        }
+       
+        func setImageWith(contentId: Int, selectionMode: Bool, selected: Bool, isVideo: Bool){
+            if let url = ContentManager.sharedInstance.getGalleryMedia(contentId: contentId, isGroup: false, messageType: isVideo ? .video : .image){
+                DispatchQueue.main.async {
+                    self.playButton.isHidden = true
+                    if let image = UIImage(contentsOfFile: url.path) {
+                        self.thumbImage.image = image
+                        self.activityIndicator.isHidden = true
+                        if isVideo{
+                            self.playButton.isHidden = false
+                        }
+                    }
+                    self.checkBox.isHidden = !selectionMode
+                    self.checkBox.on = selected
+                    self.videoCorruptedButton.isHidden = true
+                    self.downloadButton.isHidden = true
+
+                }
+            }
+            else{
+                
+                DispatchQueue.main.async {
+                    self.thumbImage.image = UIImage()
+                    self.activityIndicator.startAnimating()
+                    self.activityIndicator.isHidden = false
+                    self.videoCorruptedButton.isHidden = true
+                    self.downloadButton.isHidden = true
+
+                }
+               
             }
         }
         
+        func setError(){
+            self.activityIndicator.isHidden = true
+            self.playButton.isHidden = true
+            self.downloadButton.isHidden = false
+            self.videoCorruptedButton.isHidden = true
+
+        }
+        
+        func setVideoCorrupted(){
+            self.activityIndicator.isHidden = true
+            self.playButton.isHidden = true
+            self.downloadButton.isHidden = true
+            self.videoCorruptedButton.isHidden = false
+
+        }
     }
-    
-    
-    

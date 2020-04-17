@@ -6,8 +6,10 @@
 
 
 import UIKit
+import Firebase
 
-class AgendaEventDetailViewController: UIViewController {
+class AgendaEventDetailViewController: UIViewController, ProfileEventImageManagerDelegate {
+
     var showBackButton = true
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
@@ -36,10 +38,13 @@ class AgendaEventDetailViewController: UIViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_AGENDA_EVENT_DETAIL)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        ProfileEventImageManager.sharedInstance.delegate = self
+        
+        Analytics.setScreenName(ANALYTICS_AGENDA_EVENT_DETAIL, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_AGENDA_EVENT_DETAIL)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -75,6 +80,26 @@ class AgendaEventDetailViewController: UIViewController {
             return UITraitCollection(traitsFrom:[UITraitCollection(horizontalSizeClass: .compact), UITraitCollection(verticalSizeClass: .regular)])
         }
         return super.traitCollection
+    }
+    
+    func didDownloadEvent(userId: Int) {
+        setUI()
+        
+        for cell in collectionView.visibleCells{
+            if let inCell = cell as? EventGuestCollectionViewCell, inCell.userId == userId{
+                inCell.setAvatar()
+            }
+        }
+    }
+    
+    func didErrorEvent(userId: Int) {
+        setUI()
+        
+        for cell in collectionView.visibleCells{
+            if let inCell = cell as? EventGuestCollectionViewCell, inCell.userId == userId{
+                inCell.setAvatar()
+            }
+        }
     }
     
     func setUI(){
@@ -176,12 +201,14 @@ class AgendaEventDetailViewController: UIViewController {
         if let creador = meeting.hostInfo{
             labelCreador.text = creador.name + " " + creador.lastname
             
-            let mediaManager = MediaManager()
-            imageCreador.tag = creador.id
-            
-            mediaManager.setProfilePictureEvent(meetingId: meeting.id, userId: creador.id, imageView: imageCreador) {
-                
+            if let url = ProfileEventImageManager.sharedInstance.getProfilePicture(userId: creador.id, meetingId: meeting.id), let image = UIImage(contentsOfFile: url.path){
+                imageCreador.image = image
             }
+            else{
+                imageCreador.image = UIImage(named: "perfilplaceholder")
+            }
+            
+           
         }
         
         if meeting.guests.count == 0{

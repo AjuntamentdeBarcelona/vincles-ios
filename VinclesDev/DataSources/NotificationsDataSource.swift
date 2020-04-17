@@ -38,4 +38,10 @@ class NotificationsDataSource: NSObject , UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let cell = cell as? NotificationsTableViewCell{
+            cell.setAvatar()
+        }
+    }
 }

@@ -8,6 +8,12 @@
 import UIKit
 import Photos
 
+class DownloadItem: NSObject{
+    var downloadImage: URL?
+    var downloadId: Int?
+    var downloadVideo: URL?
+}
+
 class AlbumSingleton: NSObject {
 
     let albumName = "Vincles"
@@ -16,6 +22,7 @@ class AlbumSingleton: NSObject {
     var downloadImage: URL?
     var downloadId: Int?
     var downloadVideo: URL?
+    
     
     func createAlbum() {
         if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
@@ -55,11 +62,13 @@ class AlbumSingleton: NSObject {
                     let options = PHAssetResourceCreationOptions()
                     options.originalFilename = "\(self.downloadId!)"
                     creationRequest.addResource(with: .photo, fileURL: self.downloadImage!, options: options)
-                    let assetPlaceholder = creationRequest.placeholderForCreatedAsset
+                    if let assetPlaceholder = creationRequest.placeholderForCreatedAsset{
+                        let albumChangeRequest = PHAssetCollectionChangeRequest(for: self.assetCollection)
+                        let enumeration: NSArray = [assetPlaceholder]
+                        albumChangeRequest!.addAssets(enumeration)
+                    }
                     
-                    let albumChangeRequest = PHAssetCollectionChangeRequest(for: self.assetCollection)
-                    let enumeration: NSArray = [assetPlaceholder!]
-                    albumChangeRequest!.addAssets(enumeration)
+               
                     
                 }
                 else if self.downloadVideo != nil{
@@ -67,11 +76,13 @@ class AlbumSingleton: NSObject {
                     let options = PHAssetResourceCreationOptions()
                     options.originalFilename = "\(self.downloadId!)"
                     creationRequest.addResource(with: .video, fileURL: self.downloadVideo!, options: options)
-                    let assetPlaceholder = creationRequest.placeholderForCreatedAsset
+                    if let assetPlaceholder = creationRequest.placeholderForCreatedAsset{
+                        let albumChangeRequest = PHAssetCollectionChangeRequest(for: self.assetCollection)
+                        let enumeration: NSArray = [assetPlaceholder]
+                        albumChangeRequest!.addAssets(enumeration)
+                    }
                     
-                    let albumChangeRequest = PHAssetCollectionChangeRequest(for: self.assetCollection)
-                    let enumeration: NSArray = [assetPlaceholder!]
-                    albumChangeRequest!.addAssets(enumeration)
+      
                     
                 }
                 

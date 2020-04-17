@@ -18,6 +18,9 @@ class GaleriaContactCollectionViewCell: UICollectionViewCell {
 
     var loadingImage = false
     
+    var userId = -1
+    var groupId = -1
+
     override func awakeFromNib() {
         userContainer.isHidden = false
         userContainer.backgroundColor = .white
@@ -32,26 +35,45 @@ class GaleriaContactCollectionViewCell: UICollectionViewCell {
 
     }
     
+    func setAvatar(){
+        if userId != -1{
+            if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: userId), let image = UIImage(contentsOfFile: url.path){
+                userImage.image = image
+            }
+            else{
+                userImage.image = UIImage(named: "perfilplaceholder")
+            }
+        }
+        else if groupId != -1{
+            if let url = GroupImageManager.sharedInstance.getGroupPicture(groupId: groupId), let image = UIImage(contentsOfFile: url.path){
+                userImage.image = image
+            }
+            else{
+                userImage.image = UIImage(named: "perfilplaceholder")
+            }
+        }
+    }
+    
     func configWithUser(user: User, selected: Bool, editMode: Bool){
+        userId = user.id
+        groupId = -1
+        
         if !editMode{
             checkBox.isHidden = true
         }
+      
         actInd.startAnimating()
 
         checkBox.on = selected
 
         userLabel.text = user.name
-        let mediaManager = MediaManager()
-        userImage.tag = user.id
-
-        mediaManager.setProfilePicture(userId: user.id, imageView: userImage) {
-            
-        }
-       
+        setAvatar()
      
     }
   
     func configWithGroup(group: Group, selected: Bool, editMode: Bool){
+        groupId = group.id
+        userId = -1
         if !editMode{
             checkBox.isHidden = true
         }
@@ -60,12 +82,8 @@ class GaleriaContactCollectionViewCell: UICollectionViewCell {
         checkBox.on = selected
         
         userLabel.text = group.name
-        let mediaManager = MediaManager()
-        userImage.tag = group.id
         
-        mediaManager.setGroupPicture(groupId: group.id, imageView: userImage) {
-            
-        }
+        setAvatar()
         
         
     }

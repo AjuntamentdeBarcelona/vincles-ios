@@ -8,9 +8,11 @@
 
 import UIKit
 import RealmSwift
+import SVProgressHUD
 
 protocol GalleryContactsCollectionViewDataSourceClickDelegate{
     func selectedShareContacts(indexes: [Int])
+    func maxError()
 }
 
 class GalleryContactsCollectionViewDataSource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
@@ -22,6 +24,7 @@ class GalleryContactsCollectionViewDataSource: NSObject, UICollectionViewDataSou
     var selectedIndexPaths = [Int]()
     var circlesGroupsModelManager: CirclesGroupsModelManagerProtocol!
     lazy var profileModelManager = ProfileModelManager()
+    var maxSelectItems = 5
 
     
     func getItem(indexPath: Int) -> (Any, Bool){
@@ -115,10 +118,7 @@ class GalleryContactsCollectionViewDataSource: NSObject, UICollectionViewDataSou
                     contactItems.append(contactItem)
                 }
                 
-                for item in contactItems{
-                    print(item.name)
-                    print(item.unreadMessagesAndLostCalls)
-                }
+                
                 
                 contactItems.sort{ //sort(_:) in Swift 3
                     if $0.unreadMessagesAndLostCalls != $1.unreadMessagesAndLostCalls {
@@ -171,6 +171,12 @@ class GalleryContactsCollectionViewDataSource: NSObject, UICollectionViewDataSou
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let cell = cell as? GaleriaContactCollectionViewCell{
+                cell.setAvatar()
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.bounds.size.width/CGFloat(columns) - cellSpacing - (horizontalInsets * 2/CGFloat(columns)), height: collectionView.bounds.size.width/CGFloat(columns) - cellSpacing - (horizontalInsets * 2/CGFloat(columns)))
     }
@@ -192,10 +198,17 @@ class GalleryContactsCollectionViewDataSource: NSObject, UICollectionViewDataSou
                 cell.checkBox.setOn(false, animated: true)
                 selectedIndexPaths.remove(at: selectedIndexPaths.index(of: indexPath.row)!)
             }
-            else{
+            else if selectedIndexPaths.count < maxSelectItems{
                 cell.checkBox.setOn(true, animated: true)
                 selectedIndexPaths.append(indexPath.row)
             }
+            else{
+                clickDelegate?.maxError()
+//                SVProgressHUD.showError(withStatus: L10n.galeriaMaxContacts)
+//                Timer.after(2.second) {
+//                    SVProgressHUD.dismiss()
+//                }
+        }
             clickDelegate?.selectedShareContacts(indexes: selectedIndexPaths)
      
         

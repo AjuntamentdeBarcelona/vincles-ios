@@ -9,8 +9,8 @@ import UIKit
 
 class ChatItem: NSObject {
     var date = Date()
-    var callNotification: VincleNotification?
-    var message: Message?
-    var groupMessage: GroupMessage?
+    var callNotification: Int?
+    var messageId: Int?
+    var groupMessageId: Int?
 
 }

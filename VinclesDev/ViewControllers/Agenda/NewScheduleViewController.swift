@@ -7,8 +7,11 @@
 
 import UIKit
 import NextGrowingTextView
+import Firebase
 
-class NewScheduleViewController: UIViewController {
+class NewScheduleViewController: UIViewController, ProfileImageManagerDelegate {
+ 
+    
     var showBackButton = true
 
     @IBOutlet weak var crearCitaButton: HoverButton!
@@ -51,10 +54,30 @@ class NewScheduleViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_AGENDA_NEW_EVENT)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        ProfileImageManager.sharedInstance.delegate = self
+        
+        Analytics.setScreenName(ANALYTICS_AGENDA_NEW_EVENT, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_AGENDA_NEW_EVENT)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
+    }
+    
+    func didDownload(userId: Int) {
+        for cell in collectionView.visibleCells{
+            if let inCell = cell as? CitaContactsCollectionViewCell, inCell.userId == userId{
+                inCell.setAvatar()
+            }
+        }
+        
+    }
+    
+    func didError(userId: Int) {
+        for cell in collectionView.visibleCells{
+            if let inCell = cell as? CitaContactsCollectionViewCell, inCell.userId == userId{
+                inCell.setAvatar()
+            }
+        }
     }
     override func viewDidLayoutSubviews() {
 
@@ -87,7 +110,7 @@ class NewScheduleViewController: UIViewController {
         collectionView.dataSource = dataSource
         dataSource.clickDelegate = self
         dataSource.users = selectedContacts
-        dataSource.circlesGroupsModelManager = CirclesGroupsModelManager()
+        dataSource.circlesGroupsModelManager = CirclesGroupsModelManager.shared
         dataSource.profileModelManager = ProfileModelManager()
         collectionViewHeight.constant = collectionView.collectionViewLayout.collectionViewContentSize.height
 
@@ -129,8 +152,8 @@ class NewScheduleViewController: UIViewController {
         titleTextView.textView.backgroundColor = .white
         titleTextView.textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         titleTextView.placeholderAttributedText = NSAttributedString(string: L10n.nuevaCitaPlaceholder,
-                                                                            attributes: [NSAttributedStringKey.font: self.titleTextView.textView.font!,
-                                                                                         NSAttributedStringKey.foregroundColor: UIColor(named: .darkGray) ])
+                                                                     attributes: [NSAttributedString.Key.font: self.titleTextView.textView.font!,
+                                                                                  NSAttributedString.Key.foregroundColor: UIColor(named: .darkGray) ])
         
         titleTextView.maxNumberOfLines = 10
         
@@ -460,7 +483,9 @@ extension NewScheduleViewController: PopUpDelegate{
         }
 
     }
-    
+    func closeButtonClicked(popup: PopupViewController) {
+        
+    }
     
 }
 

@@ -6,6 +6,7 @@
 
 
 import UIKit
+import Firebase
 
 class TermsConditionsViewController: UIViewController {
 
@@ -26,10 +27,11 @@ class TermsConditionsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.navigationItem.setHidesBackButton(true, animated: false)
 
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_TERMS)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        Analytics.setScreenName(ANALYTICS_TERMS, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_TERMS)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     
     override func viewDidLayoutSubviews() {

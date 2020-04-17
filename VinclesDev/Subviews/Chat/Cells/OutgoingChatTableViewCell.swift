@@ -11,13 +11,13 @@ import AVFoundation
 protocol OutgoingChatTableViewCellDelegate{
     func tappedImageOut(imageView: UIImageView)
     func tappedVideoOut(contentId: Int, isGroup: Bool)
-    
+    func tappedErrorOut()
 }
 
 class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
     
     @IBOutlet weak var messageBubbleTopLabel: UILabel!
-  //  @IBOutlet weak var textView: UITextView!
+    //  @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var messageBubbleImageView: UIImageView!
     @IBOutlet weak var messageBubbleContainerView: UIView!
     @IBOutlet weak var avatarImageView: CircularImageView!
@@ -30,8 +30,8 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var viewAudio: UIView!
-    var message: Message?
-    var groupMessage: GroupMessage?
+    var messageId: Int?
+    var groupMessageId: Int?
     
     @IBOutlet weak var labelAudio : UILabel!
     @IBOutlet weak var buttonPlay : UIButton!
@@ -39,14 +39,18 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
     @IBOutlet weak var actIndAudio: UIActivityIndicatorView!
     @IBOutlet weak var buttonDownloadAudio : UIButton!
     
-    @IBOutlet weak var textMessageLabel: UILabel!
-
+    @IBOutlet weak var textMessageLabel: ActiveLabel!
     
     var delegate: OutgoingChatTableViewCellDelegate?
-    
-    
+    var contentIds = [Int]()
+
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        for view in scrollView.subviews{
+            view.removeFromSuperview()
+        }
+        
         self.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
         self.messageBubbleTopLabel.textAlignment = .right
@@ -54,31 +58,44 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
         textViewContainer!.radius = 12.0
         messageBubbleImageView.tintColor = UIColor(named: .grayChatSent)
         textViewContainer.backgroundColor = UIColor(named: .grayChatSent)
-        // mediaImageView.layer.cornerRadius = 12.0
-        textMessageLabel.textColor = .white
-       // textView.isEditable = false
-      //  textView.isSelectable = true
-      //  textView.isUserInteractionEnabled = true
         
-     //   textView.contentInset = UIEdgeInsets.zero
-      //   textView.scrollIndicatorInsets = UIEdgeInsets.zero
-     //    textView.contentOffset = CGPoint.zero
-     //    textView.textContainerInset = UIEdgeInsets.zero
-     //    textView.textContainer.lineFragmentPadding = 0;
-    //     textView.isScrollEnabled = false
-    //     textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
         buttonPlay.setImage(UIImage(asset: Asset.Icons.Chat.play), for: .normal)
-
+        
         scrollView.delegate = self
         
-        let linkAttributes: [String : Any] = [
-            NSAttributedStringKey.foregroundColor.rawValue: UIColor.green,
-            NSAttributedStringKey.underlineColor.rawValue: UIColor.lightGray,
-            NSAttributedStringKey.underlineStyle.rawValue: NSUnderlineStyle.styleSingle.rawValue]
+        textMessageLabel.textColor = .white
+
+        let customType = ActiveType.custom(pattern:"(https?://)?(www\\.)?([-a-z0-9]{1,63}\\.)*?[a-z0-9][-a-z0-9]{0,61}[a-z0-9]\\.[a-z]{2,6}(/[-\\w@\\+\\.~#\\?&/=%]*)?")
+
+     //   let customType = ActiveType.custom(pattern:"(http|ftp|https)://([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?")
+
         
-      //  textView.linkTextAttributes = linkAttributes
+        textMessageLabel.customColor[customType] = .white
+
+        textMessageLabel.configureLinkAttribute = { (type, attributes, isSelected) in
+            var atts = attributes
+            atts[NSAttributedString.Key.underlineStyle] = NSUnderlineStyle.single.rawValue
+            return atts
+        }
         
         
+        textMessageLabel.enabledTypes = [customType]
+        textMessageLabel.handleCustomTap(for: customType) { url in
+            if !url.lowercased().hasPrefix("http://") && !url.lowercased().hasPrefix("https://"){
+                if let urlNew = URL(string: "http://\(url)"){
+                    UIApplication.shared.open(urlNew)
+                }
+            }
+            else{
+                if let urlNew = URL(string: "\(url)"){
+                    UIApplication.shared.open(urlNew)
+                }
+            }
+        }
+        
+        pageControl.currentPage = 0
+        scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
         
     }
     
@@ -86,8 +103,46 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
         super.setSelected(selected, animated: animated)
     }
     
-    func configWithMessage(message: Message, sender: User, hideAvatar: Bool){
+    func setAvatar(){
+        let profileModelManager = ProfileModelManager()
+        if let user = profileModelManager.getUserMe(){
+            if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: user.id), let image = UIImage(contentsOfFile: url.path){
+                avatarImageView.image = image
+            }
+            else{
+                avatarImageView.image = UIImage(named: "perfilplaceholder")
+            }
+        }
         
+    }
+    
+    
+    func setExistingItemPre(adjunt: Int){
+        if messageId != nil{
+            setExistingItem(adjunt: adjunt)
+        }
+        else if groupMessageId != nil{
+            setExistingItemGroup(idMessage: adjunt)
+        }
+    }
+    
+    func configWithMessage(messageId: Int, sender: User, hideAvatar: Bool){
+
+        let chatModelManager = ChatModelManager()
+        
+        guard let message = chatModelManager.messageWith(id: messageId) else{
+            return
+        }
+        
+        // Reset
+        pageControl.currentPage = 0
+        scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+        
+        for subview in scrollView.subviews{
+            subview.removeFromSuperview()
+        }
+        
+        // Avatar management
         self.avatarImageView.isHidden = hideAvatar
         
         if hideAvatar{
@@ -98,9 +153,10 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
             textViewContainer!.options = [.topLeft, .bottomLeft, .bottomRight]
             messageBubbleImageView.isHidden = false
         }
-        self.message = message
+        self.messageId = messageId
         textMessageLabel.text = message.messageText
         
+        // Text size
         if let tamanyLletra = UserDefaults.standard.value(forKey: "tamanyLletra") as? String{
             switch tamanyLletra{
             case "PETIT":
@@ -113,14 +169,12 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
                 break
             }
         }
-     
         
-        
-        let mediaManager = MediaManager()
-        avatarImageView.tag = sender.id
-        
-        mediaManager.setProfilePicture(userId: sender.id, imageView: avatarImageView) {
-            
+        let profileModelManager = ProfileModelManager()
+        if let user = profileModelManager.getUserMe(){
+            if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: user.id), let image = UIImage(contentsOfFile: url.path){
+                avatarImageView.image = image
+            }
         }
         
         var size = 15.0
@@ -136,8 +190,8 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
         dateFormatter.locale = Locale(identifier: lang!)
         let hour = dateFormatter.string(from: message.sendTime)
         
-        let blackAttribute = [ NSAttributedStringKey.font: UIFont(font: FontFamily.AkkuratBold.bold, size: CGFloat(size)), NSAttributedStringKey.foregroundColor: UIColor.black ] as [NSAttributedStringKey : Any]
-        let grayAttribute = [ NSAttributedStringKey.font: UIFont(font: FontFamily.AkkuratLight.light, size: CGFloat(size)), NSAttributedStringKey.foregroundColor: UIColor(named: .darkGray) ] as [NSAttributedStringKey : Any]
+        let blackAttribute = [ NSAttributedString.Key.font: UIFont(font: FontFamily.AkkuratBold.bold, size: CGFloat(size)), NSAttributedString.Key.foregroundColor: UIColor.black ] as [NSAttributedString.Key : Any]
+        let grayAttribute = [ NSAttributedString.Key.font: UIFont(font: FontFamily.AkkuratLight.light, size: CGFloat(size)), NSAttributedString.Key.foregroundColor: UIColor(named: .darkGray) ] as [NSAttributedString.Key : Any]
         
         let firstString = NSMutableAttributedString(string: L10n.chatTu, attributes: blackAttribute)
         firstString.append(NSAttributedString(string: " \(hour)" , attributes: grayAttribute))
@@ -150,29 +204,25 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
             leaveSpaceRight = CGFloat(290.0)
         }
         
-        
         let availableSpace = UIScreen.main.bounds.size.width - 50 - (occupedSpaceLeft + leaveSpaceRight)
+        
+        
         
         let chatManager = ChatManager()
         let bubbleSize = chatManager.getBubbleSizeForMessage(message: message, width: availableSpace, font: textMessageLabel.font!)
         
-        
         imageHeight.constant = availableSpace
-        
         
         if message.messageText.count == 0{
             distanceImageTextView.constant = 0
-            print(bubbleSize.width)
             textViewWidth.constant = bubbleSize.width
             textViewHeight.constant = 0
             textMessageLabel.isHidden = true
         }
         else{
-            
             textViewWidth.constant = bubbleSize.width + 2
             textViewHeight.constant = bubbleSize.height + 2
             textMessageLabel.isHidden = false
-            
         }
         
         if message.idAdjuntContents.count == 0{
@@ -183,10 +233,6 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
             distanceImageTextView.constant = 5
         }
         
-        for view in scrollView.subviews{
-            view.removeFromSuperview()
-        }
-        
         pageControl.isHidden = true
         if message.idAdjuntContents.count > 1{
             pageControl.isHidden = false
@@ -195,15 +241,21 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
         
         actIndAudio.isHidden = true
         buttonPlay.isHidden = true
-        
+        self.scrollView.delegate = self
+        contentIds = [Int]()
         if message.idAdjuntContents.count > 0{
+            contentIds = Array(message.idAdjuntContents)
+
             let itemWidth = bubbleSize.width + 16
             
             for (index,adjunt) in message.idAdjuntContents.enumerated(){
+                
                 let itemView = UIView(frame: CGRect(x: CGFloat(index) * itemWidth, y: 0, width: itemWidth, height: itemWidth))
                 itemView.clipsToBounds = true
+                itemView.tag = adjunt
                 
                 let activityInd = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+                activityInd.tag = 1003
                 activityInd.isHidden = true
                 itemView.addSubview(activityInd)
                 
@@ -211,8 +263,7 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
                 itemImageView.contentMode = .scaleAspectFill
                 itemImageView.clipsToBounds = true
                 activityInd.center = itemImageView.center
-                
-                itemImageView.tag = adjunt
+                itemImageView.tag = 1005
                 itemImageView.isUserInteractionEnabled = true
                 itemView.addSubview(itemImageView)
                 
@@ -223,10 +274,12 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
                 
                 let downloadButton = UIButton(frame: CGRect(x: 0, y: 0, width: itemWidth * 0.25, height: itemWidth * 0.25))
                 downloadButton.center = itemImageView.center
+                downloadButton.tag = 1001
                 downloadButton.setImage(UIImage(asset: Asset.Icons.Galeria.download), for: .normal)
                 itemView.addSubview(downloadButton)
                 
                 let playButton = UIButton(frame: CGRect(x: 0, y: 0, width: itemWidth * 0.5, height: itemWidth * 0.5))
+                playButton.tag = 1002
                 playButton.center = itemImageView.center
                 playButton.setImage(UIImage(asset: Asset.Icons.Galeria.video), for: .normal)
                 playButton.isUserInteractionEnabled = false
@@ -234,8 +287,17 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
                 
                 itemImageView.addSubview(playButton)
                 
+                let errorButton = UIButton(frame: CGRect(x: 0, y: 0, width: itemWidth * 0.25, height: itemWidth * 0.25))
+                errorButton.center = itemImageView.center
+                errorButton.tag = 1004
+                errorButton.setImage(UIImage(asset: Asset.Icons.cancel), for: .normal)
+                itemView.addSubview(errorButton)
+                errorButton.isHidden = true
                 
-                if UserDefaults.standard.bool(forKey: "manualDownload") && !mediaManager.chatExistingItem(id: adjunt){
+                if ContentManager.sharedInstance.galleryMediaExists(contentId: adjunt, isGroup: false){
+                    setExistingItem( adjunt: adjunt)
+                }
+                else if UserDefaults.standard.bool(forKey: "manualDownload"){
                     downloadButton.isHidden = false
                     
                     if message.metadataTipus.contains("AUDIO"){
@@ -245,16 +307,27 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
                 }
                 else{
                     downloadButton.isHidden = true
+                    if index == 0{
+                        downloadMediaItem(index: 0, adjunt: adjunt)
+                    }
+                    //                    if index == 1{
+                    //                        downloadMediaItem(index: 1, adjunt: adjunt, itemImageView: itemImageView, playButton: playButton, activityInd: activityInd, downloadButton: downloadButton)
+                    //                        itemsLoaded.insert(1)
+                    //                    }
                     
-                    downloadMediaItem(adjunt: adjunt, itemImageView: itemImageView, playButton: playButton, activityInd: activityInd, downloadButton: downloadButton)
+                    //
                 }
                 
                 downloadButton.addTargetClosure { (sender) in
-                    self.downloadMediaItem(adjunt: adjunt, itemImageView: itemImageView, playButton: playButton, activityInd: activityInd, downloadButton: downloadButton)
+                    self.downloadMediaItem(index: index,adjunt: adjunt)
                 }
                 
                 buttonDownloadAudio.addTargetClosure { (sender) in
-                    self.downloadMediaItem(adjunt: adjunt, itemImageView: itemImageView, playButton: playButton, activityInd: activityInd, downloadButton: downloadButton)
+                    self.downloadMediaItem(index: index, adjunt: adjunt)
+                }
+                
+                errorButton.addTargetClosure { (sender) in
+                    self.delegate?.tappedErrorOut()
                 }
             }
             
@@ -265,21 +338,160 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
                 self.imageHeight.constant = 60
                 buttonPlay.isHidden = true
                 viewAudio.isHidden = false
-                
-                
             }
             else{
                 scrollView.contentSize = CGSize(width: CGFloat(message.idAdjuntContents.count) * itemWidth, height: itemWidth)
                 self.imageHeight.constant = itemWidth
             }
         }
+    }
+    
+    
+    
+    func setExistingItem( adjunt: Int){
+        let container = self.scrollView.viewWithTag(adjunt)
+        let chatModelManager = ChatModelManager()
+        
+        guard let messageId = messageId else{
+            return
+        }
+        
+        guard let message = chatModelManager.messageWith(id: messageId) else{
+            return
+        }
+        let messageType =  ContentManager.sharedInstance.getMessageType(adjunt: adjunt, isGroup: false)
+        
+        
+        guard let downloadButton = container?.viewWithTag(1001) as? UIButton else{
+            return
+        }
+        
+        guard let playButton = container?.viewWithTag(1002) as? UIButton else{
+            return
+        }
+        
+        guard let itemImageView = container?.viewWithTag(1005) as? UIImageView else{
+            return
+        }
+        
+        guard let activityInd = container?.viewWithTag(1003) as? UIActivityIndicatorView else{
+            return
+        }
+        
+        guard let cancelButton = container?.viewWithTag(1004) as? UIButton else{
+            return
+        }
+        
+        
+        if ContentManager.sharedInstance.corruptedIds.contains(adjunt){
+            playButton.isHidden = true
+            activityInd.isHidden = true
+            cancelButton.isHidden = false
+            downloadButton.isHidden = true
+            return
+        }
+        
+        if ContentManager.sharedInstance.errorIds.contains(adjunt){
+            cancelButton.isHidden = false
+            downloadButton.isHidden = true
+            playButton.isHidden = true
+            activityInd.isHidden = true
+            return
+        }
+        
+        
+        
+        
+        
+        downloadButton.isHidden = true
+        
+        self.buttonDownloadAudio.isHidden = true
+        
+        var player: AVAudioPlayer?
+        
+        if messageType == .video || messageType == .image{
+            let documentDirectory = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
+            let fileURLThumb = documentDirectory.appendingPathComponent("thumb\(adjunt).jpg")
+            
+            if FileManager.default.fileExists(atPath: fileURLThumb.path){
+                if let image = UIImage(contentsOfFile: fileURLThumb.path) {
+                    itemImageView.image = image
+                }
+            }
+        }
+        else{
+            do {
+                let documentDirectory = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
+                let fileURLAudio = documentDirectory.appendingPathComponent("audio\(message.idAdjuntContents[0]).m4a")
+                player = try AVAudioPlayer(contentsOf: fileURLAudio)
+            } catch let error as NSError {
+                print(error.description)
+            }
+        }
+        
+        if messageType == .video{
+            playButton.isHidden = false
+            itemImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:#selector(self.tapVideo)))
+        }
+        else if messageType == .image{
+            playButton.isHidden = true
+            itemImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:#selector(self.tapImageView)))
+        }
+        else if messageType == .audio{
+            playButton.isHidden = true
+            
+            DispatchQueue.main.async { () -> Void in
+                
+                guard let player = player else{
+                    return
+                }
+                self.buttonPlay.isHidden = false
+                self.labelAudio.text = self.stringFromTimeInterval(interval: player.duration) as String
+                self.sliderAudio.maximumValue = Float(player.duration)
+                
+                Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.updateSlider), userInfo: nil, repeats: true)
+                
+                self.actIndAudio.stopAnimating()
+                self.actIndAudio.isHidden = true
+            }
+            
+        }
+        cancelButton.isHidden = true
+        
+        if messageType == .video{
+            let documentDirectory = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
+            let fileURLVideo = documentDirectory.appendingPathComponent("gallery\(adjunt).mp4")
+            let fileURLThumb = documentDirectory.appendingPathComponent("thumb\(adjunt).jpg")
+            
+            if !FileManager.default.fileExists(atPath: fileURLThumb.path) && FileManager.default.fileExists(atPath: fileURLVideo.path){
+                cancelButton.isHidden = false
+                downloadButton.isHidden = true
+                playButton.isHidden = true
+                
+            }
+            
+        }
+        
+        
+        activityInd.stopAnimating()
+        activityInd.isHidden = true
+        self.actIndAudio.stopAnimating()
+        self.actIndAudio.isHidden = true
         
         
     }
     
-    
-    func downloadMediaItem(adjunt: Int, itemImageView: UIImageView, playButton: UIButton, activityInd: UIActivityIndicatorView, downloadButton: UIButton){
-        let mediaManager = MediaManager()
+    func downloadMediaItem(index: Int, adjunt: Int){
+        
+        let container = self.scrollView.viewWithTag(adjunt)
+        
+        guard let downloadButton = container?.viewWithTag(1001) as? UIButton else{
+            return
+        }
+        
+        guard let activityInd = container?.viewWithTag(1003) as? UIActivityIndicatorView else{
+            return
+        }
         
         activityInd.startAnimating()
         activityInd.isHidden = false
@@ -288,87 +500,136 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
         self.actIndAudio.isHidden = false
         buttonDownloadAudio.isHidden = true
         
-        mediaManager.setChatMedia(contentId: adjunt, imageView: itemImageView, isThumb: true, onCompletion: { (success,messageType) in
-            
-            DispatchQueue.main.async {
-                
-                if success{
-                    downloadButton.isHidden = true
-                    self.buttonDownloadAudio.isHidden = true
-                    
-                    if messageType == .video{
-                        playButton.isHidden = false
-                        
-                        itemImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:#selector(self.tapVideo)))
-                    }
-                    else if messageType == .image{
-                        playButton.isHidden = true
-                        
-                        itemImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:#selector(self.tapImageView)))
-                        
-                    }
-                    else if messageType == .audio{
-                        playButton.isHidden = true
-                        
-                        DispatchQueue.main.async { () -> Void in
-                            
-                            self.buttonPlay.isHidden = false
-                            
-                            do {
-                                
-                                let documentDirectory = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
-                                let fileURLAudio = documentDirectory.appendingPathComponent("audio\(self.message!.idAdjuntContents[0]).m4a")
-                                
-                                
-                                do {
-                                    let player = try AVAudioPlayer(contentsOf: fileURLAudio)
-                                    print(player.duration)
-                                    self.labelAudio.text = self.stringFromTimeInterval(interval: player.duration) as String
-                                    self.sliderAudio.maximumValue = Float(player.duration)
-                                    
-                                    Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.updateSlider), userInfo: nil, repeats: true)
-                                    
-                                    self.actIndAudio.stopAnimating()
-                                    self.actIndAudio.isHidden = true
-                                    
-                                    
-                                    
-                                    
-                                } catch let error as NSError {
-                                    print(error.description)
-                                }
-                                
-                            } catch let error as NSError {
-                                print(error.description)
-                            }
-                        }
-                        
-                    }
-                    
-                    activityInd.stopAnimating()
-                    activityInd.isHidden = true
-                    self.actIndAudio.stopAnimating()
-                    self.actIndAudio.isHidden = true
-                }
-                else{
-                    activityInd.stopAnimating()
-                    self.buttonDownloadAudio.isHidden = false
-                    
-                    self.actIndAudio.stopAnimating()
-                    self.actIndAudio.isHidden = true
-                    
-                    playButton.isHidden = true
-                    activityInd.isHidden = true
-                    downloadButton.isHidden = false
-                }
-            }
-            
-            
-        })
+        if ContentManager.sharedInstance.galleryMediaExists(contentId: adjunt, isGroup: false){
+            self.setExistingItem(adjunt: adjunt)
+        }
+        else{
+            ContentManager.sharedInstance.downloadGalleryMedia(contentId: adjunt, isGroup: false)
+        }
     }
     
-    func downloadMediaItemGroup(message: GroupMessage, itemImageView: UIImageView, playButton: UIButton, activityInd: UIActivityIndicatorView, downloadButton: UIButton){
-        let mediaManager = MediaManager()
+    func setExistingItemGroup(idMessage: Int){
+        let container = self.scrollView.viewWithTag(0)
+        
+        let messageType =  ContentManager.sharedInstance.getMessageType(adjunt: idMessage, isGroup: true)
+
+        guard let downloadButton = container?.viewWithTag(1001) as? UIButton else{
+            return
+        }
+        
+        guard let playButton = container?.viewWithTag(1002) as? UIButton else{
+            return
+        }
+        
+        guard let itemImageView = container?.viewWithTag(idMessage) as? UIImageView else{
+            return
+        }
+        
+        guard let activityInd = container?.viewWithTag(1003) as? UIActivityIndicatorView else{
+            return
+        }
+        
+        guard let cancelButton = container?.viewWithTag(1004) as? UIButton else{
+            return
+        }
+        
+        downloadButton.isHidden = true
+        
+        self.buttonDownloadAudio.isHidden = true
+        
+        var player: AVAudioPlayer?
+        
+        if messageType == .video || messageType == .image{
+            let documentDirectory = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
+            let fileURLThumb = documentDirectory.appendingPathComponent("group_thumb\(idMessage).jpg")
+            
+            if FileManager.default.fileExists(atPath: fileURLThumb.path){
+                if let image = UIImage(contentsOfFile: fileURLThumb.path) {
+                    itemImageView.image = image
+                }
+            }
+        }
+        else{
+            do {
+                guard let messageId = groupMessageId else{
+                    return
+                }
+                let documentDirectory = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
+                let fileURLAudio = documentDirectory.appendingPathComponent("group_audio\(messageId).m4a")
+                player = try AVAudioPlayer(contentsOf: fileURLAudio)
+            } catch let error as NSError {
+                print(error.description)
+            }
+        }
+        
+        if messageType == .video{
+            playButton.isHidden = false
+            itemImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:#selector(self.tapVideo)))
+        }
+        else if messageType == .image{
+            playButton.isHidden = true
+            itemImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:#selector(self.tapImageView)))
+        }
+        else if messageType == .audio{
+            playButton.isHidden = true
+            
+            DispatchQueue.main.async { () -> Void in
+                
+                guard let player = player else{
+                    return
+                }
+                self.buttonPlay.isHidden = false
+                self.labelAudio.text = self.stringFromTimeInterval(interval: player.duration) as String
+                self.sliderAudio.maximumValue = Float(player.duration)
+                
+                Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.updateSlider), userInfo: nil, repeats: true)
+                
+                self.actIndAudio.stopAnimating()
+                self.actIndAudio.isHidden = true
+            }
+            
+        }
+        
+        cancelButton.isHidden = true
+        
+        if messageType == .video{
+            guard let groupMessageId = groupMessageId else{
+                return
+            }
+            let documentDirectory = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
+            let fileURLVideo = documentDirectory.appendingPathComponent("group_gallery\(groupMessageId).mp4")
+            let fileURLThumb = documentDirectory.appendingPathComponent("group_thumb\(groupMessageId).jpg")
+            
+            if FileManager.default.fileExists(atPath: fileURLVideo.path) && !FileManager.default.fileExists(atPath: fileURLThumb.path){
+                cancelButton.isHidden = false
+                downloadButton.isHidden = true
+                playButton.isHidden = true
+                
+            }
+            
+        }
+        
+        activityInd.stopAnimating()
+        activityInd.isHidden = true
+        self.actIndAudio.stopAnimating()
+        self.actIndAudio.isHidden = true
+        
+        
+    }
+    
+    func downloadMediaItemGroup(message: GroupMessage){
+        let container = self.scrollView.viewWithTag(0)
+        
+        guard let downloadButton = container?.viewWithTag(1001) as? UIButton else{
+            return
+        }
+        
+        
+        guard let activityInd = container?.viewWithTag(1003) as? UIActivityIndicatorView else{
+            return
+        }
+        
+        
         
         activityInd.startAnimating()
         activityInd.isHidden = false
@@ -377,88 +638,27 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
         self.actIndAudio.isHidden = false
         buttonDownloadAudio.isHidden = true
         
-        mediaManager.setGroupChatMedia(idMessage: message.id, idChat: message.idChat, imageView: itemImageView, isThumb: true, onCompletion: {(success, messageType) in
-            
-            DispatchQueue.main.async {
-                
-                if success{
-                    downloadButton.isHidden = true
-                    self.buttonDownloadAudio.isHidden = true
-                    
-                    if messageType == .video{
-                        playButton.isHidden = false
-                        
-                        itemImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:#selector(self.tapVideo)))
-                    }
-                    else if messageType == .image{
-                        playButton.isHidden = true
-                        
-                        itemImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:#selector(self.tapImageView)))
-                        
-                    }
-                    else if messageType == .audio{
-                        playButton.isHidden = true
-                        
-                        DispatchQueue.main.async { () -> Void in
-                            
-                            self.buttonPlay.isHidden = false
-                            
-                            do {
-                                
-                                let documentDirectory = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
-                                let fileURLAudio = documentDirectory.appendingPathComponent("group_audio\(message.id).m4a")
-                                
-                                
-                                do {
-                                    let player = try AVAudioPlayer(contentsOf: fileURLAudio)
-                                    
-                                    self.labelAudio.text = self.stringFromTimeInterval(interval: player.duration) as String
-                                    self.sliderAudio.maximumValue = Float(player.duration)
-                                    
-                                    Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.updateSlider), userInfo: nil, repeats: true)
-                                    
-                                    self.actIndAudio.stopAnimating()
-                                    self.actIndAudio.isHidden = true
-                                    
-                                    
-                                    
-                                    
-                                    
-                                } catch let error as NSError {
-                                    print(error.description)
-                                }
-                                
-                            } catch let error as NSError {
-                                print(error.description)
-                            }
-                        }
-                        
-                    }
-                    
-                    activityInd.stopAnimating()
-                    activityInd.isHidden = true
-                    self.actIndAudio.stopAnimating()
-                    self.actIndAudio.isHidden = true
-                }
-                else{
-                    activityInd.stopAnimating()
-                    self.buttonDownloadAudio.isHidden = false
-                    
-                    self.actIndAudio.stopAnimating()
-                    self.actIndAudio.isHidden = true
-                    
-                    playButton.isHidden = true
-                    activityInd.isHidden = true
-                    downloadButton.isHidden = false
-                }
-            }
-            
-            
-        })
+        
+        if ContentManager.sharedInstance.galleryMediaExists(contentId: message.id, isGroup: true){
+            self.setExistingItemGroup(idMessage: message.id)
+        }
+        else{
+            ContentManager.sharedInstance.downloadGalleryMedia(contentId: message.id, isGroup: true, idChat: message.idChat)
+        }
     }
     
     
-    func configWithGroupMessage(message: GroupMessage, hideAvatar: Bool){
+    func configWithGroupMessage(messageId: Int, hideAvatar: Bool){
+        
+        let chatModelManager = ChatModelManager()
+        
+        guard let message = chatModelManager.groupMessageWith(id: messageId) else{
+            return
+        }
+        
+        for subview in scrollView.subviews{
+            subview.removeFromSuperview()
+        }
         
         self.avatarImageView.isHidden = hideAvatar
         
@@ -470,9 +670,9 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
             textViewContainer!.options = [.topLeft, .bottomLeft, .bottomRight]
             messageBubbleImageView.isHidden = false
         }
-        self.groupMessage = message
+        self.groupMessageId = messageId
         textMessageLabel.text = message.text
-
+        
         
         if let tamanyLletra = UserDefaults.standard.value(forKey: "tamanyLletra") as? String{
             switch tamanyLletra{
@@ -488,11 +688,11 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
         }
         
         
-        let mediaManager = MediaManager()
-        avatarImageView.tag = message.idUserSender
-        
-        mediaManager.setProfilePicture(userId: message.idUserSender, imageView: avatarImageView) {
-            
+        let profileModelManager = ProfileModelManager()
+        if let user = profileModelManager.getUserMe(){
+            if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: user.id), let image = UIImage(contentsOfFile: url.path){
+                avatarImageView.image = image
+            }
         }
         
         var size = 15.0
@@ -508,8 +708,8 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
         dateFormatter.locale = Locale(identifier: lang!)
         let hour = dateFormatter.string(from: message.sendTime)
         
-        let blackAttribute = [ NSAttributedStringKey.font: UIFont(font: FontFamily.AkkuratBold.bold, size: CGFloat(size)), NSAttributedStringKey.foregroundColor: UIColor.black ] as [NSAttributedStringKey : Any]
-        let grayAttribute = [ NSAttributedStringKey.font: UIFont(font: FontFamily.AkkuratLight.light, size: CGFloat(size)), NSAttributedStringKey.foregroundColor: UIColor(named: .darkGray) ] as [NSAttributedStringKey : Any]
+        let blackAttribute = [ NSAttributedString.Key.font: UIFont(font: FontFamily.AkkuratBold.bold, size: CGFloat(size)), NSAttributedString.Key.foregroundColor: UIColor.black ] as [NSAttributedString.Key : Any]
+        let grayAttribute = [ NSAttributedString.Key.font: UIFont(font: FontFamily.AkkuratLight.light, size: CGFloat(size)), NSAttributedString.Key.foregroundColor: UIColor(named: .darkGray) ] as [NSAttributedString.Key : Any]
         
         let firstString = NSMutableAttributedString(string: message.fullNameUserSender, attributes: blackAttribute)
         firstString.append(NSAttributedString(string: " \(hour)" , attributes: grayAttribute))
@@ -551,14 +751,19 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
         
         actIndAudio.isHidden = true
         buttonPlay.isHidden = true
+        contentIds = [Int]()
         if message.idContent != -1{
+            contentIds.append(message.id)
             let itemWidth = bubbleSize.width + 16
             
             let itemView = UIView(frame: CGRect(x: 0, y: 0, width: itemWidth, height: itemWidth))
             itemView.clipsToBounds = true
+            itemView.tag = 0
             
             let activityInd = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
             activityInd.center = itemView.center
+            activityInd.tag = 1003
+            
             activityInd.isHidden = true
             itemView.addSubview(activityInd)
             
@@ -579,16 +784,28 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
             downloadButton.center = itemView.center
             downloadButton.setImage(UIImage(asset: Asset.Icons.Galeria.download), for: .normal)
             itemView.addSubview(downloadButton)
+            downloadButton.tag = 1001
             
             let playButton = UIButton(frame: CGRect(x: 0, y: 0, width: itemWidth * 0.5, height: itemWidth * 0.5))
             playButton.center = itemView.center
             playButton.setImage(UIImage(asset: Asset.Icons.Galeria.video), for: .normal)
             playButton.isUserInteractionEnabled = false
             playButton.isHidden = true
+            playButton.tag = 1002
+            
             itemView.addSubview(playButton)
             
+            let errorButton = UIButton(frame: CGRect(x: 0, y: 0, width: itemWidth * 0.25, height: itemWidth * 0.25))
+            errorButton.center = itemImageView.center
+            errorButton.tag = 1004
+            errorButton.setImage(UIImage(asset: Asset.Icons.cancel), for: .normal)
+            itemView.addSubview(errorButton)
+            errorButton.isHidden = true
             
-            if UserDefaults.standard.bool(forKey: "manualDownload") && !mediaManager.chatGroupExistingItem(idMessage: message.id){
+            if ContentManager.sharedInstance.galleryMediaExists(contentId: message.id, isGroup: true){
+                setExistingItemGroup(idMessage: message.id)
+            }
+            else if UserDefaults.standard.bool(forKey: "manualDownload"){
                 downloadButton.isHidden = false
                 
                 if message.metadataTipus.contains("AUDIO"){
@@ -599,16 +816,20 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
             else{
                 downloadButton.isHidden = true
                 
-                downloadMediaItemGroup(message: message, itemImageView: itemImageView, playButton: playButton, activityInd: activityInd, downloadButton: downloadButton)
+                downloadMediaItemGroup(message: message)
             }
             
             downloadButton.addTargetClosure { (sender) in
-                self.downloadMediaItemGroup(message: message, itemImageView: itemImageView, playButton: playButton, activityInd: activityInd, downloadButton: downloadButton)
+                self.downloadMediaItemGroup(message: message)
                 
             }
             
+            errorButton.addTargetClosure { (sender) in
+                self.delegate?.tappedErrorOut()
+            }
+            
             buttonDownloadAudio.addTargetClosure { (sender) in
-                self.downloadMediaItemGroup(message: message, itemImageView: itemImageView, playButton: playButton, activityInd: activityInd, downloadButton: downloadButton)
+                self.downloadMediaItemGroup(message: message)
             }
             
             
@@ -631,17 +852,51 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
     }
     
     @objc func tapImageView(sender: UITapGestureRecognizer){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.recordingAudio{
+            return
+        }
+        
         delegate?.tappedImageOut(imageView: (sender.view)! as! UIImageView)
     }
     
     @objc func tapVideo(sender: UITapGestureRecognizer){
-        if groupMessage == nil{
-            delegate?.tappedVideoOut(contentId: (sender.view?.tag)!, isGroup: false)
-        }
-        else{
-            delegate?.tappedVideoOut(contentId: (sender.view?.tag)!, isGroup: true)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.recordingAudio{
+            return
         }
         
+        guard let superv = sender.view?.superview else{
+            return
+        }
+        var contentId = superv.tag
+        if groupMessageId == nil{
+            let documentDirectory = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
+            let fileURLVideo = documentDirectory.appendingPathComponent("gallery\(contentId).mp4")
+            let fileURLThumb = documentDirectory.appendingPathComponent("thumb\(contentId).jpg")
+            
+            if !FileManager.default.fileExists(atPath: fileURLThumb.path) && FileManager.default.fileExists(atPath: fileURLVideo.path){
+                delegate?.tappedErrorOut()
+            }
+            else{
+                delegate?.tappedVideoOut(contentId: contentId, isGroup: false)
+            }
+        }
+        else{
+            contentId = sender.view!.tag
+            
+            let documentDirectory = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
+            let fileURLVideo = documentDirectory.appendingPathComponent("group_gallery\(contentId).mp4")
+            let fileURLThumb = documentDirectory.appendingPathComponent("group_thumb\(contentId).jpg")
+            
+            if !FileManager.default.fileExists(atPath: fileURLThumb.path) && FileManager.default.fileExists(atPath: fileURLVideo.path){
+                delegate?.tappedErrorOut()
+            }
+            else{
+                delegate?.tappedVideoOut(contentId: contentId, isGroup: false)
+            }
+            
+        }
         
     }
     
@@ -649,18 +904,17 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
         var isPlaying = false
         if let player = AudioManager.sharedInstance.player{
             var id = -1
-            if message != nil{
-                id = self.message!.id
+            if messageId != nil{
+                id = messageId!
             }
-            else if groupMessage != nil{
-                id = self.groupMessage!.id
+            else if groupMessageId != nil{
+                id = groupMessageId!
                 
             }
             
             if AudioManager.sharedInstance.playingContent == id{
                 isPlaying = true
             }
-            print("\(id) - \(AudioManager.sharedInstance.playingContent)")
         }
         
         if isPlaying{
@@ -675,14 +929,20 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
     }
     
     @IBAction func playAudio(_ sender: UIButton) {
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.recordingAudio{
+            return
+        }
+        
         var isPlaying = false
         if let player = AudioManager.sharedInstance.player{
             var id = -1
-            if message != nil{
-                id = self.message!.id
+            if messageId != nil{
+                id = self.messageId!
             }
-            else if groupMessage != nil{
-                id = self.groupMessage!.id
+            else if groupMessageId != nil{
+                id = self.groupMessageId!
                 
             }
             
@@ -694,13 +954,24 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
         var fileURLAudio: URL?
         let documentDirectory = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
         
-        if message != nil{
-            AudioManager.sharedInstance.playingContent = self.message!.id
-            fileURLAudio = documentDirectory.appendingPathComponent("audio\(self.message!.idAdjuntContents[0]).m4a")
+        if messageId != nil{
+            let chatModelManager = ChatModelManager()
+            
+            guard let message = chatModelManager.messageWith(id: messageId!) else{
+                return
+            }
+            AudioManager.sharedInstance.playingContent = self.messageId!
+            fileURLAudio = documentDirectory.appendingPathComponent("audio\(message.idAdjuntContents[0]).m4a")
         }
-        else if groupMessage != nil{
-            AudioManager.sharedInstance.playingContent = self.groupMessage!.id
-            fileURLAudio = documentDirectory.appendingPathComponent("group_audio\(groupMessage!.id).m4a")
+        else if groupMessageId != nil{
+            let chatModelManager = ChatModelManager()
+            
+            guard let message = chatModelManager.groupMessageWith(id: groupMessageId!) else{
+                return
+            }
+            
+            AudioManager.sharedInstance.playingContent = self.groupMessageId!
+            fileURLAudio = documentDirectory.appendingPathComponent("group_audio\(message.id).m4a")
         }
         
         if let fileURLAudio = fileURLAudio{
@@ -740,11 +1011,11 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
     
     @objc func updateSlider(){
         var id = -1
-        if message != nil{
-            id = self.message!.id
+        if messageId != nil{
+            id = self.messageId!
         }
-        else if groupMessage != nil{
-            id = self.groupMessage!.id
+        else if groupMessageId != nil{
+            id = self.groupMessageId!
             
         }
         
@@ -757,7 +1028,7 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
                 else{
                     buttonPlay.setImage(UIImage(asset: Asset.Icons.Chat.play), for: .normal)
                 }
-
+                
                 sliderAudio.value = Float(player.currentTime)
                 if player.currentTime == 0.0{
                     self.labelAudio.text = self.stringFromTimeInterval(interval: Double(sliderAudio.maximumValue)) as String
@@ -783,11 +1054,12 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
     @IBAction func slide(_ slider: UISlider) {
         
         var id = -1
-        if message != nil{
-            id = self.message!.id
+        
+        if messageId != nil{
+            id = self.messageId!
         }
-        else if groupMessage != nil{
-            id = self.groupMessage!.id
+        else if groupMessageId != nil{
+            id = self.groupMessageId!
             
         }
         
@@ -796,12 +1068,12 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
                 player.currentTime = TimeInterval(slider.value)
                 if player.currentTime == 0.0{
                     self.labelAudio.text = self.stringFromTimeInterval(interval: Double(sliderAudio.maximumValue)) as String
-
+                    
                 }
                 else{
                     self.labelAudio.text = self.stringFromTimeInterval(interval: player.currentTime) as String
                 }
-
+                
             }
         }
         
@@ -811,8 +1083,24 @@ class OutgoingChatTableViewCell: UITableViewCell, UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageNumber = round(scrollView.contentOffset.x / scrollView.frame.size.width)
         pageControl.currentPage = Int(pageNumber)
+        loadItemAt(page: Int(pageNumber))
+    }
+    
+    func loadItemAt(page: Int){
+        let chatModelManager = ChatModelManager()
+        guard let messageId = messageId else{
+            return
+        }
+        guard let message = chatModelManager.messageWith(id: messageId) else{
+            return
+        }
+        
+        if !ContentManager.sharedInstance.galleryMediaExists(contentId: message.idAdjuntContents[page], isGroup: false) && message.idAdjuntContents.count > page{
+            downloadMediaItem(index: page, adjunt: message.idAdjuntContents[page])
+        }
+        
+        
     }
     
 }
-
 

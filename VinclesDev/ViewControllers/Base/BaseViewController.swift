@@ -137,7 +137,7 @@ class BaseViewController: UIViewController {
     
     func addContained(){
         if let controller = containedViewController{
-            addChildViewController(controller)
+            addChild(controller)
             controller.view.translatesAutoresizingMaskIntoConstraints = false
             container.addSubview(controller.view)
             
@@ -148,7 +148,7 @@ class BaseViewController: UIViewController {
                 controller.view.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: 0)
                 ])
             
-            controller.didMove(toParentViewController: self)
+            controller.didMove(toParent: self)
         }
        
     }

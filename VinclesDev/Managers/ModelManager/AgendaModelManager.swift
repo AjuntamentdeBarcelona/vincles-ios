@@ -14,7 +14,9 @@ class AgendaModelManager: NSObject {
         
         let realm = try! Realm()
         
-        let user = realm.objects(User.self).first!
+        guard let user = realm.objects(User.self).first else{
+            return nil
+        }
         return user.meetings.sorted(by: { $0.date > $1.date }).first?.date
  
     }
@@ -22,13 +24,17 @@ class AgendaModelManager: NSObject {
     var oldestMeetingDate: Int64?{
         let realm = try! Realm()
         
-        let user = realm.objects(User.self).first!
+        guard let user = realm.objects(User.self).first else{
+            return nil
+        }
         return user.meetings.sorted(by: { $0.date < $1.date }).first?.date
     }
     
     var numberOfMeetings: Int{
         let realm = try! Realm()
-        let user = realm.objects(User.self).first!
+        guard let user = realm.objects(User.self).first else{
+            return 0
+        }
         return user.meetings.count
     }
     
@@ -41,12 +47,14 @@ class AgendaModelManager: NSObject {
         let year = calendar.component(.year, from: date)
 
         let realm = try! Realm()
-        let user = realm.objects(User.self).first!
+        guard let user = realm.objects(User.self).first else{
+            return 0
+        }
         return user.meetings.filter("day == %i && month == %i && year == %i", day, month, year).count
         
     }
     
-    func meetingOnDateAt(date: Date, index: Int) -> Meeting{
+    func meetingOnDateAt(date: Date, index: Int) -> Meeting?{
         let calendar = Calendar.current
         
         let day = calendar.component(.day, from: date)
@@ -54,7 +62,10 @@ class AgendaModelManager: NSObject {
         let year = calendar.component(.year, from: date)
         
         let realm = try! Realm()
-        let user = realm.objects(User.self).first!
+
+        guard let user = realm.objects(User.self).first else{
+            return nil
+        }
         return user.meetings.filter("day == %i && month == %i && year == %i", day, month, year).sorted(by: { $0.date < $1.date })[index]
         
     }
@@ -75,15 +86,20 @@ class AgendaModelManager: NSObject {
     
     var numberOfUnansweredMeetings: Int{
         let realm = try! Realm()
-        let user = realm.objects(User.self).first!
+        guard let user = realm.objects(User.self).first else{
+            return 0
+        }
         let meetings = user.meetings
         
         var count = 0
 
         for meeting in meetings{
-             if let myState = meeting.guests.filter("userInfo.id == %i", user.id ?? -1).first?.state{
+            if let myState = meeting.guests.filter("userInfo.id == %i", user.id ).first?.state{
                 if myState == "PENDING"{
-                    count += 1
+                    if meeting.date / 1000 >= Int64(Date().timeIntervalSince1970){
+                    
+                        count += 1
+                    }
                 }
             }
             
@@ -107,19 +123,13 @@ class AgendaModelManager: NSObject {
     
     var meetings: List<Meeting>?{
         let realm = try! Realm()
-        let user = realm.objects(User.self).first!
+        guard let user = realm.objects(User.self).first else{
+            return nil
+        }
         return user.meetings
     }
     
-    
-    
-    func meetingAt(index: Int) -> Meeting{
-        let realm = try! Realm()
-        let user = realm.objects(User.self).first!
-        return user.meetings[index]
-
-    }
-    
+  
     func meetingWithId(id: Int) -> Meeting?{
         let realm = try! Realm()
         
@@ -134,7 +144,11 @@ class AgendaModelManager: NSObject {
     func userMeetingWithId(id: Int) -> Meeting?{
         let realm = try! Realm()
         
-        if let auth = realm.objects(AuthResponse.self).first, let user = realm.objects(User.self).filter("id == %i", auth.userId).first{
+        guard let auth = realm.objects(AuthResponse.self).first else{
+            return nil
+        }
+        
+        if let user = realm.objects(User.self).filter("id == %i", auth.userId).first{
             return user.meetings.filter("id == %i", id).first
 
         }

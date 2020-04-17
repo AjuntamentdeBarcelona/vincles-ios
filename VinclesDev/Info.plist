@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>BASIC_AUTH_STR</key>
 	<string>$(BASIC_AUTH_STR)</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -19,14 +21,14 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.1.3</string>
+	<string>3.8.3</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>cat.bcn.vinclesbcn://</string>
+			<string>net.i2cat.vincles://</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>vincles</string>
@@ -34,13 +36,13 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>20181217</string>
+	<string>20191031</string>
 	<key>ENVIRONMENT</key>
 	<string>$(ENVIRONMENT)</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
-		<string></string>
+		<string>089a7b9b65edbdd570ecb02692f682b233d84b3d</string>
 		<key>Kits</key>
 		<array>
 			<dict>
@@ -53,11 +55,6 @@
 	</dict>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Sincronitzarem els esdeveniments de l'agenda al teu calendari</string>
 	<key>NSCameraUsageDescription</key>
@@ -87,6 +84,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

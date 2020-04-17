@@ -35,7 +35,6 @@ class AlarmSingleton: NSObject, PopUpDelegate {
             
             let alarmTime = time - 3600
     
-            print(alarmTime - current)
             timer = Timer.scheduledTimer(timeInterval: (TimeInterval(alarmTime - current)), target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: false)
             
          
@@ -44,12 +43,10 @@ class AlarmSingleton: NSObject, PopUpDelegate {
     }
     
     @objc func runTimedCode(){
-        print("alarm")
         timer?.invalidate()
         let profileModelManager = ProfileModelManager()
         
         if let meeting = alarmMeeting{
-            print(meeting.id)
             let lang = UserDefaults.standard.string(forKey: "i18n_language")
             
             let dateFormatterGet = DateFormatter()
@@ -106,7 +103,7 @@ class AlarmSingleton: NSObject, PopUpDelegate {
             
             let alertWindow = UIWindow(frame: UIScreen.main.bounds)
             alertWindow.rootViewController = UIViewController()
-            alertWindow.windowLevel = UIWindowLevelAlert + 1;
+            alertWindow.windowLevel = UIWindow.Level.alert + 1;
             alertWindow.makeKeyAndVisible()
             
             alertWindow.rootViewController?.present(popupVC, animated: true, completion: nil)
@@ -122,10 +119,12 @@ class AlarmSingleton: NSObject, PopUpDelegate {
             notification.idMeeting = meeting.id
             notification.creationTimeInt = Int64(Date().timeIntervalSince1970) * 1000
             notification.processed = true
-            try! realm.write {
-                realm.add(notification, update: true)
+            DispatchQueue.main.async {
+
+            try! self.realm.write {
+                self.realm.add(notification, update: true)
             }
-            
+            }
             let notDict:[String: Any] = ["idMeeting": notification.idMeeting, "type": NOTI_FAKE_REMINDER_EVENT]
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: NOTIFICATION_PROCESSED), object: nil, userInfo: notDict)
         }
@@ -149,5 +148,8 @@ class AlarmSingleton: NSObject, PopUpDelegate {
         
     }
     
+    func closeButtonClicked(popup: PopupViewController) {
+        
+    }
     
 }

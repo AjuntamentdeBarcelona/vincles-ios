@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -59,7 +57,7 @@
                                                                                 <rect key="frame" x="0.0" y="0.0" width="318.5" height="133"/>
                                                                                 <subviews>
                                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo-circle" translatesAutoresizingMaskIntoConstraints="NO" id="IBn-8Z-lLu" customClass="CircularImageView" customModule="VinclesDev" customModuleProvider="target">
-                                                                                        <rect key="frame" x="109.5" y="6" width="100" height="100"/>
+                                                                                        <rect key="frame" x="109" y="6" width="100" height="100"/>
                                                                                         <constraints>
                                                                                             <constraint firstAttribute="height" constant="100" id="Do6-ZH-8If"/>
                                                                                             <constraint firstAttribute="width" constant="100" id="es4-iQ-CGr"/>
@@ -73,7 +71,7 @@
                                                                                         </connections>
                                                                                     </button>
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tria una foto" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2IG-Rk-xXv">
-                                                                                        <rect key="frame" x="116.5" y="111" width="87" height="16"/>
+                                                                                        <rect key="frame" x="115.5" y="111" width="87" height="16"/>
                                                                                         <constraints>
                                                                                             <constraint firstAttribute="height" constant="16" id="tmI-iZ-9gK"/>
                                                                                             <constraint firstAttribute="width" constant="87" id="zW0-1k-RRt"/>
@@ -109,7 +107,7 @@
                                                                 <rect key="frame" x="0.0" y="173" width="318.5" height="128"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epj-VK-DQ7">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="269" height="93"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="268.5" height="93"/>
                                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
                                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <nil key="highlightedColor"/>
@@ -367,28 +365,28 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="1380"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gBd-cs-LMj">
-                                                <rect key="frame" x="13.5" y="308" width="348.5" height="765"/>
+                                                <rect key="frame" x="13" y="307.5" width="349" height="765"/>
                                                 <subviews>
                                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dades personals" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xya-qU-gmF">
-                                                        <rect key="frame" x="17.5" y="15" width="313.5" height="20"/>
+                                                        <rect key="frame" x="17.5" y="15" width="314" height="20"/>
                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="mou-Cm-P7Z">
-                                                        <rect key="frame" x="18" y="15" width="313.5" height="355"/>
+                                                        <rect key="frame" x="17.5" y="15" width="314" height="355"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="mkJ-O9-DjR">
-                                                                <rect key="frame" x="0.0" y="0.0" width="313.5" height="59"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="314" height="59"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TkJ-zd-s7d">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="313.5" height="16"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="314" height="16"/>
                                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="13"/>
                                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SsM-al-9rf" customClass="RequiredTextField" customModule="VinclesDev" customModuleProvider="target">
-                                                                        <rect key="frame" x="0.0" y="19" width="313.5" height="40"/>
+                                                                        <rect key="frame" x="0.0" y="19" width="314" height="40"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="40" id="Ml2-jC-agF"/>
@@ -405,16 +403,16 @@
                                                                 </subviews>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="qY7-r4-vbA">
-                                                                <rect key="frame" x="0.0" y="74" width="313.5" height="59"/>
+                                                                <rect key="frame" x="0.0" y="74" width="314" height="59"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RrA-qR-1F2">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="313.5" height="16"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="314" height="16"/>
                                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="13"/>
                                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="570-f8-rrK" customClass="RequiredTextField" customModule="VinclesDev" customModuleProvider="target">
-                                                                        <rect key="frame" x="0.0" y="19" width="313.5" height="40"/>
+                                                                        <rect key="frame" x="0.0" y="19" width="314" height="40"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="40" id="fq3-io-HwW"/>
@@ -431,16 +429,16 @@
                                                                 </subviews>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="oY3-QT-t2t">
-                                                                <rect key="frame" x="0.0" y="148" width="313.5" height="59"/>
+                                                                <rect key="frame" x="0.0" y="148" width="314" height="59"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lkm-VT-x1l">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="313.5" height="16"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="314" height="16"/>
                                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="13"/>
                                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GzW-Oi-k0T" customClass="OptionalTextField" customModule="VinclesDev" customModuleProvider="target">
-                                                                        <rect key="frame" x="0.0" y="19" width="313.5" height="40"/>
+                                                                        <rect key="frame" x="0.0" y="19" width="314" height="40"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="40" id="UsR-Wu-ODM"/>
@@ -457,16 +455,16 @@
                                                                 </subviews>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="W2w-jw-rYu">
-                                                                <rect key="frame" x="0.0" y="222" width="313.5" height="59"/>
+                                                                <rect key="frame" x="0.0" y="222" width="314" height="59"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YFd-ll-is5">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="313.5" height="16"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="314" height="16"/>
                                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="13"/>
                                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YWH-uR-axu" customClass="OptionalTextField" customModule="VinclesDev" customModuleProvider="target">
-                                                                        <rect key="frame" x="0.0" y="19" width="313.5" height="40"/>
+                                                                        <rect key="frame" x="0.0" y="19" width="314" height="40"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="40" id="jTP-rr-GEn"/>
@@ -483,16 +481,16 @@
                                                                 </subviews>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="PKD-6w-ZQe">
-                                                                <rect key="frame" x="0.0" y="296" width="313.5" height="59"/>
+                                                                <rect key="frame" x="0.0" y="296" width="314" height="59"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bjh-Kg-qlV">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="313.5" height="16"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="314" height="16"/>
                                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="13"/>
                                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7L4-MG-VOj" customClass="NumericTextField" customModule="VinclesDev" customModuleProvider="target">
-                                                                        <rect key="frame" x="0.0" y="19" width="313.5" height="40"/>
+                                                                        <rect key="frame" x="0.0" y="19" width="314" height="40"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="40" id="cCf-P3-RPz"/>
@@ -511,13 +509,13 @@
                                                         </subviews>
                                                     </stackView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vius a Barcelona?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HIz-3E-HrM">
-                                                        <rect key="frame" x="17.5" y="385" width="313.5" height="20"/>
+                                                        <rect key="frame" x="17.5" y="385" width="314" height="20"/>
                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Uty-wh-twU">
-                                                        <rect key="frame" x="17.5" y="420" width="313.5" height="29"/>
+                                                        <rect key="frame" x="17.5" y="420" width="314" height="29"/>
                                                         <segments>
                                                             <segment title="SÍ"/>
                                                             <segment title="NO"/>
@@ -525,19 +523,19 @@
                                                         <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     </segmentedControl>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="9PR-86-F37">
-                                                        <rect key="frame" x="17.5" y="468" width="313.5" height="207"/>
+                                                        <rect key="frame" x="17.5" y="468" width="314" height="207"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="1Ng-Ko-ZJB">
-                                                                <rect key="frame" x="0.0" y="0.0" width="313.5" height="59"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="314" height="59"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sjq-NH-V99">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="313.5" height="16"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="314" height="16"/>
                                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="13"/>
                                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6ux-b3-Igz" customClass="OptionalTextField" customModule="VinclesDev" customModuleProvider="target">
-                                                                        <rect key="frame" x="0.0" y="19" width="313.5" height="40"/>
+                                                                        <rect key="frame" x="0.0" y="19" width="314" height="40"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="40" id="92V-oe-d9x"/>
@@ -554,16 +552,16 @@
                                                                 </subviews>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="kjc-c6-ppM">
-                                                                <rect key="frame" x="0.0" y="74" width="313.5" height="59"/>
+                                                                <rect key="frame" x="0.0" y="74" width="314" height="59"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qe9-Eg-Hzf">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="313.5" height="16"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="314" height="16"/>
                                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="13"/>
                                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zOI-vW-tCR" customClass="OptionalTextField" customModule="VinclesDev" customModuleProvider="target">
-                                                                        <rect key="frame" x="0.0" y="19" width="313.5" height="40"/>
+                                                                        <rect key="frame" x="0.0" y="19" width="314" height="40"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="40" id="BEp-CY-goo"/>
@@ -580,16 +578,16 @@
                                                                 </subviews>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="Ikq-iF-cd2">
-                                                                <rect key="frame" x="0.0" y="148" width="313.5" height="59"/>
+                                                                <rect key="frame" x="0.0" y="148" width="314" height="59"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VB3-kX-cj9">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="313.5" height="16"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="314" height="16"/>
                                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="13"/>
                                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rQM-s4-Suh" customClass="OptionalTextField" customModule="VinclesDev" customModuleProvider="target">
-                                                                        <rect key="frame" x="0.0" y="19" width="313.5" height="40"/>
+                                                                        <rect key="frame" x="0.0" y="19" width="314" height="40"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="40" id="sBF-Ch-2N9"/>
@@ -608,7 +606,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8in-hx-EZo" customClass="AlphaButton" customModule="VinclesDev" customModuleProvider="target">
-                                                        <rect key="frame" x="17.5" y="695" width="313" height="50"/>
+                                                        <rect key="frame" x="17.5" y="695" width="314" height="50"/>
                                                         <color key="backgroundColor" red="0.83137254900000002" green="0.08235294118" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="r9g-gw-olF"/>
@@ -723,9 +721,24 @@
             </objects>
             <point key="canvasLocation" x="1865" y="26"/>
         </scene>
+        <!--Test Deinit View Controller-->
+        <scene sceneID="w3O-tV-GfB">
+            <objects>
+                <viewController storyboardIdentifier="TestDeinitViewController" id="Epp-L1-UXB" customClass="TestDeinitViewController" customModule="VinclesDev" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Uxl-xC-K3d">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="hvF-9L-l6C"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="feb-BO-rWr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2561" y="-9"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="edit" width="42" height="42"/>
+        <image name="edit" width="42.666667938232422" height="42.666667938232422"/>
         <image name="photo-circle" width="121" height="121"/>
     </resources>
 </document>

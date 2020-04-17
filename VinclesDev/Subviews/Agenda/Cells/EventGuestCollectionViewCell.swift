@@ -15,6 +15,9 @@ class EventGuestCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var actInd: UIActivityIndicatorView!
     @IBOutlet weak var statusLabel: UILabel!
 
+    var userId = -1
+    var meetingId = -1
+    
     override func awakeFromNib() {
         
         if UIDevice.current.userInterfaceIdiom == .phone {
@@ -79,18 +82,28 @@ class EventGuestCollectionViewCell: UICollectionViewCell {
         statusLabel.numberOfLines = 2
     }
     
+    func setAvatar(){
+        if let url = ProfileEventImageManager.sharedInstance.getProfilePicture(userId: userId, meetingId: meetingId), let image = UIImage(contentsOfFile: url.path){
+            userImage.image = image
+        }
+        else{
+            userImage.image = UIImage(named: "perfilplaceholder")
+        }
+    }
+    
     func configWithGuest(guest: MeetingGuest, meetingId: Int){
+       
         userImage.image = UIImage()
         actInd.startAnimating()
         
         if let userInfo = guest.userInfo{
             userLabel.text = userInfo.name
-            let mediaManager = MediaManager()
-            userImage.tag = userInfo.id
+           
             
-            mediaManager.setProfilePictureEvent(meetingId: meetingId, userId: userInfo.id, imageView: userImage) {
-                
-            }
+            self.meetingId = meetingId
+            self.userId = userInfo.id
+            
+            setAvatar()
         }
         
             switch guest.state{
@@ -111,6 +124,6 @@ class EventGuestCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        bringSubview(toFront: stack)
+        bringSubviewToFront(stack)
     }
 }

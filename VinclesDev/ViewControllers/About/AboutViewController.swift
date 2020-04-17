@@ -6,6 +6,7 @@
 
 
 import UIKit
+import Firebase
 
 class AboutViewController: UIViewController {
 
@@ -22,10 +23,12 @@ class AboutViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setStrings()
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_ABOUT)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        
+        Analytics.setScreenName(ANALYTICS_ABOUT, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_ABOUT)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     
     

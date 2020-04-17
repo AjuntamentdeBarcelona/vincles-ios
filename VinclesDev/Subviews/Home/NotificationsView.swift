@@ -38,7 +38,7 @@ class NotificationsView: UIView {
         let attrString = NSMutableAttributedString(string: stringValue)
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 0 // change line spacing between paragraph like 36 or 48
-        attrString.addAttribute(NSAttributedStringKey.paragraphStyle, value: style, range: NSRange(location: 0, length: stringValue.count))
+        attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: style, range: NSRange(location: 0, length: stringValue.count))
         labelAvisos.attributedText = attrString
         
         xibView!.frame = self.bounds

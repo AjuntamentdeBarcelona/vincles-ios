@@ -59,7 +59,7 @@ class AgendaDayViewController: UIViewController {
     
         
         noDatesLabel.text = L10n.citesNo
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
         configNavigationBar()
         setDataSource()
@@ -118,8 +118,8 @@ class AgendaDayViewController: UIViewController {
     }
     
     func setTopLabel(){
-        let blackAttribute = [ NSAttributedStringKey.foregroundColor: UIColor.black ] as [NSAttributedStringKey : Any]
-        let redAttribute = [NSAttributedStringKey.foregroundColor: UIColor(named: .darkRed) ] as [NSAttributedStringKey : Any]
+        let blackAttribute = [ NSAttributedString.Key.foregroundColor: UIColor.black ] as [NSAttributedString.Key : Any]
+        let redAttribute = [NSAttributedString.Key.foregroundColor: UIColor(named: .darkRed) ] as [NSAttributedString.Key : Any]
         
         // let firstString = NSMutableAttributedString(string: L10n.chatTu, attributes: blackAttribute)
         //  firstString.append(NSAttributedString(string: " \(hour)" , attributes: grayAttribute))
@@ -339,6 +339,9 @@ extension AgendaDayViewController: PopUpDelegate {
                 self.declineMeetingId = nil
             }
         }
+    }
+    func closeButtonClicked(popup: PopupViewController) {
+        
     }
 }
 

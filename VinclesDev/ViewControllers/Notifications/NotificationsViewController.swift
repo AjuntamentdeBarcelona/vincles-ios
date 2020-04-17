@@ -8,8 +8,11 @@
 import UIKit
 import SlideMenuControllerSwift
 import Reachability
+import Firebase
 
-class NotificationsViewController: UIViewController {
+class NotificationsViewController: UIViewController, ProfileImageManagerDelegate, GroupImageManagerDelegate {
+   
+    
     @IBOutlet weak var tableView: UITableView!
     lazy var dataSource = NotificationsDataSource()
     lazy var notificationsModelManager = NotificationsModelManager()
@@ -17,12 +20,13 @@ class NotificationsViewController: UIViewController {
     var showBackButton = true
     @IBOutlet weak var noNotificationsLabel: UILabel!
     var openHomeOnBack = false
-    let reachability = Reachability()!
+    let reachability = try! Reachability()
+    let errorPermission = 1006
 
     override func viewDidLoad() {
         super.viewDidLoad()
         noNotificationsLabel.text = L10n.noNotifications
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
         noNotificationsLabel.isHidden = true
 
@@ -33,15 +37,59 @@ class NotificationsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        ProfileImageManager.sharedInstance.delegate = self
+        GroupImageManager.sharedInstance.delegate = self
+
         let notificationName = Notification.Name(NOTIFICATION_PROCESSED)
         NotificationCenter.default.addObserver(self, selector: #selector(NotificationsViewController.notificationProcessed), name: notificationName, object: nil)
         getNotifications()
         reloadTableData()
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_NOTIFICATIONS)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        
+        Analytics.setScreenName(ANALYTICS_NOTIFICATIONS, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_NOTIFICATIONS)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
     }
+    
+    func didDownload(userId: Int) {
+        for cell in tableView.visibleCells{
+            if let cell = cell as? NotificationsTableViewCell{
+                if cell.userId == userId{
+                    cell.setAvatar()
+                }
+            }
+        }
+    }
+    
+    func didError(userId: Int) {
+        for cell in tableView.visibleCells{
+            if let cell = cell as? NotificationsTableViewCell{
+                if cell.userId == userId{
+                    cell.setAvatar()
+                }
+            }
+        }
+    }
+    
+    func didDownload(groupId: Int) {
+        
+        for cell in tableView.visibleCells{
+            if let inCell = cell as? NotificationsTableViewCell, inCell.groupId == groupId{
+                inCell.setAvatar()
+            }
+        }
+        
+    }
+    
+    func didError(groupId: Int) {
+        for cell in tableView.visibleCells{
+            if let inCell = cell as? NotificationsTableViewCell, inCell.groupId == groupId{
+                inCell.setAvatar()
+            }
+        }
+    }
+    
     
     func getNotifications(){
 
@@ -150,7 +198,7 @@ extension NotificationsViewController: NotificationsDataSourceDelegate{
             if let chatFrom = message?.idUserFrom{
                 let baseVC = StoryboardScene.Base.baseViewController.instantiate()
                 let chatVC = StoryboardScene.Chat.chatContainerViewController.instantiate()
-                let circlesModelManager = CirclesGroupsModelManager()
+                let circlesModelManager = CirclesGroupsModelManager.shared
                 chatVC.toUserId = chatFrom
                 chatVC.toUser = circlesModelManager.contactWithId(id: chatFrom)
                 chatVC.showBackButton = true
@@ -162,7 +210,7 @@ extension NotificationsViewController: NotificationsDataSourceDelegate{
         case NOTI_NEW_CHAT_MESSAGE:
             let baseVC = StoryboardScene.Base.baseViewController.instantiate()
 
-            let circlesModelManager = CirclesGroupsModelManager()
+            let circlesModelManager = CirclesGroupsModelManager.shared
             
             let chatVC = StoryboardScene.Chat.chatContainerViewController.instantiate()
             
@@ -184,7 +232,7 @@ extension NotificationsViewController: NotificationsDataSourceDelegate{
         case NOTI_USER_LINKED:
             let baseVC = StoryboardScene.Base.baseViewController.instantiate()
             let chatVC = StoryboardScene.Chat.chatContainerViewController.instantiate()
-            let circlesModelManager = CirclesGroupsModelManager()
+            let circlesModelManager = CirclesGroupsModelManager.shared
             chatVC.toUserId = notification.idUser
             chatVC.toUser = circlesModelManager.contactWithId(id: notification.idUser)
             chatVC.showBackButton = true
@@ -205,7 +253,7 @@ extension NotificationsViewController: NotificationsDataSourceDelegate{
         case NOTI_ADDED_TO_GROUP:
             let baseVC = StoryboardScene.Base.baseViewController.instantiate()
             
-            let circlesModelManager = CirclesGroupsModelManager()
+            let circlesModelManager = CirclesGroupsModelManager.shared
             
             let chatVC = StoryboardScene.Chat.chatContainerViewController.instantiate()
             
@@ -270,29 +318,80 @@ extension NotificationsViewController: NotificationsDataSourceDelegate{
                 nav.pushViewController(baseVC, animated: true)
             }
         case NOTI_INCOMING_CALL:
-            if CallManager.sharedInstance.roomName == nil{
+            let circlesModelManager = CirclesGroupsModelManager.shared
+            if WebRTCCallManager.sharedInstance.roomId == nil && circlesModelManager.contactWithId(id: notification.idUser) != nil{
                 
                 if reachability.connection != .none{
-                    let circlesModelManager = CirclesGroupsModelManager()
-                    
-                    let baseVC2 = StoryboardScene.Base.baseViewController.instantiate()
-                    let outgoingCallVC = StoryboardScene.Call.outgoingCallViewController.instantiate()
-                    outgoingCallVC.user = circlesModelManager.contactWithId(id: notification.idUser)
-                    baseVC2.containedViewController = outgoingCallVC
-                    //      self.navigationController?.pushViewController(baseVC, animated: true)
-                    self.present(baseVC2, animated: true, completion: nil)
-                    
-                    
-                    let baseVC = StoryboardScene.Base.baseViewController.instantiate()
-                    
-                    let chatVC = StoryboardScene.Chat.chatContainerViewController.instantiate()
-                    chatVC.toUserId = notification.idUser
-                    chatVC.toUser = circlesModelManager.contactWithId(id: notification.idUser)
-                    chatVC.showBackButton = true
-                    baseVC.containedViewController = chatVC
-                    if let nav = self.slideMenuController()?.mainViewController as? UINavigationController{
-                        nav.pushViewController(baseVC, animated: true)
+                   
+                    if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized && AVCaptureDevice.authorizationStatus(for: .audio) ==  .authorized {
+                        DispatchQueue.main.async {
+                            self.newCall(notification: notification)
+                        }
+                        
+                    } else {
+                        
+                        if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
+                            AVCaptureDevice.requestAccess(for: .audio, completionHandler: { (granted: Bool) in
+                                if granted {
+                                    DispatchQueue.main.async {
+                                        self.newCall(notification: notification)
+                                    }
+                                    
+                                } else {
+                                    DispatchQueue.main.async {
+                                        self.errorPopupMicrophone()
+                                        
+                                    }
+                                    
+                                }
+                            })
+                        }
+                        else if AVCaptureDevice.authorizationStatus(for: .audio) ==  .authorized {
+                            AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+                                if granted {
+                                    DispatchQueue.main.async {
+                                        self.newCall(notification: notification)
+                                    }
+                                    
+                                } else {
+                                    DispatchQueue.main.async {
+                                        self.errorPopupVideo()
+                                        
+                                    }
+                                    
+                                }
+                            })
+                        }
+                        else{
+                            AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+                                if granted {
+                                    AVCaptureDevice.requestAccess(for: .audio, completionHandler: { (granted: Bool) in
+                                        if granted {
+                                            DispatchQueue.main.async {
+                                                self.newCall(notification: notification)
+                                            }
+                                        } else {
+                                            DispatchQueue.main.async {
+                                                self.errorPopupMicrophone()
+                                                
+                                            }
+                                            
+                                        }
+                                    })
+                                } else {
+                                    DispatchQueue.main.async {
+                                        self.errorPopupVideo()
+                                    }
+                                    
+                                }
+                            })
+                        }
+                        
                     }
+                    
+                    
+                    
+                  
                 }
                 else{
                     let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
@@ -326,8 +425,56 @@ extension NotificationsViewController: NotificationsDataSourceDelegate{
         }
     }
     
+    func newCall(notification: VincleNotification){
+        let circlesModelManager = CirclesGroupsModelManager.shared
 
+        let baseVC2 = StoryboardScene.Base.baseViewController.instantiate()
+        let callVC = StoryboardScene.Call.callContainerViewController.instantiate()
+        callVC.isCaller = true
+        callVC.calleeId = notification.idUser
+        baseVC2.containedViewController = callVC
         
+        self.present(baseVC2, animated: true, completion: nil)
+        
+        
+        let baseVC = StoryboardScene.Base.baseViewController.instantiate()
+        
+        let chatVC = StoryboardScene.Chat.chatContainerViewController.instantiate()
+        chatVC.toUserId = notification.idUser
+        chatVC.toUser = circlesModelManager.contactWithId(id: notification.idUser)
+        chatVC.showBackButton = true
+        baseVC.containedViewController = chatVC
+        if let nav = self.slideMenuController()?.mainViewController as? UINavigationController{
+            nav.pushViewController(baseVC, animated: true)
+        }
+    }
+
+    func errorPopupVideo(){
+        let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+        popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.popupTitle = "Error"
+        popupVC.popupDescription = L10n.permisCameraVideo
+        popupVC.button1Title = L10n.permisosAnarConfiguracio
+        popupVC.button2Title = L10n.cancelar
+        
+        popupVC.view.tag = self.errorPermission
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
+    func errorPopupMicrophone(){
+        let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+        popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.popupTitle = "Error"
+        popupVC.popupDescription = L10n.permisMicrofon
+        popupVC.button1Title = L10n.permisosAnarConfiguracio
+        popupVC.button2Title = L10n.cancelar
+        
+        popupVC.view.tag = self.errorPermission
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
     func reloadTableData() {
         dataSource.items = notificationsModelManager.getItems()
         tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
@@ -349,15 +496,28 @@ extension NotificationsViewController: PopUpDelegate{
   
     
     func firstButtonClicked(popup: PopupViewController) {
-        popup.dismissPopup {
+        if popup.view.tag == errorPermission{
+            popup.dismissPopup {
+                UIApplication.shared.open(URL.init(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
+                
+            }
+            
+            
         }
-  
+        else{
+            popup.dismissPopup {
+            }
+            
+        }
+       
     }
     
     func secondButtonClicked(popup: PopupViewController) {
         popup.dismissPopup {
         }
     }
-    
+    func closeButtonClicked(popup: PopupViewController) {
+        
+    }
 }
 

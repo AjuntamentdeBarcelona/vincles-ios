@@ -41,13 +41,13 @@ class HoverButton: UIButton {
         
         if (self.title(for: .normal)?.isEmpty) != nil{
             if (self.title(for: .normal)?.isEmpty)! || self.imageView?.image == nil{
-                self.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
-                self.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
+                self.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+                self.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 
             }
             else{
-                self.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0)
-                self.imageEdgeInsets = UIEdgeInsetsMake(0, -5, 0, 0)
+                self.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+                self.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0)
             }
         }
         if greenMode{
@@ -75,13 +75,13 @@ class HoverButton: UIButton {
 
         if (self.title(for: .normal)?.isEmpty) != nil{
             if (self.title(for: .normal)?.isEmpty)! || self.imageView?.image == nil{
-                self.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
-                self.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
+                self.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+                self.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 
             }
             else{
-                self.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0)
-                self.imageEdgeInsets = UIEdgeInsetsMake(0, -5, 0, 0)
+                self.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+                self.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0)
             }
         }
 

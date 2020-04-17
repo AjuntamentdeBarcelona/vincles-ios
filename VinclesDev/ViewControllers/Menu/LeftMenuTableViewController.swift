@@ -7,6 +7,7 @@
 
 import UIKit
 import SlideMenuControllerSwift
+import EventKit
 
 enum LeftMenu: Int {
     case main = 0
@@ -23,7 +24,7 @@ protocol LeftMenuProtocol : class {
     func changeViewController(_ menu: LeftMenu)
 }
 
-class LeftMenuTableViewController: UITableViewController {
+class LeftMenuTableViewController: UITableViewController, ProfileImageManagerDelegate {
     
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var userImageView: CircularImageView!
@@ -39,11 +40,12 @@ class LeftMenuTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
-        headerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:#selector(tapProfile)))
     }
     
    
     override func viewWillAppear(_ animated: Bool) {
+        ProfileImageManager.sharedInstance.delegate = self
+        
         NotificationCenter.default.post(name: Notification.Name("MenuOpen"), object: nil)
         menus = [L10n.principal, L10n.contactos, L10n.notificaciones, L10n.calendario , L10n.homeFotos, L10n.configuracion, L10n.sobreVincles, L10n.salir]
         getProfile()
@@ -51,7 +53,10 @@ class LeftMenuTableViewController: UITableViewController {
     }
     
     func getProfile(){
+
         if authModelManager.hasUser{
+            self.configHeader()
+
             profileManager.getSelfProfileNoValidation(onSuccess: {
                 self.configHeader()
             }) { (error) in
@@ -64,14 +69,27 @@ class LeftMenuTableViewController: UITableViewController {
     func configHeader(){
         if let user = profileModelManager.getUserMe(){
             userLabel.text = "\(user.name)"
-            
-            let mediaManager = MediaManager()
-            userImageView.tag = user.id
-            mediaManager.setProfilePicture(userId: user.id, imageView: userImageView) {
-                
+            if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: user.id), let image = UIImage(contentsOfFile: url.path){
+                userImageView.image = image
             }
         }
     }
+    
+    
+    func didDownload(userId: Int) {
+        if let user = profileModelManager.getUserMe(), userId == user.id{
+            if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: user.id), let image = UIImage(contentsOfFile: url.path){
+                userImageView.image = image
+            }
+        }
+    }
+    
+    func didError(userId: Int) {
+        if let user = profileModelManager.getUserMe(), userId == user.id{
+            userImageView.image = UIImage(named: "perfilplaceholder")
+        }
+    }
+    
     
     func configUI(){
         userImageView.image = UIImage()
@@ -80,18 +98,6 @@ class LeftMenuTableViewController: UITableViewController {
         userImageView.layer.borderColor = UIColor.white.cgColor
         userImageView.layer.borderWidth = 3.0
         self.tableView.backgroundColor = UIColor(named: .darkGray)
-    }
-
-    @objc func tapProfile() {
-        self.closeLeft()
-
-        if let nav = self.slideMenuController()?.mainViewController as? UINavigationController{
-            let baseVC = StoryboardScene.Base.baseViewController.instantiate()
-            let configVC = StoryboardScene.Configuracio.configMainViewController.instantiate()
-            configVC.showBackButton = false
-            baseVC.containedViewController = configVC
-            nav.pushViewController(baseVC, animated: true)
-        }
     }
     
     func changeViewController(_ menu: LeftMenu) {
@@ -252,39 +258,64 @@ extension LeftMenuTableViewController: PopUpDelegate{
     
     func secondButtonClicked(popup: PopupViewController) {
         self.closeLeft()
+        
+        ApiClient.cancelTasks()
+        
         UserDefaults.standard.set(false, forKey: "loginDone")
+        UserDefaults.standard.set(false, forKey: "sincroCalendari")
 
-        let notificationManager = NotificationManager()
-        notificationManager.deleteLocalNotifications()
-        
-        AlarmSingleton.sharedInstance.stop()
-        
-        authManager.logout(onSuccess: {
-            
-            popup.dismissPopup {
-            }
-            if let nav = self.slideMenuController()?.mainViewController as? UINavigationController{
-                let loginVC = StoryboardScene.Auth.loginViewController.instantiate()
-                loginVC.hideBack = true
-                nav.viewControllers = [loginVC]
-//                nav.pushViewController(loginVC, animated: true)
-                UserDefaults.standard.set(false, forKey: "loginDone")
-
-            }
-        }) { (error) in
-            popup.dismissPopup {
-            }
-            if let nav = self.slideMenuController()?.mainViewController as? UINavigationController{
-                let loginVC = StoryboardScene.Auth.loginViewController.instantiate()
-                loginVC.hideBack = true
-                nav.pushViewController(loginVC, animated: true)
-                UserDefaults.standard.set(false, forKey: "loginDone")
-
-            }
+        let authorizationStatus = EKEventStore.authorizationStatus(for: .event);
+        switch authorizationStatus {
+        case .notDetermined:
+            break
+        case .restricted:
+            break
+        case .denied:
+            break
+        case .authorized:
+            EventsLoader.removeAllEvents()
+            EventsLoader.removeCalendar()
             
         }
         
         
+        let notificationManager = NotificationManager()
+        notificationManager.deleteLocalNotifications()
+        
+        ContentManager.sharedInstance.downloadingIds.removeAll()
+        ContentManager.sharedInstance.errorIds.removeAll()
+        ContentManager.sharedInstance.corruptedIds.removeAll()
+        ProfileImageManager.sharedInstance.downloadingIds.removeAll()
+        ProfileImageManager.sharedInstance.errorIds.removeAll()
+
+        AlarmSingleton.sharedInstance.stop()
+        
+        popup.dismissPopup {
+        }
+        if let nav = self.slideMenuController()?.mainViewController as? UINavigationController{
+            let loginVC = StoryboardScene.Auth.loginViewController.instantiate()
+            loginVC.hideBack = true
+           // nav.viewControllers = [loginVC]
+            
+            ContentManager.sharedInstance.downloadingIds.removeAll()
+            ContentManager.sharedInstance.errorIds.removeAll()
+            ContentManager.sharedInstance.corruptedIds.removeAll()
+            ProfileImageManager.sharedInstance.downloadingIds.removeAll()
+            ProfileImageManager.sharedInstance.errorIds.removeAll()
+            
+            nav.pushViewController(loginVC, animated: true)
+            UserDefaults.standard.set(false, forKey: "loginDone")
+            
+        }
+        
+        authManager.logout(onSuccess: {
+        }) { (error) in
+     
+        }
+        
+        
     }
-    
+    func closeButtonClicked(popup: PopupViewController) {
+        
+    }
 }

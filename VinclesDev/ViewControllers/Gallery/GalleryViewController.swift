@@ -10,8 +10,9 @@ import Popover
 import MobileCoreServices
 import RealmSwift
 import AVFoundation
+import Firebase
 
-class GalleryViewController: UIViewController {
+class GalleryViewController: UIViewController, ContentManagerDelegate {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var filtrarButton: HoverButton!
@@ -21,8 +22,12 @@ class GalleryViewController: UIViewController {
     @IBOutlet weak var cancelarCompartirButton: HoverButton!
     @IBOutlet weak var confirmarCompartirButton: HoverButton!
     @IBOutlet weak var eliminarButton: HoverButton!
+    @IBOutlet weak var seleccionarTodoButton: HoverButton!
+    @IBOutlet weak var noContentLabel: UILabel!
 
     var tableView: UITableView?
+    var tableViewSelect: UITableView?
+
     lazy var picker = UIImagePickerController()
     
     lazy var galleryManager = GalleryManager()
@@ -32,9 +37,11 @@ class GalleryViewController: UIViewController {
     var exportSession: AVAssetExportSession?
 
     fileprivate var popover: Popover!
+    fileprivate var popoverSelect: Popover!
 
     fileprivate var texts = [L10n.galeriaVerTodos, L10n.galeriaVerMios, L10n.galeriaVerRecibidos]
-    
+    fileprivate var textsSelect = [L10n.galeriaOptionCompartir, L10n.galeriaOptionBorrar]
+
     var showBackButton = true
 
     var filterGalleryType = FilterContentType.all
@@ -48,15 +55,22 @@ class GalleryViewController: UIViewController {
     let uploadPhotoTag = 1002
     let uploadVideoTag = 1003
     let deleteErrorTag = 1004
+    let errorSpace = 1005
+    let errorPermission = 1006
+    let errorMaxItems = 1007
 
     var coachMarksController = CoachMarksController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        noContentLabel.isHidden = true
+        seleccionarTodoButton.setTitle(L10n.galeriaSeleccionarTodo, for: .normal)
+
+        print("errorIDs \(ContentManager.sharedInstance.errorIds)")
         coachMarksController.dataSource = self
         coachMarksController.overlay.color = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.8)
         coachMarksController.overlay.allowTap = true
+        seleccionarTodoButton.isHidden = true
         
         getNotifications()
 
@@ -69,6 +83,18 @@ class GalleryViewController: UIViewController {
         loadingCV = true
      
         addHelpButton()
+        
+       //  Timer.every(3.seconds) {
+          //  print("downloadingIds \(ContentManager.sharedInstance.downloadingIds)" )
+      //   }
+        
+        if self.dataSource.getNumberOfItems() == 0{
+            noContentLabel.isHidden = false
+        }
+        else{
+            noContentLabel.isHidden = true
+            
+        }
     }
     
     func addHelpButton(){
@@ -112,10 +138,13 @@ class GalleryViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_GALLERY)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        ContentManager.sharedInstance.delegate = self
+        
+        Analytics.setScreenName(ANALYTICS_GALLERY, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_GALLERY)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     override func viewWillDisappear(_ animated: Bool) {
        //  NotificationCenter.default.removeObserver(self)
@@ -127,6 +156,12 @@ class GalleryViewController: UIViewController {
                 popover.dismiss()
             }
         }
+        if popoverSelect != nil{
+            if popoverSelect.frame.width != 0.0{
+                screenRotated = true
+                popoverSelect.dismiss()
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -136,11 +171,67 @@ class GalleryViewController: UIViewController {
         }
        
         loadingCV = false
-        NotificationCenter.default.addObserver(self, selector: #selector(GalleryViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(GalleryViewController.rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
         
         let notificationName = Notification.Name(NOTIFICATION_PROCESSED)
         NotificationCenter.default.addObserver(self, selector: #selector(GalleryViewController.notificationProcessed), name: notificationName, object: nil)
 
+        let notificationNameCallFinish = Notification.Name(NOTI_FINISH_CALL)
+        NotificationCenter.default.addObserver(self, selector: #selector(GalleryViewController.callFinish), name: notificationNameCallFinish, object: nil)
+        
+
+    }
+    
+    func didDownload(contentId: Int) {
+
+        DispatchQueue.main.async {
+            for cell in self.collectionView.visibleCells{
+                
+                if let galleryCell = cell as? GaleriaItemCollectionViewCell, galleryCell.contentId == contentId{
+                    
+                    var selected = false
+                    if let indexPath = self.collectionView.indexPath(for: cell){
+                        
+                        if self.dataSource.selectedIndexPaths.contains(indexPath.row){
+                            selected = true
+                        }
+                    }
+
+                    galleryCell.setImageWith(contentId: contentId, selectionMode: self.dataSource.selectionMode, selected: selected, isVideo: galleryCell.isVideo)
+                }
+            }
+            
+        }
+    }
+    
+    func didError(contentId: Int) {
+        DispatchQueue.main.async {
+            
+            for cell in self.collectionView.visibleCells{
+                if let galleryCell = cell as? GaleriaItemCollectionViewCell, galleryCell.contentId == contentId{
+                    galleryCell.setError()
+                }
+            }
+            
+        }
+    }
+    
+    func didCorrupted(contentId: Int) {
+        DispatchQueue.main.async {
+            
+            
+            for cell in self.collectionView.visibleCells{
+                if let galleryCell = cell as? GaleriaItemCollectionViewCell, galleryCell.contentId == contentId{
+                    galleryCell.setVideoCorrupted()
+                }
+            }
+        }
+    }
+   
+    
+    
+    @objc func callFinish(){
+        self.updateGalleryGrid()
     }
     
     @objc func notificationProcessed(_ notification: NSNotification){
@@ -154,6 +245,16 @@ class GalleryViewController: UIViewController {
     
         setCollectionViewLayout()
     }
+    
+    override public var traitCollection: UITraitCollection {
+        
+        
+        if UIDevice.current.userInterfaceIdiom == .pad && (UIApplication.shared.statusBarOrientation == .portrait || UIApplication.shared.statusBarOrientation == .portraitUpsideDown)  {
+            return UITraitCollection(traitsFrom:[UITraitCollection(horizontalSizeClass: .compact), UITraitCollection(verticalSizeClass: .regular)])
+        }
+        return super.traitCollection
+    }
+    
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -197,6 +298,7 @@ class GalleryViewController: UIViewController {
     }
     
     func setStrings(){
+        noContentLabel.text = L10n.galeriaVacia
         if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClass.regular) {
             filtrarButton.setTitle(L10n.galeriaFiltrar, for: .normal)
             compartirButton.setTitle(L10n.galeriaSeleccionar, for: .normal)
@@ -205,7 +307,7 @@ class GalleryViewController: UIViewController {
             cancelarCompartirButton.setTitle(L10n.galeriaCancelarCompartir, for: .normal)
             confirmarCompartirButton.setTitle(L10n.galeriaConfirmarCompartirUn, for: .normal)
             eliminarButton.setTitle(L10n.galeriaEliminar, for: .normal)
-
+            
         }
         else{
             filtrarButton.setTitle("", for: .normal)
@@ -297,6 +399,8 @@ class GalleryViewController: UIViewController {
     
     func configDataSources(){
         collectionView.register(UINib(nibName: "GaleriaItemCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "galleryCell")
+        collectionView.register(UINib(nibName: "GaleriaLoadingCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "loadingCell")
+
         setCollectionViewColumns()
         dataSource.galleryManager = galleryManager
         collectionView.delegate = dataSource
@@ -308,26 +412,95 @@ class GalleryViewController: UIViewController {
     
     
     func updateGalleryGrid(){
-        if self.galleryModelManager.numberOfContents == 0{
-            //   viewContactes.contactsCollectionView.isHidden = true
-            //   viewContactes.noContactsView.isHidden = false
+        print(self.dataSource.getNumberOfItems())
+        if self.dataSource.getNumberOfItems() == 0{
+            noContentLabel.isHidden = false
         }
         else{
-            //    viewContactes.contactsCollectionView.isHidden = false
-            //   viewContactes.noContactsView.isHidden = true
+            noContentLabel.isHidden = true
+
         }
         collectionView.reloadData()
     }
     
+    @IBAction func seleccionarTodo(_ sender: Any) {
+        if seleccionarTodoButton.currentTitle == L10n.galeriaSeleccionarTodo{
+            seleccionarTodoButton.setTitle(L10n.galeriaDeseleccionarTodo, for: .normal)
+            self.dataSource.selectAll()
+            self.updateGalleryGrid()
+
+        }
+        else{
+            seleccionarTodoButton.setTitle(L10n.galeriaSeleccionarTodo, for: .normal)
+            self.dataSource.selectedIndexPaths = [Int]()
+            self.updateGalleryGrid()
+        }
+        
+         selectedShareFiles(indexes: dataSource.selectedIndexPaths)
+
+    }
     
     @IBAction func filtrarAction(_ sender: Any) {
         configPopover()
     }
     
-    @IBAction func compartirAction(_ sender: Any) {
+    func updateCompartirTitle(){
         if let baseViewController = self.parent as? BaseViewController{
-            baseViewController.navTitle = L10n.galeriaCompartirTitle
+            if eliminarButton.isHidden{
+                baseViewController.navTitle = "\(L10n.galeriaCompartirTitle) (\(dataSource.selectedIndexPaths.count)/\(dataSource.maxSelectItems))"
+            }
+            else{
+                baseViewController.navTitle = "\(L10n.galeriaCompartirTitle)"
+            }
         }
+    }
+    
+    func configPopoverSelect(){
+        
+        let popoverOptions: [PopoverOption] = [
+            .type(.up),
+            .showBlackOverlay(false)
+        ]
+        
+        if UIDevice.current.userInterfaceIdiom == .phone && (UIApplication.shared.statusBarOrientation == .portrait || UIApplication.shared.statusBarOrientation == .portraitUpsideDown)  {
+            tableViewSelect = UITableView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width - 60, height: 90))
+        }
+        else{
+            tableViewSelect = UITableView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width/2, height: 90))
+        }
+        
+        
+        tableViewSelect!.delegate = self
+        tableViewSelect!.dataSource = self
+        tableViewSelect!.isScrollEnabled = false
+        tableViewSelect!.clipsToBounds = true
+        tableViewSelect!.backgroundColor = .clear
+        self.popoverSelect = Popover(options: popoverOptions, showHandler: {
+            
+            
+        }, dismissHandler: {
+            if self.screenRotated{
+                print("SCREEN ROTATED")
+                self.screenRotated = false
+                self.configPopoverSelect()
+                
+            }
+        })
+        
+        self.popoverSelect.layer.shadowOpacity = 0.5
+        self.popoverSelect.layer.shadowOffset = CGSize(width: 2, height: 2)
+        self.popoverSelect.layer.shadowRadius = 2
+        tableViewSelect!.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: tableViewSelect!.frame.size.width, height: 1))
+        
+        self.popoverSelect.show(tableViewSelect!, fromView: self.compartirButton)
+    }
+    
+    @IBAction func compartirAction(_ sender: Any) {
+      
+        configPopoverSelect()
+        
+        /*
+       updateCompartirTitle()
         
         filtrarButton.isHidden = true
         compartirButton.isHidden = true
@@ -338,15 +511,173 @@ class GalleryViewController: UIViewController {
         eliminarButton.isHidden = false
         dataSource.selectionMode = true
         collectionView.reloadData()
+ */
     }
     
     @IBAction func newPhotoAction(_ sender: Any) {
+        if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
+            self.newPhoto()
+
+        } else {
+            AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+                if granted {
+                    DispatchQueue.main.async {
+                        self.newPhoto()
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                       self.errorPopupPhoto()
+                    }
+                  
+                }
+            })
+        }
+        
+     
+    }
+    
+    func newPhoto(){
         self.picker.sourceType = .camera
         self.picker.mediaTypes = [kUTTypeImage as String]
         self.present(self.picker, animated: true, completion: nil)
     }
     
+    func errorPopupPhoto(){
+        let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+        popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.popupTitle = "Error"
+        popupVC.popupDescription = L10n.permisCamera
+        popupVC.button1Title = L10n.permisosAnarConfiguracio
+        popupVC.button2Title = L10n.cancelar
+        
+        popupVC.view.tag = self.errorPermission
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
+    func errorPopupMax(){
+        let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+        popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.popupTitle = "Error"
+        popupVC.popupDescription = L10n.galeriaMaxItems
+        popupVC.button1Title = L10n.ok
+        
+        popupVC.view.tag = self.errorMaxItems
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
+    
     @IBAction func newVideoAction(_ sender: Any) {
+        
+        if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized && AVCaptureDevice.authorizationStatus(for: .audio) ==  .authorized {
+            newVideo()
+        } else {
+            
+            if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
+                AVCaptureDevice.requestAccess(for: .audio, completionHandler: { (granted: Bool) in
+                    if granted {
+                        DispatchQueue.main.async {
+                            self.newVideo()
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.errorPopupMicrophone()
+
+                        }
+                        
+                    }
+                })
+            }
+            else if AVCaptureDevice.authorizationStatus(for: .audio) ==  .authorized {
+                AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+                    if granted {
+                        DispatchQueue.main.async {
+                            self.newVideo()
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.errorPopupVideo()
+
+                        }
+                        
+                    }
+                })
+            }
+            else{
+                AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+                    if granted {
+                        AVCaptureDevice.requestAccess(for: .audio, completionHandler: { (granted: Bool) in
+                            if granted {
+                                DispatchQueue.main.async {
+                                    self.newVideo()
+                                }
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.errorPopupMicrophone()
+
+                                }
+                                
+                            }
+                        })
+                    } else {
+                        DispatchQueue.main.async {
+                          self.errorPopupVideo()
+                        }
+                        
+                    }
+                })
+            }
+            
+        }
+        
+       
+    }
+    
+   
+    
+    func errorPopupVideo(){
+        let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+        popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.popupTitle = "Error"
+        popupVC.popupDescription = L10n.permisCameraVideo
+        popupVC.button1Title = L10n.permisosAnarConfiguracio
+        popupVC.button2Title = L10n.cancelar
+        
+        popupVC.view.tag = self.errorPermission
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
+    func errorPopupMicrophone(){
+        let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+        popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.popupTitle = "Error"
+        popupVC.popupDescription = L10n.permisMicrofon
+        popupVC.button1Title = L10n.permisosAnarConfiguracio
+        popupVC.button2Title = L10n.cancelar
+        
+        popupVC.view.tag = self.errorPermission
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
+    func newVideo(){
+        let storageManager = StorageManager()
+        
+        
+        if !storageManager.availableSpaceForVideo(){
+            let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+            popupVC.delegate = self
+            popupVC.modalPresentationStyle = .overCurrentContext
+            popupVC.popupTitle = "Error"
+            popupVC.popupDescription = L10n.errorEspai
+            popupVC.button1Title = L10n.ok
+            popupVC.view.tag = self.errorSpace
+            self.present(popupVC, animated: true, completion: nil)
+            return
+        }
+        self.picker.videoMaximumDuration = TimeInterval(VIDEO_MAX_SECONDS)
         self.picker.sourceType = .camera
         self.picker.mediaTypes = [kUTTypeMovie as String]
         self.present(self.picker, animated: true, completion: nil)
@@ -354,11 +685,10 @@ class GalleryViewController: UIViewController {
     
     @IBAction func cancelarCompartirAction(_ sender: Any) {
         self.setNoCompartir()
-        collectionView.reloadData()
+        self.updateGalleryGrid()
     }
     
     func setNoCompartir(){
-        setTitleForFilter()
         filtrarButton.isHidden = false
         compartirButton.isHidden = false
         nuevoVideoButton.isHidden = false
@@ -367,15 +697,25 @@ class GalleryViewController: UIViewController {
         confirmarCompartirButton.isHidden = true
         eliminarButton.isHidden = true
         dataSource.selectionMode = false
+        dataSource.deleteMode = false
+        seleccionarTodoButton.setTitle(L10n.galeriaSeleccionarTodo, for: .normal)
+        dataSource.selectAllMode = false
+        seleccionarTodoButton.isHidden = true
+
         dataSource.selectedIndexPaths = [Int]()
         selectedShareFiles(indexes: dataSource.selectedIndexPaths)
+        setTitleForFilter()
+
     }
     
     @IBAction func confirmarCompartirAction(_ sender: Any) {
         
         let baseVC = StoryboardScene.Base.baseViewController.instantiate()
         let detailVC = StoryboardScene.Gallery.galleryCompartirContactsViewController.instantiate()
-        detailVC.contentIds = dataSource.selectedItemsForSelectedIndexPaths()
+        let (contentIds, metadataTipus) = dataSource.selectedItemsForSelectedIndexPaths()
+        detailVC.contentIds = contentIds
+        detailVC.metadataTipus = metadataTipus
+
         baseVC.containedViewController = detailVC
         self.navigationController?.pushViewController(baseVC, animated: true)
         
@@ -407,6 +747,47 @@ extension GalleryViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        if tableView == tableViewSelect{
+            if indexPath.row == 0{
+                
+                filtrarButton.isHidden = true
+                compartirButton.isHidden = true
+                nuevoVideoButton.isHidden = true
+                nuevaFotoButton.isHidden = true
+                cancelarCompartirButton.isHidden = false
+                confirmarCompartirButton.isHidden = false
+                eliminarButton.isHidden = true
+                dataSource.selectionMode = true
+                dataSource.deleteMode = false
+                seleccionarTodoButton.setTitle(L10n.galeriaSeleccionarTodo, for: .normal)
+                dataSource.selectAllMode = false
+                self.updateGalleryGrid()
+                self.popoverSelect.dismiss()
+                seleccionarTodoButton.isHidden = true
+                updateCompartirTitle()
+
+            }
+            else{
+                
+                filtrarButton.isHidden = true
+                compartirButton.isHidden = true
+                nuevoVideoButton.isHidden = true
+                nuevaFotoButton.isHidden = true
+                cancelarCompartirButton.isHidden = false
+                confirmarCompartirButton.isHidden = true
+                eliminarButton.isHidden = false
+                dataSource.selectionMode = true
+                dataSource.deleteMode = true
+                seleccionarTodoButton.setTitle(L10n.galeriaSeleccionarTodo, for: .normal)
+                dataSource.selectAllMode = false
+                self.updateGalleryGrid()
+                self.popoverSelect.dismiss()
+                seleccionarTodoButton.isHidden = false
+                updateCompartirTitle()
+
+            }
+            return
+        }
         filterGalleryType = FilterContentType(rawValue: indexPath.row)!
         dataSource.galleryFilter = filterGalleryType
         updateGalleryGrid()
@@ -419,25 +800,64 @@ extension GalleryViewController: UITableViewDelegate {
 extension GalleryViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+        if tableView == self.tableViewSelect{
+            return textsSelect.count
+        }
         return texts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        cell.textLabel?.text = self.texts[(indexPath as NSIndexPath).row]
+        if tableView == self.tableViewSelect{
+            cell.textLabel?.text = self.textsSelect[(indexPath as NSIndexPath).row]
+        }
+        else{
+            cell.textLabel?.text = self.texts[(indexPath as NSIndexPath).row]
+
+        }
         cell.textLabel?.textColor = UIColor(named: .grayChatSent)
         cell.textLabel?.font = UIFont(font: FontFamily.AkkuratLight.light, size: 16.0)
         cell.textLabel?.adjustsFontSizeToFitWidth = true
         cell.tintColor = UIColor(named: .darkRed)
-        if indexPath.row == filterGalleryType.rawValue{
-            cell.accessoryType = .checkmark
-            cell.textLabel?.textColor = UIColor(named: .darkRed)
+        if tableView == self.tableViewSelect{
+
         }
+        else{
+            if indexPath.row == filterGalleryType.rawValue{
+                cell.accessoryType = .checkmark
+                cell.textLabel?.textColor = UIColor(named: .darkRed)
+            }
+        }
+
+        
+      
         return cell
     }
 }
 
 extension GalleryViewController: GalleryCollectionViewDataSourceClickDelegate{
+    
+    func showVideoCorruptedError() {
+        let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+        popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.popupTitle = "Error"
+        popupVC.popupDescription = L10n.chatVideoCorrupted
+        popupVC.button1Title = L10n.ok
+        
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
+    func showMaxError() {
+        self.errorPopupMax()
+    }
+    
+    func reloadCollectionView() {
+        self.updateGalleryGrid()
+        self.collectionView.layoutIfNeeded()
+
+    }
+    
     func selectedContent(index: Int) {
         
         let baseVC = StoryboardScene.Base.baseViewController.instantiate()
@@ -451,7 +871,9 @@ extension GalleryViewController: GalleryCollectionViewDataSourceClickDelegate{
     }
     
     func selectedShareFiles(indexes: [Int]) {
-        
+        eliminarButton.alpha = 1
+        eliminarButton.isEnabled = true
+        updateCompartirTitle()
         switch indexes.count {
         case 0:
             if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClass.regular) {
@@ -494,13 +916,13 @@ extension GalleryViewController: GalleryCollectionViewDataSourceClickDelegate{
 }
 
 extension GalleryViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         dismiss(animated:true, completion: nil)
         
-        if let chosenImage = info[UIImagePickerControllerOriginalImage] as? UIImage, let data = UIImageJPEGRepresentation(chosenImage, 0.8){
+        if let chosenImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage, let data = chosenImage.jpegData(compressionQuality: 0.8){
            uploadImage(imageData: data)
         }
-        else if let videoURL = info[UIImagePickerControllerMediaURL] as? URL{
+        else if let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as? URL{
             encodeVideo(videoURL)
 
         }
@@ -512,11 +934,16 @@ extension GalleryViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
     
     func uploadImage(imageData: Data){
+        HUDHelper.sharedInstance.showHud(message: "")
+
         let mediaManager = MediaManager()
         mediaManager.uploadPhoto(imageData: imageData, onSuccess: { contentId in
             self.updateGalleryGrid()
+            HUDHelper.sharedInstance.hideHUD()
+
         }, onError: { (error) in
-            
+            HUDHelper.sharedInstance.hideHUD()
+
             let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
             popupVC.view.tag = self.uploadPhotoTag
             popupVC.delegate = self
@@ -533,12 +960,35 @@ extension GalleryViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
     
     func uploadVideo(videoData: Data){
+        print("There were \(videoData.count) bytes")
+        let bcf = ByteCountFormatter()
+        bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
+        bcf.countStyle = .file
+        let string = bcf.string(fromByteCount: Int64(videoData.count))
+        print("formatted result: \(string)")
+    
+        let profileManager = AuthModelManager()
         
+        if !profileManager.hasUser{
+            return
+        }
+        HUDHelper.sharedInstance.showHud(message: "")
+
         let mediaManager = MediaManager()
         mediaManager.uploadVideo(videoData: videoData, onSuccess: { contentId in
             self.updateGalleryGrid()
-            
+            HUDHelper.sharedInstance.hideHUD()
+
         }, onError: { (error) in
+            HUDHelper.sharedInstance.hideHUD()
+
+            
+            if !profileManager.hasUser{
+                return
+            }
+            
+            HUDHelper.sharedInstance.hideHUD()
+
             let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
             popupVC.view.tag = self.uploadVideoTag
             popupVC.delegate = self
@@ -555,72 +1005,20 @@ extension GalleryViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
     
     func encodeVideo(_ videoURL: URL)  {
-        
-        let avAsset = AVURLAsset(url: videoURL, options: nil)
-        
-        let startDate = Foundation.Date()
-        
-        //Create Export session
-        exportSession = AVAssetExportSession(asset: avAsset, presetName: AVAssetExportPresetPassthrough)
-        
-        // exportSession = AVAssetExportSession(asset: composition, presetName: mp4Quality)
-        //Creating temp path to save the converted video
-        
-        
-        let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let myDocumentPath = URL(fileURLWithPath: documentsDirectory).appendingPathComponent("temp.mp4").absoluteString
-        let url = URL(fileURLWithPath: myDocumentPath)
-        
-        let documentsDirectory2 = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
-        
-        let filePath = documentsDirectory2.appendingPathComponent("rendered-Video.mp4")
-        deleteFile(filePath)
-        
-        //Check if the file already exists then remove the previous file
-        if FileManager.default.fileExists(atPath: myDocumentPath) {
-            do {
-                try FileManager.default.removeItem(atPath: myDocumentPath)
+        HUDHelper.sharedInstance.showHud(message: "")
+
+        let exportManager = VideoExportManager()
+        exportManager.exportVideo(url: videoURL) { (data, error) in
+            if data != nil{
+                 self.uploadVideo(videoData: data!)
+                 self.deleteFile(videoURL)
+
             }
-            catch let error {
-                print(error)
+            else if error != nil{
+                HUDHelper.sharedInstance.hideHUD()
+
             }
         }
-        
-        exportSession!.outputURL = filePath
-        exportSession!.outputFileType = AVFileType.mp4
-        exportSession!.shouldOptimizeForNetworkUse = true
-        let start = CMTimeMakeWithSeconds(0.0, 0)
-        let range = CMTimeRangeMake(start, avAsset.duration)
-        exportSession!.timeRange = range
-        
-        exportSession!.exportAsynchronously(completionHandler: {() -> Void in
-            switch self.exportSession!.status {
-            case .failed:
-                print("%@",self.exportSession?.error)
-            case .cancelled:
-                print("Export canceled")
-            case .completed:
-                //Video conversion finished
-                let endDate = Foundation.Date()
-                
-                let time = endDate.timeIntervalSince(startDate)
-                print("Successful!")
-                let mediaPath = self.exportSession!.outputURL?.path as NSString!
-
-                
-                let videoData = try! Data(contentsOf: self.exportSession!.outputURL!)
-                self.uploadVideo(videoData: videoData)
-                self.deleteFile(self.exportSession!.outputURL!)
-
-                //self.mediaPath = String(self.exportSession.outputURL!)
-            // self.mediaPath = self.mediaPath.substringFromIndex(7)
-            default:
-                break
-            }
-            
-        })
-        
-        
     }
     
     func deleteFile(_ filePath:URL) {
@@ -655,7 +1053,7 @@ extension GalleryViewController: PopUpDelegate{
         self.present(popupVC, animated: true, completion: nil)
     }
     
-    func removeConfirmed(){
+    func removeConfirmedAction(){
         for indexPath in self.dataSource.selectedIndexPaths{
             
             var item: Content?
@@ -671,12 +1069,14 @@ extension GalleryViewController: PopUpDelegate{
             
             if let item = item{
                 let mediaManager = MediaManager()
-                mediaManager.removeContentFromLibrary(contentId: item.id, onSuccess: {
-                    
+                let iddd = item.id
+                mediaManager.removeContentFromLibrary(contentId: iddd, onSuccess: {
+                    print("removeContentFromLibrary \(iddd)")
                     self.dataSource.selectedIndexPaths.remove(at: self.dataSource.selectedIndexPaths.index(of: indexPath)!)
                     if self.dataSource.selectedIndexPaths.count == 0{
                         self.setTitleForFilter()
-                        
+                        HUDHelper.sharedInstance.hideHUD()
+
                         self.filtrarButton.isHidden = false
                         self.compartirButton.isHidden = false
                         self.nuevoVideoButton.isHidden = false
@@ -685,19 +1085,53 @@ extension GalleryViewController: PopUpDelegate{
                         self.confirmarCompartirButton.isHidden = true
                         self.eliminarButton.isHidden = true
                         self.dataSource.selectionMode = false
+                        self.seleccionarTodoButton.isHidden = true
+                        
+                        self.dataSource.deleteMode = false
                         self.dataSource.selectedIndexPaths = [Int]()
-                        self.collectionView.reloadData()
+                        self.updateGalleryGrid()
                     }
                     
                     
                 }) { (error) in
                     self.showRetryPopup()
-                    
+                    HUDHelper.sharedInstance.hideHUD()
+
                 }
             }
             
         }
 
+    }
+    
+    func removeConfirmed(){
+        HUDHelper.sharedInstance.showHud(message: "")
+
+        if dataSource.selectAllMode{
+            let libraryManager = GalleryManager()
+            libraryManager.getContentsLibrary(onSuccess: { (hasMoreItems, needsReload) in
+                if hasMoreItems{
+                    self.removeConfirmed()
+                }
+                else{
+                    self.dataSource.selectedIndexPaths = [Int]()
+                    for i in 0..<self.dataSource.getNumberOfItems(){
+                        self.dataSource.selectedIndexPaths.append(i)
+                    }
+                    self.removeConfirmedAction()
+
+                }
+            }) { (error) in
+                HUDHelper.sharedInstance.hideHUD()
+                self.showRetryPopup()
+                
+            }
+
+        }
+        else{
+            removeConfirmedAction()
+        }
+        
     }
     
     func firstButtonClicked(popup: PopupViewController) {
@@ -732,6 +1166,26 @@ extension GalleryViewController: PopUpDelegate{
             
             
         }
+        else if popup.view.tag == errorSpace{
+            popup.dismissPopup {
+
+            }
+            
+            
+        }
+        else if popup.view.tag == errorPermission{
+            popup.dismissPopup {
+                UIApplication.shared.open(URL.init(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
+
+            }
+            
+            
+        }
+        else{
+            popup.dismissPopup {
+                
+            }
+        }
         
     }
     
@@ -741,7 +1195,9 @@ extension GalleryViewController: PopUpDelegate{
 
         
     }
-    
+    func closeButtonClicked(popup: PopupViewController) {
+        
+    }
 }
 
 

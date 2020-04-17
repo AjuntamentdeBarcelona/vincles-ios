@@ -257,6 +257,8 @@ El projecte VINCLES BCN, titularitat de l’Ajuntament de Barcelona, ha estat un
 "HomeNoContacts" = "Encara no tens contactes";
 "HomeVinclesFamilia" = "Família i amics";
 "HomeVinclesGrups" = "Grups Vincles";
+"HomeNoGroups" = "Encara no tens grups";
+
 // NavBar
 "Menu" = "Menú";
 "Ayuda" = "Ajuda";
@@ -274,19 +276,28 @@ El projecte VINCLES BCN, titularitat de l’Ajuntament de Barcelona, ha estat un
 "GaleriaCancelarCompartir" = "Tornar";
 "GaleriaConfirmarCompartirUn" = "Compartir l'arxiu";
 "GaleriaConfirmarCompartirVaris" = "Compartir els arxius";
-"GaleriaCompartirTitle" = "Clica sobre l'arxiu que vulguis compartir";
-"GaleriaCompartirContactesTitle" = "Clica el contacte amb el que vulguis compartir els arxius";
+"GaleriaCompartirTitle" = "Selecciona els arxius";
+"GaleriaCompartirContactesTitle" = "Selecciona els contactes";
 "GaleriaSeleccionar" = "Seleccionar";
 "GaleriaCompartido" = "Continguts compartits correctament";
 "GaleriaTodos" = "Tots els arxius";
 "GaleriaMios" = "Els meus arxius";
 "GaleriaCompartidos" = "Arxius rebuts";
 "GaleriaEliminarTitle" = "Segur que vol eliminar l'arxiu?";
+"GaleriaEliminarTitleMany" = "Segur que vol eliminar els arxius?";
+"GaleriaSeleccionarTodo" = "Seleccionar tots";
+"GaleriaDeseleccionarTodo" = "Deseleccionar tots";
+"GaleriaVacia" = "Encara no tens contingut";
+
 "GaleriaErrorSubir" = "Hi ha hagut un error al guardar l'arxiu. Vol tornar a intentar-ho?";
 "GaleriaErrorSubirReintentar" = "Reintentar";
 "GaleriaEliminarErrorVaris" = "Hi ha hagut un error al eliminar els arxius. Vol tornar a intentar-ho?";
 "GaleriaEliminarErrorUn" = "Hi ha hagut un error al eliminar l'arxiu. Vol tornar a intentar-ho?";
 "GaleriaCompartirError" = "Ha succeït un error al compartir. Vol tornar a intentar-ho?";
+"GaleriaMaxItems" = "Pots compartir 10 elements com a màxim";
+"GaleriaMaxContacts" = "Pots compartir amb 5 contactes com a màxim";
+"GaleriaOptionCompartir" = "Compartir";
+"GaleriaOptionBorrar" = "Eliminar";
 
 // Contactes
 "ContactsFilterVerTodos" = "Veure tots els contactes";
@@ -298,8 +309,8 @@ El projecte VINCLES BCN, titularitat de l’Ajuntament de Barcelona, ha estat un
 "ContactsAfegirCancelar" = "No afegir i tornar a contactes";
 "ContactsAfegirCodi" = "Vull veure el meu codi de vinculació perquè un altre contacte m'afegeixi";
 "ContactsAfegirVeureCodiButton" = "Veure el meu codi";
-"ContactsAfegirTincCodi" = "Tengo el código de vinculación de otro usuario y el quiero añadir (incluya, por favor, la relación de parentesco)";
-"ContactsAfegirRelacionButton" = " Relación";
+"ContactsAfegirTincCodi" = "Tinc el codi de vinculació d'un altre usuari i el vull afegir (inclogui, si us plau, la relació de parentiu)";
+"ContactsAfegirRelacionButton" = " Relació";
 "ContactsAfegirRelacionError" = "Por favor, seleccione la relación de parentesco.";
 "ContactsAfegirRelacionOptionTitle" = "Opciones";
 "ContactsAfegirEscriuCodi" = "Escriu aquí el codi";
@@ -323,6 +334,7 @@ El projecte VINCLES BCN, titularitat de l’Ajuntament de Barcelona, ha estat un
 "LogoutPopupDesc" = "Segur que vol tancar la sessió?";
 "LogoutPopupButton1" = "Cancel·lar";
 "LogoutPopupButton2" = "Tancar sessió";
+"logoutPopupTokenExpiration" = "Ha caducat la sessió.";
 
 // Chat
 "Trucar" = "Trucar";
@@ -334,6 +346,8 @@ El projecte VINCLES BCN, titularitat de l’Ajuntament de Barcelona, ha estat un
 "ChatSortirText" = "Sortir de text";
 "ChatPlaceholder" = "Escriu aquí el teu text";
 "ChatEnviar" = "Enviar";
+"ChatParar" = "Parar";
+
 "ChatSortirAudio" = "Cancel.lar";
 "ChatErrorGrabacio" = "No pots enregistrar sense donar el pemís.";
 "ChatGrabando" = "Enregistrant";
@@ -349,11 +363,19 @@ El projecte VINCLES BCN, titularitat de l’Ajuntament de Barcelona, ha estat un
 "ChatErrorSubirAudio" = "Ha succeït un error al enviar l'àudio. Vol tornar a intentar-ho?";
 "ChatPushItems" = "Nous items compartits";
 "ChatTu" = "Tu";
+"ChatEnviarAudio" = "Enviar àudio?";
+"ChatPopupEnviar" = "Enviar";
+"ChatPopupRepetir" = "Repetir";
+
+"ChatVideoCorrupted" = "Aquest vídeo no es pot reproduir.";
+
 
 // Grups
 "AfegirContacteTitol" = "Sol.licitud de contacte";
 "AfegirContacteDesc" = "La teva sol.licitud de contacte s'ha enviat correctament";
 "GrupEnviarInvitacio" = "Enviar invitació";
+"GrupReenviarInvitacio" = "Reconvidar usuari";
+
 "GrupEnviarDinamitzador" = "Dinamitzador";
 
 // Agenda
@@ -480,6 +502,8 @@ El projecte VINCLES BCN, titularitat de l’Ajuntament de Barcelona, ha estat un
 "CallMessagePhone" = "Enviar\nmissatge";
 "ChatNotification" = "%@ %@ t'ha trucat el %@ a les %@";
 "CallConnection" = "No es pot establir la trucada, si us plau, torni a intentar-ho";
+"CallDuringError" = "S'ha tallat la trucada, si us plau, torni-ho a provar més tard";
+"CallConnecting" = "Connectant";
 
 // Avisos
 "BatteryLow" = "La bateria està al %@";
@@ -516,7 +540,7 @@ El projecte VINCLES BCN, titularitat de l’Ajuntament de Barcelona, ha estat un
 "Error1310" = "Cercle no trobat";
 "Error1320" = "L’usuari no és part del cercle";
 "Error1321" = "L’usuari ja està en aquest cercle";
-"Error1322" = "Un usuari no es pot afegit al seu propi cercle";
+"Error1322" = "Un usuari no es pot afegir al seu propi cercle";
 "Error1401" = "Contingut no trobat";
 "Error1402" = "Només el propietari d’un contingut el pot eliminar";
 "Error1501" = "El contingut no es troba a la biblioteca";
@@ -567,19 +591,19 @@ El projecte VINCLES BCN, titularitat de l’Ajuntament de Barcelona, ha estat un
 "Error2802" = "L’usuari ja està migrat";
 "Error2803" = "Codi de migració d’usuari incorrecte";
 "Error2011" = "L'usuari no pertany al grup";
-
+"ErrorNetworkCodi" = "No s'ha pogut generar el codi. Torni-ho a intentar més tard.";
 
 // Walkthrough
 
 "WTHomeNotificacions" = "Polsant aquí, podràs veure tots els avisos pendents de revisar. Cites pendents, missatges i/o trucades perdudes.";
 "WTHomeCalendari" = "En polsar aquí, podràs accedir al teu calendari i crear noves cites.";
-"WTHomeContactes" = "En polsar aquí, podràs accedir a tots els contactes des d'aquí.";
+"WTHomeContactes" = "En polsar aquí, podrà accedir a tots els seus contactes.";
 "WTHomeGaleria" = "En polsar aquí, podràs accedir a tot el contingut multimèdia creat per tu o compartit pels teus contactes.";
 
 "WTCalendariAvui" = "En polsar aquí, podràs veure les cites d'avui.";
 "WTCalendariDema" = "En polsar aquí, podràs veure les cites de demà.";
 "WTCalendariMes" = "En polsar aquí, podràs veure el mes sencer i navegar pel calendari, consultar altres cites en altres dies i crear-ne de noves.";
-"WTCalendariCrear" = "Polsant aquí, podràs afegir esdeveniments al calendari i convidar a qualsevol dels nostres contactes.";
+"WTCalendariCrear" = "Polsant aquí, podràs afegir esdeveniments al calendari i convidar a qualsevol dels seus contactes.";
 
 "WTContactesFiltrar" = "Polsant aquí, es poden filtrar els contactes per grups, dinamitzadors o familiars i amics.";
 "WTContactesAfegir" = "En polsar aquí, es pot accedir a les opcions per afegir un nou contacte.";
@@ -603,3 +627,15 @@ El projecte VINCLES BCN, titularitat de l’Ajuntament de Barcelona, ha estat un
 "WTChatCompte" = "En polsar aquí podrà accedir al xat privat amb el dinamitzador.";
 "WTChatRecord" = "Aquí veurà els controls per gravar el missatge d'àudio.";
 "WTChatSendText" = "Aquí veurà els controls per escriure un missatge de text.";
+
+"ErrorEspai" = "Memòria plena. Si us plau, esborri contingut del seu dispositiu.";
+
+"PermisosAnarConfiguracio" = "Anar a Configuració";
+
+
+"PermisTrucada" = "Necessites activar els permisos de Càmera i Micròfon per fer trucades a la secció de Configuració del teu dispositiu.";
+"PermisCameraVideo" = "Necessites activar els permisos de Càmera i Micròfon per gravar vídeos a la secció de Configuració del teu dispositiu.";
+"PermisCamera" = "Necessites activar el permis per fer servir la càmera a la secció de Configuració del teu dispositiu.";
+"PermisGaleria" = "Necessites activar el permis per accedir a la galeria del dispositiu a la secció de Configuració del teu dispositiu.";
+"PermisMicrofon" = "Necessites activar el permis per fer servir el micròfon a la secció de Configuració del teu dispositiu.";
+"PermisCalendari" = "Necessites activar el permis per accedir al calendari a la secció de Configuració del teu dispositiu.";

@@ -6,12 +6,14 @@
 
 
 import UIKit
+import RealmSwift
 
 protocol ChatDataSourceDelegate{
     func tappedImage(imageView: UIImageView)
     func tappedVideo(contentId: Int, isGroup: Bool)
     func reloadTable()
-    
+    func tappedError()
+
 }
 
 
@@ -21,7 +23,7 @@ class ChatDataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     var toUser: User?
     var group: Group?
     var isDinam = false
-
+    
     let chatModelManager = ChatModelManager()
     lazy var profileModelManager = ProfileModelManager()
     lazy var chatManager = ChatManager()
@@ -51,94 +53,105 @@ class ChatDataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
             
             return cell
         }
-        else if let message = items[indexPath.row] as? Message{
-            
-            if message.idUserFrom == profileModelManager.getUserMe()?.id{
-                let cell = tableView.dequeueReusableCell(withIdentifier: "outgoingTextCell", for: indexPath) as! OutgoingChatTableViewCell
-                cell.transform =  CGAffineTransform(scaleX: 1, y: -1)
-                var hideAvatar = false
-                if indexPath.row < items.count - 1{
-                    if let nextMessage = items[indexPath.row + 1] as? Message{
-                        if nextMessage.idUserFrom == profileModelManager.getUserMe()?.id{
-                            hideAvatar = true
+        else if let tuple = items[indexPath.row] as? (Int, String){
+            if tuple.1 == "message"{
+                
+                if let message = chatModelManager.messageWith(id: tuple.0){
+                    if message.idUserFrom == profileModelManager.getUserMe()?.id{
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "outgoingTextCell", for: indexPath) as! OutgoingChatTableViewCell
+                        cell.transform =  CGAffineTransform(scaleX: 1, y: -1)
+                        var hideAvatar = false
+                        if indexPath.row < items.count - 1{
+                            if let nextMessage = items[indexPath.row + 1] as? Message{
+                                if nextMessage.idUserFrom == profileModelManager.getUserMe()?.id{
+                                    hideAvatar = true
+                                }
+                            }
+                        }
+                        cell.configWithMessage(messageId: tuple.0, sender: profileModelManager.getUserMe()!, hideAvatar: hideAvatar)
+                        cell.delegate = self
+                        
+                        return cell
+                    }
+                    
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "incomingTextCell", for: indexPath) as! IncomingChatTableViewCell
+                    
+                    var hideAvatar = false
+                    if indexPath.row < items.count - 1{
+                        if let nextMessage = items[indexPath.row + 1] as? Message{
+                            if nextMessage.idUserFrom == message.idUserFrom{
+                                hideAvatar = true
+                            }
                         }
                     }
-                }
-                cell.configWithMessage(message: message, sender: profileModelManager.getUserMe()!, hideAvatar: hideAvatar)
-                cell.delegate = self
-
-                return cell
-            }
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "incomingTextCell", for: indexPath) as! IncomingChatTableViewCell
-            
-            var hideAvatar = false
-            if indexPath.row < items.count - 1{
-                if let nextMessage = items[indexPath.row + 1] as? Message{
-                    if nextMessage.idUserFrom == message.idUserFrom{
-                        hideAvatar = true
+                    if let toUser = toUser{
+                        cell.configWithMessage(messageId: tuple.0, sender: toUser, hideAvatar: hideAvatar)
                     }
+                    cell.transform =  CGAffineTransform(scaleX: 1, y: -1)
+                    
+                    cell.delegate = self
+                    return cell
                 }
             }
-            if let toUser = toUser{
-                cell.configWithMessage(message: message, sender: toUser, hideAvatar: hideAvatar)
-            }
-            cell.transform =  CGAffineTransform(scaleX: 1, y: -1)
-            
-            cell.delegate = self
-            return cell
-            
-            
-        }
-        else if let message = items[indexPath.row] as? GroupMessage{
-            if message.idUserSender == profileModelManager.getUserMe()?.id{
-                let cell = tableView.dequeueReusableCell(withIdentifier: "outgoingTextCell", for: indexPath) as! OutgoingChatTableViewCell
-                cell.transform =  CGAffineTransform(scaleX: 1, y: -1)
-                var hideAvatar = false
-                if indexPath.row < items.count - 1{
-                    if let nextMessage = items[indexPath.row + 1] as? Message{
-                        if nextMessage.idUserFrom == profileModelManager.getUserMe()?.id{
-                            hideAvatar = true
+            else if tuple.1 == "groupMessage"{
+                if let message = chatModelManager.groupMessageWith(id: tuple.0){
+                    
+                    if message.idUserSender == profileModelManager.getUserMe()?.id{
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "outgoingTextCell", for: indexPath) as! OutgoingChatTableViewCell
+                        cell.transform =  CGAffineTransform(scaleX: 1, y: -1)
+                        var hideAvatar = false
+                        if indexPath.row < items.count - 1{
+                            if let nextMessage = items[indexPath.row + 1] as? Message{
+                                if nextMessage.idUserFrom == profileModelManager.getUserMe()?.id{
+                                    hideAvatar = true
+                                }
+                            }
+                        }
+                        cell.configWithGroupMessage(messageId: tuple.0, hideAvatar: hideAvatar)
+                        cell.delegate = self
+                        
+                        return cell
+                    }
+                    
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "incomingTextCell", for: indexPath) as! IncomingChatTableViewCell
+                    
+                    var hideAvatar = false
+                    if indexPath.row < items.count - 1{
+                        if let nextMessage = items[indexPath.row + 1] as? GroupMessage{
+                            if nextMessage.idUserSender == message.idUserSender{
+                                hideAvatar = true
+                            }
                         }
                     }
-                }
-                cell.configWithGroupMessage(message: message, hideAvatar: hideAvatar)
-                cell.delegate = self
-
-                return cell
-            }
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "incomingTextCell", for: indexPath) as! IncomingChatTableViewCell
-            
-            var hideAvatar = false
-            if indexPath.row < items.count - 1{
-                if let nextMessage = items[indexPath.row + 1] as? GroupMessage{
-                    if nextMessage.idUserSender == message.idUserSender{
-                        hideAvatar = true
-                    }
+                    cell.configWithGroupMessage(messageId: tuple.0, hideAvatar: hideAvatar)
+                    
+                    cell.transform =  CGAffineTransform(scaleX: 1, y: -1)
+                    
+                    cell.delegate = self
+                    return cell
                 }
             }
-            cell.configWithGroupMessage(message: message, hideAvatar: hideAvatar)
-
-            cell.transform =  CGAffineTransform(scaleX: 1, y: -1)
-            
-            cell.delegate = self
-            return cell
+            else if tuple.1 == "notification"{
+                let realm = try! Realm()
+                if let notification = realm.objects(VincleNotification.self).filter("id == %i", tuple.0).first{
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "callCell", for: indexPath) as! ChatCallTableViewCell
+                    cell.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+                    cell.transform =  CGAffineTransform(scaleX: 1, y: -1)
+                    cell.configWithNotification(notification: notification)
+                    
+                    return cell
+                }
+                
+                
+            }
         }
-        else if items[indexPath.row] is VincleNotification{
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "callCell", for: indexPath) as! ChatCallTableViewCell
-            cell.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-            cell.transform =  CGAffineTransform(scaleX: 1, y: -1)
-            cell.configWithNotification(notification: items[indexPath.row] as! VincleNotification)
-            
-            return cell
-        }
-
+        
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "dayCell", for: indexPath) as! ChatDayTableViewCell
         return cell
         
     }
+    
     
     func loadNext(){
         
@@ -172,7 +185,7 @@ class ChatDataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
                 
             }
         }
-       
+        
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -184,10 +197,58 @@ class ChatDataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
             
         }
         
+        if let tuple = items[indexPath.row] as? (Int, String){
+            if tuple.1 == "notification"{
+                let realm = try! Realm()
+                if let not = realm.objects(VincleNotification.self).filter("id == %i", tuple.0).first{
+                    if !not.watched{
+                        let realm = try! Realm()
+                        try! realm.write {
+                            not.watched = true
+                        }
+                    }
+                }
+                
+                
+            }
+            
+        }
         
+        
+        /*
+         let realm = try! Realm()
+         
+         let notifications = realm.objects(VincleNotification.self).filter("watched = %@", false)
+         
+         for not in notifications{
+         try! realm.write {
+         not.watched = true
+         }
+         }
+         */
+        
+        if let cell = cell as? OutgoingChatTableViewCell{
+            cell.setAvatar()
+            
+            for contentId in cell.contentIds{
+                cell.setExistingItem(adjunt: contentId)
+            }
+          
+            
+        }
+        else if let cell = cell as? IncomingChatTableViewCell{
+            cell.setAvatar()
+            
+            for contentId in cell.contentIds{
+                cell.setExistingItem(adjunt: contentId)
+            }
+        }
+        else if let cell = cell as? ChatCallTableViewCell{
+            cell.setAvatar()
+        }
     }
     
-   
+    
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
     }
@@ -200,9 +261,12 @@ extension ChatDataSource: IncomingChatTableViewCellDelegate{
     
     func tappedVideo(contentId: Int, isGroup: Bool) {
         dsDelegate?.tappedVideo(contentId: contentId, isGroup: isGroup)
-
+        
     }
     
+    func tappedError() {
+        dsDelegate?.tappedError()
+    }
     
 }
 
@@ -216,5 +280,9 @@ extension ChatDataSource: OutgoingChatTableViewCellDelegate{
         
     }
     
+    func tappedErrorOut() {
+        dsDelegate?.tappedError()
+    }
     
 }
+

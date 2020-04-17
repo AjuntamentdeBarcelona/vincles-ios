@@ -6,6 +6,7 @@
 
 
 import UIKit
+import Firebase
 
 class AgendaContainerViewController: UIViewController {
 
@@ -106,10 +107,12 @@ class AgendaContainerViewController: UIViewController {
     
 
     override func viewWillAppear(_ animated: Bool) {
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_AGENDA)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        
+        Analytics.setScreenName(ANALYTICS_AGENDA, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_AGENDA)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     func setStrings(){
         todayButton.setTitle(L10n.agendaHoy, for: .normal)
@@ -227,7 +230,7 @@ class AgendaContainerViewController: UIViewController {
     
     private func add(asChildViewController viewController: UIViewController) {
         // Add Child View Controller
-        addChildViewController(viewController)
+        addChild(viewController)
         
         // Add Child View as Subview
         containerView.addSubview(viewController.view)
@@ -237,18 +240,18 @@ class AgendaContainerViewController: UIViewController {
         viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         // Notify Child View Controller
-        viewController.didMove(toParentViewController: self)
+        viewController.didMove(toParent: self)
     }
     
     private func remove(asChildViewController viewController: UIViewController) {
         // Notify Child View Controller
-        viewController.willMove(toParentViewController: nil)
+        viewController.willMove(toParent: nil)
         
         // Remove Child View From Superview
         viewController.view.removeFromSuperview()
         
         // Notify Child View Controller
-        viewController.removeFromParentViewController()
+        viewController.removeFromParent()
     }
     
     @IBAction func todayAction(_ sender: Any) {

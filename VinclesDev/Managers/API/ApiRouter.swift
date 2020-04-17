@@ -19,25 +19,25 @@ enum ApiRouter: URLRequestConvertible {
     case RegisterVinculat(params: [String:Any])
     case ValidateVinculat(params: [String:Any])
     case RecoverPassword(params: [String:Any])
-    case GetSelfUserInfo()
+    case GetSelfUserInfo
     case GetContentsLibrary(params: [String:Any])
-    case GetCirclesUser()
-    case UploadContent()
+    case GetCirclesUser
+    case UploadContent
     case AddContentToLibrary(params: [String:Any])
     case RemoveContentFromLibrary(params: [String:Any])
-    case GetGroupsUser()
-    case GetCirclesUserVinculat()
-    case GenerateCode()
+    case GetGroupsUser
+    case GetCirclesUserVinculat
+    case GenerateCode
     case AddCode(params: [String:Any])
     case RemoveContact(params: [String:Any])
-    case ChangeUserPhoto()
+    case ChangeUserPhoto
     case ShareContent(params: [String:Any])
     case SendInstallation(params: [String:Any])
     case UpdateInstallation(params: [String:Any])
     case GetInstallations(params: [String:Any])
     case SendUserMessage(params: [String:Any])
     case ChatUserGetMessages(params: [String:Any])
-    case SendBadToken()
+    case SendBadToken
     case GetNotifications(params: [String:Any])
     case GetNotificationById(params: [String:Any])
     case GetMessageById(params: [String:Any])
@@ -47,7 +47,7 @@ enum ApiRouter: URLRequestConvertible {
     case GetGroupMessageById(params: [String:Any])
     case RemoveContactFromVinculat(params: [String:Any])
     case GetUserBasicInfo(params: [String:Any])
-    case GetServerTime()
+    case GetServerTime
     case GetGroupParticipants(params: [String:Any])
     case GetMeetings(params: [String:Any])
     case CreateMeeting(params: [String:Any])
@@ -62,14 +62,15 @@ enum ApiRouter: URLRequestConvertible {
     case ErrorVideoConference(params: [String:Any])
     case InviteUserFromGroup(params: [String:Any])
     case ChangePassword(params: [String:Any])
-    case SendMigrationStatus()
+    case SendMigrationStatus
     case GetChatLastAccess(params: [String:Any])
     case PutChatLastAccess(params: [String:Any])
     case GetUserFullInfo(params: [String:Any])
+    case PostDataUsage(params: [String:Any])
 
     var method: Alamofire.HTTPMethod {
         switch self {
-        case .Login, .RenewToken, .Logout, .RegisterVinculat, .ValidateVinculat, .RecoverPassword, .UploadContent, .GenerateCode, .AddCode, .ChangeUserPhoto, .ShareContent, .SendInstallation, .SendUserMessage, .SendGroupMessage, .CreateMeeting, .StartVideoConference, .ErrorVideoConference, .InviteUserFromGroup, .ChangePassword, .AddContentToLibrary:
+        case .Login, .RenewToken, .Logout, .RegisterVinculat, .ValidateVinculat, .RecoverPassword, .UploadContent, .GenerateCode, .AddCode, .ChangeUserPhoto, .ShareContent, .SendInstallation, .SendUserMessage, .SendGroupMessage, .CreateMeeting, .StartVideoConference, .ErrorVideoConference, .InviteUserFromGroup, .ChangePassword, .AddContentToLibrary, .PostDataUsage:
             return .post
         case .GetSelfUserInfo, .GetContentsLibrary, .GetCirclesUser, .GetGroupsUser, .GetCirclesUserVinculat, .ChatUserGetMessages, .SendBadToken, .GetNotifications, .GetNotificationById, .GetMessageById, .ChatGroupGetMessages, .GetGroupMessageById, .GetUserBasicInfo, .GetServerTime, .GetGroupParticipants, .GetMeetings, .GetMeeting, .GetSpecificContent, .GetChatLastAccess, .GetInstallations, .GetUserFullInfo:
             return .get
@@ -189,12 +190,14 @@ enum ApiRouter: URLRequestConvertible {
             return String(format: CHAT_LAST_ACCESS, params["idChat"] as! Int)
         case .GetUserFullInfo(let params):
             return String(format: GET_USER_FULL_INFO, params["id"] as! Int)
+        case .PostDataUsage:
+            return POST_DATA_USAGE
         }
     }
     
     var params: [String: Any]? {
         switch self {
-        case .Login(let params),.RenewToken(let params),.Logout(let params),.RegisterVinculat(let params),.ValidateVinculat(let params),.RecoverPassword(let params),.GetContentsLibrary(let params),.AddCode(let params),.ShareContent(let params),.SendInstallation(let params),.UpdateInstallation(let params),.SendUserMessage(let params),.ChatUserGetMessages(let params),.GetNotifications(let params),.ChatGroupGetMessages(let params),.GetMeetings(let params),.SendGroupMessage(let params),.CreateMeeting(let params),.UpdateUser(let params),.EditMeeting(let params),.StartVideoConference(let params),.ErrorVideoConference(let params),.ChangePassword(let params),.PutChatLastAccess(let params),.AddContentToLibrary(let params),.GetInstallations(let params):
+        case .Login(let params),.RenewToken(let params),.Logout(let params),.RegisterVinculat(let params),.ValidateVinculat(let params),.RecoverPassword(let params),.GetContentsLibrary(let params),.AddCode(let params),.ShareContent(let params),.SendInstallation(let params),.UpdateInstallation(let params),.SendUserMessage(let params),.ChatUserGetMessages(let params),.GetNotifications(let params),.ChatGroupGetMessages(let params),.GetMeetings(let params),.SendGroupMessage(let params),.CreateMeeting(let params),.UpdateUser(let params),.EditMeeting(let params),.StartVideoConference(let params),.ErrorVideoConference(let params),.ChangePassword(let params),.PutChatLastAccess(let params),.AddContentToLibrary(let params),.GetInstallations(let params),.PostDataUsage(let params):
             return params
         default:
             return nil
@@ -211,12 +214,11 @@ enum ApiRouter: URLRequestConvertible {
         case .RenewToken, .Login, .Logout:
             urlRequest.setValue( "Basic \(BASIC_AUTH_STR)", forHTTPHeaderField: "Authorization")
             
-            print("2.5")
             return try Alamofire.URLEncoding.default.encode(urlRequest, with: params)
         case  .RegisterVinculat, .ValidateVinculat, .RecoverPassword:
             urlRequest.setValue( "Basic \(BASIC_AUTH_STR)", forHTTPHeaderField: "Authorization")
             return try Alamofire.JSONEncoding.default.encode(urlRequest, with: params)
-        case .GetSelfUserInfo, .GetCirclesUser, .UploadContent, .AddContentToLibrary, .RemoveContentFromLibrary, .GetGroupsUser, .GetCirclesUserVinculat, .GenerateCode, .AddCode, .RemoveContact, .ChangeUserPhoto, .ShareContent, .SendInstallation, .UpdateInstallation, .SendUserMessage, .GetNotificationById, .GetMessageById, .MarkMessageWatched, .SendGroupMessage, .GetGroupMessageById, .RemoveContactFromVinculat, .GetUserBasicInfo, .GetServerTime, .GetGroupParticipants, .CreateMeeting, .UpdateUser, .AcceptMeeting, .DeclineMeeting, .DeleteMeeting, .EditMeeting, .GetMeeting, .GetSpecificContent, .StartVideoConference, .ErrorVideoConference, .InviteUserFromGroup, .ChangePassword, .SendMigrationStatus, .GetChatLastAccess, .PutChatLastAccess, .GetUserFullInfo:
+        case .GetSelfUserInfo, .GetCirclesUser, .UploadContent, .AddContentToLibrary, .RemoveContentFromLibrary, .GetGroupsUser, .GetCirclesUserVinculat, .GenerateCode, .AddCode, .RemoveContact, .ChangeUserPhoto, .ShareContent, .SendInstallation, .UpdateInstallation, .SendUserMessage, .GetNotificationById, .GetMessageById, .MarkMessageWatched, .SendGroupMessage, .GetGroupMessageById, .RemoveContactFromVinculat, .GetUserBasicInfo, .GetServerTime, .GetGroupParticipants, .CreateMeeting, .UpdateUser, .AcceptMeeting, .DeclineMeeting, .DeleteMeeting, .EditMeeting, .GetMeeting, .GetSpecificContent, .StartVideoConference, .ErrorVideoConference, .InviteUserFromGroup, .ChangePassword, .SendMigrationStatus, .GetChatLastAccess, .PutChatLastAccess, .GetUserFullInfo, .PostDataUsage:
             
             
             let authModelManager = AuthModelManager()

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,20 +17,20 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="pkM-nW-wes">
-                    <rect key="frame" x="171" y="165" width="37" height="37"/>
+                    <rect key="frame" x="170.5" y="165" width="37" height="37"/>
                 </activityIndicatorView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CAb-fV-Qvg" customClass="ImageView" customModule="VinclesDev" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="378" height="367"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aQR-5V-QDY">
-                    <rect key="frame" x="95" y="89" width="189" height="189"/>
+                    <rect key="frame" x="94.5" y="89" width="189" height="189"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="aQR-5V-QDY" secondAttribute="height" multiplier="1:1" id="Hqb-Gl-RwQ"/>
                     </constraints>
                     <state key="normal" image="Video"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ibM-Mf-MtN">
-                    <rect key="frame" x="94" y="89" width="189" height="189"/>
+                    <rect key="frame" x="94.5" y="89" width="189" height="189"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="ibM-Mf-MtN" secondAttribute="height" multiplier="1:1" id="sXk-uZ-c9e"/>
                     </constraints>
@@ -69,19 +67,27 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RQh-Dl-H4X">
+                    <rect key="frame" x="94.5" y="89" width="189" height="189"/>
+                    <state key="normal" image="cancel"/>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstItem="RQh-Dl-H4X" firstAttribute="height" secondItem="ibM-Mf-MtN" secondAttribute="height" id="32U-Xj-Ono"/>
                 <constraint firstItem="aQR-5V-QDY" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="4xD-cV-QRh"/>
                 <constraint firstItem="CAb-fV-Qvg" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="85O-48-XVT"/>
+                <constraint firstItem="RQh-Dl-H4X" firstAttribute="width" secondItem="ibM-Mf-MtN" secondAttribute="width" id="92q-e6-kHP"/>
                 <constraint firstItem="pkM-nW-wes" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="GYD-NL-MNM"/>
                 <constraint firstItem="ibM-Mf-MtN" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="H2z-4c-ypf"/>
+                <constraint firstItem="RQh-Dl-H4X" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="IA7-DM-S7a"/>
                 <constraint firstItem="ibM-Mf-MtN" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="IW3-Rs-2Ah"/>
                 <constraint firstItem="CAb-fV-Qvg" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="LTK-Ue-GOq"/>
                 <constraint firstItem="CAb-fV-Qvg" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="OG1-ku-uRr"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="kGV-mz-QF0" secondAttribute="trailing" constant="10" id="TS9-le-s8b"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="K9e-fH-awq" secondAttribute="bottom" constant="20" id="Uvu-aj-RR0"/>
                 <constraint firstItem="ibM-Mf-MtN" firstAttribute="width" secondItem="ibM-Mf-MtN" secondAttribute="height" multiplier="1:1" id="ab5-0U-t6G"/>
+                <constraint firstItem="RQh-Dl-H4X" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="ade-Js-HmE"/>
                 <constraint firstItem="aQR-5V-QDY" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.5" id="fQ0-1Q-ZzS"/>
                 <constraint firstItem="aQR-5V-QDY" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="gGE-tG-RRQ"/>
                 <constraint firstItem="pkM-nW-wes" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="iYH-Fn-t35"/>
@@ -99,12 +105,14 @@
                 <outlet property="playButton" destination="aQR-5V-QDY" id="NeA-zf-d0d"/>
                 <outlet property="thumbImage" destination="CAb-fV-Qvg" id="z3B-dv-CDm"/>
                 <outlet property="typeLabel" destination="K9e-fH-awq" id="BKU-Ss-Hve"/>
+                <outlet property="videoCorruptedButton" destination="RQh-Dl-H4X" id="D8w-7d-fIj"/>
             </connections>
             <point key="canvasLocation" x="35" y="-6.5"/>
         </view>
     </objects>
     <resources>
         <image name="Video" width="144" height="144"/>
+        <image name="cancel" width="42.666667938232422" height="42.666667938232422"/>
         <image name="download" width="144" height="144"/>
     </resources>
 </document>

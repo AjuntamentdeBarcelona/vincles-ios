@@ -6,8 +6,11 @@
 
 
 import UIKit
+import Photos
+import EventKit
+import Firebase
 
-class ConfigMainViewController: UIViewController {
+class ConfigMainViewController: UIViewController, ProfileImageManagerDelegate {
     
     @IBOutlet weak var userImageView: CircularImageView!
     @IBOutlet weak var fotoTitleLabel: UILabel!
@@ -32,7 +35,8 @@ class ConfigMainViewController: UIViewController {
     lazy var profileModelManager = ProfileModelManager()
     lazy var profileManager = ProfileManager()
     lazy var notificationsManager = NotificationManager()
-    
+    let errorPermission = 1006
+
     var photoChanged = false
     var showBackButton = true
     
@@ -47,14 +51,50 @@ class ConfigMainViewController: UIViewController {
         configNavigationBar()
         setImage()
         
+        switch EKEventStore.authorizationStatus(for: .event) {
+        case .authorized:
+            break
+        case .denied:
+            DispatchQueue.main.async {
+                self.sincronitzarSegmentedControl.selectedSegmentIndex = 1
+
+            }
+        case .notDetermined:
+            break
+        default:
+            break
+        }
+        
+        
+        PHPhotoLibrary.requestAuthorization { status in
+            switch status {
+            case .authorized:
+                break
+            case .restricted:
+                break
+            case .denied:
+                DispatchQueue.main.async {
+                    self.galeriaSegmentedControl.selectedSegmentIndex = 1
+
+                }
+
+            default:
+                // place for .notDetermined - in this callback status is already determined so should never get here
+                break
+            }
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         setStrings()
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_CONFIGURATION)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        ProfileImageManager.sharedInstance.delegate = self
+        
+        Analytics.setScreenName(ANALYTICS_CONFIGURATION, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_CONFIGURATION)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     
     func addTargets(){
@@ -94,12 +134,25 @@ class ConfigMainViewController: UIViewController {
         self.userImageView.layer.borderColor = UIColor.white.cgColor
         self.userImageView.layer.borderWidth = 4.0
         if let user = profileModelManager.getUserMe(){
-            let mediaManager = MediaManager()
-            userImageView.tag = user.id
             
-            mediaManager.setProfilePicture(userId: user.id, imageView: userImageView) {
-                
+            if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: user.id), let image = UIImage(contentsOfFile: url.path){
+                userImageView.image = image
             }
+
+        }
+    }
+    
+    func didDownload(userId: Int) {
+        if let user = profileModelManager.getUserMe(), userId == user.id{
+            if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: user.id), let image = UIImage(contentsOfFile: url.path){
+                userImageView.image = image
+            }
+        }
+    }
+    
+    func didError(userId: Int) {
+        if let user = profileModelManager.getUserMe(), userId == user.id{
+            userImageView.image = UIImage(named: "perfilplaceholder")
         }
     }
     
@@ -123,7 +176,6 @@ class ConfigMainViewController: UIViewController {
         
         
         if let user = profileModelManager.getUserMe(){
-            print(user.email)
             let resiString = user.liveInBarcelona ? L10n.configuracioResident : L10n.configuracioNoResident
             userDataLabel.text = "\(user.username)\n\(user.name) \(user.lastname)\n\(user.phone)\n\(resiString)"   
         }
@@ -170,6 +222,10 @@ class ConfigMainViewController: UIViewController {
         
     }
     
+    @IBAction func goTestDeinit(_ sender: UIButton) {
+        let popupVC = StoryboardScene.Configuracio.configPersonalDataViewController.instantiate()
+        self.navigationController?.pushViewController(popupVC, animated: true)
+    }
     
     @IBAction func segmentedChanged(_ sender: UISegmentedControl) {
         switch sender {
@@ -185,8 +241,37 @@ class ConfigMainViewController: UIViewController {
             }
         case sincronitzarSegmentedControl:
             if sincronitzarSegmentedControl.selectedSegmentIndex == 0{
-                UserDefaults.standard.set(true, forKey: "sincroCalendari")
-                EventsLoader.syncAllMeetings()
+                switch EKEventStore.authorizationStatus(for: .event) {
+                    
+                case .authorized:
+                    syncCalendar()
+                    
+                case .denied:
+                    self.errorPopupCalendar()
+                    self.sincronitzarSegmentedControl.selectedSegmentIndex = 1
+
+                case .notDetermined:
+                    let eventStore = EKEventStore()
+                    eventStore.requestAccess(to: .event, completion:
+                        {(granted: Bool, error: Error?) -> Void in
+                            if granted {
+                                DispatchQueue.main.async {
+                                    self.syncCalendar()
+                                }
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.sincronitzarSegmentedControl.selectedSegmentIndex = 1
+                                    self.errorPopupCalendar()
+                                }
+                              
+                            }
+                    })
+                    
+                default:
+                    break
+                }
+                
+               
             }
             else if sincronitzarSegmentedControl.selectedSegmentIndex == 1{
                 UserDefaults.standard.set(false, forKey: "sincroCalendari")
@@ -218,8 +303,32 @@ class ConfigMainViewController: UIViewController {
                 
             }
         case galeriaSegmentedControl:
+            
+           
+            
             if self.galeriaSegmentedControl.selectedSegmentIndex == 0 {
-                UserDefaults.standard.set(true, forKey: "saveToCameraRoll")
+                PHPhotoLibrary.requestAuthorization { status in
+                    switch status {
+                    case .authorized:
+                        UserDefaults.standard.set(true, forKey: "saveToCameraRoll")
+                    case .restricted:
+                        DispatchQueue.main.async {
+                            UserDefaults.standard.set(false, forKey: "saveToCameraRoll")
+                            self.galeriaSegmentedControl.selectedSegmentIndex = 1
+                            self.errorPopupGallery()
+                        }
+                    case .denied:
+                        DispatchQueue.main.async {
+                            UserDefaults.standard.set(false, forKey: "saveToCameraRoll")
+                            self.galeriaSegmentedControl.selectedSegmentIndex = 1
+                            self.errorPopupGallery()
+                        }
+                    default:
+                        // place for .notDetermined - in this callback status is already determined so should never get here
+                        break
+                    }
+                }
+                
             }
             else{
                 UserDefaults.standard.set(false, forKey: "saveToCameraRoll")
@@ -232,10 +341,44 @@ class ConfigMainViewController: UIViewController {
         
     }
     
+    func syncCalendar(){
+        EventsLoader.removeCalendar()
+        
+        UserDefaults.standard.set(true, forKey: "sincroCalendari")
+        EventsLoader.syncAllMeetings { (success) in
+            if success == false{
+                let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+                popupVC.delegate = self
+                popupVC.modalPresentationStyle = .overCurrentContext
+                popupVC.popupTitle = "Error"
+                popupVC.popupDescription = "Error guardant"
+                popupVC.button1Title = "ok"
+                popupVC.button2Title = L10n.cancelar
+                
+                popupVC.view.tag = self.errorPermission
+                self.present(popupVC, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func errorPopupCalendar(){
+        let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+        popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.popupTitle = "Error"
+        popupVC.popupDescription = L10n.permisCalendari
+        popupVC.button1Title = L10n.permisosAnarConfiguracio
+        popupVC.button2Title = L10n.cancelar
+        
+        popupVC.view.tag = self.errorPermission
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
     // MARK: Photo management
     @IBAction func fotoAction(_ sender: UIButton) {
         showPhotoSheet()
     }
+    
     
     func showPhotoSheet(){
         
@@ -246,23 +389,49 @@ class ConfigMainViewController: UIViewController {
         actionSheetController.addAction(UIAlertAction(title: L10n.cancelar, style: .cancel) { _ in })
         
         actionSheetController.addAction(UIAlertAction(title: L10n.registerFotoCamara, style: .default) { _ in
-            self.pickerVideo.allowsEditing = false
-            self.pickerVideo.sourceType = .camera
-            self.pickerVideo.cameraCaptureMode = .photo
-            
-            
-            self.present(self.pickerVideo, animated: true, completion: nil)
+         
+            if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
+                self.newPhotoCamera()
+                
+            } else {
+                AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+                    if granted {
+                        DispatchQueue.main.async {
+                            self.newPhotoCamera()
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.errorPopupPhoto()
+                        }
+                        
+                    }
+                })
+            }
             
         })
         
         actionSheetController.addAction(UIAlertAction(title: L10n.registerFotoGaleria, style: .default) { _ in
-            self.picker.allowsEditing = false
-            self.picker.sourceType = .photoLibrary
-            self.picker.modalPresentationStyle = .popover
-            self.picker.popoverPresentationController?.sourceView = self.userImageView
-            self.picker.popoverPresentationController?.sourceRect = self.userImageView.bounds
             
-            self.present(self.picker, animated: true, completion: nil)
+            PHPhotoLibrary.requestAuthorization { status in
+                switch status {
+                case .authorized:
+                    DispatchQueue.main.async {
+                        self.newPhotoGallery()
+                    }
+                case .restricted:
+                    DispatchQueue.main.async {
+                    self.errorPopupGallery()
+                    }
+                case .denied:
+                    DispatchQueue.main.async {
+                        self.errorPopupGallery()
+                    }
+                default:
+                    // place for .notDetermined - in this callback status is already determined so should never get here
+                    break
+                }
+            }
+           
         })
         
         if let popoverController = actionSheetController.popoverPresentationController {
@@ -272,6 +441,51 @@ class ConfigMainViewController: UIViewController {
         self.present(actionSheetController, animated: true, completion: nil)
     }
     
+    func newPhotoCamera(){
+        self.pickerVideo.allowsEditing = false
+        self.pickerVideo.sourceType = .camera
+        self.pickerVideo.cameraCaptureMode = .photo
+        
+        
+        self.present(self.pickerVideo, animated: true, completion: nil)
+    }
+    
+    func errorPopupGallery(){
+        let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+        popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.popupTitle = "Error"
+        popupVC.popupDescription = L10n.permisGaleria
+        popupVC.button1Title = L10n.permisosAnarConfiguracio
+        popupVC.button2Title = L10n.cancelar
+        
+        popupVC.view.tag = self.errorPermission
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
+    
+    func errorPopupPhoto(){
+        let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+        popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.popupTitle = "Error"
+        popupVC.popupDescription = L10n.permisCamera
+        popupVC.button1Title = L10n.permisosAnarConfiguracio
+        popupVC.button2Title = L10n.cancelar
+        
+        popupVC.view.tag = self.errorPermission
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
+    func newPhotoGallery(){
+        self.picker.allowsEditing = false
+        self.picker.sourceType = .photoLibrary
+        self.picker.modalPresentationStyle = .popover
+        self.picker.popoverPresentationController?.sourceView = self.userImageView
+        self.picker.popoverPresentationController?.sourceRect = self.userImageView.bounds
+        
+        self.present(self.picker, animated: true, completion: nil)
+    }
     
     
     @IBAction func idiomaDidChange(_ sender: Any) {
@@ -295,7 +509,7 @@ class ConfigMainViewController: UIViewController {
     @IBAction func editDataAction(_ sender: Any) {
         let baseVC = StoryboardScene.Base.baseViewController.instantiate()
         let detailVC = StoryboardScene.Configuracio.configPersonalDataViewController.instantiate()
-        detailVC.userImage = userImageView.image
+       // detailVC.userImage = userImageView.image
         
         baseVC.containedViewController = detailVC
         self.navigationController?.pushViewController(baseVC, animated: true)
@@ -308,7 +522,6 @@ class ConfigMainViewController: UIViewController {
     
     func sendPhoto(){
         
-        let mediaManager = MediaManager()
         
         if let image = userImageView.image{
             HUDHelper.sharedInstance.showHud(message: L10n.loginLoadingEnviant)
@@ -317,7 +530,7 @@ class ConfigMainViewController: UIViewController {
                 HUDHelper.sharedInstance.hideHUD()
 
                 if let user = self.profileModelManager.getUserMe(){
-                    mediaManager.removeProfilePicture(userId: user.id)
+                    ProfileImageManager.sharedInstance.removeProfilePicture(userId: user.id)
                     self.getNotifications()
                 }
                 
@@ -371,9 +584,9 @@ extension ConfigMainViewController: BaseTextFieldDelegate {
 }
 
 extension ConfigMainViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         DispatchQueue.main.async { [unowned self] in
-            let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+            let chosenImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
             self.userImageView.image = chosenImage
             self.userImageView.layer.borderColor = UIColor.white.cgColor
             self.userImageView.layer.borderWidth = 4.0
@@ -396,21 +609,40 @@ extension ConfigMainViewController: PopUpDelegate{
     
     
     func firstButtonClicked(popup: PopupViewController) {
-        popup.dismissPopup {
-            self.sendPhoto()
+        if popup.view.tag == errorPermission{
+            popup.dismissPopup {
+                UIApplication.shared.open(URL.init(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
+                
+            }
         }
+        else{
+            popup.dismissPopup {
+                self.sendPhoto()
+            }
+        }
+     
         
     }
     
     func secondButtonClicked(popup: PopupViewController) {
-        popup.dismissPopup {
-            if self.lastImage != nil{
-                self.userImageView.image = self.lastImage!
-            }
-            else{
-                self.userImageView.image = UIImage()
+        if popup.view.tag == errorPermission{
+            popup.dismissPopup {
+                
             }
         }
+        else{
+            popup.dismissPopup {
+                if self.lastImage != nil{
+                    self.userImageView.image = self.lastImage!
+                }
+                else{
+                    self.userImageView.image = UIImage()
+                }
+            }
+        }
+      
     }
-    
+    func closeButtonClicked(popup: PopupViewController) {
+        
+    }
 }

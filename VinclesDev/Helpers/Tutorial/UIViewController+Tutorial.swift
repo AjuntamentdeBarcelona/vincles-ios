@@ -35,10 +35,10 @@ extension UIViewController: TutorialViewDelegate {
         let views = ["tutorialView": tutorialView]
         
         window.addSubview(tutorialView)
-        window.bringSubview(toFront: tutorialView)
+        window.bringSubviewToFront(tutorialView)
         
-        window.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[tutorialView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
-        window.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[tutorialView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+        window.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[tutorialView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: views))
+        window.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[tutorialView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: views))
         window.setNeedsLayout()
     }
     

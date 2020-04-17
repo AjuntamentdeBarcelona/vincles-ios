@@ -127,10 +127,7 @@ class ContactsGroupsDataSource: NSObject , UICollectionViewDataSource, UICollect
                     contactItems.append(contactItem)
                 }
                 
-                for item in contactItems{
-                    print(item.name)
-                    print(item.unreadMessagesAndLostCalls)
-                }
+              
                 
                 contactItems.sort{ //sort(_:) in Swift 3
                     if $0.unreadMessagesAndLostCalls != $1.unreadMessagesAndLostCalls {
@@ -193,10 +190,20 @@ class ContactsGroupsDataSource: NSObject , UICollectionViewDataSource, UICollect
             cell.eliminarButton.isHidden = false
         }
         
+        /*
         cell.eliminarButton.addTargetClosure { (sender) in
             self.clickDelegate?.showRemovePopup(item: item)
         }
+ */
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let cell = cell as? ContactItemCollectionViewCell{
+            if cell.isUser{
+                cell.setAvatar()
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -238,10 +245,15 @@ class ContactsGroupsDataSource: NSObject , UICollectionViewDataSource, UICollect
                 
             }
         }
+        else{
+            let (item, _) = getItem(indexPath: indexPath.row)
+            self.clickDelegate?.showRemovePopup(item: item)
+        }
      
     
     }
 }
+
 
 
 

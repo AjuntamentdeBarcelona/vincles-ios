@@ -257,6 +257,7 @@ El proyecto VINCLES BCN, titularidad del Ayuntamiento de Barcelona, ha sido una 
 "HomeNoContacts" = "Aún no tienes contactos";
 "HomeVinclesFamilia" = "Familia y amigos";
 "HomeVinclesGrups" = "Grupos Vincles";
+"HomeNoGroups" = "Aún no tienes grupos";
 
 // NavBar
 "Menu" = "Menú";
@@ -275,19 +276,27 @@ El proyecto VINCLES BCN, titularidad del Ayuntamiento de Barcelona, ha sido una 
 "GaleriaCancelarCompartir" = "Volver";
 "GaleriaConfirmarCompartirUn" = "Compartir el archivo";
 "GaleriaConfirmarCompartirVaris" = "Compartir los archivos";
-"GaleriaCompartirTitle" = "Clica sobre el archivo que quieras compartir";
-"GaleriaCompartirContactesTitle" = "Clica el contacto con el que quieras compartir los archivos";
+"GaleriaCompartirTitle" = "Selecciona los archivos";
+"GaleriaCompartirContactesTitle" = "Selecciona los contactos";
 "GaleriaSeleccionar" = "Seleccionar";
 "GaleriaCompartido" = "Contenidos compartidos correctamente";
 "GaleriaTodos" = "Todos los archivos";
 "GaleriaMios" = "Mis archivos";
 "GaleriaCompartidos" = "Archivos recibidos";
 "GaleriaEliminarTitle" = "¿Seguro que quiere eliminar el archivo?";
+"GaleriaEliminarTitleMany" = "¿Seguro que quiere eliminar los archivos?";
 "GaleriaErrorSubir" = "Ha ocurrido un error al guardar el archivo. ¿Quiere volver a intentarlo?";
 "GaleriaErrorSubirReintentar" = "Reintentar";
 "GaleriaEliminarErrorVaris" = "Hi ha hagut un error al eliminar els arxius. Vol tornar a intentar-ho?";
 "GaleriaEliminarErrorUn" = "Hi ha hagut un error al eliminar l'arxiu. Vol tornar a intentar-ho?";
 "GaleriaCompartirError" = "Ha ocurrido un error al compartir. ¿Quiere volver a intentarlo?";
+"GaleriaMaxItems" = "Puedes compartir 10 elementos como máximo";
+"GaleriaMaxContacts" = "Puedes compartir con 5 contactos como máximo";
+"GaleriaOptionCompartir" = "Compartir";
+"GaleriaOptionBorrar" = "Eliminar";
+"GaleriaSeleccionarTodo" = "Seleccionar todo";
+"GaleriaDeseleccionarTodo" = "Deseleccionar todo";
+"GaleriaVacia" = "Aún no tienes contenido";
 
 // Contactes
 "ContactsFilterVerTodos" = "Ver todos los contactos";
@@ -299,7 +308,7 @@ El proyecto VINCLES BCN, titularidad del Ayuntamiento de Barcelona, ha sido una 
 "ContactsAfegirCancelar" = "No añadir y volver a contactos";
 "ContactsAfegirCodi" = "Quiero ver mi código de vinculación para que otro contacto me añada";
 "ContactsAfegirVeureCodiButton" = "Ver mi código";
-"ContactsAfegirTincCodi" = "Tengo el código de vinculación de otro usuario y el quiero añadir (incluya, por favor, la relación de parentesco)";
+"ContactsAfegirTincCodi" = "Tengo el código de vinculación de otro usuario y quiero añadirlo (incluya, por favor, la relación de parentesco)";
 "ContactsAfegirRelacionButton" = " Relación";
 "ContactsAfegirRelacionError" = "Por favor, seleccione la relación de parentesco.";
 "ContactsAfegirRelacionOptionTitle" = "Opciones";
@@ -326,6 +335,7 @@ El proyecto VINCLES BCN, titularidad del Ayuntamiento de Barcelona, ha sido una 
 "LogoutPopupDesc" = "¿Seguro que quiere cerrar la sesión?";
 "LogoutPopupButton1" = "Cancelar";
 "LogoutPopupButton2" = "Cerrar sesión";
+"logoutPopupTokenExpiration" = "Ha caducado la sesión.";
 
 // Chat
 "Trucar" = "Llamar";
@@ -337,6 +347,7 @@ El proyecto VINCLES BCN, titularidad del Ayuntamiento de Barcelona, ha sido una 
 "ChatSortirText" = "Salir de texto";
 "ChatPlaceholder" = "Escribe aquí tu texto";
 "ChatEnviar" = "Enviar";
+"ChatParar" = "Parar";
 "ChatSortirAudio" = "Cancelar";
 "ChatErrorGrabacio" = "No puedes grabar sin dar permiso.";
 "ChatGrabando" = "Grabando";
@@ -353,11 +364,17 @@ El proyecto VINCLES BCN, titularidad del Ayuntamiento de Barcelona, ha sido una 
 "ChatErrorSubirImagen" = "Ha ocurrido un error al enviar la imagen. ¿Quiere volver a intentarlo?";
 "ChatErrorSubirVideo" = "Ha ocurrido un error al enviar el video. ¿Quiere volver a intentarlo?";
 "ChatErrorSubirAudio" = "Ha ocurrido un error al enviar el audio. ¿Quiere volver a intentarlo?";
+"ChatEnviarAudio" = "¿Enviar audio?";
+"ChatPopupEnviar" = "Enviar";
+"ChatPopupRepetir" = "Repetir";
+
+"ChatVideoCorrupted" = "Este video no se puede reproducir.";
 
 // Grups
 "AfegirContacteTitol" = "Solicitud de contacto";
 "AfegirContacteDesc" = "Tu solicitud de contacto se ha enviado correctamente";
 "GrupEnviarInvitacio" = "Enviar invitación";
+"GrupReenviarInvitacio" = "Reinvitar usuario";
 "GrupEnviarDinamitzador" = "Dinamizador";
 
 // Agenda
@@ -486,13 +503,15 @@ El proyecto VINCLES BCN, titularidad del Ayuntamiento de Barcelona, ha sido una 
 "LostCall" = "Llamada perdida de";
 "ChatNotification" = "%@%@ te ha llamado el %@ a las %@";
 "CallConnection" = "No se puede establecer la llamada. Por favor, vuelva a intentarlo";
+"CallDuringError" = "Se ha cortado la llamada, por favor, vuelva a probarlo más tarde";
+"CallConnecting" = "Conectando";
 
 // Avisos
 "BatteryLow" = "La batería está al %@";
 "NoNetwork" = "No tienes la conexión con la red";
 
 // Sobre
-"SobreVinclesText" = "Vincles es un servicio de soporte y acompañamiento en la conversación, fortalecimiento y creación de vínculos relacionales de las personas mayores usuarias del servicio.\n\nPor una parte, el servicio Vincles consiste en dar soporte en la dinamización de una red personal de la persona mayor; incorporando familiares, amigos, vecinos, y personas de su entorno de confianza a su red. Por otro lado, el servicio Vincles pretende incorporar a la persona mayor en grupos creados con otros usuarios del servicio, fomentando la interacción y promoviendo la participación en actividades tanto online como presenciales.\n\nAyuntamiento de Barcelona\n\nEn caso de consultas, quejas, sugerencias o incidencias, por favor, utilice el formulario disponible en la siguiente web: http://www.bcn.cat/cgi-bin/queixesIRIS?id=391\n\nVersió de l'aplicació: %@";
+"SobreVinclesText" = "Vincles es un servicio de soporte y acompañamiento en la conversación, fortalecimiento y creación de vínculos relacionales de las personas mayores usuarias del servicio.\n\nPor una parte, el servicio Vincles consiste en dar soporte en la dinamización de una red personal de la persona mayor; incorporando familiares, amigos, vecinos, y personas de su entorno de confianza a su red. Por otro lado, el servicio Vincles pretende incorporar a la persona mayor en grupos creados con otros usuarios del servicio, fomentando la interacción y promoviendo la participación en actividades tanto online como presenciales.\n\nAyuntamiento de Barcelona\n\nEn caso de consultas, quejas, sugerencias o incidencias, por favor, utilice el formulario disponible en la siguiente web: http://www.bcn.cat/cgi-bin/queixesIRIS?id=391\n\nVersión de la aplicación: %@";
 
 // Tutorial
 "Tancar" = "Cerrar";
@@ -571,11 +590,12 @@ El proyecto VINCLES BCN, titularidad del Ayuntamiento de Barcelona, ha sido una 
 "Error2802" = "El usuario ya está migrado";
 "Error2803" = "Código de migración incorrecto";
 "Error2011" = "El usuario no pertenece al grupo";
+"ErrorNetworkCodi" = "No se ha podido generar el código. Vuélvalo a intentar más tarde.";
 
 // Walkthrough
 "WTHomeNotificacions" = "Pulsando aquí, podrás ver todos los avisos pendientes de revisar. Citas pendientes, mensajes y/o llamadas perdidas.";
 "WTHomeCalendari" = "Al pulsar aquí, podrá acceder a tu calendario y crear nuevas citas.";
-"WTHomeContactes" = "Al pulsar aquí, tendrá acceso a todos tus contactos desde aquí.";
+"WTHomeContactes" = "Al pulsar aquí, tendrá acceso a todos sus contactos.";
 "WTHomeGaleria" = "Al pulsar aquí, podrá acceder a todo el contenido multimedia creado por ti o compartido por tus contactos.";
 
 "WTCalendariAvui" = "Al pulsar aquí, podrá ver las citas de hoy.";
@@ -599,9 +619,19 @@ El proyecto VINCLES BCN, titularidad del Ayuntamiento de Barcelona, ha sido una 
 "WTChatText" = "Al pulsar aquí, podrá desplegar el teclado y enviar mensajes de texto al momento.";
 "WTChatFoto" = "Al pulsar aquí, podrá hacer fotos para mandarlas al momento.";
 "WTChatVideo" = "Al pulsar aquí, podrá crear videos para mandarlos al momento.";
-"WTChatAudio" = "Al pulsar aquí, podrá mandar mensajes de audio a nuestros contactos.";
+"WTChatAudio" = "Al pulsar aquí, podrá mandar mensajes de audio al momento.";
 "WTChatGaleria" = "Al pulsar aquí, podrá compartir archivos de la galería del dispositivo.";
 "WTChatTrucar" = "Al pulsar aquí, podrá iniciar videollamada con el contacto del chat.";
 "WTChatCompte" = "Al pulsar aquí podrà acceder al chat privado con el dinamizador.";
 "WTChatRecord" = "Aquí verá los controles para grabar el mensaje de audio";
 "WTChatSendText" = "Aquí verá los controles para escribir un mensaje de texto.";
+"ErrorEspai" = "Memoria llena. Por favor, borre contenido de su dispositivo.";
+
+"PermisosAnarConfiguracio" = "Ir a Ajustes";
+
+"PermisTrucada" = "Necesitas activar los permisos de Cámara y Micrófono para hacer llamadas en la sección de Configuración de tu dispositivo";
+"PermisCameraVideo" = "Necesitas activar los permisos de Cámara y Micrófono para grabar videos en la sección de Configuración de tu dispositivo";
+"PermisCamera" = "Necesitas activar el permiso para utilizar la cámara en la sección de Ajustes de tu dispositivo.";
+"PermisGaleria" = "Necesitas activar el permiso para acceder a la galeria del dispositivo en la sección de Ajustes de tu dispositivo.";
+"PermisMicrofon" = "Necesitas activar el permiso para utilizar el microfono en la sección de Ajustes de tu dispositivo.";
+"PermisCalendari" = "Necesitas activar el permiso para acceder al calendario en la sección de Ajustes de tu dispositivo.";

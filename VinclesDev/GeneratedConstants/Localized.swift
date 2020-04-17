@@ -53,8 +53,12 @@ enum L10n {
   static var calendario : String { return  L10n.tr("Localizable", "Calendario") }
   /// Rebutjar
   static var callCancel : String { return  L10n.tr("Localizable", "CallCancel") }
+  /// Connectant
+  static var callConnecting : String { return  L10n.tr("Localizable", "CallConnecting") }
   /// No es pot establir la trucada, si us plau, torni a intentar-ho
   static var callConnection : String { return  L10n.tr("Localizable", "CallConnection") }
+  /// S'ha tallat la trucada, si us plau, torni-ho a provar més tard
+  static var callDuringError : String { return  L10n.tr("Localizable", "CallDuringError") }
   /// Penjar
   static var callEnd : String { return  L10n.tr("Localizable", "CallEnd") }
   /// Trucada de
@@ -81,6 +85,8 @@ enum L10n {
   static var chatAyer : String { return  L10n.tr("Localizable", "ChatAyer") }
   /// Enviar
   static var chatEnviar : String { return  L10n.tr("Localizable", "ChatEnviar") }
+  /// Enviar àudio?
+  static var chatEnviarAudio : String { return  L10n.tr("Localizable", "ChatEnviarAudio") }
   /// No pots enregistrar sense donar el pemís.
   static var chatErrorGrabacio : String { return  L10n.tr("Localizable", "ChatErrorGrabacio") }
   /// Ha succeït un error al enviar l'àudio. Vol tornar a intentar-ho?
@@ -105,8 +111,14 @@ enum L10n {
   }
   /// Missatges no llegits
   static var chatNuevosMensajes : String { return  L10n.tr("Localizable", "ChatNuevosMensajes") }
+  /// Parar
+  static var chatParar : String { return  L10n.tr("Localizable", "ChatParar") }
   /// Escriu aquí el teu text
   static var chatPlaceholder : String { return  L10n.tr("Localizable", "ChatPlaceholder") }
+  /// Enviar
+  static var chatPopupEnviar : String { return  L10n.tr("Localizable", "ChatPopupEnviar") }
+  /// Repetir
+  static var chatPopupRepetir : String { return  L10n.tr("Localizable", "ChatPopupRepetir") }
   /// Nou missatge d'àudio
   static var chatPushAudio : String { return  L10n.tr("Localizable", "ChatPushAudio") }
   /// Nova imatge
@@ -125,6 +137,8 @@ enum L10n {
   static var chatTu : String { return  L10n.tr("Localizable", "ChatTu") }
   /// Vídeo
   static var chatVideo : String { return  L10n.tr("Localizable", "ChatVideo") }
+  /// Aquest vídeo no es pot reproduir.
+  static var chatVideoCorrupted : String { return  L10n.tr("Localizable", "ChatVideoCorrupted") }
   /// Acceptar la cita
   static var citaAccepta : String { return  L10n.tr("Localizable", "CitaAccepta") }
   /// Acceptar
@@ -237,13 +251,13 @@ enum L10n {
   static var contactsAfegirContacte : String { return  L10n.tr("Localizable", "ContactsAfegirContacte") }
   /// Escriu aquí el codi
   static var contactsAfegirEscriuCodi : String { return  L10n.tr("Localizable", "ContactsAfegirEscriuCodi") }
-  ///  Relación
+  ///  Relació
   static var contactsAfegirRelacionButton : String { return  L10n.tr("Localizable", "ContactsAfegirRelacionButton") }
   /// Por favor, seleccione la relación de parentesco.
   static var contactsAfegirRelacionError : String { return  L10n.tr("Localizable", "ContactsAfegirRelacionError") }
   /// Opciones
   static var contactsAfegirRelacionOptionTitle : String { return  L10n.tr("Localizable", "ContactsAfegirRelacionOptionTitle") }
-  /// Tengo el código de vinculación de otro usuario y el quiero añadir (incluya, por favor, la relación de parentesco)
+  /// Tinc el codi de vinculació d'un altre usuari i el vull afegir (inclogui, si us plau, la relació de parentiu)
   static var contactsAfegirTincCodi : String { return  L10n.tr("Localizable", "ContactsAfegirTincCodi") }
   /// Veure el meu codi
   static var contactsAfegirVeureCodiButton : String { return  L10n.tr("Localizable", "ContactsAfegirVeureCodiButton") }
@@ -349,7 +363,7 @@ enum L10n {
   static var error1320 : String { return  L10n.tr("Localizable", "Error1320") }
   /// L’usuari ja està en aquest cercle
   static var error1321 : String { return  L10n.tr("Localizable", "Error1321") }
-  /// Un usuari no es pot afegit al seu propi cercle
+  /// Un usuari no es pot afegir al seu propi cercle
   static var error1322 : String { return  L10n.tr("Localizable", "Error1322") }
   /// Contingut no trobat
   static var error1401 : String { return  L10n.tr("Localizable", "Error1401") }
@@ -451,8 +465,12 @@ enum L10n {
   static var error2802 : String { return  L10n.tr("Localizable", "Error2802") }
   /// Codi de migració d’usuari incorrecte
   static var error2803 : String { return  L10n.tr("Localizable", "Error2803") }
+  /// Memòria plena. Si us plau, esborri contingut del seu dispositiu.
+  static var errorEspai : String { return  L10n.tr("Localizable", "ErrorEspai") }
   /// Ho sentim, hi ha hagut un error.
   static var errorGenerico : String { return  L10n.tr("Localizable", "ErrorGenerico") }
+  /// No s'ha pogut generar el codi. Torni-ho a intentar més tard.
+  static var errorNetworkCodi : String { return  L10n.tr("Localizable", "ErrorNetworkCodi") }
   /// Hem enviat un correu amb instruccions del procés per recuperar la seva contrasenya, si us plau revisa el teu correu electrònic per completar el procés
   static var forgotAlert : String { return  L10n.tr("Localizable", "ForgotAlert") }
   /// Hi ha hagut un error enviant el correu electrònic de recuperació de contrasenya
@@ -473,16 +491,18 @@ enum L10n {
   static var galeriaCompartidos : String { return  L10n.tr("Localizable", "GaleriaCompartidos") }
   /// Compartir
   static var galeriaCompartir : String { return  L10n.tr("Localizable", "GaleriaCompartir") }
-  /// Clica el contacte amb el que vulguis compartir els arxius
+  /// Selecciona els contactes
   static var galeriaCompartirContactesTitle : String { return  L10n.tr("Localizable", "GaleriaCompartirContactesTitle") }
   /// Ha succeït un error al compartir. Vol tornar a intentar-ho?
   static var galeriaCompartirError : String { return  L10n.tr("Localizable", "GaleriaCompartirError") }
-  /// Clica sobre l'arxiu que vulguis compartir
+  /// Selecciona els arxius
   static var galeriaCompartirTitle : String { return  L10n.tr("Localizable", "GaleriaCompartirTitle") }
   /// Compartir l'arxiu
   static var galeriaConfirmarCompartirUn : String { return  L10n.tr("Localizable", "GaleriaConfirmarCompartirUn") }
   /// Compartir els arxius
   static var galeriaConfirmarCompartirVaris : String { return  L10n.tr("Localizable", "GaleriaConfirmarCompartirVaris") }
+  /// Deseleccionar tots
+  static var galeriaDeseleccionarTodo : String { return  L10n.tr("Localizable", "GaleriaDeseleccionarTodo") }
   /// Eliminar
   static var galeriaEliminar : String { return  L10n.tr("Localizable", "GaleriaEliminar") }
   /// Hi ha hagut un error al eliminar l'arxiu. Vol tornar a intentar-ho?
@@ -491,24 +511,38 @@ enum L10n {
   static var galeriaEliminarErrorVaris : String { return  L10n.tr("Localizable", "GaleriaEliminarErrorVaris") }
   /// Segur que vol eliminar l'arxiu?
   static var galeriaEliminarTitle : String { return  L10n.tr("Localizable", "GaleriaEliminarTitle") }
+  /// Segur que vol eliminar els arxius?
+  static var galeriaEliminarTitleMany : String { return  L10n.tr("Localizable", "GaleriaEliminarTitleMany") }
   /// Hi ha hagut un error al guardar l'arxiu. Vol tornar a intentar-ho?
   static var galeriaErrorSubir : String { return  L10n.tr("Localizable", "GaleriaErrorSubir") }
   /// Reintentar
   static var galeriaErrorSubirReintentar : String { return  L10n.tr("Localizable", "GaleriaErrorSubirReintentar") }
   /// Filtrar
   static var galeriaFiltrar : String { return  L10n.tr("Localizable", "GaleriaFiltrar") }
+  /// Pots compartir amb 5 contactes com a màxim
+  static var galeriaMaxContacts : String { return  L10n.tr("Localizable", "GaleriaMaxContacts") }
+  /// Pots compartir 10 elements com a màxim
+  static var galeriaMaxItems : String { return  L10n.tr("Localizable", "GaleriaMaxItems") }
   /// Els meus arxius
   static var galeriaMios : String { return  L10n.tr("Localizable", "GaleriaMios") }
   /// Nova foto
   static var galeriaNuevaFoto : String { return  L10n.tr("Localizable", "GaleriaNuevaFoto") }
   /// Nou video
   static var galeriaNuevoVideo : String { return  L10n.tr("Localizable", "GaleriaNuevoVideo") }
+  /// Eliminar
+  static var galeriaOptionBorrar : String { return  L10n.tr("Localizable", "GaleriaOptionBorrar") }
+  /// Compartir
+  static var galeriaOptionCompartir : String { return  L10n.tr("Localizable", "GaleriaOptionCompartir") }
   /// Seleccionar
   static var galeriaSeleccionar : String { return  L10n.tr("Localizable", "GaleriaSeleccionar") }
+  /// Seleccionar tots
+  static var galeriaSeleccionarTodo : String { return  L10n.tr("Localizable", "GaleriaSeleccionarTodo") }
   /// Galeria
   static var galeriaTitle : String { return  L10n.tr("Localizable", "GaleriaTitle") }
   /// Tots els arxius
   static var galeriaTodos : String { return  L10n.tr("Localizable", "GaleriaTodos") }
+  /// Encara no tens contingut
+  static var galeriaVacia : String { return  L10n.tr("Localizable", "GaleriaVacia") }
   /// Veure només els meus arxius
   static var galeriaVerMios : String { return  L10n.tr("Localizable", "GaleriaVerMios") }
   /// Veure només els arxius rebuts
@@ -519,6 +553,8 @@ enum L10n {
   static var grupEnviarDinamitzador : String { return  L10n.tr("Localizable", "GrupEnviarDinamitzador") }
   /// Enviar invitació
   static var grupEnviarInvitacio : String { return  L10n.tr("Localizable", "GrupEnviarInvitacio") }
+  /// Reconvidar usuari
+  static var grupReenviarInvitacio : String { return  L10n.tr("Localizable", "GrupReenviarInvitacio") }
   /// Consulta els avisos
   static var homeAvisos : String { return  L10n.tr("Localizable", "HomeAvisos") }
   /// Benvinguda a Vincles,
@@ -533,6 +569,8 @@ enum L10n {
   static var homeFotos : String { return  L10n.tr("Localizable", "HomeFotos") }
   /// Encara no tens contactes
   static var homeNoContacts : String { return  L10n.tr("Localizable", "HomeNoContacts") }
+  /// Encara no tens grups
+  static var homeNoGroups : String { return  L10n.tr("Localizable", "HomeNoGroups") }
   /// Família i amics
   static var homeVinclesFamilia : String { return  L10n.tr("Localizable", "HomeVinclesFamilia") }
   /// Grups Vincles
@@ -577,6 +615,8 @@ enum L10n {
   static var logoutPopupDesc : String { return  L10n.tr("Localizable", "LogoutPopupDesc") }
   /// Tancar sessió
   static var logoutPopupTitle : String { return  L10n.tr("Localizable", "LogoutPopupTitle") }
+  /// Ha caducat la sessió.
+  static var logoutPopupTokenExpiration : String { return  L10n.tr("Localizable", "logoutPopupTokenExpiration") }
   /// Trucada perduda de
   static var lostCall : String { return  L10n.tr("Localizable", "LostCall") }
   /// Menú
@@ -679,6 +719,20 @@ enum L10n {
   static var nuevaCitaPlaceholder : String { return  L10n.tr("Localizable", "NuevaCitaPlaceholder") }
   /// Entesos
   static var ok : String { return  L10n.tr("Localizable", "Ok") }
+  /// Necessites activar el permis per accedir al calendari a la secció de Configuració del teu dispositiu.
+  static var permisCalendari : String { return  L10n.tr("Localizable", "PermisCalendari") }
+  /// Necessites activar el permis per fer servir la càmera a la secció de Configuració del teu dispositiu.
+  static var permisCamera : String { return  L10n.tr("Localizable", "PermisCamera") }
+  /// Necessites activar els permisos de Càmera i Micròfon per gravar vídeos a la secció de Configuració del teu dispositiu.
+  static var permisCameraVideo : String { return  L10n.tr("Localizable", "PermisCameraVideo") }
+  /// Necessites activar el permis per accedir a la galeria del dispositiu a la secció de Configuració del teu dispositiu.
+  static var permisGaleria : String { return  L10n.tr("Localizable", "PermisGaleria") }
+  /// Necessites activar el permis per fer servir el micròfon a la secció de Configuració del teu dispositiu.
+  static var permisMicrofon : String { return  L10n.tr("Localizable", "PermisMicrofon") }
+  /// Anar a Configuració
+  static var permisosAnarConfiguracio : String { return  L10n.tr("Localizable", "PermisosAnarConfiguracio") }
+  /// Necessites activar els permisos de Càmera i Micròfon per fer trucades a la secció de Configuració del teu dispositiu.
+  static var permisTrucada : String { return  L10n.tr("Localizable", "PermisTrucada") }
   /// El número de telèfon no pot contenir lletres o símbols
   static var phoneNumeric : String { return  L10n.tr("Localizable", "PhoneNumeric") }
   /// Inici
@@ -785,7 +839,7 @@ enum L10n {
   static var volver : String { return  L10n.tr("Localizable", "Volver") }
   /// En polsar aquí, podràs veure les cites d'avui.
   static var wtCalendariAvui : String { return  L10n.tr("Localizable", "WTCalendariAvui") }
-  /// Polsant aquí, podràs afegir esdeveniments al calendari i convidar a qualsevol dels nostres contactes.
+  /// Polsant aquí, podràs afegir esdeveniments al calendari i convidar a qualsevol dels seus contactes.
   static var wtCalendariCrear : String { return  L10n.tr("Localizable", "WTCalendariCrear") }
   /// En polsar aquí, podràs veure les cites de demà.
   static var wtCalendariDema : String { return  L10n.tr("Localizable", "WTCalendariDema") }
@@ -833,7 +887,7 @@ enum L10n {
   static var wtGaleriaTornar : String { return  L10n.tr("Localizable", "WTGaleriaTornar") }
   /// En polsar aquí, podràs accedir al teu calendari i crear noves cites.
   static var wtHomeCalendari : String { return  L10n.tr("Localizable", "WTHomeCalendari") }
-  /// En polsar aquí, podràs accedir a tots els contactes des d'aquí.
+  /// En polsar aquí, podrà accedir a tots els seus contactes.
   static var wtHomeContactes : String { return  L10n.tr("Localizable", "WTHomeContactes") }
   /// En polsar aquí, podràs accedir a tot el contingut multimèdia creat per tu o compartit pels teus contactes.
   static var wtHomeGaleria : String { return  L10n.tr("Localizable", "WTHomeGaleria") }

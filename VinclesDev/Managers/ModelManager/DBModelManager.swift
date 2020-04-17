@@ -22,7 +22,7 @@ class DBModelManager: DBModelManagerProtocol {
     
     func removeAllItemsFromDatabase(){
         let realm = try! Realm()
- /*
+
         do {
             try realm.write {
                 realm.deleteAll()
@@ -31,8 +31,9 @@ class DBModelManager: DBModelManagerProtocol {
             print("Could not delete object.\n\(String(describing: error.localizedDescription))")
             
         }
-          */
+        
        
+        /*
         for user in realm.objects(User.self){
             do {
                 try realm.write {
@@ -86,7 +87,7 @@ class DBModelManager: DBModelManagerProtocol {
             print("Could not delete object.\n\(String(describing: error.localizedDescription))")
             
         }
-       
+       */
         /*
         let allMessages = realm.objects(Message.self)
         do {

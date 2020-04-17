@@ -26,7 +26,8 @@ class ApiClient: ApiClientProtocol {
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 60
         configuration.timeoutIntervalForResource = 120
-        
+   
+
         // configuration.httpAdditionalHeaders = Alamofire.SessionManager.defaultHTTPHeaders
         let manager = Alamofire.SessionManager(
             configuration: configuration,
@@ -47,7 +48,13 @@ class ApiClient: ApiClientProtocol {
         manager.request(ApiRouter.Login(params: parameters))
             .responseJSON { response in
                 
-
+                if let size = response.data?.count{
+                   
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_LOGIN, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_LOGIN, size: sizeUp)
+                }
                 switch response.result {
                 case .success:
                     if let status = response.response?.statusCode, status == 200, let data = response.result.value as? [String: AnyObject], let _ = data["access_token"] as? String, let _ = data["refresh_token"] as? String, let _ = data["expires_in"] as? Int {
@@ -85,13 +92,16 @@ class ApiClient: ApiClientProtocol {
     static func sendMigrationStatus(onSuccess: @escaping ApiClientProtocol.VoidCallback, onError: @escaping ApiClientProtocol.ErrorCallback) {
         
         
-        manager.request(ApiRouter.SendMigrationStatus())
+        manager.request(ApiRouter.SendMigrationStatus)
             .responseJSON { response in
                 
-                print(response.response?.statusCode)
-                print(response.request)
-                
-                
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_MIGRATION, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_MIGRATION, size: sizeUp)
+                }
                 switch response.result {
                 case .success:
                     if let status = response.response?.statusCode, status == 200{
@@ -130,6 +140,13 @@ class ApiClient: ApiClientProtocol {
         manager.request(ApiRouter.RecoverPassword(params: parameters))
             .responseString { response in
                 
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_RECOVER_PASSWORD, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_RECOVER_PASSWORD, size: sizeUp)
+                }
                 switch response.result {
                 case .success:
                     if let status = response.response?.statusCode, status == 200{
@@ -172,6 +189,15 @@ class ApiClient: ApiClientProtocol {
         
         manager.request(ApiRouter.RegisterVinculat(params: parameters))
             .responseJSON { response in
+                
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_REGISTER, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_REGISTER, size: sizeUp)
+                }
+                
                 switch response.result {
                 case .success:
                     if let data = response.result.value as? [String: AnyObject], let _ = data["id"] as? Int{
@@ -214,6 +240,14 @@ class ApiClient: ApiClientProtocol {
         manager.request(ApiRouter.ValidateVinculat(params: parameters))
             .responseJSON { response in
                 
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_VALIDATE_REGISTER, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_VALIDATE_REGISTER, size: sizeUp)
+                }
+                
                 switch response.result {
                 case .success:
                     if let data = response.result.value as? [String: AnyObject], let _ = data["id"] as? Int{
@@ -251,11 +285,38 @@ class ApiClient: ApiClientProtocol {
         
     }
     
-    
+    static func cancelTasks(){
+        manager.session.getAllTasks { tasks in
+            tasks.forEach { $0.cancel() }
+            
+            
+            ContentManager.sharedInstance.downloadingIds.removeAll()
+            ContentManager.sharedInstance.errorIds.removeAll()
+            ContentManager.sharedInstance.corruptedIds.removeAll()
+            ProfileImageManager.sharedInstance.downloadingIds.removeAll()
+            ProfileImageManager.sharedInstance.errorIds.removeAll()
+        }
+        
+    }
     static func logoutWith(token: String, onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback){
         let parameters = ["token": token, "token_type_hint": "access_token" ]
+
+        manager.session.getAllTasks { tasks in
+            tasks.forEach { $0.cancel() }
+        }
+
+        
         manager.request(ApiRouter.Logout(params: parameters))
             .responseString { response in
+                
+                
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_LOGOUT, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_LOGOUT, size: sizeUp)
+                }
                 
                 switch response.result {
                 case .success:
@@ -292,8 +353,16 @@ class ApiClient: ApiClientProtocol {
     
     
     static func getUserSelfInfo(onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback){
-        manager.request(ApiRouter.GetSelfUserInfo()).validate()
+        manager.request(ApiRouter.GetSelfUserInfo).validate()
             .responseJSON { response in
+                
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_GET_USER_SELF_INFO, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_GET_USER_SELF_INFO, size: sizeUp)
+                }
                 
                 switch response.result {
                 case .success:
@@ -332,8 +401,17 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func getUserSelfInfoNoValidation(onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback){
-        manager.request(ApiRouter.GetSelfUserInfo()).validate()
+
+        manager.request(ApiRouter.GetSelfUserInfo).validate()
             .responseJSON { response in
+                
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_GET_USER_SELF_INFO_NO_VALIDATION, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_GET_USER_SELF_INFO_NO_VALIDATION, size: sizeUp)
+                }
                 
                 switch response.result {
                 case .success:
@@ -356,6 +434,10 @@ class ApiClient: ApiClientProtocol {
                                 let firstError = errors[0]["code"].intValue
                                 onError(firstError.localizedError())
                                 
+                            }else if json["error"].stringValue == "invalid_token"{
+                                let notification = VincleNotification()
+                                notification.type = NOTI_TOKEN_EXPIRED
+                                NotificationsModelManager().manageUnwatchedNotification(notification: notification, onProcessed: {_ in })
                             }
                         } catch {
                             print(error.localizedDescription)
@@ -371,53 +453,19 @@ class ApiClient: ApiClientProtocol {
         }
     }
     
-    static func getContentsLibrary(to: Date, onSuccess:  @escaping ArrayResponseCallback, onError:  @escaping ErrorCallback){
-        
-        let types = ["image/png", "image/jpg", "image/jpeg", "video/mp4"]
-        
-        let parameters = ["to": Int64(to.timeIntervalSince1970 * 1000), "types": types.joined(separator: ",")] as [String : Any]
-        manager.request(ApiRouter.GetContentsLibrary(params: parameters)).validate()
-            .responseJSON { response in
-              
-                switch response.result {
-                case .success:
-                    if let data = response.result.value as? [[String: AnyObject]]{
-                        onSuccess(data)
-                    }
-                    else if let data = response.result.value as? [String: AnyObject], let arrayErrors = data["errors"] as? [[String: AnyObject]], let firstErrorCode = arrayErrors[0]["code"] as? Int{
-                        onError(firstErrorCode.localizedError())
-                    }
-                    else{
-                        onError(L10n.errorGenerico)
-                    }
-                case .failure(let error):
-                    if let data = response.data {
-                        do {
-                            let json = try JSON(data: data)
-                            print("Failure Response: \(json)")
-                            let errors = json["errors"].arrayValue
-                            if errors.count > 0{
-                                let firstError = errors[0]["code"].intValue
-                                onError(firstError.localizedError())
-                                
-                            }
-                        } catch {
-                            print(error.localizedDescription)
-                            onError(L10n.errorGenerico)
-                        }
-                    }
-                        
-                    else{
-                        print(error.localizedDescription)
-                        onError(L10n.errorGenerico)
-                    }
-                }
-        }
-    }
-    
+   
     static func getCirclesUser(onSuccess:  @escaping ArrayResponseCallback, onError:  @escaping ErrorCallback){
-        manager.request(ApiRouter.GetCirclesUser()).validate()
+
+        manager.request(ApiRouter.GetCirclesUser).validate()
             .responseJSON { response in
+                
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_GET_CIRCLES, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_GET_CIRCLES, size: sizeUp)
+                }
                 
                 switch response.result {
                 case .success:
@@ -457,8 +505,18 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func getCirclesUserVinculat(onSuccess:  @escaping ArrayResponseCallback, onError:  @escaping ErrorCallback){
-        manager.request(ApiRouter.GetCirclesUserVinculat()).validate()
+        print("getCirclesUserVinculat")
+
+        manager.request(ApiRouter.GetCirclesUserVinculat).validate()
             .responseJSON { response in
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_GET_CIRCLES_USER_VINCULAT, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_GET_CIRCLES_USER_VINCULAT, size: sizeUp)
+                }
+                
                 switch response.result {
                 case .success:
                     if let data = response.result.value as? [[String: AnyObject]]{
@@ -495,84 +553,22 @@ class ApiClient: ApiClientProtocol {
         }
     }
     
-    static func uploadImage(imageData: Data, onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback){
-        HUDHelper.sharedInstance.showHud(progress: 0.0)
-        
-        manager.upload(multipartFormData: { multipartFormData in
-            multipartFormData.append(imageData, withName: "file", fileName: "file.jpg", mimeType: "image/jpeg")
-        }, with: ApiRouter.UploadContent(), encodingCompletion: {
-            encodingResult in
-            
-            switch encodingResult {
-            case .success(let upload, _, _):
-                upload.uploadProgress(closure: { (progress) in
-                    HUDHelper.sharedInstance.showHud(progress: progress.fractionCompleted)
-                    
-                    
-                })
-                upload.responseJSON { response in
-                    HUDHelper.sharedInstance.hideHUD()
-                    if let data = response.value as? [String: AnyObject], let _ = data["id"] as? Int{
-                        onSuccess(response.value as! [String : AnyObject])
-                    }
-                    else if let data = response.result.value as? [String: AnyObject], let arrayErrors = data["errors"] as? [[String: AnyObject]], let firstErrorCode = arrayErrors[0]["code"] as? Int{
-                        onError(firstErrorCode.localizedError())
-                    }
-                    else{
-                        onError(L10n.errorGenerico)
-                    }                }
-            case .failure(let error):
-                
-                print(error.localizedDescription)
-                onError(L10n.errorGenerico)
-                
-            }
-        })
-        
-    }
-    
-    static func uploadVideo(videoData: Data, onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback){
-        HUDHelper.sharedInstance.showHud(progress: 0.0)
-        
-        manager.upload(multipartFormData: { multipartFormData in
-            multipartFormData.append(videoData, withName: "file", fileName: "file.mp4", mimeType: "video/mp4")
-        }, with: ApiRouter.UploadContent(), encodingCompletion: {
-            encodingResult in
-            
-            switch encodingResult {
-            case .success(let upload, _, _):
-                upload.uploadProgress(closure: { (progress) in
-                    HUDHelper.sharedInstance.showHud(progress: progress.fractionCompleted)
-                    
-                    
-                })
-                upload.responseJSON { response in
-                    if let data = response.value as? [String: AnyObject], let _ = data["id"] as? Int{
-                        onSuccess(response.value as! [String : AnyObject])
-                    }
-                    else if let data = response.result.value as? [String: AnyObject], let arrayErrors = data["errors"] as? [[String: AnyObject]], let firstErrorCode = arrayErrors[0]["code"] as? Int{
-                        onError(firstErrorCode.localizedError())
-                    }
-                    else{
-                        onError(L10n.errorGenerico)
-                    }
-                }
-            case .failure(let error):
-                
-                print(error.localizedDescription)
-                onError(L10n.errorGenerico)
-                
-            }
-        })
-    }
+   
     
     static func addContentToLibrary(contentId: Int, onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback){
+
         let parameters = ["idContent": contentId] as [String : Any]
         
         manager.request(ApiRouter.AddContentToLibrary(params: parameters)).validate()
             .responseJSON { response in
                 
-             
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_ADD_CONTENT_TO_LIBRARY, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_ADD_CONTENT_TO_LIBRARY, size: sizeUp)
+                }
                 
                 switch response.result {
                 case .success:
@@ -609,15 +605,22 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func removeContentFromLibrary(contentId: Int, onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback){
+
         let parameters = ["contentId": contentId] as [String : Any]
         
         manager.request(ApiRouter.RemoveContentFromLibrary(params: parameters)).validate()
             .responseString { response in
             
-
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_REMOVE_CONTENT_FROM_LIBRARY, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_REMOVE_CONTENT_FROM_LIBRARY, size: sizeUp)
+                }
+                
                 switch response.result {
                 case .success:
-                    
                     if let status = response.response?.statusCode, status == 200{
                         onSuccess()
                     }
@@ -651,8 +654,16 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func getGroupsUser(onSuccess:  @escaping ArrayResponseCallback, onError:  @escaping ErrorCallback){
-        manager.request(ApiRouter.GetGroupsUser()).validate()
+
+        manager.request(ApiRouter.GetGroupsUser).validate()
             .responseJSON { response in
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_GET_GROUPS_USER, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_GET_GROUPS_USER, size: sizeUp)
+                }
                 
                 switch response.result {
                 case .success:
@@ -691,8 +702,16 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func generateCode(onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback){
-        manager.request(ApiRouter.GenerateCode()).validate()
+
+        manager.request(ApiRouter.GenerateCode).validate()
             .responseJSON { response in
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_GENERATE_CODE, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_GENERATE_CODE, size: sizeUp)
+                }
                 
                 switch response.result {
                 case .success:
@@ -732,11 +751,18 @@ class ApiClient: ApiClientProtocol {
     
     
     static func addCode(code: String, relationShip: String, onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback){
-        
+
         let parameters = ["registerCode": code, "relationship": relationShip] as [String : Any]
         
         manager.request(ApiRouter.AddCode(params: parameters)).validate()
             .responseJSON { response in
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_ADD_CODE, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_ADD_CODE, size: sizeUp)
+                }
                 
                 switch response.result {
                 case .success:
@@ -777,10 +803,19 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func removeContact(contactId: Int, onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback){
+
         let parameters = ["contactId": contactId] as [String : Any]
         
         manager.request(ApiRouter.RemoveContact(params: parameters)).validate()
             .responseString { response in
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_REMOVE_CONTACT, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_REMOVE_CONTACT, size: sizeUp)
+                }
+                
                 
                 switch response.result {
                 case .success:
@@ -802,6 +837,8 @@ class ApiClient: ApiClientProtocol {
                                 let firstError = errors[0]["code"].intValue
                                 onError(firstError.localizedError())
                                 
+                            }else{
+                                onError(L10n.errorGenerico)
                             }
                         } catch {
                             print(error.localizedDescription)
@@ -819,10 +856,19 @@ class ApiClient: ApiClientProtocol {
     
     
     static func removeContactFromVinculat(idCircle: Int, onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback){
+
         let parameters = ["idCircle": idCircle] as [String : Any]
         
         manager.request(ApiRouter.RemoveContactFromVinculat(params: parameters)).validate()
             .responseString { response in
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_REMOVE_CONTACT_FROM_VINCULAT, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_REMOVE_CONTACT_FROM_VINCULAT, size: sizeUp)
+                }
+                
                 
                 switch response.result {
                 case .success:
@@ -860,11 +906,11 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func changeUserPhoto(imageData: Data, onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback){
-        
+
         
         manager.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(imageData, withName: "file", fileName: "file.jpg", mimeType: "image/jpeg")
-        }, with: ApiRouter.ChangeUserPhoto(), encodingCompletion: {
+        }, with: ApiRouter.ChangeUserPhoto, encodingCompletion: {
             encodingResult in
             
             switch encodingResult {
@@ -874,6 +920,7 @@ class ApiClient: ApiClientProtocol {
                     
                 })
                 upload.responseJSON { response in
+                   
                     
                     if let data = response.value as? [String: AnyObject], let _ = data["id"] as? Int{
                         onSuccess(response.value as! [String : AnyObject])
@@ -895,7 +942,7 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func downloadProfilePicture(id: Int, size: CGFloat, onSuccess:  @escaping DataResponseCallback, onError:  @escaping ErrorCallback){
-        
+
         if let url =  URL(string: URL_BASE + "/" + String(format: GET_USER_PROFILE_PHOTO_ENDPOINT, id)){
             
             var urlRequest = URLRequest(url: url)
@@ -908,22 +955,16 @@ class ApiClient: ApiClientProtocol {
             let queue = DispatchQueue(label: "com.test.api", qos: .background, attributes: .concurrent)
             
             self.manager.request(urlRequest).validate().responseData(queue: queue) { response in
-                if let imageData = response.result.value {
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_DOWNLOAD_PROFILE_PICTURE, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
                     
-                    DispatchQueue.global(qos:.userInteractive).async {
-                        let image = UIImage(data: imageData)
-                        print(image?.size)
-                        if let newImage = image?.resizeImage(newWidth: size){
-                            DispatchQueue.main.async {
-                                onSuccess(UIImageJPEGRepresentation(newImage, 0.6)!)
-                            }
-                        }
-                        else{
-                            onError("error")
-                            print("error")
-                        }
-                        
-                    }
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_DOWNLOAD_PROFILE_PICTURE, size: sizeUp)
+                }
+                
+                if let imageData = response.result.value {
+                    onSuccess(imageData)
                 }
                 else{
                     onError("error")
@@ -941,7 +982,7 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func downloadProfilePictureEvent(meetingId: Int, id: Int, size: CGFloat, onSuccess:  @escaping DataResponseCallback, onError:  @escaping ErrorCallback){
-        
+
         if let url =  URL(string: URL_BASE + "/" + String(format: GET_USER_EVENT_PROFILE_PHOTO, meetingId, id)){
             
             var urlRequest = URLRequest(url: url)
@@ -954,6 +995,15 @@ class ApiClient: ApiClientProtocol {
             let queue = DispatchQueue(label: "com.test.api", qos: .background, attributes: .concurrent)
             
             self.manager.request(urlRequest).validate().responseData(queue: queue) { response in
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_DOWNLOAD_PROFILE_PICTURE_EVENT, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_DOWNLOAD_PROFILE_PICTURE_EVENT, size: sizeUp)
+                }
+                
+                
                 if let imageData = response.result.value {
                     
                     DispatchQueue.global(qos:.userInteractive).async {
@@ -961,7 +1011,7 @@ class ApiClient: ApiClientProtocol {
                         
                         if let newImage = image?.resizeImage(newWidth: size){
                             DispatchQueue.main.async {
-                                onSuccess(UIImageJPEGRepresentation(newImage, 0.6)!)
+                                onSuccess(newImage.jpegData(compressionQuality: 0.6)!)
                             }
                         }
                         
@@ -979,7 +1029,7 @@ class ApiClient: ApiClientProtocol {
     
     
     static func downloadGroupPicture(id: Int, size: CGFloat, onSuccess:  @escaping DataResponseCallback, onError:  @escaping ErrorCallback){
-        
+
         if let url =  URL(string: URL_BASE + "/" + String(format: GET_GROUP_PHOTO_ENDPOINT, id)){
             
             var urlRequest = URLRequest(url: url)
@@ -991,6 +1041,15 @@ class ApiClient: ApiClientProtocol {
             let queue = DispatchQueue(label: "com.test.api", qos: .background, attributes: .concurrent)
             
             self.manager.request(urlRequest).validate().responseData(queue: queue) { response in
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_DOWNLOAD_GROUP_PICTURE, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_DOWNLOAD_GROUP_PICTURE, size: sizeUp)
+                }
+                
+                
                 if let imageData = response.result.value {
                     
                     DispatchQueue.global(qos:.userInteractive).async {
@@ -998,7 +1057,7 @@ class ApiClient: ApiClientProtocol {
                         
                         if let newImage = image?.resizeImage(newWidth: size){
                             DispatchQueue.main.async {
-                                onSuccess(UIImageJPEGRepresentation(newImage, 0.6)!)
+                                onSuccess(newImage.jpegData(compressionQuality: 0.6)!)
                             }
                         }
                     }
@@ -1013,8 +1072,8 @@ class ApiClient: ApiClientProtocol {
         
     }
     
-    static func downloadGalleryPicture(id: Int, onSuccess:  @escaping DataResponseCallback, onError:  @escaping ErrorCallback){
-        
+    static func downloadGalleryPicture(id: Int, onSuccess:  @escaping MessageTypeResponseCallback, onError:  @escaping ErrorCallback){
+
         if let url =  URL(string: URL_BASE + "/" + String(format: GET_GALLERY_PHOTO_ENDPOINT, id)){
             
             var urlRequest = URLRequest(url: url)
@@ -1025,8 +1084,15 @@ class ApiClient: ApiClientProtocol {
             }
             
             let queue = DispatchQueue(label: "com.test.api", qos: .background, attributes: .concurrent)
-            
             self.manager.request(urlRequest).validate().responseData(queue: queue) { response in
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_DOWNLOAD_GALLERY_PICTURE, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_DOWNLOAD_GALLERY_PICTURE, size: sizeUp)
+                }
+                
                 
                 switch response.result {
                 case .success:
@@ -1036,8 +1102,19 @@ class ApiClient: ApiClientProtocol {
                     onError(error.localizedDescription)
                 }
                 
-                if let imageData = response.result.value {
-                    onSuccess(imageData)
+                if let mediaData = response.result.value {
+                    if let contentType = response.response?.allHeaderFields["Content-Type"] as? String {
+                        if contentType.contains("audio"){
+                            onSuccess(mediaData, .audio)
+                        }
+                        else  if contentType.contains("video"){
+
+                            onSuccess(mediaData, .video)
+                        }
+                        else  if contentType.contains("image"){
+                            onSuccess(mediaData, .image)
+                        }
+                    }
                 }
                 
                 
@@ -1048,6 +1125,7 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func downloadGalleryVideo(id: Int, onSuccess:  @escaping DataResponseCallback, onError:  @escaping ErrorCallback){
+
         if let url =  URL(string: URL_BASE + "/" + String(format: GET_GALLERY_PHOTO_ENDPOINT, id)){
             
             var urlRequest = URLRequest(url: url)
@@ -1060,11 +1138,20 @@ class ApiClient: ApiClientProtocol {
             let queue = DispatchQueue(label: "com.test.api", qos: .background, attributes: .concurrent)
             
             self.manager.request(urlRequest).validate().responseData(queue: queue) { response in
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_DOWNLOAD_GALLERY_VIDEO, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_DOWNLOAD_GALLERY_VIDEO, size: sizeUp)
+                }
+                
                 
                 switch response.result {
                 case .success:
                     break
                 case .failure(let error):
+                    print("error downloadGalleryVideo \(id)")
                     onError(error.localizedDescription)
                 }
                 
@@ -1079,6 +1166,7 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func downloadChatMediaItem(id: Int, onSuccess:  @escaping (MessageTypeResponseCallback), onError:  @escaping ErrorCallback){
+
         if let url =  URL(string: URL_BASE + "/" + String(format: GET_GALLERY_PHOTO_ENDPOINT, id)){
             
             var urlRequest = URLRequest(url: url)
@@ -1091,6 +1179,13 @@ class ApiClient: ApiClientProtocol {
             let queue = DispatchQueue(label: "com.test.api", qos: .background, attributes: .concurrent)
             
             self.manager.request(urlRequest).validate().responseData(queue: queue) { response in
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_DOWNLOAD_CHAT_MEDIA_ITEM, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_DOWNLOAD_CHAT_MEDIA_ITEM, size: sizeUp)
+                }
                 
                 switch response.result {
                 case .success:
@@ -1121,20 +1216,31 @@ class ApiClient: ApiClientProtocol {
         }
         
     }
+  
     
-    static func shareContent(contentId: [Int], usersIds: [Int], chatIds: [Int], onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback){
-        
+    static func shareContent(contentId: [Int], usersIds: [Int], chatIds: [Int], metadataTipus: [String], onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback){
+
+        let metadataTipusString = metadataTipus.joined(separator: ",")
         let profileModelManager = ProfileModelManager()
         guard let id = profileModelManager.getUserMe()?.id else{
             onError(L10n.errorGenerico)
             return
         }
         
-        let parameters = ["idUserFrom": id, "idUserToList": usersIds,  "idChatToList": chatIds, "idAdjuntContents": contentId, "text": ""] as [String : Any]
-
+        let parameters = ["idUserFrom": id, "idUserToList": usersIds,  "idChatToList": chatIds, "idAdjuntContents": contentId, "metadataTipus": metadataTipusString,] as [String : Any]
+     
+        
         manager.request(ApiRouter.ShareContent(params: parameters)).validate()
             .responseJSON { response in
 
+                if let size = response.data?.count{
+                   DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_SHARE_CONTENT, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_SHARE_CONTENT, size: sizeUp)
+                }
+                
                 switch response.result {
                 case .success:
                     if (response.result.value as? [String: AnyObject]) != nil{
@@ -1173,7 +1279,7 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func sendInstallation(so: String, pushToken: String, imei: String, idUser: Int, pushkitToken: String, onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback){
-        
+
         let profileModelManager = ProfileModelManager()
         guard (profileModelManager.getUserMe()?.id) != nil else{
             onError(L10n.errorGenerico)
@@ -1184,24 +1290,16 @@ class ApiClient: ApiClientProtocol {
         
         let parameters = ["so": so, "pushToken": pushToken,  "pushkitToken": pushkitToken, "installationId": imei, "appVersion": version, "platformVersion": 2] as [String : Any]
         
-        print(parameters)
-        manager.request(ApiRouter.SendInstallation(params: parameters)).validate()
-            .responseJSON { response in
-            
+        manager.request(ApiRouter.SendInstallation(params: parameters)).validate().responseJSON { response in
+             
                 switch response.result {
                 case .success:
                     if let status = response.response?.statusCode, status == 201, let dict = response.result.value as? [String:AnyObject], let id = dict["id"] as? Int{
                         UserDefaults.standard.set(id, forKey: "idInst")
-                        print("INSTALLATION SUCCESS")
                         onSuccess()
                     }
-                    else{
-                        print("INSTALLATION ERROR 1")
-                       
-                        
-                    }
+                    
                 case .failure:
-                    print("INSTALLATION ERROR 2")
 
                     if let user = profileModelManager.getUserMe(){
                         let installationId = "\(UIDevice.current.identifierForVendor!.uuidString.replacingOccurrences(of: "-", with: ""))\(user.id)"
@@ -1223,7 +1321,7 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func getInstallations(params: [String:AnyObject], onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback){
-        
+
         let profileModelManager = ProfileModelManager()
         guard (profileModelManager.getUserMe()?.id) != nil else{
             onError(L10n.errorGenerico)
@@ -1233,9 +1331,6 @@ class ApiClient: ApiClientProtocol {
         manager.request(ApiRouter.GetInstallations(params: params)).validate()
             .responseJSON { response in
                 
-                print(response.result.value)
-                print(response.request)
-                print(response.response?.statusCode)
                 
                 switch response.result {
                 case .success:
@@ -1282,7 +1377,7 @@ class ApiClient: ApiClientProtocol {
     
     
     static func updateInstallation(params: [String:AnyObject], onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback){
-        
+
         let profileModelManager = ProfileModelManager()
         guard (profileModelManager.getUserMe()?.id) != nil else{
             onError(L10n.errorGenerico)
@@ -1292,10 +1387,7 @@ class ApiClient: ApiClientProtocol {
         manager.request(ApiRouter.UpdateInstallation(params: params)).validate()
             .responseString { response in
                 
-                print(response.result.value)
-                print(response.request)
-                print(response.response?.statusCode)
-                
+              
                 switch response.result {
                 case .success:
                     if let status = response.response?.statusCode, status == 200{
@@ -1308,7 +1400,6 @@ class ApiClient: ApiClientProtocol {
                     if let data = response.data {
                         do {
                             let json = try JSON(data: data)
-                            print("Failure Response: \(json)")
                             let errors = json["errors"].arrayValue
                             if errors.count > 0{
                                 let firstError = errors[0]["code"].intValue
@@ -1329,90 +1420,10 @@ class ApiClient: ApiClientProtocol {
         }
         
     }
-    
-    static func sendUserMessage(params: [String:Any], onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback){
-        
-        let profileModelManager = ProfileModelManager()
-        guard (profileModelManager.getUserMe()?.id) != nil else{
-            onError(L10n.errorGenerico)
-            return
-        }
-        
-        manager.request(ApiRouter.SendUserMessage(params: params)).validate()
-            .responseJSON { response in
-
-                switch response.result {
-                    
-                case .success:
-                    if let status = response.response?.statusCode, status == 201, let data = response.value as? [String: AnyObject], let _ = data["id"] as? Int{
-                        onSuccess(data)
-                    }
-                    else{
-                        onError(L10n.errorGenerico)
-                    }
-                case .failure(let error):
-                    if let data = response.data {
-                        do {
-                            let json = try JSON(data: data)
-                            print("Failure Response: \(json)")
-                            let errors = json["errors"].arrayValue
-                            if errors.count > 0{
-                                let firstError = errors[0]["code"].intValue
-                                onError(firstError.localizedError())
-                                
-                            }
-                        } catch {
-                            print(error.localizedDescription)
-                            onError(L10n.errorGenerico)
-                        }
-                    }
-                        
-                    else{
-                        print(error.localizedDescription)
-                        onError(L10n.errorGenerico)
-                    }
-                }
-        }
-        
-    }
-    
-    static func uploadAudio(audioData: Data, onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback){
-        HUDHelper.sharedInstance.showHud(progress: 0.0)
-        
-        manager.upload(multipartFormData: { multipartFormData in
-            multipartFormData.append(audioData, withName: "file", fileName: "file.aac", mimeType: "audio/aac")
-        }, with: ApiRouter.UploadContent(), encodingCompletion: {
-            encodingResult in
-            
-            switch encodingResult {
-            case .success(let upload, _, _):
-                upload.uploadProgress(closure: { (progress) in
-                    HUDHelper.sharedInstance.showHud(progress: progress.fractionCompleted)
-                    
-                    
-                })
-                upload.responseJSON { response in
-                    if let data = response.value as? [String: AnyObject], let _ = data["id"] as? Int{
-                        onSuccess(response.value as! [String : AnyObject])
-                    }
-                    else if let data = response.result.value as? [String: AnyObject], let arrayErrors = data["errors"] as? [[String: AnyObject]], let firstErrorCode = arrayErrors[0]["code"] as? Int{
-                        onError(firstErrorCode.localizedError())
-                    }
-                    else{
-                        onError(L10n.errorGenerico)
-                    }
-                }
-            case .failure(let error):
-                
-                print(error.localizedDescription)
-                onError(L10n.errorGenerico)
-                
-            }
-        })
-    }
-    
+  
+   
     static func getChatUserMessages(params: [String:Any], onSuccess:  @escaping ArrayResponseCallback, onError:  @escaping ErrorCallback){
-        
+
         let profileModelManager = ProfileModelManager()
         guard (profileModelManager.getUserMe()?.id) != nil else{
             onError(L10n.errorGenerico)
@@ -1422,7 +1433,13 @@ class ApiClient: ApiClientProtocol {
         manager.request(ApiRouter.ChatUserGetMessages(params: params)).validate()
             .responseJSON { response in
 
-                
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_GET_CHAT_USER_MESSAGES, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_GET_CHAT_USER_MESSAGES, size: sizeUp)
+                }
                 switch response.result {
                     
                 case .success:
@@ -1459,7 +1476,7 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func getChatGroupMessages(params: [String:Any], onSuccess:  @escaping ArrayResponseCallback, onError:  @escaping ErrorCallback){
-        
+
         let profileModelManager = ProfileModelManager()
         guard (profileModelManager.getUserMe()?.id) != nil else{
             onError(L10n.errorGenerico)
@@ -1468,7 +1485,14 @@ class ApiClient: ApiClientProtocol {
         
         manager.request(ApiRouter.ChatGroupGetMessages(params: params)).validate()
             .responseJSON { response in
-
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_GET_CHAT_GROUP_MESSAGES, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_GET_CHAT_GROUP_MESSAGES, size: sizeUp)
+                }
+                
                 switch response.result {
                 case .success:
                     if let data = response.result.value as? [[String: AnyObject]], let status = response.response?.statusCode, status == 200{
@@ -1505,7 +1529,8 @@ class ApiClient: ApiClientProtocol {
     
     
     static func sendBadToken(onSuccess: @escaping VoidCallback, onError: @escaping ApiClientProtocol.ErrorCallback) {
-        manager.request(ApiRouter.SendBadToken()).validate()
+
+        manager.request(ApiRouter.SendBadToken).validate()
             .responseJSON { response in
                 
                 
@@ -1525,7 +1550,7 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func getNotifications(from: Int64?, to: Int64? = nil, onSuccess:  @escaping ArrayResponseCallback, onError:  @escaping ErrorCallback){
-        
+
         let profileModelManager = ProfileModelManager()
         guard (profileModelManager.getUserMe()?.id) != nil else{
             onError(L10n.errorGenerico)
@@ -1544,7 +1569,14 @@ class ApiClient: ApiClientProtocol {
         manager.request(ApiRouter.GetNotifications(params: parameters)).validate()
             .responseJSON { response in
                 
-                print(response.result.value)
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_GET_NOTIFICATIONS, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_GET_NOTIFICATIONS, size: sizeUp)
+                }
+                
                 
                 switch response.result {
                     
@@ -1582,7 +1614,7 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func getNotificationById(params: [String:Any], onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback){
-        
+
         let profileModelManager = ProfileModelManager()
         guard (profileModelManager.getUserMe()?.id) != nil else{
             onError(L10n.errorGenerico)
@@ -1591,6 +1623,13 @@ class ApiClient: ApiClientProtocol {
         
         manager.request(ApiRouter.GetNotificationById(params: params)).validate()
             .responseJSON { response in
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_GET_NOTIFICATION, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_GET_NOTIFICATION, size: sizeUp)
+                }
                 
                 switch response.result {
                     
@@ -1627,54 +1666,9 @@ class ApiClient: ApiClientProtocol {
         
     }
     
-    static func getMessageById(params: [String:Any], onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallbackExtended){
-        
-        let profileModelManager = ProfileModelManager()
-        guard (profileModelManager.getUserMe()?.id) != nil else{
-            onError(L10n.errorGenerico, 0)
-            return
-        }
-        
-        manager.request(ApiRouter.GetMessageById(params: params)).validate()
-            .responseJSON { response in
-                
-                switch response.result {
-                    
-                case .success:
-                    if let data = response.result.value as? [String: AnyObject], let status = response.response?.statusCode, status == 200{
-                        onSuccess(data)
-                    }
-                    else{
-                        onError(L10n.errorGenerico, response.response?.statusCode ?? 0)
-                    }
-                case .failure(let error):
-                    if let data = response.data {
-                        do {
-                            let json = try JSON(data: data)
-                            print("Failure Response: \(json)")
-                            let errors = json["errors"].arrayValue
-                            if errors.count > 0{
-                                let firstError = errors[0]["code"].intValue
-                                onError(firstError.localizedError(), response.response?.statusCode ?? 0)
-                                
-                            }
-                        } catch {
-                            print(error.localizedDescription)
-                            onError(L10n.errorGenerico, response.response?.statusCode ?? 0)
-                        }
-                    }
-                        
-                    else{
-                        print(error.localizedDescription)
-                        onError(L10n.errorGenerico, response.response?.statusCode ?? 0)
-                    }
-                }
-        }
-        
-    }
     
     static func markMessageWatched(params: [String:Any], onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback){
-        
+
         let profileModelManager = ProfileModelManager()
         guard (profileModelManager.getUserMe()?.id) != nil else{
             onError(L10n.errorGenerico)
@@ -1683,6 +1677,13 @@ class ApiClient: ApiClientProtocol {
         
         manager.request(ApiRouter.MarkMessageWatched(params: params)).validate()
             .responseString{ response in
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_MARK_MESSAGE_WATCHED, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_MARK_MESSAGE_WATCHED, size: sizeUp)
+                }
                 
                 switch response.result {
                     
@@ -1719,105 +1720,10 @@ class ApiClient: ApiClientProtocol {
         
     }
     
-    
-    static func sendGroupMessage(params: [String:Any], onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback){
-        
-        let profileModelManager = ProfileModelManager()
-        guard (profileModelManager.getUserMe()?.id) != nil else{
-            onError(L10n.errorGenerico)
-            return
-        }
-        
-        manager.request(ApiRouter.SendGroupMessage(params: params)).validate()
-            .responseJSON { response in
-                
-                
-                switch response.result {
-                    
-                case .success:
-                    if let status = response.response?.statusCode, status == 201, let data = response.value as? [String: AnyObject], let _ = data["id"] as? Int{
-                        onSuccess(data)
-                    }
-                    else{
-                        onError(L10n.errorGenerico)
-                    }
-                case .failure(let error):
-                    if let data = response.data {
-                        do {
-                            let json = try JSON(data: data)
-                            print("Failure Response: \(json)")
-                            let errors = json["errors"].arrayValue
-                            if errors.count > 0{
-                                let firstError = errors[0]["code"].intValue
-                                onError(firstError.localizedError())
-                                
-                            }
-                        } catch {
-                            print(error.localizedDescription)
-                            onError(L10n.errorGenerico)
-                        }
-                    }
-                        
-                    else{
-                        print(error.localizedDescription)
-                        onError(L10n.errorGenerico)
-                    }
-                }
-        }
-        
-    }
-    
-    static func getGroupMessageById(params: [String:Any], onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallbackExtended){
-        
-        let profileModelManager = ProfileModelManager()
-        guard (profileModelManager.getUserMe()?.id) != nil else{
-            onError(L10n.errorGenerico, 0)
-            return
-        }
-        
-        manager.request(ApiRouter.GetGroupMessageById(params: params)).validate()
-            .responseJSON { response in
-                
-                switch response.result {
-                    
-                case .success:
-                    if let data = response.result.value as? [String: AnyObject], let status = response.response?.statusCode, status == 200{
-                        onSuccess(data)
-                    }
-                    else{
-                        onError(L10n.errorGenerico, response.response?.statusCode ?? 0)
-                    }
-                case .failure(let error):
-                    print(error._code)
-                    if error._code == NSURLErrorTimedOut || error._code == NSURLErrorNotConnectedToInternet {
-                        onError(L10n.errorGenerico, 0)
-                    }
-                    else if let data = response.data {
-                        do {
-                            let json = try JSON(data: data)
-                            print("Failure Response: \(json)")
-                            let errors = json["errors"].arrayValue
-                            if errors.count > 0{
-                                let firstError = errors[0]["code"].intValue
-                                onError(firstError.localizedError(), response.response?.statusCode ?? 0)
-                                
-                            }
-                        } catch {
-                            print(error.localizedDescription)
-                            onError(L10n.errorGenerico, response.response?.statusCode ?? 0)
-                        }
-                    }
-                        
-                    else{
-                        print(error.localizedDescription)
-                        onError(L10n.errorGenerico, response.response?.statusCode ?? 0)
-                    }
-                }
-        }
-        
-    }
-    
+  
+ 
     static func downloadGroupChatMediaItem(idMessage: Int, idChat: Int, onSuccess:  @escaping (MessageTypeResponseCallback), onError:  @escaping ErrorCallback){
+
         if let url =  URL(string: URL_BASE + "/" + String(format: GET_GROUP_CHAT_CONTENT, idChat, idMessage)){
             
             var urlRequest = URLRequest(url: url)
@@ -1831,16 +1737,28 @@ class ApiClient: ApiClientProtocol {
             
             self.manager.request(urlRequest).validate().responseData(queue: queue) { response in
                 
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_DOWNLOAD_GROUP_CHAT_MEDIA_ITEM, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_DOWNLOAD_GROUP_CHAT_MEDIA_ITEM, size: sizeUp)
+                }
+                
                 switch response.result {
                 case .success:
+//                    print("success downloadGroupChatMediaItem \(url)")
                     break
                 case .failure(let error):
+//                    print("error downloadGroupChatMediaItem \(url)")
+
                     onError(error.localizedDescription)
                 }
                 
                 if let mediaData = response.result.value {
-                    
+                   
                     if let contentType = response.response?.allHeaderFields["Content-Type"] as? String {
+                       
                         if contentType.contains("audio"){
                             onSuccess(mediaData, .audio)
                         }
@@ -1862,12 +1780,12 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func getUserBasicInfo(id: Int, onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallbackExtended){
-        
+
         let parameters = ["id": id] as [String : Any]
         
         manager.request(ApiRouter.GetUserBasicInfo(params: parameters)).validate()
             .responseJSON { response in
-                
+              
                 
                 switch response.result {
                 case .success:
@@ -1905,11 +1823,19 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func getUserFullInfo(id: Int, onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallbackExtended){
-        
+
         let parameters = ["id": id] as [String : Any]
         
         manager.request(ApiRouter.GetUserFullInfo(params: parameters)).validate()
             .responseJSON { response in
+                
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_GET_USER_FULL_INFO, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_GET_USER_FULL_INFO, size: sizeUp)
+                }
                 
                 
                 switch response.result {
@@ -1948,34 +1874,9 @@ class ApiClient: ApiClientProtocol {
     }
     
     
-    static func getServerTime(onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback){
-        
-        let profileModelManager = ProfileModelManager()
-        guard (profileModelManager.getUserMe()?.id) != nil else{
-            onError(L10n.errorGenerico)
-            return
-        }
-        
-        manager.request(ApiRouter.GetServerTime()).validate()
-            .responseJSON { response in
-              
-                switch response.result {
-                case .success:
-                    if let data = response.result.value as? [String: AnyObject], let status = response.response?.statusCode, status == 200{
-                        onSuccess(data)
-                    }
-                    else{
-                        onError(L10n.errorGenerico)
-                    }
-                case .failure:
-                    onError(L10n.errorGenerico)
-                }
-        }
-        
-    }
-    
+   
     static func getGroupParticipants(id: Int, onSuccess:  @escaping ArrayResponseCallback, onError:  @escaping ErrorCallbackExtended){
-        
+
         let profileModelManager = ProfileModelManager()
         guard (profileModelManager.getUserMe()?.id) != nil else{
             onError(L10n.errorGenerico, 0)
@@ -1987,6 +1888,14 @@ class ApiClient: ApiClientProtocol {
         manager.request(ApiRouter.GetGroupParticipants(params: parameters)).validate()
             .responseJSON { response in
               
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_GET_GROUP_PARTICIPANTS, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_GET_GROUP_PARTICIPANTS, size: sizeUp)
+                }
+                
                 switch response.result {
                     
                 case .success:
@@ -2023,7 +1932,7 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func getMeetings(to: Int64?, onSuccess:  @escaping ArrayResponseCallback, onError:  @escaping ErrorCallback){
-        
+
         let profileModelManager = ProfileModelManager()
         guard (profileModelManager.getUserMe()?.id) != nil else{
             onError(L10n.errorGenerico)
@@ -2038,6 +1947,14 @@ class ApiClient: ApiClientProtocol {
         manager.request(ApiRouter.GetMeetings(params: parameters)).validate()
             .responseJSON { response in
 
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_GET_MEETINGS, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_GET_MEETINGS, size: sizeUp)
+                }
+                
                 switch response.result {
                     
                 case .success:
@@ -2075,7 +1992,7 @@ class ApiClient: ApiClientProtocol {
     
     
     static func getMeeting(id: Int, onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallbackExtended){
-        
+
         let profileModelManager = ProfileModelManager()
         guard (profileModelManager.getUserMe()?.id) != nil else{
             onError(L10n.errorGenerico, 0)
@@ -2086,6 +2003,16 @@ class ApiClient: ApiClientProtocol {
         
         manager.request(ApiRouter.GetMeeting(params: parameters)).validate()
             .responseJSON { response in
+                
+                
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_GET_MEETING, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_GET_MEETING, size: sizeUp)
+                }
+                
                 switch response.result {
                     
                 case .success:
@@ -2132,6 +2059,16 @@ class ApiClient: ApiClientProtocol {
         manager.request(ApiRouter.CreateMeeting(params: params)).validate()
             .responseJSON { response in
               
+                
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_CREATE_MEETING, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_CREATE_MEETING, size: sizeUp)
+                }
+                
+                
                 switch response.result {
                     
                 case .success:
@@ -2180,6 +2117,14 @@ class ApiClient: ApiClientProtocol {
         manager.request(ApiRouter.EditMeeting(params: params)).validate()
             .responseJSON { response in
                
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_EDIT_MEETING, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_EDIT_MEETING, size: sizeUp)
+                }
+                
                 switch response.result {
                     
                 case .success:
@@ -2219,7 +2164,7 @@ class ApiClient: ApiClientProtocol {
     
     
     static func updateUser(name: String, lastname: String, phone: String, liveInBarcelona: Bool, onSuccess: @escaping DictResponseCallback, onError: @escaping ErrorCallback) {
-        
+
         let profileModelManager = ProfileModelManager()
         guard let user = profileModelManager.getUserMe() else{
             onError(L10n.errorGenerico)
@@ -2230,6 +2175,14 @@ class ApiClient: ApiClientProtocol {
         
         manager.request(ApiRouter.UpdateUser(params: parameters))
             .responseJSON { response in
+                
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_UPDATE_USER, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_UPDATE_USER, size: sizeUp)
+                }
                 
                 switch response.result {
                 case .success:
@@ -2281,6 +2234,14 @@ class ApiClient: ApiClientProtocol {
         manager.request(ApiRouter.AcceptMeeting(params: parameters))
             .responseJSON { response in
 
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_ACCEPT_EVENT_INVITATION, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_ACCEPT_EVENT_INVITATION, size: sizeUp)
+                }
+                
                 switch response.result {
                 case .success:
                     if let data = response.result.value as? [String: AnyObject], let _ = data["id"] as? Int{
@@ -2329,6 +2290,14 @@ class ApiClient: ApiClientProtocol {
         
         manager.request(ApiRouter.DeclineMeeting(params: parameters))
             .responseJSON { response in
+                
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_DECLINE_EVENT_INVITATION, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_DECLINE_EVENT_INVITATION, size: sizeUp)
+                }
                 
                 switch response.result {
                 case .success:
@@ -2379,6 +2348,14 @@ class ApiClient: ApiClientProtocol {
         manager.request(ApiRouter.DeleteMeeting(params: parameters))
             .responseJSON { response in
                 
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_DELETE_MEETING, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_DELETE_MEETING, size: sizeUp)
+                }
+                
                 switch response.result {
                 case .success:
                     if let data = response.result.value as? [String: AnyObject], let _ = data["id"] as? Int{
@@ -2416,20 +2393,25 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func getSpecificContent(params: [String:Any] , onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallbackExtended){
+
         let profileModelManager = ProfileModelManager()
         guard (profileModelManager.getUserMe()?.id) != nil else{
             onError(L10n.errorGenerico, 0)
             return
         }
         
-        print(params)
         
         manager.request(ApiRouter.GetSpecificContent(params: params)).validate()
             .responseJSON { response in
               
-                print(response.result.value)
-                print(response.response?.statusCode)
-
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_GET_SPECIFIC_CONTENT, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_GET_SPECIFIC_CONTENT, size: sizeUp)
+                }
+                
                 switch response.result {
                     
                 case .success:
@@ -2467,25 +2449,42 @@ class ApiClient: ApiClientProtocol {
         
     }
     
+    static func cancelAll(){
+        manager.session.getAllTasks { tasks in
+            tasks.forEach { $0.cancel() }
+        }
+    }
+    
     static func startVideoConference(params: [String:Any] , onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback){
-        print(params)
+
         let profileModelManager = ProfileModelManager()
         guard (profileModelManager.getUserMe()?.id) != nil else{
             onError(L10n.errorGenerico)
             return
         }
         
+    manager.session.getAllTasks { tasks in
+            tasks.forEach { $0.cancel() }
+        }
+        
         
         manager.request(ApiRouter.StartVideoConference(params: params)).validate()
             .responseString { response in
              
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_START_VIDEOCONFERENCE, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_START_VIDEOCONFERENCE, size: sizeUp)
+                }
                 print(response.response?.statusCode)
                 
                 switch response.result {
                     
                 case .success:
                     if let status = response.response?.statusCode, status == 200{
-                        
+
                         
                         onSuccess()
                     }
@@ -2512,8 +2511,13 @@ class ApiClient: ApiClientProtocol {
         manager.request(ApiRouter.ErrorVideoConference(params: params)).validate()
             .responseString { response in
                
-                print(response.response?.statusCode)
-                
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_ERROR_VIDEOCONFERENCE, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_ERROR_VIDEOCONFERENCE, size: sizeUp)
+                }
                 switch response.result {
                     
                 case .success:
@@ -2553,7 +2557,7 @@ class ApiClient: ApiClientProtocol {
     
     
     static func inviteUserFromGroup(groupId: Int, userId: Int, onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback){
-        
+
         let profileModelManager = ProfileModelManager()
         guard let id = profileModelManager.getUserMe()?.id else{
             onError(L10n.errorGenerico)
@@ -2565,7 +2569,13 @@ class ApiClient: ApiClientProtocol {
         manager.request(ApiRouter.InviteUserFromGroup(params: parameters)).validate()
             .responseJSON { response in
 
-                
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_INVITE_USER_FROM_GROUP, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_INVITE_USER_FROM_GROUP, size: sizeUp)
+                }
                 switch response.result {
                 case .success:
                     if let status = response.response?.statusCode, status == 200{
@@ -2604,18 +2614,22 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func getChatLastAccess(params: [String:Any], onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback){
-        
+
         let profileModelManager = ProfileModelManager()
         guard (profileModelManager.getUserMe()?.id) != nil else{
             onError(L10n.errorGenerico)
             return
         }
         
-        print(params)
         manager.request(ApiRouter.GetChatLastAccess(params: params)).validate()
             .responseJSON { response in
-                print(response.result.value)
-                
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_GET_CHAT_LAST_ACCESS, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_GET_CHAT_LAST_ACCESS, size: sizeUp)
+                }
                 switch response.result {
                     
                 case .success:
@@ -2652,19 +2666,22 @@ class ApiClient: ApiClientProtocol {
     }
     
     static func putChatLastAccess(params: [String:Any], onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback){
-        
+
         let profileModelManager = ProfileModelManager()
         guard (profileModelManager.getUserMe()?.id) != nil else{
             onError(L10n.errorGenerico)
             return
         }
         
-        print(params)
         manager.request(ApiRouter.PutChatLastAccess(params: params)).validate()
             .responseJSON { response in
-                print(response.result.value)
-                print(response.response?.statusCode)
-                print(response.request)
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_PUT_CHAT_LAST_ACCESS, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_PUT_CHAT_LAST_ACCESS, size: sizeUp)
+                }
                 
                 switch response.result {
                     
@@ -2684,7 +2701,10 @@ class ApiClient: ApiClientProtocol {
                             if errors.count > 0{
                                 let firstError = errors[0]["code"].intValue
                                 onError(firstError.localizedError())
-                                
+                            }else if json["error"].stringValue == "invalid_token"{
+                                let notification = VincleNotification()
+                                notification.type = NOTI_TOKEN_EXPIRED
+                                NotificationsModelManager().manageUnwatchedNotification(notification: notification, onProcessed: {_ in })
                             }
                         } catch {
                             print(error.localizedDescription)
@@ -2708,8 +2728,14 @@ class ApiClient: ApiClientProtocol {
         manager.request(ApiRouter.ChangePassword(params: parameters))
             .responseJSON { response in
                 
-                print(response.result.value)
-                print(response.response?.statusCode)
+              
+                if let size = response.data?.count{
+                    DataConsumptionManager.sharedInstance.addDownSizeToRequest(request: DATA_CONSUMPTION_CHANGE_PASSWORD, size: size)
+                }
+                if let sizeUp = response.request?.httpBody?.count{
+                    
+                    DataConsumptionManager.sharedInstance.addUpSizeToRequest(request: DATA_CONSUMPTION_CHANGE_PASSWORD, size: sizeUp)
+                }
                 switch response.result {
                 case .success:
                     if let data = response.result.value as? [String: AnyObject], let status = response.response?.statusCode, status == 201{
@@ -2745,6 +2771,52 @@ class ApiClient: ApiClientProtocol {
                     }
                 }
         }
+    }
+    
+    static func postDataUsage(params: [String:AnyObject], onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback){
+        
+        let profileModelManager = ProfileModelManager()
+        guard (profileModelManager.getUserMe()?.id) != nil else{
+            onError(L10n.errorGenerico)
+            return
+        }
+        
+        manager.request(ApiRouter.PostDataUsage(params: params)).validate()
+            .responseString { response in
+                
+                
+                switch response.result {
+                case .success:
+                    if let status = response.response?.statusCode, status == 201{
+                        onSuccess()
+                    }
+                    else{
+                        onError(L10n.errorGenerico)
+                    }
+                case .failure(let error):
+                    if let data = response.data {
+                        do {
+                            let json = try JSON(data: data)
+                            print("Failure Response: \(json)")
+                            let errors = json["errors"].arrayValue
+                            if errors.count > 0{
+                                let firstError = errors[0]["code"].intValue
+                                onError(firstError.localizedError())
+                                
+                            }
+                        } catch {
+                            print(error.localizedDescription)
+                            onError(L10n.errorGenerico)
+                        }
+                    }
+                        
+                    else{
+                        print(error.localizedDescription)
+                        onError(L10n.errorGenerico)
+                    }
+                }
+        }
+        
     }
     
 }

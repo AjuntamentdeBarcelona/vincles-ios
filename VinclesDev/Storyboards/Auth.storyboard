@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oxp-QL-Cjb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oxp-QL-Cjb">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -40,16 +39,16 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KBN-81-51g" customClass="IQPreviousNextView" customModule="IQKeyboardManagerSwift">
-                                                <rect key="frame" x="16" y="91.5" width="288" height="366.5"/>
+                                                <rect key="frame" x="16" y="91" width="288" height="366.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introdueix les teves credencials per accedir a Vincles BCN:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ASS-70-u8v">
-                                                        <rect key="frame" x="14.5" y="20" width="258.5" height="39.5"/>
+                                                        <rect key="frame" x="14.5" y="20" width="259" height="39.5"/>
                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Correu electrònic" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Nso-g8-CNT" customClass="RequiredTextField" customModule="VinclesDev" customModuleProvider="target">
-                                                        <rect key="frame" x="14.5" y="80.5" width="258.5" height="40"/>
+                                                        <rect key="frame" x="14.5" y="80.5" width="259" height="40"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="30" id="4YM-PT-U75"/>
@@ -76,7 +75,7 @@
                                                         </variation>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Contrassenya" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2z7-M9-0sb" customClass="RequiredTextField" customModule="VinclesDev" customModuleProvider="target">
-                                                        <rect key="frame" x="14.5" y="135.5" width="258.5" height="40"/>
+                                                        <rect key="frame" x="14.5" y="135.5" width="259" height="40"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="15"/>
@@ -88,7 +87,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GFW-tE-dHE" customClass="AlphaButton" customModule="VinclesDev" customModuleProvider="target">
-                                                        <rect key="frame" x="14.5" y="196.5" width="258.5" height="50"/>
+                                                        <rect key="frame" x="14.5" y="196.5" width="259" height="50"/>
                                                         <color key="backgroundColor" red="0.83137254900000002" green="0.08235294118" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="Jge-KM-5EU"/>
@@ -119,10 +118,10 @@
                                                         </connections>
                                                     </button>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TIl-ul-rHp">
-                                                        <rect key="frame" x="15" y="261.5" width="258.5" height="30"/>
+                                                        <rect key="frame" x="14.5" y="261.5" width="259" height="30"/>
                                                         <subviews>
                                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="XF8-3J-E98">
-                                                                <rect key="frame" x="0.0" y="-1" width="51" height="31"/>
+                                                                <rect key="frame" x="0.0" y="-0.5" width="51" height="31"/>
                                                             </switch>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AKx-Xw-5En">
                                                                 <rect key="frame" x="57" y="5" width="42" height="21"/>
@@ -141,7 +140,7 @@
                                                         </constraints>
                                                     </view>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fwn-xh-KAA">
-                                                        <rect key="frame" x="15" y="306.5" width="258.5" height="50"/>
+                                                        <rect key="frame" x="14.5" y="306.5" width="259" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="QZj-xe-c0E"/>
                                                             <constraint firstAttribute="height" constant="30" id="fSr-Sn-GSj"/>
@@ -229,7 +228,7 @@
                                                 </variation>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pGG-Zl-xCg">
-                                                <rect key="frame" x="30.5" y="478" width="258.5" height="50"/>
+                                                <rect key="frame" x="30.5" y="478" width="259" height="50"/>
                                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="BWV-hT-5Ou"/>
@@ -369,13 +368,13 @@
                                 <rect key="frame" x="16" y="139" width="288" height="310"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introdueix les teves credencials per accedir a Vincles BCN:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CKL-S2-vbu">
-                                        <rect key="frame" x="14" y="20" width="259" height="39.5"/>
+                                        <rect key="frame" x="14.5" y="20" width="259" height="39.5"/>
                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Correu electrònic" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g8X-Na-Vfp" customClass="RequiredTextField" customModule="VinclesDev" customModuleProvider="target">
-                                        <rect key="frame" x="14" y="80.5" width="259" height="40"/>
+                                        <rect key="frame" x="14.5" y="80.5" width="259" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="cfJ-8x-25L"/>
@@ -402,7 +401,7 @@
                                         </variation>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Contrassenya" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oLr-DF-xhq" customClass="RequiredTextField" customModule="VinclesDev" customModuleProvider="target">
-                                        <rect key="frame" x="14" y="135.5" width="259" height="40"/>
+                                        <rect key="frame" x="14.5" y="135.5" width="259" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="15"/>
@@ -414,7 +413,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JF0-eT-ted" customClass="AlphaButton" customModule="VinclesDev" customModuleProvider="target">
-                                        <rect key="frame" x="14" y="196.5" width="259" height="50"/>
+                                        <rect key="frame" x="14.5" y="196.5" width="259" height="50"/>
                                         <color key="backgroundColor" red="0.83137254900000002" green="0.08235294118" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="07i-f8-Yaa"/>
@@ -634,90 +633,103 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DqI-s0-Q6B">
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kfb-ad-Yes">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nRB-6l-COF">
+                                                <rect key="frame" x="16" y="209" width="288" height="150"/>
+                                                <subviews>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Correu electrònic" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hMz-CA-avT" customClass="EmailTextField" customModule="VinclesDev" customModuleProvider="target">
+                                                        <rect key="frame" x="14.5" y="20" width="259" height="40"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="40" id="4lh-7j-fWt"/>
+                                                        </constraints>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="15"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                <integer key="value" value="6"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </textField>
+                                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d62-xY-s28" customClass="AlphaButton" customModule="VinclesDev" customModuleProvider="target">
+                                                        <rect key="frame" x="14.5" y="80" width="259" height="50"/>
+                                                        <color key="backgroundColor" red="0.83137254900000002" green="0.08235294118" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="vyC-cB-6RT"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="Akkurat-Bold" family="Akkurat-Bold" pointSize="17"/>
+                                                        <state key="normal" title="Recuperar contrassenya">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                <integer key="value" value="6"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="loginAction:" destination="T4S-AV-tkA" eventType="touchUpInside" id="7xC-kg-pqh"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstItem="d62-xY-s28" firstAttribute="centerX" secondItem="hMz-CA-avT" secondAttribute="centerX" id="5tZ-GT-MZO"/>
+                                                    <constraint firstItem="d62-xY-s28" firstAttribute="top" secondItem="hMz-CA-avT" secondAttribute="bottom" constant="20" id="7iT-ui-h7Z"/>
+                                                    <constraint firstItem="d62-xY-s28" firstAttribute="width" secondItem="hMz-CA-avT" secondAttribute="width" id="DW5-rh-d9j"/>
+                                                    <constraint firstAttribute="bottom" secondItem="d62-xY-s28" secondAttribute="bottom" constant="20" id="Oj4-Zq-u08"/>
+                                                    <constraint firstItem="hMz-CA-avT" firstAttribute="width" secondItem="nRB-6l-COF" secondAttribute="width" multiplier="0.9" id="ST8-8u-hpD"/>
+                                                    <constraint firstItem="d62-xY-s28" firstAttribute="centerX" secondItem="nRB-6l-COF" secondAttribute="centerX" id="j8D-x4-ZRZ"/>
+                                                    <constraint firstItem="hMz-CA-avT" firstAttribute="top" secondItem="nRB-6l-COF" secondAttribute="top" constant="20" id="sBK-Ie-XF4"/>
+                                                    <constraint firstItem="hMz-CA-avT" firstAttribute="centerX" secondItem="nRB-6l-COF" secondAttribute="centerX" id="tpU-N7-TxO"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="8"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="nRB-6l-COF" firstAttribute="width" secondItem="Kfb-ad-Yes" secondAttribute="width" multiplier="0.9" id="1Hj-gj-CPt"/>
+                                            <constraint firstItem="nRB-6l-COF" firstAttribute="centerY" secondItem="Kfb-ad-Yes" secondAttribute="centerY" id="HZ2-xA-U24"/>
+                                            <constraint firstItem="nRB-6l-COF" firstAttribute="centerX" secondItem="Kfb-ad-Yes" secondAttribute="centerX" id="zTL-X4-TKB"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="Kfb-ad-Yes" secondAttribute="bottom" id="8oJ-Nx-FH6"/>
+                                    <constraint firstItem="Kfb-ad-Yes" firstAttribute="leading" secondItem="DqI-s0-Q6B" secondAttribute="leading" id="9Oh-Nb-h0H"/>
+                                    <constraint firstItem="Kfb-ad-Yes" firstAttribute="top" secondItem="DqI-s0-Q6B" secondAttribute="top" id="HUx-2A-wRU"/>
+                                    <constraint firstAttribute="trailing" secondItem="Kfb-ad-Yes" secondAttribute="trailing" id="hUA-Q7-ETQ"/>
+                                </constraints>
+                            </scrollView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RECUPERAR CONTRASSENYA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dgj-CG-Tp0">
-                                <rect key="frame" x="25" y="40" width="270" height="37"/>
+                                <rect key="frame" x="20" y="40" width="280" height="37"/>
                                 <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="30"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nRB-6l-COF">
-                                <rect key="frame" x="16" y="219" width="288" height="150"/>
-                                <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Correu electrònic" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hMz-CA-avT" customClass="EmailTextField" customModule="VinclesDev" customModuleProvider="target">
-                                        <rect key="frame" x="15" y="20" width="259" height="40"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="4lh-7j-fWt"/>
-                                        </constraints>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="15"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="6"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d62-xY-s28" customClass="AlphaButton" customModule="VinclesDev" customModuleProvider="target">
-                                        <rect key="frame" x="14.5" y="80" width="259" height="50"/>
-                                        <color key="backgroundColor" red="0.83137254900000002" green="0.08235294118" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="vyC-cB-6RT"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Akkurat-Bold" family="Akkurat-Bold" pointSize="17"/>
-                                        <state key="normal" title="Recuperar contrassenya">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="6"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="loginAction:" destination="T4S-AV-tkA" eventType="touchUpInside" id="7xC-kg-pqh"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstItem="d62-xY-s28" firstAttribute="centerX" secondItem="hMz-CA-avT" secondAttribute="centerX" id="5tZ-GT-MZO"/>
-                                    <constraint firstItem="d62-xY-s28" firstAttribute="top" secondItem="hMz-CA-avT" secondAttribute="bottom" constant="20" id="7iT-ui-h7Z"/>
-                                    <constraint firstItem="d62-xY-s28" firstAttribute="width" secondItem="hMz-CA-avT" secondAttribute="width" id="DW5-rh-d9j"/>
-                                    <constraint firstAttribute="bottom" secondItem="d62-xY-s28" secondAttribute="bottom" constant="20" id="Oj4-Zq-u08"/>
-                                    <constraint firstItem="hMz-CA-avT" firstAttribute="width" secondItem="nRB-6l-COF" secondAttribute="width" multiplier="0.9" id="ST8-8u-hpD"/>
-                                    <constraint firstItem="d62-xY-s28" firstAttribute="centerX" secondItem="nRB-6l-COF" secondAttribute="centerX" id="j8D-x4-ZRZ"/>
-                                    <constraint firstItem="hMz-CA-avT" firstAttribute="top" secondItem="nRB-6l-COF" secondAttribute="top" constant="20" id="sBK-Ie-XF4"/>
-                                    <constraint firstItem="hMz-CA-avT" firstAttribute="centerX" secondItem="nRB-6l-COF" secondAttribute="centerX" id="tpU-N7-TxO"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="8"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="QFB-Cc-fV9" firstAttribute="leading" secondItem="dgj-CG-Tp0" secondAttribute="leading" constant="-25" id="6vX-pN-SYa"/>
-                            <constraint firstItem="dgj-CG-Tp0" firstAttribute="top" secondItem="QFB-Cc-fV9" secondAttribute="top" constant="20" id="BAZ-ie-3MX"/>
-                            <constraint firstItem="nRB-6l-COF" firstAttribute="centerY" secondItem="QFB-Cc-fV9" secondAttribute="centerY" id="Pa0-35-A4L"/>
-                            <constraint firstItem="nRB-6l-COF" firstAttribute="width" secondItem="CIn-3E-yJf" secondAttribute="width" multiplier="0.6" id="aHF-b1-Hol"/>
-                            <constraint firstItem="dgj-CG-Tp0" firstAttribute="centerX" secondItem="QFB-Cc-fV9" secondAttribute="centerX" id="hUr-9O-l4k"/>
-                            <constraint firstItem="nRB-6l-COF" firstAttribute="centerX" secondItem="QFB-Cc-fV9" secondAttribute="centerX" id="jnf-Rg-bqC"/>
-                            <constraint firstItem="nRB-6l-COF" firstAttribute="width" secondItem="CIn-3E-yJf" secondAttribute="width" multiplier="0.9" id="qC5-kg-ty8"/>
+                            <constraint firstItem="QFB-Cc-fV9" firstAttribute="trailing" secondItem="DqI-s0-Q6B" secondAttribute="trailing" id="0pQ-BK-Vjo"/>
+                            <constraint firstItem="Kfb-ad-Yes" firstAttribute="height" secondItem="CIn-3E-yJf" secondAttribute="height" priority="250" id="Dm8-tE-tet"/>
+                            <constraint firstItem="dgj-CG-Tp0" firstAttribute="top" secondItem="QFB-Cc-fV9" secondAttribute="top" constant="20" id="Qd8-td-t47"/>
+                            <constraint firstItem="DqI-s0-Q6B" firstAttribute="leading" secondItem="QFB-Cc-fV9" secondAttribute="leading" id="aPO-DO-QWa"/>
+                            <constraint firstItem="Kfb-ad-Yes" firstAttribute="width" secondItem="CIn-3E-yJf" secondAttribute="width" id="eGK-2h-CcE"/>
+                            <constraint firstItem="QFB-Cc-fV9" firstAttribute="bottom" secondItem="DqI-s0-Q6B" secondAttribute="bottom" id="kcH-Sy-jVf"/>
+                            <constraint firstItem="DqI-s0-Q6B" firstAttribute="top" secondItem="QFB-Cc-fV9" secondAttribute="top" id="n7e-7Q-DJT"/>
+                            <constraint firstItem="dgj-CG-Tp0" firstAttribute="centerX" secondItem="QFB-Cc-fV9" secondAttribute="centerX" id="rQk-Wt-URO"/>
+                            <constraint firstItem="dgj-CG-Tp0" firstAttribute="leading" secondItem="QFB-Cc-fV9" secondAttribute="leading" constant="20" id="tnh-5m-Kjn"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="QFB-Cc-fV9"/>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="aHF-b1-Hol"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=regular">
-                            <mask key="constraints">
-                                <include reference="aHF-b1-Hol"/>
-                                <exclude reference="qC5-kg-ty8"/>
-                            </mask>
-                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="Q5X-6D-sC1"/>
                     <connections>
@@ -769,10 +781,10 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H0n-pJ-DiG">
-                                <rect key="frame" x="16" y="498" width="288.5" height="50"/>
+                                <rect key="frame" x="16" y="498" width="288" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pjn-lX-Hp5">
-                                        <rect key="frame" x="0.0" y="0.0" width="134.5" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="134" height="50"/>
                                         <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Ww7-qp-xJs"/>
@@ -792,7 +804,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TyM-XC-yqP">
-                                        <rect key="frame" x="154.5" y="0.0" width="134" height="50"/>
+                                        <rect key="frame" x="154" y="0.0" width="134" height="50"/>
                                         <color key="backgroundColor" red="0.83137254900000002" green="0.08235294118" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="5vy-7D-NPW"/>
@@ -871,10 +883,10 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rbv-dA-Php">
-                                                <rect key="frame" x="13.5" y="97" width="348.5" height="1263"/>
+                                                <rect key="frame" x="13" y="97" width="349" height="1263"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Idioma de l'app Vincles BCN:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EjA-CU-pa1">
-                                                        <rect key="frame" x="17.5" y="20" width="313.5" height="20"/>
+                                                        <rect key="frame" x="17.5" y="20" width="314" height="20"/>
                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -904,7 +916,7 @@
                                                         <state key="normal" image="alert"/>
                                                     </button>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DEN-05-YJH">
-                                                        <rect key="frame" x="17.5" y="55" width="313.5" height="29"/>
+                                                        <rect key="frame" x="17.5" y="55" width="314" height="29"/>
                                                         <segments>
                                                             <segment title="CAT"/>
                                                             <segment title="CAST"/>
@@ -916,32 +928,32 @@
                                                         </connections>
                                                     </segmentedControl>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Fotografia:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ed8-Y7-Aq6">
-                                                        <rect key="frame" x="17.5" y="113" width="313.5" height="20"/>
+                                                        <rect key="frame" x="17.5" y="113" width="314" height="20"/>
                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Ud-V7-O6u">
-                                                        <rect key="frame" x="17.5" y="148" width="313.5" height="133"/>
+                                                        <rect key="frame" x="17.5" y="148" width="314" height="133"/>
                                                         <subviews>
-                                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kKE-21-onU" userLabel="foto">
-                                                                <rect key="frame" x="0.0" y="0.0" width="313.5" height="133"/>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kKE-21-onU" userLabel="foto">
+                                                                <rect key="frame" x="0.0" y="0.0" width="314" height="133"/>
                                                                 <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="photo-circle" translatesAutoresizingMaskIntoConstraints="NO" id="p8n-4f-xfL" customClass="CircularImageView" customModule="VinclesDev" customModuleProvider="target">
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo-circle" translatesAutoresizingMaskIntoConstraints="NO" id="p8n-4f-xfL" customClass="CircularImageView" customModule="VinclesDev" customModuleProvider="target">
                                                                         <rect key="frame" x="107" y="6" width="100" height="100"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="100" id="ivN-hU-cJj"/>
                                                                             <constraint firstAttribute="height" constant="100" id="xtK-Vf-EFh"/>
                                                                         </constraints>
                                                                     </imageView>
-                                                                    <button opaque="NO" contentMode="scaleAspectFit" ambiguous="YES" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eGk-6L-YtD">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="313.5" height="133"/>
+                                                                    <button opaque="NO" contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eGk-6L-YtD">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="314" height="133"/>
                                                                         <connections>
                                                                             <action selector="fotoAction:" destination="Lzd-fe-F4v" eventType="touchUpInside" id="Ac4-2X-vfe"/>
                                                                         </connections>
                                                                     </button>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Tria una foto" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dYH-AY-PpP">
-                                                                        <rect key="frame" x="114" y="111" width="87" height="16"/>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tria una foto" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dYH-AY-PpP">
+                                                                        <rect key="frame" x="113.5" y="111" width="87" height="16"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="16" id="USt-L7-L00"/>
                                                                             <constraint firstAttribute="width" constant="87" id="b4b-za-8KC"/>
@@ -972,13 +984,13 @@
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Dades personals" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iX1-Ui-LYm">
-                                                        <rect key="frame" x="17.5" y="311" width="313.5" height="20"/>
+                                                        <rect key="frame" x="17.5" y="311" width="314" height="20"/>
                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UPh-wg-BSn" customClass="RequiredTextField" customModule="VinclesDev" customModuleProvider="target">
-                                                        <rect key="frame" x="17.5" y="346" width="313" height="40"/>
+                                                        <rect key="frame" x="17.5" y="346" width="314" height="40"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="9Sa-IN-d0B"/>
@@ -993,7 +1005,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Cognoms" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9e6-vf-Brv" customClass="RequiredTextField" customModule="VinclesDev" customModuleProvider="target">
-                                                        <rect key="frame" x="17.5" y="401" width="313" height="40"/>
+                                                        <rect key="frame" x="17.5" y="401" width="314" height="40"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="GhQ-AI-0vA"/>
@@ -1008,7 +1020,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Correu electrònic" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="02d-2J-5WU" customClass="EmailTextField" customModule="VinclesDev" customModuleProvider="target">
-                                                        <rect key="frame" x="17.5" y="456" width="313" height="40"/>
+                                                        <rect key="frame" x="17.5" y="456" width="314" height="40"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="2ap-4a-loY"/>
@@ -1023,7 +1035,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Contrassenya" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nZA-f7-bVw" customClass="PasswordTextField" customModule="VinclesDev" customModuleProvider="target">
-                                                        <rect key="frame" x="17.5" y="511.5" width="313" height="40"/>
+                                                        <rect key="frame" x="17.5" y="511.5" width="314" height="40"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="kdj-DH-1Vd"/>
@@ -1038,7 +1050,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Repetir contrassenya" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mOc-pR-uIe" customClass="PasswordTextField" customModule="VinclesDev" customModuleProvider="target">
-                                                        <rect key="frame" x="17.5" y="566.5" width="313" height="40"/>
+                                                        <rect key="frame" x="17.5" y="566.5" width="314" height="40"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="OXp-uI-Rud"/>
@@ -1061,7 +1073,7 @@
                                                         <state key="normal" image="alert"/>
                                                     </button>
                                                     <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Telèfon" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pjk-mJ-YId" customClass="NumericTextField" customModule="VinclesDev" customModuleProvider="target">
-                                                        <rect key="frame" x="17.5" y="621.5" width="313" height="40"/>
+                                                        <rect key="frame" x="17.5" y="621.5" width="314" height="40"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="Quc-Z9-0Tx"/>
@@ -1076,13 +1088,13 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Data de naixement (&gt;14 anys):" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kiM-aY-HYy">
-                                                        <rect key="frame" x="17.5" y="691.5" width="313.5" height="20"/>
+                                                        <rect key="frame" x="17.5" y="691.5" width="314" height="20"/>
                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <datePicker clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="lRW-5p-Ezf" customClass="AdultDatePicker" customModule="VinclesDev" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="726.5" width="333.5" height="90"/>
+                                                        <rect key="frame" x="7.5" y="726.5" width="334" height="90"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="90" id="gkC-pK-XxJ"/>
                                                         </constraints>
@@ -1091,13 +1103,13 @@
                                                         </date>
                                                     </datePicker>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Gènere:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ub2-G0-H9p">
-                                                        <rect key="frame" x="17.5" y="846.5" width="313.5" height="20"/>
+                                                        <rect key="frame" x="17.5" y="846.5" width="314" height="20"/>
                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="euU-91-Srk">
-                                                        <rect key="frame" x="17.5" y="881.5" width="313.5" height="29"/>
+                                                        <rect key="frame" x="17.5" y="881.5" width="314" height="29"/>
                                                         <segments>
                                                             <segment title="HOME"/>
                                                             <segment title="DONA"/>
@@ -1108,13 +1120,13 @@
                                                         </connections>
                                                     </segmentedControl>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Vius a Barcelona?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZWt-cI-yKC">
-                                                        <rect key="frame" x="17.5" y="939.5" width="313.5" height="20"/>
+                                                        <rect key="frame" x="17.5" y="939.5" width="314" height="20"/>
                                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="wPi-HY-W02">
-                                                        <rect key="frame" x="17.5" y="974.5" width="313.5" height="29"/>
+                                                        <rect key="frame" x="17.5" y="974.5" width="314" height="29"/>
                                                         <segments>
                                                             <segment title="SÍ"/>
                                                             <segment title="NO"/>
@@ -1125,7 +1137,7 @@
                                                         </connections>
                                                     </segmentedControl>
                                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iz2-1V-jFJ" customClass="AlphaButton" customModule="VinclesDev" customModuleProvider="target">
-                                                        <rect key="frame" x="17.5" y="1047.5" width="313" height="50"/>
+                                                        <rect key="frame" x="17.5" y="1047.5" width="314" height="50"/>
                                                         <color key="backgroundColor" red="0.83137254900000002" green="0.08235294118" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="uI6-Dq-kMp"/>
@@ -1144,13 +1156,13 @@
                                                         </connections>
                                                     </button>
                                                     <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6wE-Vz-sZc">
-                                                        <rect key="frame" x="17.5" y="1112.5" width="313" height="30"/>
+                                                        <rect key="frame" x="17.5" y="1112.5" width="314" height="30"/>
                                                         <subviews>
-                                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="a9R-kV-5j9">
-                                                                <rect key="frame" x="0.0" y="-1" width="51" height="31"/>
+                                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="a9R-kV-5j9">
+                                                                <rect key="frame" x="0.0" y="-0.5" width="51" height="31"/>
                                                             </switch>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BY4-Th-J44">
-                                                                <rect key="frame" x="59" y="5.5" width="254" height="18.5"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BY4-Th-J44">
+                                                                <rect key="frame" x="59" y="6" width="255" height="18.5"/>
                                                                 <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="15"/>
                                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -1349,13 +1361,13 @@
                                 <rect key="frame" x="16" y="166.5" width="288" height="255"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introdueix les teves credencials per accedir a Vincles BCN:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zwz-5Y-Muo">
-                                        <rect key="frame" x="14" y="20" width="259" height="39.5"/>
+                                        <rect key="frame" x="14.5" y="20" width="259" height="39.5"/>
                                         <fontDescription key="fontDescription" name="Akkurat" family="Akkurat" pointSize="16"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Correu electrònic" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nYj-Mk-OI6" customClass="RequiredTextField" customModule="VinclesDev" customModuleProvider="target">
-                                        <rect key="frame" x="14" y="80.5" width="259" height="40"/>
+                                        <rect key="frame" x="14.5" y="80.5" width="259" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="bJl-aO-iS2"/>
@@ -1370,7 +1382,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Px5-fN-D7n" customClass="AlphaButton" customModule="VinclesDev" customModuleProvider="target">
-                                        <rect key="frame" x="14" y="141.5" width="259" height="50"/>
+                                        <rect key="frame" x="14.5" y="141.5" width="259" height="50"/>
                                         <color key="backgroundColor" red="0.83137254900000002" green="0.08235294118" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="6YC-L5-0Eb"/>
@@ -1467,7 +1479,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="alert" width="21" height="21"/>
+        <image name="alert" width="21.333333969116211" height="21.333333969116211"/>
         <image name="photo-circle" width="121" height="121"/>
     </resources>
 </document>

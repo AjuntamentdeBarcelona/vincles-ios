@@ -7,10 +7,10 @@
 
 import UIKit
 import IQKeyboardManagerSwift
+import Firebase
 
 class ConfigPersonalDataViewController: UIViewController {
-
-  
+    
     @IBOutlet weak var nomTF: RequiredTextField!
     @IBOutlet weak var cognomsTF: RequiredTextField!
     @IBOutlet weak var emailTF: OptionalTextField!
@@ -42,9 +42,13 @@ class ConfigPersonalDataViewController: UIViewController {
     let retryPopupTag = 1001
     let errorPopupTag = 1002
     
+    deinit {
+
+    }
+
     var formValid: Bool{
         get{
-            return nomTF.isValid && cognomsTF.isValid && phoneTF.isValid && barcelonaSegmentedControl.selectedSegmentIndex != UISegmentedControlNoSegment
+            return nomTF.isValid && cognomsTF.isValid && phoneTF.isValid && barcelonaSegmentedControl.selectedSegmentIndex != UISegmentedControl.noSegment
         }
     }
     
@@ -81,7 +85,9 @@ class ConfigPersonalDataViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-       
+        nomTF.baseTextFieldDelegate = nil
+        cognomsTF.baseTextFieldDelegate = nil
+        phoneTF.baseTextFieldDelegate = nil
         IQKeyboardManager.shared.enableAutoToolbar = true
      
         
@@ -89,10 +95,12 @@ class ConfigPersonalDataViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
        
         IQKeyboardManager.shared.enableAutoToolbar = false
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_CONFIGURATION_PERSONAL_DATA)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        
+        Analytics.setScreenName(ANALYTICS_CONFIGURATION_PERSONAL_DATA, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_CONFIGURATION_PERSONAL_DATA)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     
     func configNavigationBar(){
@@ -342,7 +350,9 @@ extension ConfigPersonalDataViewController: PopUpDelegate{
         popup.dismissPopup {
         }
     }
-    
+    func closeButtonClicked(popup: PopupViewController) {
+        
+    }
 }
 
 

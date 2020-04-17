@@ -26,11 +26,8 @@ protocol ApiClientProtocol {
     static func validateRegister(username: String, code: String, onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback)
     static func logoutWith(token: String, onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback)
     static func getUserSelfInfo(onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback)
-    static func getContentsLibrary(to: Date, onSuccess:  @escaping ArrayResponseCallback, onError:  @escaping ErrorCallback)
     static func getCirclesUser(onSuccess:  @escaping ArrayResponseCallback, onError:  @escaping ErrorCallback)
-    static func uploadImage(imageData: Data, onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback)
-    static func uploadVideo(videoData: Data, onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback)
-    static func addContentToLibrary(contentId: Int, onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback)
+     static func addContentToLibrary(contentId: Int, onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback)
     static func removeContentFromLibrary(contentId: Int, onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback)
     static func getGroupsUser(onSuccess:  @escaping ArrayResponseCallback, onError:  @escaping ErrorCallback)
     static func generateCode(onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback)
@@ -38,7 +35,7 @@ protocol ApiClientProtocol {
     static func removeContact(contactId: Int, onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback)
     static func changeUserPhoto(imageData: Data, onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback)
     static func getUserSelfInfoNoValidation(onSuccess:  @escaping DictResponseCallback, onError:  @escaping ErrorCallback)
-    static func shareContent(contentId: [Int], usersIds: [Int], chatIds: [Int],  onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback)
+    static func shareContent(contentId: [Int], usersIds: [Int], chatIds: [Int], metadataTipus: [String],   onSuccess:  @escaping VoidCallback, onError:  @escaping ErrorCallback)
 }
 
 

@@ -16,7 +16,6 @@ class ProfileManager: NSObject {
     func getSelfProfile(onSuccess: @escaping () -> (), onError: @escaping (String) -> ()) {
         
         ApiClient.getUserSelfInfo(onSuccess: { (dict) in
-            print(dict)
             self.profileModelManager.addOrUpdateUser(dict: dict)
             
             let profileManager = ProfileManager()
@@ -56,10 +55,24 @@ class ProfileManager: NSObject {
         
     }
 
+    func fixOrientation(img: UIImage) -> UIImage {
+        if (img.imageOrientation == .up) {
+            return img
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(img.size, false, img.scale)
+        let rect = CGRect(x: 0, y: 0, width: img.size.width, height: img.size.height)
+        img.draw(in: rect)
+        
+        let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return normalizedImage
+    }
     
     func changeUserPhoto(photo: UIImage, onSuccess: @escaping () -> (), onError: @escaping (String) -> ()) {
         
-        ApiClient.changeUserPhoto(imageData: UIImageJPEGRepresentation(photo, 0.8)!, onSuccess: { (respDict) in
+        ApiClient.changeUserPhoto(imageData: photo.jpegData(compressionQuality: 0.8)!, onSuccess: { (respDict) in
             onSuccess()
         }) { (error) in
             onError("")
@@ -122,12 +135,10 @@ class ProfileManager: NSObject {
     
     func sendInstallation(onSuccess: @escaping () -> (), onError: @escaping (String) -> ()) {
         let profileManager = ProfileModelManager()
-        
       
         if let userId = profileManager.getUserMe()?.id, let pushkitToken = profileManager.getPushkitToken(){
             
             let installationId = "\(UIDevice.current.identifierForVendor!.uuidString.replacingOccurrences(of: "-", with: ""))\(userId)"
-
             ApiClient.sendInstallation(so: "IOS", pushToken: "", imei: installationId, idUser: userId, pushkitToken: pushkitToken, onSuccess: {
                 
             }, onError: { (error) in

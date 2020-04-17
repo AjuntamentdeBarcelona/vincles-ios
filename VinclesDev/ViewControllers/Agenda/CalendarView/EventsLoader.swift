@@ -33,8 +33,11 @@ open class EventsLoader {
     
     var yourReminderCalendar: EKCalendar?
     
-    static func createCalendarIfNeeded() {
+    static func createCalendarIfNeeded(completion: @escaping (_ result: Bool)->()) {
         self.eventStore.requestAccess(to: .event, completion: { (granted, error) in
+            if error != nil{
+                completion(false)
+            }
             if (granted) && (error == nil) {
                 
                 DispatchQueue.main.async {
@@ -42,7 +45,7 @@ open class EventsLoader {
                     for calendar in calendars {
                         if let calInd = UserDefaults.standard.value(forKey: "calIdentifier") as? String{
                             if calendar.calendarIdentifier ==  calInd{
-                                print(calendar.title)
+                                completion(true)
                                 return
                             }
                         }
@@ -57,8 +60,11 @@ open class EventsLoader {
                     do {
                         try self.eventStore.saveCalendar(newCalendar, commit: true)
                         UserDefaults.standard.set(newCalendar.calendarIdentifier, forKey: "calIdentifier")
+                        completion(true)
+
                     }
                     catch{
+                        completion(false)
                         print("error")
                     }
                 }
@@ -68,120 +74,136 @@ open class EventsLoader {
         })
         
         
-      
+        
         
     }
     
     
-    static func syncAllMeetings(completion: ((_ success: Bool, _ error: NSError?) -> Void)? = nil) {
-        createCalendarIfNeeded()
-        
-        
-        self.eventStore.requestAccess(to: .event, completion: { (granted, error) in
-            if (granted) && (error == nil) {
-                
-                DispatchQueue.main.async {
-                    let realm = try! Realm()
-                    let meetings = realm.objects(Meeting.self)
-                    
-                    for meeting in meetings{
-                        self.addEventToCalendar(meeting: meeting)
+    static func syncAllMeetings(completion: @escaping ((_ success: Bool) -> Void)) {
+        createCalendarIfNeeded { (success) in
+            if success{
+                self.eventStore.requestAccess(to: .event, completion: { (granted, error) in
+                    if error != nil{
+                        completion(false)
                     }
-                }
-                
-                
-            }
-        })
-    }
-    
-    static func addEventToCalendar(meeting: Meeting, completion: ((_ success: Bool, _ error: NSError?) -> Void)? = nil) {
-        if UserDefaults.standard.bool(forKey: "sincroCalendari"){
+                    if (granted) && (error == nil) {
+                        
+                        DispatchQueue.main.async {
+                            let realm = try! Realm()
+                            
+                            if let auth = realm.objects(AuthResponse.self).first, let user = realm.objects(User.self).filter("id == %i", auth.userId).first{
+                                
+                                
+                                for meeting in  user.meetings{
+                                    self.addEventToCalendar(meeting: meeting)
+                                }
+                            }
+                            
+                            completion(true)
 
-        createCalendarIfNeeded()
-        
-        var calendariId = ""
-        
-        let calendars = self.eventStore.calendars(for: EKEntityType.event)
-        for calendar in calendars {
-            if let calInd = UserDefaults.standard.value(forKey: "calIdentifier") as? String{
-                if calendar.calendarIdentifier ==  calInd{
-                    calendariId = calInd
-                }
+                        }
+                        
+                        
+                    }
+                    
+                })
+            }
+            else{
+                completion(false)
             }
         }
         
         
-        self.eventStore.requestAccess(to: .event, completion: { (granted, error) in
-            if (granted) && (error == nil) {
+       
+    }
+    
+    static func addEventToCalendar(meeting: Meeting, completion: ((_ success: Bool, _ error: NSError?) -> Void)? = nil) {
+        if UserDefaults.standard.bool(forKey: "sincroCalendari"){
+            
+            createCalendarIfNeeded { (success) in
+                var calendariId = ""
                 
-                DispatchQueue.main.async {
-                    if let identifier = UserDefaults.standard.value(forKey: "\(meeting.id)") as? String{
-                        
-                        if let event = self.eventStore.event(withIdentifier: identifier){
-                            event.title = meeting.descrip
-                            let startDate = Date(timeIntervalSince1970: TimeInterval(meeting.date / 1000))
-                            event.startDate = startDate
-                            event.endDate = Calendar.current.date(byAdding: .minute, value: meeting.duration, to: startDate)
-                            event.notes = ""
-                            if let calendar = eventStore.calendar(withIdentifier: calendariId){
-                                event.calendar = calendar
-                            }
-                            
-                            do {
-                                try eventStore.save(event, span: .thisEvent)
-                                print(event.eventIdentifier)
-                                
-                            } catch let e as NSError {
-                                completion?(false, e)
-                                return
-                            }
+                let calendars = self.eventStore.calendars(for: EKEntityType.event)
+                for calendar in calendars {
+                    if let calInd = UserDefaults.standard.value(forKey: "calIdentifier") as? String{
+                        if calendar.calendarIdentifier ==  calInd{
+                            calendariId = calInd
                         }
-                        completion?(true, nil)
-                        
-                        
-                        
-                    }
-                    else{
-                        let event = EKEvent(eventStore: self.eventStore)
-                        event.title = meeting.descrip
-                        let startDate = Date(timeIntervalSince1970: TimeInterval(meeting.date / 1000))
-                        event.startDate = startDate
-                        event.endDate = Calendar.current.date(byAdding: .minute, value: meeting.duration, to: startDate)
-                        event.notes = ""
-                        if let calendar = eventStore.calendar(withIdentifier: calendariId){
-                            event.calendar = calendar
-                        }
-                        do {
-                            try eventStore.save(event, span: .thisEvent)
-                            print(event.eventIdentifier)
-                            
-                            UserDefaults.standard.set(event.eventIdentifier, forKey: "\(meeting.id)")
-                            
-                            print(event.eventIdentifier)
-                            
-                        } catch let e as NSError {
-                            completion?(false, e)
-                            return
-                        }
-                        completion?(true, nil)
-                        
                     }
                 }
                 
                 
+                self.eventStore.requestAccess(to: .event, completion: { (granted, error) in
+                    if (granted) && (error == nil) {
+                        
+                        DispatchQueue.main.async {
+                            if let identifier = UserDefaults.standard.value(forKey: "\(meeting.id)") as? String{
+                                
+                                if let event = self.eventStore.event(withIdentifier: identifier){
+                                    event.title = meeting.descrip
+                                    let startDate = Date(timeIntervalSince1970: TimeInterval(meeting.date / 1000))
+                                    event.startDate = startDate
+                                    event.endDate = Calendar.current.date(byAdding: .minute, value: meeting.duration, to: startDate)
+                                    event.notes = ""
+                                    if let calendar = eventStore.calendar(withIdentifier: calendariId){
+                                        event.calendar = calendar
+                                    }
+                                    
+                                    do {
+                                        try eventStore.save(event, span: .thisEvent)
+                                        
+                                    } catch let e as NSError {
+                                        completion?(false, e)
+                                        return
+                                    }
+                                }
+                                completion?(true, nil)
+                                
+                                
+                                
+                            }
+                            else{
+                                let event = EKEvent(eventStore: self.eventStore)
+                                event.title = meeting.descrip
+                                let startDate = Date(timeIntervalSince1970: TimeInterval(meeting.date / 1000))
+                                event.startDate = startDate
+                                event.endDate = Calendar.current.date(byAdding: .minute, value: meeting.duration, to: startDate)
+                                event.notes = ""
+                                if let calendar = eventStore.calendar(withIdentifier: calendariId){
+                                    event.calendar = calendar
+                                }
+                                do {
+                                    try eventStore.save(event, span: .thisEvent)
+                                    
+                                    UserDefaults.standard.set(event.eventIdentifier, forKey: "\(meeting.id)")
+                                    
+                                    
+                                } catch let e as NSError {
+                                    completion?(false, e)
+                                    return
+                                }
+                                completion?(true, nil)
+                                
+                            }
+                        }
+                        
+                        
+                        
+                    } else {
+                        completion?(false, error as NSError?)
+                    }
+                })
                 
-            } else {
-                completion?(false, error as NSError?)
             }
-        })
-        
+            
+           
             
         }
     }
     
     
     static func removeEventFromCalendar(meeting: Meeting, completion: ((_ success: Bool, _ error: NSError?) -> Void)? = nil) {
-
+        
         self.eventStore.requestAccess(to: .event, completion: { (granted, error) in
             if (granted) && (error == nil) {
                 
@@ -190,11 +212,10 @@ open class EventsLoader {
                         
                         UserDefaults.standard.set(nil, forKey: "\(meeting.id)")
                         if let event = self.eventStore.event(withIdentifier: identifier){
-                  
+                            
                             
                             do {
                                 try self.eventStore.remove(event, span: .thisEvent)
-                                print(event.eventIdentifier)
                                 
                             } catch let e as NSError {
                                 completion?(false, e)
@@ -203,7 +224,7 @@ open class EventsLoader {
                         }
                         completion?(true, nil)
                     }
-                   
+                    
                 }
             } else {
                 completion?(false, error as NSError?)
@@ -213,11 +234,50 @@ open class EventsLoader {
     }
     
     static func removeAllEvents(completion: ((_ success: Bool, _ error: NSError?) -> Void)? = nil) {
-
- 
+        
+        
         
         self.eventStore .requestAccess(to: .event, completion: { (granted, error) in
             if (granted) && (error == nil) {
+                
+                let startDate = Date.distantPast
+                let endDate = Date.distantFuture
+                
+                DispatchQueue.main.async {
+                    let calendars = self.eventStore.calendars(for: EKEntityType.event)
+                    for calendar in calendars {
+                        if let calInd = UserDefaults.standard.value(forKey: "calIdentifier") as? String{
+                            if calendar.calendarIdentifier ==  calInd{
+                                
+                                let oneMonthAgo = NSDate(timeIntervalSinceNow: -1000*30*24*3600)
+                                let oneMonthAfter = NSDate(timeIntervalSinceNow: +30*1000*24*3600)
+                                
+                                let predicate = eventStore.predicateForEvents(withStart: oneMonthAgo as Date, end: oneMonthAfter as Date, calendars: [calendar])
+                                
+                                let eV = eventStore.events(matching: predicate) as [EKEvent]?
+                                
+                                if eV != nil {
+                                    for i in eV! {
+                                        
+                                        do{
+                                            (try eventStore.remove(i, span: EKSpan.thisEvent, commit: true))
+                                        }
+                                        catch let error {
+                                            print("Error removing events: ", error)
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                    
+                }
+                
+                
+                
                 
                 DispatchQueue.main.async {
                     let realm = try! Realm()
@@ -227,14 +287,14 @@ open class EventsLoader {
                         self.removeEventFromCalendar(meeting: meeting)
                     }
                 }
-        
+                
                 
             }
-         })
+        })
         
         
     }
-  
+    
     static func removeCalendar(completion: ((_ success: Bool, _ error: NSError?) -> Void)? = nil) {
         
         
@@ -243,12 +303,27 @@ open class EventsLoader {
                 
                 DispatchQueue.main.async {
                     let calendars = self.eventStore.calendars(for: EKEntityType.event)
+                    
                     for calendar in calendars {
+                        if calendar.title ==  "Vincles BCN"{
+                            do {
+                                try self.eventStore.removeCalendar(calendar, commit: true)
+                            }
+                            catch{
+                                print("error")
+                            }
+                            return
+                        }
+                    }
+                    
+                    let calendars2 = self.eventStore.calendars(for: EKEntityType.event)
+
+                    
+                    for calendar in calendars2 {
                         if let calInd = UserDefaults.standard.value(forKey: "calIdentifier") as? String{
                             if calendar.calendarIdentifier ==  calInd{
                                 do {
                                     try self.eventStore.removeCalendar(calendar, commit: true)
-                                    UserDefaults.standard.set(nil, forKey: "calIdentifier")
                                 }
                                 catch{
                                     print("error")
@@ -259,7 +334,9 @@ open class EventsLoader {
                         
                     }
                     
-                   
+                    UserDefaults.standard.set(nil, forKey: "calIdentifier")
+
+                    
                 }
                 
                 

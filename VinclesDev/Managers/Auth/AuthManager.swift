@@ -60,8 +60,7 @@ class AuthManager: NSObject {
 
         ApiClient.registerVinculat(email: params["email"] as! String, password: params["password"] as! String, name: params["name"] as! String, lastname: params["lastname"] as! String, birthdate: params["birthdate"] as! Int, phone: params["phone"] as! String, gender: params["gender"] as! String, liveInBarcelona: params["liveInBarcelona"] as! Bool, photoMimeType: params["photoMimeType"] as? String, onSuccess: { (response) in
             if (response["id"] as? Int) != nil{
-                let mediaManager = MediaManager()
-                mediaManager.saveUserPhotoRegister(userId: params["email"] as! String, image: image, onCompletion: {
+                ProfileImageManager.sharedInstance.saveUserPhotoRegister(userId: params["email"] as! String, image: image, onCompletion: {
                     
                 })
             }
@@ -97,11 +96,11 @@ class AuthManager: NSObject {
             let authorizationStatus = EKEventStore.authorizationStatus(for: .event);
             switch authorizationStatus {
             case .notDetermined:
-                print("notDetermined");
+                break
             case .restricted:
-                print("restricted");
+                break
             case .denied:
-                print("denied");
+                break
             case .authorized:
                 EventsLoader.removeAllEvents()
                 EventsLoader.removeCalendar()
@@ -110,25 +109,26 @@ class AuthManager: NSObject {
             
             UserDefaults.standard.set(nil, forKey: "loginTime")
             UserDefaults.standard.set(false, forKey: "tutorialShown")
-            HUDHelper.sharedInstance.showHud(message: L10n.cargando)
+         //   HUDHelper.sharedInstance.showHud(message: L10n.cargando)
+
+            let mediaManager = MediaManager()
+            mediaManager.clearCacheFolder()
+            
+            UserDefaults.standard.set(false, forKey: "loginDone")
+            
             ApiClient.logoutWith(token: token, onSuccess: {
-                HUDHelper.sharedInstance.hideHUD()
+          //        HUDHelper.sharedInstance.hideHUD()
                 
-                let mediaManager = MediaManager()
-                mediaManager.clearCacheFolder()
-                
-                UserDefaults.standard.set(false, forKey: "loginDone")
+               
                // self.dbModelManager.removeAllItemsFromDatabase()
                 
-       
+
                 onSuccess()
                 
             }) { (error) in
-                HUDHelper.sharedInstance.hideHUD()
+            //      HUDHelper.sharedInstance.hideHUD()
                 
-                let mediaManager = MediaManager()
-                mediaManager.clearCacheFolder()
-                UserDefaults.standard.set(false, forKey: "loginDone")
+                print("TASKS loggedout error")
 
                 // self.dbModelManager.removeAllItemsFromDatabase()
                 

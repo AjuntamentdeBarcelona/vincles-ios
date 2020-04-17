@@ -22,6 +22,9 @@ class ContactCollectionViewCell: UICollectionViewCell {
     lazy var chatModelManager = ChatModelManager()
     lazy var notificationsModelManager = NotificationsModelManager()
 
+    var userId = -1
+    var groupId = -1
+
     override func awakeFromNib() {
         userContainer.backgroundColor = UIColor(named: .darkRed)
         bubbleView.backgroundColor = UIColor(named: .darkRed)
@@ -34,7 +37,28 @@ class ContactCollectionViewCell: UICollectionViewCell {
 
     }
     
+    func setAvatar(){
+        if userId != -1{
+            if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: userId), let image = UIImage(contentsOfFile: url.path){
+                userImage.image = image
+            }
+            else{
+                userImage.image = UIImage(named: "perfilplaceholder")
+            }
+        }
+        else if groupId != -1{
+            if let url = GroupImageManager.sharedInstance.getGroupPicture(groupId: groupId), let image = UIImage(contentsOfFile: url.path){
+                userImage.image = image
+            }
+            else{
+                userImage.image = UIImage(named: "perfilplaceholder")
+            }
+        }
+    }
+    
     func configWithUser(user: User){
+        userId = user.id
+        groupId = -1
         actInd.startAnimating()
 
         userContainer.isHidden = false
@@ -43,49 +67,46 @@ class ContactCollectionViewCell: UICollectionViewCell {
         
         userLabel.text = user.name
         
-        let mediaManager = MediaManager()
-        userImage.tag = user.id
-        userImage.image = UIImage()
+        setAvatar()
         
-        mediaManager.setProfilePicture(userId: user.id, imageView: userImage) {
-            
-        }
-        
-        let circlesManager = CirclesManager()
+//        let circlesManager = CirclesManager()
 
-        if circlesManager.userIsDinamitzador(id: user.id){
-            if let group = circlesManager.groupForDinamitzador(id: user.id){
-                
-                let number = chatModelManager.numberOfUnwatchedGroupMessages(idChat: group.idDynamizerChat)
-                
-                bubbleView.isHidden = number == 0
-                number == 0 ? (userContainer.backgroundColor = .clear) : (userContainer.backgroundColor = UIColor(named: .darkRed))
-                bubbleLabel.text = "\(number)"
-                
-            }
-        }
-        else{
-            let number = chatModelManager.numberOfUnwatchedMessages(circleId: user.id) + notificationsModelManager.numberOfUnwatchedMissedCall(circleId: user.id)
-            
-            bubbleView.isHidden = number == 0
-            number == 0 ? (userContainer.backgroundColor = .clear) : (userContainer.backgroundColor = UIColor(named: .darkRed))
-            bubbleLabel.text = "\(number)"
-        }
+//        if circlesManager.userIsDinamitzador(id: user.id){
+//            if let group = circlesManager.groupForDinamitzador(id: user.id){
+//
+//                let number = chatModelManager.numberOfUnwatchedGroupMessages(idChat: group.idDynamizerChat)
+//
+//                bubbleView.isHidden = number == 0
+//                number == 0 ? (userContainer.backgroundColor = .clear) : (userContainer.backgroundColor = UIColor(named: .darkRed))
+//                bubbleLabel.text = "\(number)"
+//
+//            }
+//        }
+//        else{
+//            let number = chatModelManager.numberOfUnwatchedMessages(circleId: user.id) + notificationsModelManager.numberOfUnwatchedMissedCall(circleId: user.id)
+//
+//            bubbleView.isHidden = number == 0
+//            number == 0 ? (userContainer.backgroundColor = .clear) : (userContainer.backgroundColor = UIColor(named: .darkRed))
+//            bubbleLabel.text = "\(number)"
+//        }
+        
+        let number = chatModelManager.numberOfUnwatchedMessages(circleId: user.id) + notificationsModelManager.numberOfUnwatchedMissedCall(circleId: user.id)
+        
+        bubbleView.isHidden = number == 0
+        number == 0 ? (userContainer.backgroundColor = .clear) : (userContainer.backgroundColor = UIColor(named: .darkRed))
+        bubbleLabel.text = "\(number)"
     }
     
     func configWithGroup(group: Group){
+        userId = -1
+        groupId = group.id
         
         userContainer.isHidden = false
         userContainer.backgroundColor = .clear
         userLabel.text = group.name
         userImage.image = UIImage()
         
-        let mediaManager = MediaManager()
-        userImage.tag = group.id
-        
-        mediaManager.setGroupPicture(groupId: group.id, imageView: userImage) {
-            
-        }
+        setAvatar()
         
         // DONE WATCHED
         let number = chatModelManager.numberOfUnwatchedGroupMessages(idChat: group.idChat)

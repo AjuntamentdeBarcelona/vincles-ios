@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -39,18 +37,17 @@
                                         </constraints>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BrW-dn-I10">
-                                        <rect key="frame" x="0.0" y="600.5" width="375" height="66.5"/>
+                                        <rect key="frame" x="0.0" y="592" width="375" height="75"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="footer-splashscreen" translatesAutoresizingMaskIntoConstraints="NO" id="W7Q-we-vj8">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="66.5"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="W7Q-we-vj8" secondAttribute="height" multiplier="640:114" id="okB-hs-DdV"/>
-                                                </constraints>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="footer-splashscreen" translatesAutoresizingMaskIntoConstraints="NO" id="W7Q-we-vj8">
+                                                <rect key="frame" x="-132.5" y="0.0" width="640" height="75"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="W7Q-we-vj8" firstAttribute="centerY" secondItem="BrW-dn-I10" secondAttribute="centerY" id="Ukq-6m-ifg"/>
+                                            <constraint firstAttribute="height" constant="75" id="le1-MR-UCc"/>
                                             <constraint firstItem="W7Q-we-vj8" firstAttribute="centerX" secondItem="BrW-dn-I10" secondAttribute="centerX" id="rD9-g4-eZP"/>
                                             <constraint firstItem="W7Q-we-vj8" firstAttribute="height" secondItem="BrW-dn-I10" secondAttribute="height" id="rrw-M5-8dV"/>
                                         </constraints>
@@ -63,11 +60,10 @@
                                     <constraint firstItem="BrW-dn-I10" firstAttribute="width" secondItem="r1q-sa-xfi" secondAttribute="width" id="PSM-Mr-eHF"/>
                                     <constraint firstAttribute="bottom" secondItem="BrW-dn-I10" secondAttribute="bottom" id="Wgk-wm-Rw3"/>
                                     <constraint firstItem="9EN-R7-wYO" firstAttribute="top" secondItem="r1q-sa-xfi" secondAttribute="top" constant="41" id="iiB-uE-PwF"/>
-                                    <constraint firstItem="BrW-dn-I10" firstAttribute="height" secondItem="r1q-sa-xfi" secondAttribute="height" multiplier="0.1" id="uMV-tQ-6od"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QhL-bJ-Ebc">
-                                <rect key="frame" x="67" y="182.5" width="240" height="302.5"/>
+                                <rect key="frame" x="67.5" y="182.5" width="240" height="302"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vincles Bcn" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JaA-or-uLL">
                                         <rect key="frame" x="27" y="0.0" width="186" height="52"/>
@@ -118,6 +114,6 @@
     <resources>
         <image name="footer-splashscreen" width="640" height="114"/>
         <image name="logo-barcelona" width="320" height="110"/>
-        <image name="logo-big" width="1389" height="1389"/>
+        <image name="logo-big" width="166.5" height="166.5"/>
     </resources>
 </document>

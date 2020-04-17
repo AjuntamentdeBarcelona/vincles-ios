@@ -17,6 +17,7 @@ class Content: Object {
     @objc dynamic var mimeType = ""
     @objc dynamic var userCreator: User?
     @objc dynamic var userName = ""
+    @objc dynamic var inclusionTimeInt: Int64 = 0
 
     override static func primaryKey() -> String? {
         return "id"
@@ -25,18 +26,15 @@ class Content: Object {
     convenience required init(json: JSON, relation: String = "") {
         self.init()
       
+        inclusionTimeInt = json["inclusionTime"].int64Value
 
         inclusionTime = Date(timeIntervalSince1970: TimeInterval(json["inclusionTime"].int64Value / 1000))
         id = json["id"].intValue
         mimeType = json["mimeType"].stringValue
         idContent = json["idContent"].intValue
 
-        print(idContent)
-        print(id)
-        
         let jsonUser = json["userCreator"]
         userName =  jsonUser["name"].stringValue + " " + jsonUser["lastname"].stringValue
-        print(userName)
         let realm = try! Realm()
         try! realm.write {
             let user = realm.create(User.self, value: ["name": jsonUser["name"].stringValue, "lastname": jsonUser["lastname"].stringValue, "gender": jsonUser["gender"].stringValue, "active": jsonUser["active"].boolValue, "alias": jsonUser["alias"].stringValue, "id": jsonUser["id"].intValue, "idContentPhoto": jsonUser["idContentPhoto"].intValue], update: true)

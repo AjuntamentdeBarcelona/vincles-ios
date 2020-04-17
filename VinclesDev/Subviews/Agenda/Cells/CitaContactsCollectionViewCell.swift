@@ -16,6 +16,8 @@ class CitaContactsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var userContainer: CircularView!
     @IBOutlet weak var actInd: UIActivityIndicatorView!
     
+    var userId = -1
+    
     override func awakeFromNib() {
         
         if UIDevice.current.userInterfaceIdiom == .phone {
@@ -34,23 +36,34 @@ class CitaContactsCollectionViewCell: UICollectionViewCell {
         eliminarButton.titleLabel?.numberOfLines = 2
     }
     
+    func setAvatar(){
+        if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: userId), let image = UIImage(contentsOfFile: url.path){
+            userImage.image = image
+            actInd.stopAnimating()
+            actInd.isHidden = true
+        }
+        else{
+            userImage.image = UIImage(named: "perfilplaceholder")
+            actInd.stopAnimating()
+            actInd.isHidden = true
+        }
+    }
+    
     func configWithUser(user: User){
+        userId = user.id
+        
         userImage.image = UIImage()
         actInd.startAnimating()
         
         userLabel.text = user.name
-        let mediaManager = MediaManager()
-        userImage.tag = user.id
-        
-        mediaManager.setProfilePicture(userId: user.id, imageView: userImage) {
-            
-        }
+       
+        setAvatar()
     }
     
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        bringSubview(toFront: stack)
+        bringSubviewToFront(stack)
     }
     
 }

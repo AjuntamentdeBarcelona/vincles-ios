@@ -48,24 +48,29 @@ class GalleryDetailUserHeader: UIView {
     func configWithUser(user: User){
         
         userName.text = user.name + " " + user.lastname
-        let mediaManager = MediaManager()
-        userImage.tag = user.id
-        mediaManager.setProfilePicture(userId: user.id, imageView: userImage) {
-            
+
+        if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: user.id), let image = UIImage(contentsOfFile: url.path){
+            userImage.image = image
         }
+        else{
+            userImage.image = UIImage(named: "perfilplaceholder")
+        }
+        
+      
         //   bubbleView.isHidden = user.notificationsNumber == 0
         //    user.notificationsNumber == 0 ? (userContainer.backgroundColor = .white) : (userContainer.backgroundColor = UIColor(named: .darkRed))
     }
     
     func configWithGroup(group: Group){
-        print(group.name)
+
         userName.text = group.name
-        let mediaManager = MediaManager()
-        userImage.tag = group.id
-        mediaManager.setGroupPicture(groupId: group.id, imageView: userImage) {
-            
+        print(group.id)
+        if let url = GroupImageManager.sharedInstance.getGroupPicture(groupId: group.id), let image = UIImage(contentsOfFile: url.path){
+            userImage.image = image
         }
-        //   bubbleView.isHidden = user.notificationsNumber == 0
-        //    user.notificationsNumber == 0 ? (userContainer.backgroundColor = .white) : (userContainer.backgroundColor = UIColor(named: .darkRed))
+        else{
+            userImage.image = UIImage(named: "perfilplaceholder")
+        }
+        
     }
 }

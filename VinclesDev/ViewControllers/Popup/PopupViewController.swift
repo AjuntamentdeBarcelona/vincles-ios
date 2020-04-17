@@ -10,10 +10,26 @@ import UIKit
 protocol PopUpDelegate{
     func firstButtonClicked(popup: PopupViewController)
     func secondButtonClicked(popup: PopupViewController)
+    func closeButtonClicked(popup: PopupViewController)
 
 }
 
-class PopupViewController: UIViewController {
+class PopupViewController: UIViewController, ProfileImageManagerDelegate {
+    func didDownload(userId: Int) {
+        if self.userId > -1 && self.userId == userId{
+            if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: self.userId), let image = UIImage(contentsOfFile: url.path){
+                circularImageView.image = image
+            }
+        }
+
+    }
+    
+    func didError(userId: Int) {
+        if self.userId > -1 && self.userId == userId{
+                circularImageView.image = UIImage(named: "perfilplaceholder")
+        }
+    }
+    
 
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var firstButton: HoverButton!
@@ -77,10 +93,11 @@ class PopupViewController: UIViewController {
                     circularImageView.isHidden = false
                     circularImageViewHeight.constant = 100
                     distanceImageDescription.constant = 15
-                    let mediaManager = MediaManager()
-                    circularImageView.tag = userId
-                    mediaManager.setProfilePicture(userId: userId, imageView: circularImageView) {
-                        
+                    if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: self.userId), let image = UIImage(contentsOfFile: url.path){
+                        circularImageView.image = image
+                    }
+                    else{
+                        circularImageView.image = UIImage(named: "perfilplaceholder")
                     }
                 }
              
@@ -112,11 +129,11 @@ class PopupViewController: UIViewController {
             circularImageView.isHidden = false
             circularImageViewHeight.constant = 100
             distanceImageDescription.constant = 15
-            let mediaManager = MediaManager()
-            circularImageView.tag = userId
-
-            mediaManager.setProfilePicture(userId: userId, imageView: circularImageView) {
-                
+            if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: self.userId), let image = UIImage(contentsOfFile: url.path){
+                circularImageView.image = image
+            }
+            else{
+                circularImageView.image = UIImage(named: "perfilplaceholder")
             }
         }
         if button2Title == ""{
@@ -129,6 +146,8 @@ class PopupViewController: UIViewController {
   
     
     override func viewWillAppear(_ animated: Bool) {
+        ProfileImageManager.sharedInstance.delegate = self
+
         UIView.animate(withDuration: 0.3, delay: 0.3, options: [.curveEaseInOut], animations: {
             self.alphaView.alpha = 1
 
@@ -186,6 +205,7 @@ class PopupViewController: UIViewController {
     }
     
     @IBAction func closeAction(_ sender: Any) {
+        delegate?.closeButtonClicked(popup: self)
         dismissPopup {
             
         }

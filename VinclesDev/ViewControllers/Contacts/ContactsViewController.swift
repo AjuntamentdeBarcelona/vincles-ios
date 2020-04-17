@@ -7,8 +7,10 @@
 
 import UIKit
 import Popover
+import Firebase
 
-class ContactsViewController: UIViewController {
+class ContactsViewController: UIViewController, ProfileImageManagerDelegate, GroupImageManagerDelegate {
+  
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var filtrarButton: HoverButton!
@@ -23,7 +25,7 @@ class ContactsViewController: UIViewController {
 
     lazy var dataSource = ContactsGroupsDataSource()
     lazy var circlesManager = CirclesManager()
-    lazy var circlesGroupsModelManager = CirclesGroupsModelManager()
+    lazy var circlesGroupsModelManager = CirclesGroupsModelManager.shared
     lazy var profileModelManager = ProfileModelManager()
 
     fileprivate var popover: Popover!
@@ -44,6 +46,8 @@ class ContactsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let notificationNameCall = Notification.Name(CALL_FINISHED)
+        NotificationCenter.default.addObserver(self, selector: #selector(ContactsViewController.updateContactsGridNoti), name: notificationNameCall, object: nil)
 
         coachMarksController.dataSource = self
         coachMarksController.overlay.color = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.8)
@@ -84,7 +88,7 @@ class ContactsViewController: UIViewController {
        
         updateContactsGrid()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(GalleryViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(GalleryViewController.rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
         
         let notificationName = Notification.Name(NOTIFICATION_PROCESSED)
         NotificationCenter.default.addObserver(self, selector: #selector(ContactsViewController.notificationProcessed), name: notificationName, object: nil)
@@ -112,10 +116,50 @@ class ContactsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_CONTACTS)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        ProfileImageManager.sharedInstance.delegate = self
+        GroupImageManager.sharedInstance.delegate = self
+
+        Analytics.setScreenName(ANALYTICS_CONTACTS, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_CONTACTS)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
+    }
+    
+    
+    func didDownload(userId: Int) {
+        for cell in collectionView.visibleCells{
+            if let inCell = cell as? ContactItemCollectionViewCell, inCell.userId == userId{
+                inCell.setAvatar()
+            }
+        }
+
+    }
+    
+    func didError(userId: Int) {
+        for cell in collectionView.visibleCells{
+            if let inCell = cell as? ContactItemCollectionViewCell, inCell.userId == userId{
+                inCell.setAvatar()
+            }
+        }
+    }
+    
+    func didDownload(groupId: Int) {
+        
+        for cell in collectionView.visibleCells{
+            if let inCell = cell as? ContactItemCollectionViewCell, inCell.groupId == groupId{
+                inCell.setAvatar()
+            }
+        }
+        
+    }
+    
+    func didError(groupId: Int) {
+        for cell in collectionView.visibleCells{
+            if let inCell = cell as? ContactItemCollectionViewCell, inCell.groupId == groupId{
+                inCell.setAvatar()
+            }
+        }
     }
     
     override func viewWillLayoutSubviews() {
@@ -130,6 +174,9 @@ class ContactsViewController: UIViewController {
     
     
   
+    @objc func updateContactsGridNoti(_ notification: NSNotification){
+        updateContactsGrid()
+    }
     
     func setCollectionViewLayout(){
         setCollectionViewColumns()
@@ -158,7 +205,7 @@ class ContactsViewController: UIViewController {
         collectionView.dataSource = dataSource
         dataSource.clickDelegate = self
         dataSource.contactsFilter = filterContactsType
-        dataSource.circlesGroupsModelManager = CirclesGroupsModelManager()
+        dataSource.circlesGroupsModelManager = CirclesGroupsModelManager.shared
         dataSource.profileModelManager = ProfileModelManager()
 
 
@@ -327,6 +374,8 @@ class ContactsViewController: UIViewController {
                     if circlesGroupsModelManager.numberOfContacts + circlesGroupsModelManager.numberOfGroups + circlesGroupsModelManager.numberOfDinamizadores == 0{
                         noContactsLabel.isHidden = false
                         collectionView.isHidden = true
+                        noContactsLabel.text = L10n.homeNoContacts
+
                     }
                     else{
                         noContactsLabel.isHidden = true
@@ -344,6 +393,8 @@ class ContactsViewController: UIViewController {
                     }
                 }
             case .family:
+                noContactsLabel.text = L10n.homeNoContacts
+
                 if circlesGroupsModelManager.numberOfContacts == 0{
                     noContactsLabel.isHidden = false
                     collectionView.isHidden = true
@@ -353,6 +404,8 @@ class ContactsViewController: UIViewController {
                     collectionView.isHidden = false
                 }
             case .groups:
+                noContactsLabel.text = L10n.homeNoGroups
+
                 if circlesGroupsModelManager.numberOfGroups == 0{
                     noContactsLabel.isHidden = false
                     collectionView.isHidden = true
@@ -362,6 +415,8 @@ class ContactsViewController: UIViewController {
                     collectionView.isHidden = false
                 }
             case .dinams:
+                noContactsLabel.text = L10n.homeNoContacts
+
                 if circlesGroupsModelManager.numberOfDinamizadores == 0{
                     noContactsLabel.isHidden = false
                     collectionView.isHidden = true
@@ -533,7 +588,9 @@ extension ContactsViewController: PopUpDelegate{
                     self.updateContactsGrid()
                 }, onError: { (error) in
                     self.popupVC.titleLabel.text = L10n.eliminarPopupTitleReintentar
-                    
+                    popup.dismissPopup {
+                        
+                    }
                 })
 
             }
@@ -544,13 +601,17 @@ extension ContactsViewController: PopUpDelegate{
                     self.updateContactsGrid()
                 }, onError: { (error) in
                     self.popupVC.titleLabel.text = L10n.eliminarPopupTitleReintentar
-                    
+                    popup.dismissPopup {
+                        
+                    }
                 })
             }
         
         }
     }
-
+    func closeButtonClicked(popup: PopupViewController) {
+        
+    }
 }
 
 extension ContactsViewController: CoachMarksControllerDataSource, CoachMarksControllerDelegate{

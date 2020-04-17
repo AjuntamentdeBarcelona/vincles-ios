@@ -21,7 +21,9 @@ class AgendaMonthViewController: UIViewController, CalendarViewDataSource, Calen
     var container: AgendaContainerViewController?
 
     var calLoaded = false
-    
+    var firstScroll = false
+
+    lazy var agendaManager = AgendaManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,7 +99,7 @@ class AgendaMonthViewController: UIViewController, CalendarViewDataSource, Calen
             
             self.displayDateOnHeader(date)
             calendarView.isHidden = false
-            
+            loadEventsFromApi()
         }
         
         let notificationName = Notification.Name(NOTIFICATION_PROCESSED)
@@ -144,18 +146,54 @@ class AgendaMonthViewController: UIViewController, CalendarViewDataSource, Calen
     }
     
     func calendar(_ calendar: CalendarView, didSelectDate date : Date, withEvents events: [CalendarEvent]) {
-        
-        print("Did Select: \(date) with \(events.count) events")
-        for event in events {
-            print("\t\"\(event.title)\" - Starting at:\(event.startDate)")
-        }
+      
         
     }
     
+    func loadEventsFromApi(){
+        guard let monthInitialDate = calendarView.dateFromScrollViewPosition() else { return }
+
+        let agendaModelManager = AgendaModelManager()
+        if let oldestMeeting = agendaModelManager.oldestMeetingDate{
+            let oldestMeetingDate = Date(timeIntervalSince1970: TimeInterval(oldestMeeting / 1000))
+            
+            if monthInitialDate < oldestMeetingDate{
+                HUDHelper.sharedInstance.showHud(message: "")
+                
+                getMeetings(date: monthInitialDate)
+               
+                
+            }
+           
+        }
+    }
+    
+    func getMeetings(date: Date){
+        agendaManager.getMeetings(startDate: Date(), onSuccess: { (hasMoreItems) in
+            if hasMoreItems{
+                self.getMeetings(date: date)
+            }
+            else{
+                self.calendarView.reloadData()
+                HUDHelper.sharedInstance.hideHUD()
+            }
+        }) { (error) in
+            HUDHelper.sharedInstance.hideHUD()
+            
+        }
+    }
+    
     func calendar(_ calendar: CalendarView, didScrollToMonth date : Date) {
-        guard let date = calendarView.dateFromScrollViewPosition() else { return }
+        guard let monthInitialDate = calendarView.dateFromScrollViewPosition() else { return }
         
-        self.displayDateOnHeader(date)
+        if firstScroll{
+          loadEventsFromApi()
+        }
+        else{
+            firstScroll = true
+        }
+       
+        self.displayDateOnHeader(monthInitialDate)
 
     }
     

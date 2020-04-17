@@ -6,15 +6,15 @@
 
 
 import UIKit
-
+import Firebase
 import Popover
 
-class GroupInfoViewController: UIViewController {
+class GroupInfoViewController: UIViewController, ProfileImageManagerDelegate, GroupImageManagerDelegate {
+   
     
     var group: Group?
     
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var descLabel: UILabel!
 
     
     var tableView: UITableView?
@@ -22,7 +22,7 @@ class GroupInfoViewController: UIViewController {
     
     lazy var dataSource = GroupUsersDataSource()
     lazy var circlesManager = CirclesManager()
-    lazy var circlesGroupsModelManager = CirclesGroupsModelManager()
+    lazy var circlesGroupsModelManager = CirclesGroupsModelManager.shared
     lazy var profileModelManager = ProfileModelManager()
     
     var showBackButton = true
@@ -41,8 +41,7 @@ class GroupInfoViewController: UIViewController {
         configDataSources()
         configNavigationBar()
         setStrings()
-        setInitialState()
-        setUI()
+      
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -58,10 +57,49 @@ class GroupInfoViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_GROUP_INFO)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        ProfileImageManager.sharedInstance.delegate = self
+        GroupImageManager.sharedInstance.delegate = self
+
+        Analytics.setScreenName(ANALYTICS_GROUP_INFO, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_GROUP_INFO)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
+    }
+    
+    
+    func didDownload(userId: Int) {
+        for cell in collectionView.visibleCells{
+            if let inCell = cell as? GroupParticipantCollectionViewCell, inCell.userId == userId{
+                inCell.setAvatar()
+            }
+        }
+    }
+    
+    func didError(userId: Int) {
+        for cell in collectionView.visibleCells{
+            if let inCell = cell as? GroupParticipantCollectionViewCell, inCell.userId == userId{
+                inCell.setAvatar()
+            }
+        }
+    }
+    
+    func didDownload(groupId: Int) {
+        if let baseViewController = self.parent as? BaseViewController{
+            
+            if let central = baseViewController.customCentralView as? GalleryDetailUserHeader{
+                central.configWithGroup(group: group!)
+            }
+        }
+    }
+    
+    func didError(groupId: Int) {
+        if let baseViewController = self.parent as? BaseViewController{
+            
+            if let central = baseViewController.customCentralView as? GalleryDetailUserHeader{
+                central.configWithGroup(group: group!)
+            }
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -92,7 +130,8 @@ class GroupInfoViewController: UIViewController {
                     central.configWithGroup(group: group!)
                 }
             }
-            setInitialState()
+            dataSource.descInfo = group!.descript
+            collectionView.reloadData()
             
         }
         
@@ -143,8 +182,9 @@ class GroupInfoViewController: UIViewController {
         collectionView.delegate = dataSource
         collectionView.dataSource = dataSource
         dataSource.clickDelegate = self
+        dataSource.descInfo = group!.descript
         dataSource.group = group
-        dataSource.circlesGroupsModelManager = CirclesGroupsModelManager()
+        dataSource.circlesGroupsModelManager = CirclesGroupsModelManager.shared
         dataSource.profileModelManager = ProfileModelManager()
         
         
@@ -166,12 +206,7 @@ class GroupInfoViewController: UIViewController {
         }
     }
     
-    
-    
-    func setInitialState(){
-        descLabel.text = group!.descript
-    }
-    
+
     func configNavigationBar(){
         if let baseViewController = self.parent as? BaseViewController{
             
@@ -208,16 +243,7 @@ class GroupInfoViewController: UIViewController {
       
     }
     
-    func setUI(){
-        descLabel.font = UIFont(font: FontFamily.Akkurat.regular, size: 18.0)
-
-        descLabel.numberOfLines = 0
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            descLabel.font = UIFont(font: FontFamily.Akkurat.regular, size: 15.0)
-
-        }
-    }
-    
+ 
 
    
     
@@ -250,6 +276,22 @@ extension GroupInfoViewController: GroupUsersDataSourceClickDelegate{
             self.popupVC.button1Title = L10n.ok
             
             self.present(self.popupVC, animated: true, completion: nil)
+            
+            let defaults = UserDefaults.standard
+            
+            if var arrayInvited = defaults.array(forKey: "arrayInvited") as? [Int]{
+                if !arrayInvited.contains(user.id){
+                    arrayInvited.append(user.id)
+                    defaults.set(arrayInvited, forKey: "arrayInvited")
+                }
+            }
+            else{
+                let arrayInvited = [user.id]
+                defaults.set(arrayInvited, forKey: "arrayInvited")
+            }
+            
+            defaults.synchronize()
+            self.collectionView.reloadData()
         }) { (error) in
             let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
             popupVC.delegate = self
@@ -276,6 +318,8 @@ extension GroupInfoViewController: PopUpDelegate{
     func secondButtonClicked(popup: PopupViewController) {
 
     }
-    
+    func closeButtonClicked(popup: PopupViewController) {
+        
+    }
 }
 

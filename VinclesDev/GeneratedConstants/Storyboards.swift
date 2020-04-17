@@ -98,11 +98,11 @@ enum StoryboardScene {
   enum Call: StoryboardType {
     static let storyboardName = "Call"
 
-    static let callViewController = SceneType<VinclesDev.CallViewController>(storyboard: Call.self, identifier: "CallViewController")
+    static let callContainerViewController = SceneType<VinclesDev.CallContainerViewController>(storyboard: Call.self, identifier: "CallContainerViewController")
 
-    static let incomingCallViewController = SceneType<VinclesDev.IncomingCallViewController>(storyboard: Call.self, identifier: "IncomingCallViewController")
+    static let callingViewController = SceneType<VinclesDev.CallingViewController>(storyboard: Call.self, identifier: "CallingViewController")
 
-    static let outgoingCallViewController = SceneType<VinclesDev.OutgoingCallViewController>(storyboard: Call.self, identifier: "OutgoingCallViewController")
+    static let incomingViewController = SceneType<VinclesDev.IncomingViewController>(storyboard: Call.self, identifier: "IncomingViewController")
   }
   enum Chat: StoryboardType {
     static let storyboardName = "Chat"
@@ -117,6 +117,8 @@ enum StoryboardScene {
     static let configMainViewController = SceneType<VinclesDev.ConfigMainViewController>(storyboard: Configuracio.self, identifier: "ConfigMainViewController")
 
     static let configPersonalDataViewController = SceneType<VinclesDev.ConfigPersonalDataViewController>(storyboard: Configuracio.self, identifier: "ConfigPersonalDataViewController")
+
+    static let testDeinitViewController = SceneType<VinclesDev.TestDeinitViewController>(storyboard: Configuracio.self, identifier: "TestDeinitViewController")
   }
   enum Contacts: StoryboardType {
     static let storyboardName = "Contacts"
@@ -160,6 +162,8 @@ enum StoryboardScene {
   }
   enum Popup: StoryboardType {
     static let storyboardName = "Popup"
+
+    static let popupAudioViewController = SceneType<VinclesDev.PopupAudioViewController>(storyboard: Popup.self, identifier: "PopupAudioViewController")
 
     static let popupViewController = SceneType<VinclesDev.PopupViewController>(storyboard: Popup.self, identifier: "PopupViewController")
   }

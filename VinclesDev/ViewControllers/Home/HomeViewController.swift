@@ -9,8 +9,54 @@
 import UIKit
 import AlamofireImage
 import RealmSwift
+import Crashlytics
+import AppStoreRatings
+import Firebase
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, ProfileImageManagerDelegate, GroupImageManagerDelegate {
+    func didDownload(userId: Int) {
+        if let user = profileModelManager.getUserMe(), userId == user.id{
+            self.viewHeader.configWithUser()
+        }
+        else{
+            for cell in viewContactes.contactsCollectionView.visibleCells{
+                if let inCell = cell as? ContactCollectionViewCell, inCell.userId == userId{
+                    inCell.setAvatar()
+                }
+            }
+        }
+    }
+    
+    func didError(userId: Int) {
+        if let user = profileModelManager.getUserMe(), userId == user.id{
+            self.viewHeader.configWithError()
+        }
+        else{
+            for cell in viewContactes.contactsCollectionView.visibleCells{
+                if let inCell = cell as? ContactCollectionViewCell, inCell.userId == userId{
+                    inCell.setAvatar()
+                }
+            }
+        }
+    }
+    
+    func didDownload(groupId: Int) {
+       
+            for cell in viewContactes.contactsCollectionView.visibleCells{
+                if let inCell = cell as? ContactCollectionViewCell, inCell.groupId == groupId{
+                    inCell.setAvatar()
+                }
+            }
+        
+    }
+    
+    func didError(groupId: Int) {
+        for cell in viewContactes.contactsCollectionView.visibleCells{
+            if let inCell = cell as? ContactCollectionViewCell, inCell.groupId == groupId{
+                inCell.setAvatar()
+            }
+        }
+    }
     
     @IBOutlet weak var viewNotifications: NotificationsView!
     @IBOutlet weak var viewContactes: ContactesGridView!
@@ -24,7 +70,7 @@ class HomeViewController: UIViewController {
     lazy var dataSource = ContactsCollectionViewDataSource()
     lazy var circlesManager = CirclesManager()
     lazy var profileManager = ProfileManager()
-    lazy var circlesGroupsModelManager = CirclesGroupsModelManager()
+    lazy var circlesGroupsModelManager = CirclesGroupsModelManager.shared
     lazy var profileModelManager = ProfileModelManager()
     lazy var agendaModelManager = AgendaModelManager()
 
@@ -36,10 +82,18 @@ class HomeViewController: UIViewController {
     var coachMarksController = CoachMarksController()
 
     
+    
     override func viewDidLoad() {
 
         super.viewDidLoad()
 
+        DataConsumptionManager.sharedInstance.sendPendingUsages()
+      
+      
+        if let user = profileModelManager.getUserMe(){
+            _ = ProfileImageManager.sharedInstance.getProfilePicture(userId: user.id)
+        }
+    
         coachMarksController.dataSource = self
         coachMarksController.overlay.color = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.8)
         coachMarksController.overlay.allowTap = true
@@ -59,6 +113,50 @@ class HomeViewController: UIViewController {
         }
        
         self.navigationController!.viewControllers = [self]
+        if UserDefaults.standard.bool(forKey: "tutorialShown"){
+            DispatchQueue.main.async {
+                let delegate = UIApplication.shared.delegate as! AppDelegate
+             //   if !delegate.ratingShown{
+                if let url = URL(string: RATING_URL){
+					DispatchQueue.main.async {
+                        AppStoreRatings.shared.updateRatingStats(configURL: url) { result in
+                            switch result {
+                            case .success(let isDialogRequested):
+                                NSLog("Finished: isDialogRequested: \(isDialogRequested)")
+                                
+                            case .failure(let error):
+                                NSLog("error: \(error.localizedDescription)")
+                                let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+                                let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                                alertController.addAction(okAction)
+                                self.present(alertController, animated: true, completion: nil)
+                            }
+                        }
+                    }
+                   
+                    delegate.ratingShown = true
+				}
+
+                    
+                    /*
+                    AppStoreRatings.shared.debugCurrentStatus(configURL: url) { result in
+                        switch result {
+                            
+                        case let .success(willRequestDialog, launchCountsRemaining, daysRemaining, wasPreviouslyRequested):
+                            NSLog("willRequestDialog: \(willRequestDialog)")
+                            NSLog("wasPreviouslyRequested: \(wasPreviouslyRequested)")
+                            NSLog("launchCountsRemaining: \(launchCountsRemaining)")
+                            NSLog("daysRemaining: \(String(format: "%.3f", daysRemaining))")
+                            
+                        case .failure(let error):
+                            NSLog("error: \(error.localizedDescription)")
+                        }
+                    }
+                    */
+               // }
+                
+            }
+        }
         
         addHelpButton()
     }
@@ -83,6 +181,9 @@ class HomeViewController: UIViewController {
     
     func startInstructions() {
         self.coachMarksController.start(on: self)
+        
+        let windowz = UIApplication.shared.windows
+        print("subviews",windowz)
     }
     
     func reloadStrings(){
@@ -93,7 +194,7 @@ class HomeViewController: UIViewController {
         let attrString = NSMutableAttributedString(string: stringValue)
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 0 // change line spacing between paragraph like 36 or 48
-        attrString.addAttribute(NSAttributedStringKey.paragraphStyle, value: style, range: NSRange(location: 0, length: stringValue.count))
+        attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: style, range: NSRange(location: 0, length: stringValue.count))
         viewNotifications.labelAvisos.attributedText = attrString
 
         viewAllGroups.albumLabel.text = L10n.homeVinclesGrups
@@ -152,6 +253,9 @@ class HomeViewController: UIViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
+        ProfileImageManager.sharedInstance.delegate = self
+        GroupImageManager.sharedInstance.delegate = self
+
         self.setupNavigationBar(barButtons: true)
         self.viewHeader.configWithUser()
         reloadStrings()
@@ -159,11 +263,15 @@ class HomeViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.notificationProcessed), name: notificationName, object: nil)
         reloadNotification()
         reloadAgendaCounter()
+        
+        let notificationNameCall = Notification.Name(CALL_FINISHED)
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.updateContactsGridNoti), name: notificationNameCall, object: nil)
 
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_HOME)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        Analytics.setScreenName(ANALYTICS_HOME, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_HOME)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
         
        // UserDefaults.standard.set(false, forKey: "tutorialShown")
 
@@ -177,10 +285,14 @@ class HomeViewController: UIViewController {
         }
 
         getNotifications()
+
     }
     
     
-    
+    @objc func updateContactsGridNoti(_ notification: NSNotification){
+        updateContactsGrid()
+        reloadNotification()
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -243,7 +355,7 @@ class HomeViewController: UIViewController {
         
         let alertWindow = UIWindow(frame: UIScreen.main.bounds)
         alertWindow.rootViewController = UIViewController()
-        alertWindow.windowLevel = UIWindowLevelAlert + 2;
+        alertWindow.windowLevel = UIWindow.Level.alert + 2;
         alertWindow.makeKeyAndVisible()
         let tutorialVC = StoryboardScene.Tutorial.tutorialViewController.instantiate()
 
@@ -325,7 +437,7 @@ class HomeViewController: UIViewController {
         }
         viewContactes.contactsCollectionView.delegate = dataSource
         viewContactes.contactsCollectionView.dataSource = dataSource
-        dataSource.circlesManager = CirclesGroupsModelManager()
+        dataSource.circlesManager = CirclesGroupsModelManager.shared
         dataSource.profileModelManager = ProfileModelManager()
         dataSource.clickDelegate = self
     }
@@ -382,6 +494,7 @@ extension HomeViewController: ContactsCollectionViewDataSourceClickDelegate{
     }
     
     func selectedGroup(group: Group) {
+
         let baseVC = StoryboardScene.Base.baseViewController.instantiate()
         let chatVC = StoryboardScene.Chat.chatContainerViewController.instantiate()
         baseVC.containedViewController = chatVC
@@ -390,6 +503,7 @@ extension HomeViewController: ContactsCollectionViewDataSourceClickDelegate{
     }
     
     func selectedContact(user: User) {
+        
         let baseVC = StoryboardScene.Base.baseViewController.instantiate()
         let chatVC = StoryboardScene.Chat.chatContainerViewController.instantiate()
         baseVC.containedViewController = chatVC

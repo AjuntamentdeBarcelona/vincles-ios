@@ -53,8 +53,8 @@ class GaleriaInfoHoraView: UIView {
         dateFormatter.timeStyle = .short
         let hour = dateFormatter.string(from: content.inclusionTime)
         
-        let blackAttribute = [ NSAttributedStringKey.font: UIFont(font: FontFamily.AkkuratLight.light, size: CGFloat(size)), NSAttributedStringKey.foregroundColor: UIColor.black ] as [NSAttributedStringKey : Any]
-        let grayAttribute = [ NSAttributedStringKey.font: UIFont(font: FontFamily.AkkuratLight.light, size: CGFloat(size)), NSAttributedStringKey.foregroundColor: UIColor(named: .darkGray) ] as [NSAttributedStringKey : Any]
+        let blackAttribute = [ NSAttributedString.Key.font: UIFont(font: FontFamily.AkkuratLight.light, size: CGFloat(size)), NSAttributedString.Key.foregroundColor: UIColor.black ] as [NSAttributedString.Key : Any]
+        let grayAttribute = [ NSAttributedString.Key.font: UIFont(font: FontFamily.AkkuratLight.light, size: CGFloat(size)), NSAttributedString.Key.foregroundColor: UIColor(named: .darkGray) ] as [NSAttributedString.Key : Any]
         
         let firstString = NSMutableAttributedString(string: day, attributes: blackAttribute)
         

@@ -71,14 +71,14 @@ class ChatModelManager: NSObject {
             
             for notification in notifications{
                 let chatItem = ChatItem()
-                chatItem.callNotification = notification
+                chatItem.callNotification = notification.id
                 chatItem.date = Date(timeIntervalSince1970: TimeInterval(notification.creationTimeInt / 1000))
                 chatItems.append(chatItem)
             }
           
             for message in messages{
                 let chatItem = ChatItem()
-                chatItem.message = message
+                chatItem.messageId = message.id
                 chatItem.date = message.sendTime
                 chatItems.append(chatItem)
             }
@@ -104,8 +104,8 @@ class ChatModelManager: NSObject {
                         
                     }
                   
-                    if let message = chatItem.message{
-                        if lastUnreadMessage != nil && message.id == lastUnreadMessage?.id{
+                    if let message = chatItem.messageId{
+                        if lastUnreadMessage != nil && message == lastUnreadMessage?.id{
                             items.append(L10n.chatNuevosMensajes)
                         }
                     }
@@ -121,11 +121,11 @@ class ChatModelManager: NSObject {
         
         for (index,item) in items.enumerated(){
             if let chatItem = item as? ChatItem{
-                if let message = chatItem.message{
-                    items[index] = message
+                if let message = chatItem.messageId{
+                    items[index] = (message, "message")
                 }
                 if let notification = chatItem.callNotification{
-                    items[index] = notification
+                    items[index] = (notification, "notification")
                 }
             }
         }
@@ -148,7 +148,7 @@ class ChatModelManager: NSObject {
             
             for message in messages{
                 let chatItem = ChatItem()
-                chatItem.groupMessage = message
+                chatItem.groupMessageId = message.id
                 chatItem.date = message.sendTime
                 chatItems.append(chatItem)
             }
@@ -173,8 +173,8 @@ class ChatModelManager: NSObject {
                         
                     }
                     
-                    if let message = chatItem.groupMessage{
-                        if lastUnreadMessage != nil && message.id == lastUnreadMessage?.id{
+                    if let message = chatItem.groupMessageId{
+                        if lastUnreadMessage != nil && message == lastUnreadMessage?.id{
                             items.append(L10n.chatNuevosMensajes)
                         }
                     }
@@ -187,8 +187,8 @@ class ChatModelManager: NSObject {
         
         for (index,item) in items.enumerated(){
             if let chatItem = item as? ChatItem{
-                if let message = chatItem.groupMessage{
-                    items[index] = message
+                if let message = chatItem.groupMessageId{
+                    items[index] = (message, "groupMessage")
                 }
                 if let notification = chatItem.callNotification{
                     items[index] = notification
@@ -207,18 +207,16 @@ class ChatModelManager: NSObject {
         
         if let auth = realm.objects(AuthResponse.self).first, let user = realm.objects(User.self).filter("id == %i", auth.userId).first, let group = user.groups.filter("idChat == %i", idChat).first{
             
-            print(group.idDynamizerChat)
             let messages = realm.objects(GroupMessage.self).filter("idChat == %i", group.idDynamizerChat).sorted(by: { $0.sendTime > $1.sendTime })
             
             //  let messages = group.dynamizerMessages.sorted(by: { $0.sendTime > $1.sendTime })
-            print(messages.count)
             
             var chatItems = [ChatItem]()
             
             
             for message in messages{
                 let chatItem = ChatItem()
-                chatItem.groupMessage = message
+                chatItem.groupMessageId = message.id
                 chatItem.date = message.sendTime
                 chatItems.append(chatItem)
             }
@@ -243,8 +241,8 @@ class ChatModelManager: NSObject {
                         
                     }
                     
-                    if let message = chatItem.groupMessage{
-                        if lastUnreadMessage != nil && message.id == lastUnreadMessage?.id{
+                    if let message = chatItem.groupMessageId{
+                        if lastUnreadMessage != nil && message == lastUnreadMessage?.id{
                             items.append(L10n.chatNuevosMensajes)
                         }
                     }
@@ -257,11 +255,11 @@ class ChatModelManager: NSObject {
         
         for (index,item) in items.enumerated(){
             if let chatItem = item as? ChatItem{
-                if let message = chatItem.groupMessage{
-                    items[index] = message
+                if let message = chatItem.groupMessageId{
+                    items[index] = (message, "groupMessage")
                 }
                 if let notification = chatItem.callNotification{
-                    items[index] = notification
+                    items[index] = (notification, "notification")
                 }
             }
         }
@@ -360,6 +358,10 @@ class ChatModelManager: NSObject {
         return nil
     }
     
+    func groupMessageWith(id: Int) -> GroupMessage?{
+        let realm = try! Realm()
+        return realm.objects(GroupMessage.self).filter("id == %i", id).first
+    }
     
     func dinamitzadorMessageWith(id: Int, idChat: Int) -> GroupMessage?{
         let realm = try! Realm()
@@ -643,7 +645,6 @@ class ChatModelManager: NSObject {
 
                 for message in messages{
                     var remove = true
-                    print(message.id)
                     for id in apiItems{
                         if message.id == id{
                             remove = false
@@ -667,7 +668,6 @@ class ChatModelManager: NSObject {
                 
                 for message in messages{
                     var remove = true
-                    print(message.id)
 
                     for id in apiItems{
                         if message.id == id{

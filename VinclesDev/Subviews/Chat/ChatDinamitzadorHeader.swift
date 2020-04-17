@@ -15,6 +15,8 @@ class ChatDinamitzadorHeader: UIView {
     @IBOutlet weak var userImage: CircularImageView!
     @IBOutlet weak var userName: UILabel!
 
+    var userId = -1
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         initializeSubviews()
@@ -42,35 +44,35 @@ class ChatDinamitzadorHeader: UIView {
         userImage.image = UIImage()
     }
     
-    func configWithUser(user: User){
-        
-        userName.text = user.name + " " + user.lastname
-        
-        if (UIDevice.current.userInterfaceIdiom == .phone){
-            userName.text = ""
-        }
-        
-        let mediaManager = MediaManager()
-        userImage.tag = user.id
-        mediaManager.setProfilePicture(userId: user.id, imageView: userImage) {
-            
-        }
-        //   bubbleView.isHidden = user.notificationsNumber == 0
-        //    user.notificationsNumber == 0 ? (userContainer.backgroundColor = .white) : (userContainer.backgroundColor = UIColor(named: .darkRed))
-    }
-    
+   
     func configWithGroup(group: Group){
+        if let user = group.dynamizer?.id{
+            userId = user
+        }
+        
+        if userId == -1{
+            return
+        }
+        
         userName.text = group.dynamizer?.name
         if (UIDevice.current.userInterfaceIdiom == .phone){
             userName.text = ""
         }
         
-        let mediaManager = MediaManager()
-        userImage.tag = (group.dynamizer?.id)!
-        mediaManager.setProfilePicture(userId: (group.dynamizer?.id)!, imageView: userImage) {
-            
-        }
+        setAvatar()
+
         //   bubbleView.isHidden = user.notificationsNumber == 0
         //    user.notificationsNumber == 0 ? (userContainer.backgroundColor = .white) : (userContainer.backgroundColor = UIColor(named: .darkRed))
+    }
+    
+    func setAvatar(){
+        if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: userId), let image = UIImage(contentsOfFile: url.path){
+            userImage.image = image
+           
+        }
+        else{
+            userImage.image = UIImage(named: "perfilplaceholder")
+            
+        }
     }
 }

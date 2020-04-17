@@ -12,6 +12,14 @@ import SwiftyJSON
 
 class CirclesGroupsModelManager: CirclesGroupsModelManagerProtocol{
 
+    private(set) static var shared:CirclesGroupsModelManager = {
+        return CirclesGroupsModelManager()
+    }()
+    
+    private init(){
+        
+    }
+    
     var numberOfContacts: Int{
         let realm = try! Realm()
         
@@ -176,7 +184,6 @@ class CirclesGroupsModelManager: CirclesGroupsModelManagerProtocol{
         let realm = try! Realm()
         
         if let user = realm.objects(User.self).first{
-            print(user.dinamizadores.count)
             return user.dinamizadores.count
         }
         
@@ -246,9 +253,7 @@ class CirclesGroupsModelManager: CirclesGroupsModelManagerProtocol{
                         
                     }
                 }
-                else{
-                    print("not active")
-                }
+              
                
                 
                 return contact
@@ -267,16 +272,13 @@ class CirclesGroupsModelManager: CirclesGroupsModelManagerProtocol{
                 if contact.active == 1{
                     try! realm.write {
                         realm.add(contact, update: true)
-                        if user.circles.index(of: contact) == nil{
+                        if user.circles.index(of: contact) == nil && user.dinamizadores.index(of: contact) == nil{
                             user.circles.append(contact)
                         }
                         
                     }
                 }
-                else{
-                    print("not active")
-                }
-                
+              
                 
                 return contact
             
@@ -308,8 +310,7 @@ class CirclesGroupsModelManager: CirclesGroupsModelManagerProtocol{
                     if let idContentPhoto = dict["idContentPhoto"] as? Int{
                         if contact.idContentPhoto != idContentPhoto{
                             contact.idContentPhoto = idContentPhoto
-                            let mediaManager = MediaManager()
-                            mediaManager.removeProfilePicture(userId: id)
+                            ProfileImageManager.sharedInstance.removeProfilePicture(userId: id)
                         }
                     }
                    
@@ -622,8 +623,7 @@ class CirclesGroupsModelManager: CirclesGroupsModelManagerProtocol{
         if let groupDict = dict["group"] as? [String:AnyObject], let idDynamizerChat = dict["idDynamizerSharedChat"] as? Int, let dinamDict = groupDict["dynamizer"] as? [String:AnyObject]{
             if let group = self.groupWithId(id: id){
                 
-                let mediaManager = MediaManager()
-                mediaManager.removeGroupPicture(groupId: id)
+                GroupImageManager.sharedInstance.removeGroupPicture(groupId: id)
                 
                 try! realm.write {
                     group.idDynamizerChat = idDynamizerChat

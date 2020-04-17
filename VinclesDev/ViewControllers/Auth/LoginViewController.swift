@@ -8,9 +8,10 @@
 import UIKit
 import SlideMenuControllerSwift
 import EventKit
+import Firebase
 
 class LoginViewController: UIViewController {
-
+    
     @IBOutlet weak var emailTF: RequiredTextField!
     @IBOutlet weak var passwordTF: RequiredTextField!
     @IBOutlet weak var loginButton: AlphaButton!
@@ -38,17 +39,16 @@ class LoginViewController: UIViewController {
     lazy var notificationsManager = NotificationManager()
     lazy var notificationsModelManager = NotificationsModelManager()
     lazy var circlesManager = CirclesManager()
-    lazy var circlesGroupsModelManager = CirclesGroupsModelManager()
+    lazy var circlesGroupsModelManager = CirclesGroupsModelManager.shared
     lazy var profileModelManager = ProfileModelManager()
     lazy var agendaManager = AgendaManager()
-
+    
     // MARK: VC lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let dbModelManager = DBModelManager()
-      //  dbModelManager.removeAllItemsFromDatabase()
-
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.pendingToStoreInAlbum.removeAll()
         
         self.slideMenuController()?.removeLeftGestures()
         
@@ -59,22 +59,35 @@ class LoginViewController: UIViewController {
         setStrings()
         
         checkKeychain()
-        // Test agenda
-      //   emailTF.text = "guites52"
-     //    passwordTF.text = "G2anXY5ql61ç"
-     //    loginButton.isEnabled = true
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-            self.navigationItem.setHidesBackButton(true, animated: false)
-            setStrings()
-            emailTF.reloadAlert()
-            passwordTF.reloadAlert()
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_LOGIN)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        
+        let dbModelManager = DBModelManager()
+        dbModelManager.removeAllItemsFromDatabase()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        setStrings()
+        emailTF.reloadAlert()
+        passwordTF.reloadAlert()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.showingLogin = true
+        
+        Analytics.setScreenName(ANALYTICS_LOGIN, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_LOGIN)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.showingLogin = false
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -109,99 +122,97 @@ class LoginViewController: UIViewController {
     
     // MARK: Actions
     @IBAction func loginAction(_ sender: Any) {
-       //    emailTF.text = "adminvincle"
-         //  passwordTF.text = "p4ssw0rd"
-
+        ContentManager.sharedInstance.downloadingIds.removeAll()
+        ContentManager.sharedInstance.errorIds.removeAll()
+        ContentManager.sharedInstance.corruptedIds.removeAll()
+        ProfileImageManager.sharedInstance.downloadingIds.removeAll()
+        ProfileImageManager.sharedInstance.errorIds.removeAll()
+        
         let dbModelManager = DBModelManager()
         dbModelManager.removeAllItemsFromDatabase()
         
-       Timer.after(0.2.seconds) {
+        Timer.after(0.2.seconds) {
             HUDHelper.sharedInstance.showHud(message: L10n.loginLoadingEnviant)
-
-        
-        let authorizationStatus = EKEventStore.authorizationStatus(for: .event);
-        switch authorizationStatus {
-        case .notDetermined:
-            print("notDetermined");
-        case .restricted:
-            print("restricted");
-        case .denied:
-            print("denied");
-        case .authorized:
-            EventsLoader.removeAllEvents()
-            EventsLoader.removeCalendar()
-
-        }
-        
-
+            
+            let authorizationStatus = EKEventStore.authorizationStatus(for: .event);
+            switch authorizationStatus {
+            case .notDetermined:
+                break
+            case .restricted:
+                break
+            case .denied:
+                break
+            case .authorized:
+                EventsLoader.removeAllEvents()
+                EventsLoader.removeCalendar()
+            }
+            
             self.authManager.login(email: self.emailTF.text!, password: self.passwordTF.text!, onSuccess: { () in
-
                 self.getProfile()
-                
-                
             }) { (error) in
                 HUDHelper.sharedInstance.hideHUD()
                 self.showAlert(withTitle: "Error", message: error)
             }
-       }
-      
+        }
+        
     }
-
+    
     func managerError(){
         let dbModelManager = DBModelManager()
         dbModelManager.removeAllItemsFromDatabase()
-
+        
         HUDHelper.sharedInstance.hideHUD()
-
+        
         let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
         popupVC.delegate = self
         popupVC.modalPresentationStyle = .overCurrentContext
         popupVC.popupTitle = L10n.appName
         popupVC.popupDescription = L10n.loginErrorRecuperant
-
+        
         popupVC.button1Title = L10n.ok
-
+        
         self.present(popupVC, animated: true, completion: nil)
         
     }
     
     func getProfile(){
-        print("LOGIN 1")
-
+        
         HUDHelper.sharedInstance.showHud(message: L10n.loginLoadingRecuperant)
-
+        
         let profileManager = ProfileManager()
         profileManager.getSelfProfile(onSuccess: {
             
             self.getGalleryItems()
-
+            
         }) { (error) in
             self.managerError()
         }
     }
     
     func getGalleryItems(){
-        print("LOGIN 2")
-
+        
         libraryManager.fromDate = nil
         libraryManager.getContentsLibrary(onSuccess: { (hasMoreItems, needsReload) in
-            if hasMoreItems{
-                self.getGalleryItems()
-            }
-            else{
-                self.getCirclesUser()
-                
-            }
+            self.getCirclesUser()
+            
+            /*
+             if hasMoreItems{
+             self.getGalleryItems()
+             }
+             else{
+             self.getCirclesUser()
+             
+             }
+             */
         }) { (error) in
-              self.managerError()
+            self.managerError()
             //  self.getCirclesUser()
-
+            
         }
     }
     
     func getCirclesUser(){
-        print("LOGIN 3")
-
+        
         circlesManager.getCirclesUser(onSuccess: { needsReload in
             if self.profileModelManager.userIsVincle{
                 self.circlesManager.getGroupsUser(onSuccess: { needsReloadGroups in
@@ -220,8 +231,7 @@ class LoginViewController: UIViewController {
     }
     
     func getMissatgesChatsUser(){
-        print("LOGIN 4")
-
+        
         let chatManager = ChatManager()
         chatManager.getAllChatUserMessages(onSuccess: {
             if self.profileModelManager.userIsVincle{
@@ -229,7 +239,7 @@ class LoginViewController: UIViewController {
             }
             else{
                 self.getServerTime()
-
+                
             }
         }) { (error) in
             self.managerError()
@@ -237,8 +247,7 @@ class LoginViewController: UIViewController {
     }
     
     func getParticipantsGroup(){
-        print("LOGIN 5")
-
+        
         let circlesManager = CirclesManager()
         circlesManager.getAllGroupsParticipants(onSuccess: {
             self.getMissatgesChatsGroup()
@@ -253,58 +262,56 @@ class LoginViewController: UIViewController {
         let chatManager = ChatManager()
         chatManager.getAllChatGroupMessages(onSuccess: {
             self.getMissatgesChatsDinamitzadors()
-
+            
         }) { (error) in
             self.managerError()
         }
     }
     
-   
+    
     
     func getMissatgesChatsDinamitzadors(){
         let chatManager = ChatManager()
         chatManager.getAllChatDinamitzadorsMessages(onSuccess: {
-           self.getServerTime()
+            self.getServerTime()
         }) { (error) in
             self.managerError()
         }
     }
     
     func getMeetings(){
-
-        agendaManager.getMeetings(onSuccess: { (hasMoreItems) in
+        
+        agendaManager.getMeetings(startDate: Date(), onSuccess: { (hasMoreItems) in
             if hasMoreItems{
                 self.getMeetings()
             }
             else{
-              
+                
                 
                 ApiClient.sendMigrationStatus(onSuccess: {
                     
                     UserDefaults.standard.set(true, forKey: "loginDone")
                     self.manageKeychainData()
                     HUDHelper.sharedInstance.hideHUD()
-//                    self.navigationController?.pushViewController(StoryboardScene.Main.homeViewController.instantiate(), animated: true)
                     self.navigationController?.viewControllers = [StoryboardScene.Main.homeViewController.instantiate()]
-
+                    
                 }, onError: { (error) in
                     HUDHelper.sharedInstance.hideHUD()
                     self.managerError()
                 })
                 
-              //  AlarmSingleton.sharedInstance.setupAlarm()
-
+                
             }
         }) { (error) in
             self.managerError()
-
+            
         }
     }
     
-   
+    
     
     func getServerTime(){
-        notificationsManager.getServerTime(onSuccess: {
+        ApiClientURLSession.sharedInstance.getServerTime(onSuccess: {
             self.notificationsManager.setWatchedNotifications()
             self.getMeetings()
         }) {
@@ -323,7 +330,7 @@ class LoginViewController: UIViewController {
             loginButton.isEnabled = formValid
             emailTF.checkValid()
             passwordTF.checkValid()
-
+            
         }
         
     }
@@ -364,6 +371,8 @@ extension LoginViewController: PopUpDelegate {
         popup.dismissPopup {
         }
     }
+    func closeButtonClicked(popup: PopupViewController) {
+        
+    }
     
-
 }

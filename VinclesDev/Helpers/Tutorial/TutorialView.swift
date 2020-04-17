@@ -47,7 +47,7 @@ private let defaultDimColor = UIColor.black.withAlphaComponent(0.7).cgColor
     
     override open func draw(_ rect: CGRect) {
         super.draw(rect)
-        superview?.bringSubview(toFront: self)
+        superview?.bringSubviewToFront(self)
         
         removeOverlaySublayers()
         
@@ -67,7 +67,7 @@ private let defaultDimColor = UIColor.black.withAlphaComponent(0.7).cgColor
         
         let fillLayer = CAShapeLayer()
         fillLayer.path = overlayPath.cgPath
-        fillLayer.fillRule = kCAFillRuleEvenOdd
+        fillLayer.fillRule = CAShapeLayerFillRule.evenOdd
         fillLayer.fillColor = dimColor
         
         overlayView.layer.addSublayer(fillLayer)
@@ -103,11 +103,11 @@ private let defaultDimColor = UIColor.black.withAlphaComponent(0.7).cgColor
             }
             
             if UIDevice.current.userInterfaceIdiom == .pad {
-                let labelWidthConstraint:NSLayoutConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: (globalMenuFrame?.size.width)! * 2)
+                let labelWidthConstraint:NSLayoutConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: (globalMenuFrame?.size.width)! * 2)
                 label.addConstraints([labelWidthConstraint])
             }
             else{
-                let labelWidthConstraint:NSLayoutConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: (globalMenuFrame?.size.width)! * 4)
+                let labelWidthConstraint:NSLayoutConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: (globalMenuFrame?.size.width)! * 4)
                 label.addConstraints([labelWidthConstraint])
             }
             
@@ -140,9 +140,9 @@ private let defaultDimColor = UIColor.black.withAlphaComponent(0.7).cgColor
         let horConstraint = NSLayoutConstraint(item: closeButton!, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0.0)
         let verConstraint = NSLayoutConstraint(item: closeButton!, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -20.0)
         
-        let heightConstraint:NSLayoutConstraint = NSLayoutConstraint(item: closeButton!, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 50)
+        let heightConstraint:NSLayoutConstraint = NSLayoutConstraint(item: closeButton!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 50)
         
-        let widthConstraint:NSLayoutConstraint = NSLayoutConstraint(item: closeButton!, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 200)
+        let widthConstraint:NSLayoutConstraint = NSLayoutConstraint(item: closeButton!, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 200)
         
         closeButton!.addConstraints([heightConstraint, widthConstraint])
         
@@ -152,8 +152,8 @@ private let defaultDimColor = UIColor.black.withAlphaComponent(0.7).cgColor
     func setupConstraints() {
         let views = ["overlayView": overlayView]
         
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[overlayView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[overlayView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[overlayView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: views))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[overlayView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: views))
     }
     
     func makeOverlay() -> UIView {
@@ -165,12 +165,12 @@ private let defaultDimColor = UIColor.black.withAlphaComponent(0.7).cgColor
     
     func registerForOrientationChanges() {
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-        NotificationCenter.default.addObserver(self, selector: #selector(TutorialView.orientationChanged), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(TutorialView.orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     func unregisterFromOrientationChanges() {
         UIDevice.current.endGeneratingDeviceOrientationNotifications()
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     @objc func orientationChanged() {

@@ -12,7 +12,6 @@ class NotificationsModelManager: NSObject {
     
     lazy var chatManager = ChatManager()
     lazy var circlesManager = CirclesManager()
-    lazy var circlesGroupsModelManager = CirclesGroupsModelManager()
     lazy var notificationManager = NotificationManager()
     lazy var agendaManager = AgendaManager()
     lazy var agendaModelManager = AgendaModelManager()
@@ -221,7 +220,7 @@ class NotificationsModelManager: NSObject {
                 }
             }
             
-            if self.circlesGroupsModelManager.removeContactItem(id: notification.idUser){
+            if CirclesGroupsModelManager.shared.removeContactItem(id: notification.idUser){
                 let notDict:[String: Any] = ["idUser": notification.idUser, "type": NOTI_USER_UNLINKED]
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: NOTIFICATION_PROCESSED), object: nil, userInfo: notDict)
             }
@@ -239,12 +238,11 @@ class NotificationsModelManager: NSObject {
         case NOTI_ADDED_TO_GROUP:
             circlesManager.getGroupsUser(onSuccess: { needsReload in
                 
-                if self.circlesGroupsModelManager.userGroupWithId(id: notification.idGroup) != nil{
+                if CirclesGroupsModelManager.shared.userGroupWithId(id: notification.idGroup) != nil{
                     self.circlesManager.getGroupParticipants(id: notification.idGroup, onSuccess: { (hasChanges) in
                         let chatManager = ChatManager()
-                        let circlesGroupsModelManager = CirclesGroupsModelManager()
                         
-                        if let group = circlesGroupsModelManager.groupWithId(id: notification.idGroup){
+                        if let group = CirclesGroupsModelManager.shared.groupWithId(id: notification.idGroup){
                             chatManager.getChatGroupMessages(fromGroup: group.idChat, onSuccess: { (hasMoreItems, needsReload) in
                                 self.setNotificationWatched(notification: notification)
                                 let notDict:[String: Any] = ["idGroup": notification.idGroup, "type": NOTI_ADDED_TO_GROUP]
@@ -297,7 +295,7 @@ class NotificationsModelManager: NSObject {
                 }
             }
             
-            if self.circlesGroupsModelManager.removeGroupItem(id: notification.idGroup){
+            if CirclesGroupsModelManager.shared.removeGroupItem(id: notification.idGroup){
                 let notDict:[String: Any] = ["idGroup": notification.idGroup, "type": NOTI_REMOVED_FROM_GROUP]
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: NOTIFICATION_PROCESSED), object: nil, userInfo: notDict)
                 
@@ -361,7 +359,7 @@ class NotificationsModelManager: NSObject {
         case  NOTI_REMOVED_USER_GROUP:
             self.setNotificationWatched(notification: notification)
 
-            if self.circlesGroupsModelManager.removeUserFromGroup(idGroup: notification.idGroup, idUser: notification.idUser){
+            if CirclesGroupsModelManager.shared.removeUserFromGroup(idGroup: notification.idGroup, idUser: notification.idUser){
                 let notDict:[String: Any] = ["idGroup": notification.idGroup, "idUser": notification.idUser, "type": notification.type]
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: NOTIFICATION_PROCESSED), object: nil, userInfo: notDict)
 
@@ -374,7 +372,7 @@ class NotificationsModelManager: NSObject {
             
             onProcessed(notification)
         case NOTI_GROUP_UPDATED:
-            if self.circlesGroupsModelManager.userGroupWithId(id: notification.idGroup) != nil{
+            if CirclesGroupsModelManager.shared.userGroupWithId(id: notification.idGroup) != nil{
                 circlesManager.updateGroup(id: notification.idGroup, onSuccess: {
                     
                     
@@ -582,7 +580,19 @@ class NotificationsModelManager: NSObject {
 
             })
 
+        case NOTI_TOKEN_EXPIRED:
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (timer) in
+                let alertView = UIAlertController(title: L10n.logoutPopupTitle, message: L10n.logoutPopupTokenExpiration, preferredStyle: .alert)
+                alertView.addAction(UIAlertAction(title: L10n.ok, style: .default, handler: { (action) in
+                    alertView.dismiss(animated: true, completion: nil)
+                }))
+                UIApplication.shared.keyWindow?.rootViewController?.present(alertView, animated: true, completion: nil)
+            }
         default:
+            let notDict:[String: Any] = ["type": NOTI_INCOMING_CALL]
+
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: NOTIFICATION_PROCESSED), object: nil, userInfo: notDict)
+
             self.setNotificationWatched(notification: notification)
           
             onProcessed(notification)
@@ -666,7 +676,6 @@ class NotificationsModelManager: NSObject {
         
         var items = [VincleNotification]()
         for not in nots{
-            print(not.type)
             switch not.type {
             case NOTI_NEW_MESSAGE:
                 if not.idMessage != -1{
@@ -735,27 +744,18 @@ class NotificationsModelManager: NSObject {
             case NOTI_INCOMING_CALL:
                 if !not.callStarted {
                     if !not.removed{
-                        if (circlesGroupsModelManager.contactWithId(id: not.idUser) != nil){
+                        if (CirclesGroupsModelManager.shared.contactWithId(id: not.idUser) != nil){
                             items.append(not)
-                        }
-
-                    }
-
-              /*
-                    var add = true
-                    
-                    for item in items{
-                        if item.type == NOTI_INCOMING_CALL && item.idUser == not.idUser{
-                            add = false
-                        }
-                    }
-                    if add{
-                        if !not.removed{
+                        }else{
+                            ApiClient.getUserBasicInfo(id: not.idUser, onSuccess: { (dict) in
+                                CirclesGroupsModelManager.shared.addContact(dict: dict)
+                                items.append(not)
+                            }) { (err, code) in
+                                
+                            }
                             
-                            items.append(not)
                         }
                     }
- */
                 }
             case NOTI_NEW_USER_GROUP, NOTI_REMOVED_USER_GROUP, NOTI_USER_UPDATED, NOTI_GROUP_UPDATED, NOTI_MEETING_INVITATION_DELETED_EVENT, NOTI_MEETING_INVITATION_ADDED_EVENT, NOTI_CONTENT_ADDED_TO_GALLERY, NOTI_ERROR_IN_CALL:
                 break

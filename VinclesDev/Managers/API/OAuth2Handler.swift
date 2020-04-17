@@ -34,9 +34,7 @@ class OAuth2Handler: RequestRetrier, RequestAdapter {
     }()
     
     func adapt(_ urlRequest: URLRequest) -> URLRequest {
-        print("3")
         guard let accessToken = authModelManager.getAccessToken() else {
-            print("4")
 
             return urlRequest
         }
@@ -55,6 +53,7 @@ class OAuth2Handler: RequestRetrier, RequestAdapter {
     
     func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
         lock.lock() ; defer { lock.unlock() }
+      
         
         if let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401 {
          
@@ -83,7 +82,6 @@ class OAuth2Handler: RequestRetrier, RequestAdapter {
         guard !isRefreshing else { return }
         
         isRefreshing = true
-        
         if let refreshToken = authModelManager.getRefreshToken(){
             let parameters: [String: Any] = [
                 "refresh_token": refreshToken,
@@ -104,7 +102,8 @@ class OAuth2Handler: RequestRetrier, RequestAdapter {
                         strongSelf.isRefreshing = false
                         
                     } else {
-                        
+                        HUDHelper.sharedInstance.hideHUD()
+
                         completion(false)
                         strongSelf.isRefreshing = false
                         

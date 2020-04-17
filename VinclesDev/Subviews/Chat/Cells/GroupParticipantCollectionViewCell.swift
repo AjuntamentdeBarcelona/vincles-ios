@@ -17,6 +17,7 @@ class GroupParticipantCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var invitarButton: UIButton!
     @IBOutlet weak var dinamitzadorButton: UIButton!
 
+    var userId = -1
     
     override func awakeFromNib() {
     
@@ -38,20 +39,26 @@ class GroupParticipantCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        bringSubview(toFront: stack)
+        bringSubviewToFront(stack)
+    }
+    
+    func setAvatar(){
+        if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: userId), let image = UIImage(contentsOfFile: url.path){
+            userImage.image = image
+        }
+        else{
+            userImage.image = UIImage(named: "perfilplaceholder")
+        }
     }
     
     func configWithUser(user: User, isDinam: Bool){
+        userId = user.id
         userImage.image = UIImage()
         actInd.startAnimating()
 
         userLabel.text = user.name
-        let mediaManager = MediaManager()
-        userImage.tag = user.id
-        
-        mediaManager.setProfilePicture(userId: user.id, imageView: userImage) {
-            
-        }
+       
+        setAvatar()
         
         if isDinam{
             dinamitzadorButton.isHidden = false
@@ -59,7 +66,7 @@ class GroupParticipantCollectionViewCell: UICollectionViewCell {
         }
         else{
             dinamitzadorButton.isHidden = true
-            let circlesGroupsModelManager = CirclesGroupsModelManager()
+            let circlesGroupsModelManager = CirclesGroupsModelManager.shared
             let profileModelManager = ProfileModelManager()
 
             let me = profileModelManager.getUserMe()
@@ -73,6 +80,15 @@ class GroupParticipantCollectionViewCell: UICollectionViewCell {
                     invitarButton.isHidden = true
                 }
                 else{
+                    let defaults = UserDefaults.standard
+                    
+                    invitarButton.setTitle(L10n.grupEnviarInvitacio, for: .normal)
+                    if let arrayInvited = defaults.array(forKey: "arrayInvited") as? [Int]{
+                        if arrayInvited.contains(user.id){
+                            invitarButton.setTitle(L10n.grupReenviarInvitacio, for: .normal)
+
+                        }
+                    }
                     invitarButton.isHidden = false
                 }
             }

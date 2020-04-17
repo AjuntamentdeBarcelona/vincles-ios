@@ -47,7 +47,6 @@ class Meeting: Object {
         let realm = try! Realm()
         try! realm.write {
             let user = realm.create(User.self, value: ["name": jsonHost["name"].stringValue, "lastname": jsonHost["lastname"].stringValue, "id": jsonHost["userId"].intValue, "idContentPhoto": jsonHost["idContentPhoto"].intValue], update: true)
-            print(user.name)
             hostInfo = user
         }
         

@@ -13,10 +13,10 @@ import CoreData
 import UserNotifications
 import SlideMenuControllerSwift
 
-class NotificationManager {
+class NotificationManager: NSObject, URLSessionDelegate {
     lazy var notificationsModelManager = NotificationsModelManager()
     lazy var chatModelManager = ChatModelManager()
-    lazy var circlesGroupsModelManager = CirclesGroupsModelManager()
+    lazy var circlesGroupsModelManager = CirclesGroupsModelManager.shared
     lazy var agendaModelManager = AgendaModelManager()
     
     func getNotification(id: Int, onSuccess: @escaping (Bool) -> (), onError: @escaping (String) -> ()) {
@@ -59,7 +59,7 @@ class NotificationManager {
                         }
                         
                     case NOTI_NEW_CHAT_MESSAGE:
-                        let circlesModelManager = CirclesGroupsModelManager()
+                        let circlesModelManager = CirclesGroupsModelManager.shared
                         if circlesModelManager.groupWithChatId(idChat: notification!.idChat) != nil{
                             if self.chatModelManager.groupMessageWith(id: notification!.idChatMessage, idChat: notification!.idChat) != nil{
                                 if UIApplication.shared.applicationState == .active{
@@ -84,7 +84,6 @@ class NotificationManager {
                                     self.showLocalNotificationForGroupMessage(id: notification!.idChatMessage, idChat: notification!.idChat)
                                 }
                             }
-                            
                         }
                         else if circlesModelManager.dinamitzadorWithChatId(idChat: notification!.idChat) != nil{
                             
@@ -112,8 +111,6 @@ class NotificationManager {
                                 }
                             }
                         }
-                        
-                        
                         
                     case NOTI_USER_LINKED:
                         if self.circlesGroupsModelManager.contactWithId(id: notification!.idUser) != nil{
@@ -175,34 +172,28 @@ class NotificationManager {
                     default:
                         break
                     }
-                    
                 }
             }
-            
-            
-            
         }
-        
-        
     }
     
     func showLocalNotificationForUserInvitation(user: User, code: String){
         let content = UNMutableNotificationContent()
         content.title = "Vincles BCN"
         content.body = L10n.notificacioUserInvitation(user.name, code)
-        content.sound = UNNotificationSound.default()
+        content.sound = UNNotificationSound.default
         content.categoryIdentifier = NOTI_GROUP_USER_INVITATION_CIRCLE
         let request = UNNotificationRequest(identifier: "\(code)_\(Date().timeIntervalSince1970)", content: content, trigger: nil)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
     func showLocalNotificationForMissedCall(user: Int, room: String){
-        
-        let circlesManager = CirclesGroupsModelManager()
-        
+       
+        let circlesManager = CirclesGroupsModelManager.shared
+       
         let content = UNMutableNotificationContent()
         content.title = "Vincles BCN"
-        content.sound = UNNotificationSound.default()
+        content.sound = UNNotificationSound.default
         content.categoryIdentifier = NOTI_INCOMING_CALL
 
         if let userObj = circlesManager.contactWithId(id: user){
@@ -211,8 +202,7 @@ class NotificationManager {
             let request = UNNotificationRequest(identifier: "\(user)", content: content, trigger: nil)
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
             
-        }
-        else if let userObj = circlesManager.dinamitzadorWithId(id: user){
+        }else if let userObj = circlesManager.dinamitzadorWithId(id: user){
             
             content.body = "\(L10n.lostCall) \(userObj.name)"
             let request = UNNotificationRequest(identifier: "\(user)", content: content, trigger: nil)
@@ -220,19 +210,20 @@ class NotificationManager {
         }
         let notDict:[String: Any] = [ "type": NOTI_INCOMING_CALL]
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: NOTIFICATION_PROCESSED), object: nil, userInfo: notDict)
-                
+        CallKitManager.endCall()
+
     }
     
     func showLocalNotificationForNewCall(user: Int, room: String){
      
         let state = UIApplication.shared.applicationState
         
-        let circlesManager = CirclesGroupsModelManager()
+        let circlesManager = CirclesGroupsModelManager.shared
         if state == .background {
             
             let content = UNMutableNotificationContent()
             content.title = "Vincles BCN"
-            content.sound = UNNotificationSound(named: "silence.mp3")
+            content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "silence.mp3"))
             content.categoryIdentifier = NOTI_INCOMING_CALL
             
             if let userObj = circlesManager.contactWithId(id: user){
@@ -247,13 +238,6 @@ class NotificationManager {
             }
 
         }
-        else if state == .active {
-            //foreground
-            
-            
-        }
-        
-      
         let notDict:[String: Any] = [ "type": NOTI_INCOMING_CALL]
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: NOTIFICATION_PROCESSED), object: nil, userInfo: notDict)
        
@@ -278,8 +262,7 @@ class NotificationManager {
             
             if(lang == "es"){
                 dateFormatterGet.locale = Locale(identifier: "es")
-            }
-            else{
+            }else{
                 dateFormatterGet.locale = Locale(identifier: "ca")
                 
             }
@@ -289,17 +272,12 @@ class NotificationManager {
             content.title = "Vincles BCN"
             content.body = L10n.notificacioInvitationRevokedMeeting(name, dateFormatterGet.string(from: initDate), dateFormatter.string(from: initDate))
             
-            content.sound = UNNotificationSound.default()
+            content.sound = UNNotificationSound.default
             content.categoryIdentifier = NOTI_MEETING_DELETED_EVENT
             
             let request = UNNotificationRequest(identifier: "\(meeting.id)_\(Date().timeIntervalSince1970)", content: content, trigger: nil)
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-            
-            
-            
-            
         }
-        
     }
     
     func showLocalNotificationForInvitationRevoked(meeting: Meeting){
@@ -321,27 +299,20 @@ class NotificationManager {
             
             if(lang == "es"){
                 dateFormatterGet.locale = Locale(identifier: "es")
-            }
-            else{
+            }else{
                 dateFormatterGet.locale = Locale(identifier: "ca")
                 
             }
-            
             
             let content = UNMutableNotificationContent()
             content.title = "Vincles BCN"
             content.body = L10n.notificacioInvitationRevokedMeeting(name, dateFormatterGet.string(from: initDate), dateFormatter.string(from: initDate))
             
-            content.sound = UNNotificationSound.default()
+            content.sound = UNNotificationSound.default
             content.categoryIdentifier = NOTI_MEETING_INVITATION_REVOKE_EVENT
             let request = UNNotificationRequest(identifier: "\(meeting.id)_\(Date().timeIntervalSince1970)", content: content, trigger: nil)
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-            
-            
-            
-            
         }
-        
     }
     
     func showLocalNotificationForMeetingAccepted(meeting: Meeting, user: Int){
@@ -361,8 +332,7 @@ class NotificationManager {
         
         if(lang == "es"){
             dateFormatterGet.locale = Locale(identifier: "es")
-        }
-        else{
+        }else{
             dateFormatterGet.locale = Locale(identifier: "ca")
             
         }
@@ -381,7 +351,7 @@ class NotificationManager {
         content.title = "Vincles BCN"
         content.body = L10n.notificacioIAcceptedMeeting(name, dateFormatterGet.string(from: initDate), dateFormatter.string(from: initDate))
         
-        content.sound = UNNotificationSound.default()
+        content.sound = UNNotificationSound.default
         content.categoryIdentifier = NOTI_MEETING_ACCEPTED_EVENT
         let request = UNNotificationRequest(identifier: "\(meeting.id)_\(Date().timeIntervalSince1970)", content: content, trigger: nil)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
@@ -405,8 +375,7 @@ class NotificationManager {
         
         if(lang == "es"){
             dateFormatterGet.locale = Locale(identifier: "es")
-        }
-        else{
+        }else{
             dateFormatterGet.locale = Locale(identifier: "ca")
             
         }
@@ -425,7 +394,7 @@ class NotificationManager {
         content.title = "Vincles BCN"
         content.body = L10n.notificacioIDeclinedMeeting(name, dateFormatterGet.string(from: initDate), dateFormatter.string(from: initDate))
         
-        content.sound = UNNotificationSound.default()
+        content.sound = UNNotificationSound.default
         content.categoryIdentifier = NOTI_MEETING_ACCEPTED_EVENT
         let request = UNNotificationRequest(identifier: "\(meeting.id)_\(Date().timeIntervalSince1970)", content: content, trigger: nil)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
@@ -450,33 +419,24 @@ class NotificationManager {
             
             if(lang == "es"){
                 dateFormatterGet.locale = Locale(identifier: "es")
-            }
-            else{
+            }else{
                 dateFormatterGet.locale = Locale(identifier: "ca")
                 
             }
-            
             
             let content = UNMutableNotificationContent()
             content.title = "Vincles BCN"
             content.body = L10n.notificacioInvitedMeeting(name, dateFormatterGet.string(from: initDate), dateFormatter.string(from: initDate))
             
-            content.sound = UNNotificationSound.default()
+            content.sound = UNNotificationSound.default
             content.categoryIdentifier = NOTI_MEETING_INVITATION_EVENT
             let request = UNNotificationRequest(identifier: "\(meeting.id)_\(Date().timeIntervalSince1970)", content: content, trigger: nil)
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-            
-            
-            
-            
         }
-        
     }
     
     func showLocalNotificationForMeetingChanged(meeting: Meeting){
         if let name = meeting.hostInfo?.name{
-            
-            
             let lang = UserDefaults.standard.string(forKey: "i18n_language")
             
             let dateFormatter = DateFormatter()
@@ -503,16 +463,11 @@ class NotificationManager {
             content.title = "Vincles BCN"
             content.body = L10n.notificacioChangedMeeting(name, dateFormatterGet.string(from: initDate), dateFormatter.string(from: initDate))
             
-            content.sound = UNNotificationSound.default()
+            content.sound = UNNotificationSound.default
             content.categoryIdentifier = NOTI_MEETING_INVITATION_EVENT
             let request = UNNotificationRequest(identifier: "\(meeting.id)_\(Date().timeIntervalSince1970)", content: content, trigger: nil)
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-            
-            
-            
-            
         }
-        
     }
 
     
@@ -521,12 +476,11 @@ class NotificationManager {
             let content = UNMutableNotificationContent()
             content.title = "Vincles BCN"
             content.body = L10n.notificacioUserUnlinked(user.name)
-            content.sound = UNNotificationSound.default()
+            content.sound = UNNotificationSound.default
             content.categoryIdentifier = NOTI_USER_UNLINKED
             let request = UNNotificationRequest(identifier: "\(user.id)_\(Date().timeIntervalSince1970)", content: content, trigger: nil)
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         }
-        
     }
     
     
@@ -535,12 +489,11 @@ class NotificationManager {
             let content = UNMutableNotificationContent()
             content.title = "Vincles BCN"
             content.body = L10n.notificacioUserLinked(user.name)
-            content.sound = UNNotificationSound.default()
+            content.sound = UNNotificationSound.default
             content.categoryIdentifier = NOTI_USER_LINKED
             let request = UNNotificationRequest(identifier: "\(user.id)_\(Date().timeIntervalSince1970)", content: content, trigger: nil)
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         }
-        
     }
     
     func showLocalNotificationForDinam(id: Int, idChat: Int){
@@ -554,7 +507,7 @@ class NotificationManager {
             message = dinamMessage
         }
         
-        let circlesModelManager = CirclesGroupsModelManager()
+        let circlesModelManager = CirclesGroupsModelManager.shared
         
         if let group = circlesModelManager.dinamitzadorWithChatId(idChat: idChat){
             if let message = message{
@@ -574,7 +527,7 @@ class NotificationManager {
                         content.body = L10n.notificacioNouAudio
                     }
                     
-                    content.sound = UNNotificationSound.default()
+                    content.sound = UNNotificationSound.default
                     content.categoryIdentifier = NOTI_NEW_CHAT_MESSAGE
                     let request = UNNotificationRequest(identifier: "\(message.idChat)_\(Date().timeIntervalSince1970)", content: content, trigger: nil)
                     UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
@@ -593,7 +546,7 @@ class NotificationManager {
             message = dinamMessage
         }
         
-        let circlesModelManager = CirclesGroupsModelManager()
+        let circlesModelManager = CirclesGroupsModelManager.shared
         
         if let group = circlesModelManager.groupWithChatId(idChat: idChat){
             if let message = message{
@@ -612,7 +565,7 @@ class NotificationManager {
                     content.body = L10n.notificacioNouAudio
                 }
                 
-                content.sound = UNNotificationSound.default()
+                content.sound = UNNotificationSound.default
                 content.categoryIdentifier = NOTI_NEW_CHAT_MESSAGE
                 let request = UNNotificationRequest(identifier: "\(message.idChat)_\(Date().timeIntervalSince1970)", content: content, trigger: nil)
                 UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
@@ -642,7 +595,7 @@ class NotificationManager {
                 content.body = L10n.notificacioNouMulti
             }
             
-            content.sound = UNNotificationSound.default()
+            content.sound = UNNotificationSound.default
             content.categoryIdentifier = NOTI_NEW_MESSAGE
             let diceRoll = Int(arc4random_uniform(99999999) + 1)
 
@@ -658,7 +611,7 @@ class NotificationManager {
             let content = UNMutableNotificationContent()
             content.title = "Vincles BCN"
             content.body = L10n.notificacioNouGrup(group.name)
-            content.sound = UNNotificationSound.default()
+            content.sound = UNNotificationSound.default
             content.categoryIdentifier = NOTI_ADDED_TO_GROUP
             let request = UNNotificationRequest(identifier: "\(group.id)_\(Date().timeIntervalSince1970)", content: content, trigger: nil)
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
@@ -673,7 +626,7 @@ class NotificationManager {
             let content = UNMutableNotificationContent()
             content.title = "Vincles BCN"
             content.body = L10n.notificacioEliminatGrup(group.name)
-            content.sound = UNNotificationSound.default()
+            content.sound = UNNotificationSound.default
             content.categoryIdentifier = NOTI_REMOVED_FROM_GROUP
             let request = UNNotificationRequest(identifier: "\(group.id)_\(Date().timeIntervalSince1970)", content: content, trigger: nil)
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
@@ -685,19 +638,26 @@ class NotificationManager {
         self.notificationsModelManager.setAllNotificationsWatched()
     }
     
-    func getServerTime(onSuccess: @escaping () -> (), onError: @escaping () -> ()) {
-        ApiClient.getServerTime(onSuccess: { timeDict in
-            if let currentTime = timeDict["currentTime"] as? Int64{
-                //       UserDefaults.standard.set(0, forKey: "loginTime")
-                UserDefaults.standard.set(currentTime, forKey: "loginTime")
-                
-                onSuccess()
-            }
-            else{
-                onError()
-            }
-        }) { (error) in
-            onError()
+   
+    
+    func urlSession(_ session: URLSession,
+                    didReceive challenge: URLAuthenticationChallenge,
+                    completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        
+        guard challenge.previousFailureCount == 0 else {
+            challenge.sender?.cancel(challenge)
+            // Inform the user that the user name and password are incorrect
+            completionHandler(.cancelAuthenticationChallenge, nil)
+            return
+        }
+        
+        // Within your authentication handler delegate method, you should check to see if the challenge protection space has an authentication type of NSURLAuthenticationMethodServerTrust
+        if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust
+            // and if so, obtain the serverTrust information from that protection space.
+            && challenge.protectionSpace.serverTrust != nil
+            && challenge.protectionSpace.host == IP {
+            let proposedCredential = URLCredential(trust: challenge.protectionSpace.serverTrust!)
+            completionHandler(URLSession.AuthChallengeDisposition.useCredential, proposedCredential)
         }
     }
     

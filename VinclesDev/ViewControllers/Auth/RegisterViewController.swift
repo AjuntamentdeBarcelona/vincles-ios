@@ -7,6 +7,8 @@
 
 import UIKit
 import EventKit
+import Photos
+import Firebase
 
 class RegisterViewController: UIViewController {
 
@@ -42,12 +44,13 @@ class RegisterViewController: UIViewController {
     lazy var pickerVideo = UIImagePickerController()
 
     lazy var authManager = AuthManager()
+    let errorPermission = 1006
 
     var photoChanged = false
     
     var formValid: Bool{
         get{
-            return emailTF.isValid && passwordTF.isValid && nomTF.isValid && cognomsTF.isValid && phoneTF.isValid && repeatPasswordTF.isValid && ageDatePicker.isValid && passwordTF.text! == repeatPasswordTF.text && idiomaSegmentedControl.selectedSegmentIndex != UISegmentedControlNoSegment && genreSegmentedControl.selectedSegmentIndex != UISegmentedControlNoSegment && barcelonaSegmentedControl.selectedSegmentIndex != UISegmentedControlNoSegment && photoChanged
+            return emailTF.isValid && passwordTF.isValid && nomTF.isValid && cognomsTF.isValid && phoneTF.isValid && repeatPasswordTF.isValid && ageDatePicker.isValid && passwordTF.text! == repeatPasswordTF.text && idiomaSegmentedControl.selectedSegmentIndex != UISegmentedControl.noSegment && genreSegmentedControl.selectedSegmentIndex != UISegmentedControl.noSegment && barcelonaSegmentedControl.selectedSegmentIndex != UISegmentedControl.noSegment && photoChanged
         }
     }
     
@@ -61,16 +64,18 @@ class RegisterViewController: UIViewController {
      
      
         registrarAlphaButton.isEnabled = false
-        idiomaSegmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment
-        genreSegmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment
-        barcelonaSegmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment
+        idiomaSegmentedControl.selectedSegmentIndex = UISegmentedControl.noSegment
+        genreSegmentedControl.selectedSegmentIndex = UISegmentedControl.noSegment
+        barcelonaSegmentedControl.selectedSegmentIndex = UISegmentedControl.noSegment
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_REGISTER)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        
+        Analytics.setScreenName(ANALYTICS_REGISTER, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_REGISTER)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     func addTargets(){
         emailTF.addTarget(self, action: #selector(fieldsDidChange(_:)), for: .editingChanged)
@@ -173,23 +178,46 @@ class RegisterViewController: UIViewController {
         actionSheetController.addAction(UIAlertAction(title: L10n.cancelar, style: .cancel) { _ in })
         
         actionSheetController.addAction(UIAlertAction(title: L10n.registerFotoCamara, style: .default) { _ in
-            self.pickerVideo.allowsEditing = false
-            self.pickerVideo.sourceType = .camera
-            self.pickerVideo.cameraCaptureMode = .photo
-          
-
-            self.present(self.pickerVideo, animated: true, completion: nil)
-            
+           
+            if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
+                self.newPhotoCamera()
+                
+            } else {
+                AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+                    if granted {
+                        DispatchQueue.main.async {
+                            self.newPhotoCamera()
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.errorPopupPhoto()
+                        }
+                        
+                    }
+                })
+            }
         })
         
         actionSheetController.addAction(UIAlertAction(title: L10n.registerFotoGaleria, style: .default) { _ in
-            self.picker.allowsEditing = false
-            self.picker.sourceType = .photoLibrary
-            self.picker.modalPresentationStyle = .popover
-            self.picker.popoverPresentationController?.sourceView = self.userImageView
-            self.picker.popoverPresentationController?.sourceRect = self.userImageView.bounds
-
-            self.present(self.picker, animated: true, completion: nil)
+            PHPhotoLibrary.requestAuthorization { status in
+                switch status {
+                case .authorized:
+                    DispatchQueue.main.async {
+                        self.newPhotoGallery()
+                    }
+                case .restricted:
+                    DispatchQueue.main.async {
+                        self.errorPopupGallery()
+                    }
+                case .denied:
+                    DispatchQueue.main.async {
+                        self.errorPopupGallery()
+                    }
+                default:
+                    // place for .notDetermined - in this callback status is already determined so should never get here
+                    break
+                }
+            }
         })
         
         if let popoverController = actionSheetController.popoverPresentationController {
@@ -198,6 +226,53 @@ class RegisterViewController: UIViewController {
         }
         self.present(actionSheetController, animated: true, completion: nil)
     }
+    
+    func newPhotoCamera(){
+        self.pickerVideo.allowsEditing = false
+        self.pickerVideo.sourceType = .camera
+        self.pickerVideo.cameraCaptureMode = .photo
+        
+        
+        self.present(self.pickerVideo, animated: true, completion: nil)
+    }
+    
+    func newPhotoGallery(){
+        self.picker.allowsEditing = false
+        self.picker.sourceType = .photoLibrary
+        self.picker.modalPresentationStyle = .popover
+        self.picker.popoverPresentationController?.sourceView = self.userImageView
+        self.picker.popoverPresentationController?.sourceRect = self.userImageView.bounds
+        
+        self.present(self.picker, animated: true, completion: nil)
+    }
+    
+    func errorPopupGallery(){
+        let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+        popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.popupTitle = "Error"
+        popupVC.popupDescription = L10n.permisGaleria
+        popupVC.button1Title = L10n.permisosAnarConfiguracio
+        popupVC.button2Title = L10n.cancelar
+        
+        popupVC.view.tag = self.errorPermission
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
+    
+    func errorPopupPhoto(){
+        let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+        popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.popupTitle = "Error"
+        popupVC.popupDescription = L10n.permisCamera
+        popupVC.button1Title = L10n.permisosAnarConfiguracio
+        popupVC.button2Title = L10n.cancelar
+        
+        popupVC.view.tag = self.errorPermission
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
     
     @IBAction func segmentedChanged(_ sender: UISegmentedControl) {
         switch sender {
@@ -244,11 +319,11 @@ class RegisterViewController: UIViewController {
             let authorizationStatus = EKEventStore.authorizationStatus(for: .event);
             switch authorizationStatus {
             case .notDetermined:
-                print("notDetermined");
+                break
             case .restricted:
-                print("restricted");
+                break
             case .denied:
-                print("denied");
+                break
             case .authorized:
                 EventsLoader.removeAllEvents()
                 EventsLoader.removeCalendar()
@@ -292,8 +367,10 @@ extension RegisterViewController: BaseTextFieldDelegate {
 }
 
 extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        let chosenImage = info[.originalImage] as! UIImage
         userImageView.image = chosenImage
         userImageView.layer.borderColor = UIColor.white.cgColor
         userImageView.layer.borderWidth = 4.0
@@ -308,4 +385,41 @@ fotoAlertButton.isHidden = true
         dismiss(animated:true, completion: nil)
     }
     
+}
+
+extension RegisterViewController: PopUpDelegate{
+    
+    
+    func firstButtonClicked(popup: PopupViewController) {
+        if popup.view.tag == errorPermission{
+            popup.dismissPopup {
+                UIApplication.shared.open(URL.init(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
+                
+            }
+        }
+        else{
+            popup.dismissPopup {
+
+            }
+        }
+        
+        
+    }
+    
+    func secondButtonClicked(popup: PopupViewController) {
+        if popup.view.tag == errorPermission{
+            popup.dismissPopup {
+                
+            }
+        }
+        else{
+            popup.dismissPopup {
+              
+            }
+        }
+        
+    }
+    func closeButtonClicked(popup: PopupViewController) {
+        
+    }
 }

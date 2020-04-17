@@ -22,6 +22,9 @@ class ContactItemCollectionViewCell: UICollectionViewCell {
     lazy var chatModelManager = ChatModelManager()
     var isUser = false
     
+    var userId = -1
+    var groupId = -1
+
     override func awakeFromNib() {
     
         if UIDevice.current.userInterfaceIdiom == .phone {
@@ -42,22 +45,39 @@ class ContactItemCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        bringSubview(toFront: stack)
+        bringSubviewToFront(stack)
+    }
+    
+    func setAvatar(){
+        if userId != -1{
+            if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: userId), let image = UIImage(contentsOfFile: url.path){
+                userImage.image = image
+            }
+            else{
+                userImage.image = UIImage(named: "perfilplaceholder")
+            }
+        }
+        else if groupId != -1{
+            if let url = GroupImageManager.sharedInstance.getGroupPicture(groupId: groupId), let image = UIImage(contentsOfFile: url.path){
+                userImage.image = image
+            }
+            else{
+                userImage.image = UIImage(named: "perfilplaceholder")
+            }
+        }
+        
     }
     
     func configWithUser(user: User){
+        userId = user.id
+        groupId = -1
         isUser = true
         userImage.image = UIImage()
         actInd.startAnimating()
 
         userLabel.text = user.name
-        let mediaManager = MediaManager()
-        userImage.tag = user.id
-        
-        mediaManager.setProfilePicture(userId: user.id, imageView: userImage) {
-            
-        }
-        
+       
+        setAvatar()
        
         
         let circlesManager = CirclesManager()
@@ -83,18 +103,16 @@ class ContactItemCollectionViewCell: UICollectionViewCell {
     }
     
     func configWithGroup(group: Group){
+        userId = -1
+        groupId = group.id
+        
         isUser = false
         bubbleView.isHidden = true
         userContainer.backgroundColor = UIColor.clear
         userLabel.text = group.name
         userImage.image = UIImage()
         
-        let mediaManager = MediaManager()
-        userImage.tag = group.id
-        
-        mediaManager.setGroupPicture(groupId: group.id, imageView: userImage) {
-            
-        }
+        setAvatar()
         
         // DONE WATCHED
         let number = chatModelManager.numberOfUnwatchedGroupMessages(idChat: group.idChat)

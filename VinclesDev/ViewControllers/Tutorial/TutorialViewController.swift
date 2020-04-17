@@ -37,7 +37,7 @@ class TutorialViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
 
         closeButton.setTitle(L10n.tancar, for: .normal)
-        NotificationCenter.default.addObserver(self, selector: #selector(TutorialViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(TutorialViewController.rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
 
        
         setImages()
@@ -73,7 +73,6 @@ class TutorialViewController: UIViewController, UIScrollViewDelegate {
                 lang = "cat"
             }
         
-        print("\(platform)_1_\(orientation)_\(lang)")
         firstImage.image = UIImage(named: "\(platform)_1_\(orientation)_\(lang)")
         secondImage.image = UIImage(named: "\(platform)_2_\(orientation)_\(lang)")
         thirdImage.image = UIImage(named: "\(platform)_3_\(orientation)_\(lang)")

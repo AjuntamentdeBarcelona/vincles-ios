@@ -11,14 +11,14 @@ protocol AgendaContactsViewControllerDelegate{
     func selectedContacts(users: [User])
 }
 
-class AgendaContactsViewController: UIViewController {
+class AgendaContactsViewController: UIViewController, ProfileImageManagerDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var cancelarCompartirButton: HoverButton!
     @IBOutlet weak var confirmarCompartirButton: HoverButton!
     
     lazy var circlesManager = CirclesManager()
     lazy var dataSource = AgendaContactsDataSource()
-    lazy var circlesGroupsModelManager = CirclesGroupsModelManager()
+    lazy var circlesGroupsModelManager = CirclesGroupsModelManager.shared
     
     var delegate: AgendaContactsViewControllerDelegate?
     var selectedUsers = [User]()
@@ -50,6 +50,27 @@ class AgendaContactsViewController: UIViewController {
         }
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        ProfileImageManager.sharedInstance.delegate = self
+    }
+    
+    func didDownload(userId: Int) {
+        for cell in collectionView.visibleCells{
+            if let inCell = cell as? GaleriaContactCollectionViewCell, inCell.userId == userId{
+                inCell.setAvatar()
+            }
+        }
+    }
+    
+    func didError(userId: Int) {
+        for cell in collectionView.visibleCells{
+            if let inCell = cell as? GaleriaContactCollectionViewCell, inCell.userId == userId{
+                inCell.setAvatar()
+            }
+        }
+    }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         
@@ -145,7 +166,7 @@ class AgendaContactsViewController: UIViewController {
         collectionView.delegate = dataSource
         collectionView.dataSource = dataSource
         dataSource.clickDelegate = self
-        dataSource.circlesGroupsModelManager = CirclesGroupsModelManager()
+        dataSource.circlesGroupsModelManager = CirclesGroupsModelManager.shared
     }
     
     
@@ -206,7 +227,9 @@ extension AgendaContactsViewController: PopUpDelegate{
     func secondButtonClicked(popup: PopupViewController) {
         
     }
-    
+    func closeButtonClicked(popup: PopupViewController) {
+        
+    }
 }
 
 

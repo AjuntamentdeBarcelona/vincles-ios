@@ -25,8 +25,8 @@ class MeetingsDataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "meetingCell", for: indexPath) as! AgendaMeetingTableViewCell
         cell.delegate = self
-        if let selectedDate = selectedDate{
-            cell.configWithMeeting(meeting: agendaModelManager.meetingOnDateAt(date: selectedDate, index: indexPath.row))
+        if let selectedDate = selectedDate, let meeting = agendaModelManager.meetingOnDateAt(date: selectedDate, index: indexPath.row){
+            cell.configWithMeeting(meeting: meeting)
             
         }
         return cell
@@ -41,8 +41,8 @@ class MeetingsDataSource: NSObject, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if let selectedDate = selectedDate{
-            clickDelegate?.selectedMeeting(meeting: agendaModelManager.meetingOnDateAt(date: selectedDate, index: indexPath.row))
+        if let selectedDate = selectedDate, let meeting = agendaModelManager.meetingOnDateAt(date: selectedDate, index: indexPath.row){
+            clickDelegate?.selectedMeeting(meeting: meeting)
 
         }
         

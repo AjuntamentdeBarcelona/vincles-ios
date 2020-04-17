@@ -16,7 +16,7 @@ class WelcomeHeaderView: UIView {
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        xibView = Bundle.main.loadNibNamed("WelcomeHeaderView", owner: self, options: nil)!.first as? UIView!
+        xibView = Bundle.main.loadNibNamed("WelcomeHeaderView", owner: self, options: nil)!.first as? UIView
         
         xibView?.frame = self.bounds
         xibView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -40,16 +40,21 @@ class WelcomeHeaderView: UIView {
 
             }
 
-            let mediaManager = MediaManager()
-            headerImage.tag = user.id
-
-            mediaManager.setProfilePicture(userId: user.id, imageView: headerImage) {
-                
+            if let url = ProfileImageManager.sharedInstance.getProfilePicture(userId: user.id), let image = UIImage(contentsOfFile: url.path){
+                headerImage.image = image
             }
        
         }
       
     }
+    
+    func configWithError(){
+        headerImage.image = UIImage(named: "perfilplaceholder")
+
+        
+    }
+    
+    
     
     override public var traitCollection: UITraitCollection {
         if UIDevice.current.userInterfaceIdiom == .pad && (UIApplication.shared.statusBarOrientation == .portrait || UIApplication.shared.statusBarOrientation == .portraitUpsideDown)  {

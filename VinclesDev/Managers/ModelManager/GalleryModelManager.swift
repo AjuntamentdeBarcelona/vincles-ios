@@ -50,70 +50,78 @@ class GalleryModelManager: GalleryModelManagerProtocol {
                 if content.mimeType == "image/jpeg" || content.mimeType == "video/mp4" {
                     count = count+1
                 }
-                print(content.mimeType)
+
             }
             return count
         }
         return 0
     }
-    var numberOfMineGalleryContents:Int{
-        let realm = try! Realm()
-        if let user = realm.objects(User.self).first{
-            var count = 0
-            for content in user.contents {
-                print(content.mimeType)
-            }
-            return count
-        }
-        return 0
-    }
-    var numberOfSharedGalleryContents:Int{
-        let realm = try! Realm()
-        if let user = realm.objects(User.self).first{
-            var count = 0
-            for content in user.contents {
-                print(content.mimeType)
-            }
-            return count
-        }
-        return 0
-    }
-    
-    func contentAt(index: Int) -> Content{
+  
+   
+    func contentAt(index: Int) -> Content?{
         let realm = try! Realm()
         
-        let user = realm.objects(User.self).first!
+        guard let user = realm.objects(User.self).first else{
+            return nil
+        }
         return user.contents.sorted(by: { $0.inclusionTime > $1.inclusionTime })[index]
     }
     
     func contentWith(id: Int) -> Content?{
         let realm = try! Realm()
         
-        let user = realm.objects(User.self).first!
+        guard let user = realm.objects(User.self).first else{
+            return nil
+        }
         return user.contents.filter("id == %i", id).first
     }
     
     
-    func mineContentAt(index: Int) -> Content{
+    func mineContentAt(index: Int) -> Content?{
         let realm = try! Realm()
         
-        let user = realm.objects(User.self).first!
+        guard let user = realm.objects(User.self).first else{
+            return nil
+        }
         return user.contents.filter("userCreator.id == %i", user.id).sorted(by: { $0.inclusionTime > $1.inclusionTime })[index]
     }
     
-    func sharedContentAt(index: Int) -> Content{
+    func sharedContentAt(index: Int) -> Content?{
         let realm = try! Realm()
         
-        let user = realm.objects(User.self).first!
+        guard let user = realm.objects(User.self).first else{
+            return nil
+        }
         return user.contents.filter("userCreator.id != %i", user.id).sorted(by: { $0.inclusionTime > $1.inclusionTime })[index]
     }
     
     func newestContentDate() -> Date?{
         let realm = try! Realm()
         
-        let user = realm.objects(User.self).first!
+        guard let user = realm.objects(User.self).first else{
+            return nil
+        }
         return user.contents.sorted(by: { $0.inclusionTime > $1.inclusionTime }).first?.inclusionTime
     }
+    
+    func oldestContentDate() -> Date?{
+        let realm = try! Realm()
+        
+        guard let user = realm.objects(User.self).first else{
+            return nil
+        }
+        return user.contents.sorted(by: { $0.inclusionTime < $1.inclusionTime }).first?.inclusionTime
+    }
+    
+    func oldestContentDateInt() -> Int64?{
+        let realm = try! Realm()
+        
+        guard let user = realm.objects(User.self).first else{
+            return nil
+        }
+        return user.contents.sorted(by: { $0.inclusionTimeInt < $1.inclusionTimeInt }).first?.inclusionTimeInt
+    }
+    
     
     
     func removeUserContents(){
@@ -125,10 +133,10 @@ class GalleryModelManager: GalleryModelManagerProtocol {
         }
     }
     
-    func addContents(array: [[String:Any]]) -> (Date?, Bool){
+    func addContents(array: [[String:Any]]) -> (Int64?, Bool){
         let realm = try! Realm()
-        var lastItemDate: Date?
-        var firstItemDate: Date?
+        var lastItemDate: Int64?
+        var firstItemDate: Int64?
         var changes = false
         
         if let auth = realm.objects(AuthResponse.self).first, let user = realm.objects(User.self).filter("id == %i", auth.userId).first{
@@ -139,10 +147,10 @@ class GalleryModelManager: GalleryModelManagerProtocol {
                 let content = Content(json: JSON(dict))
                 ids.append(content.id)
                 if index == 0{
-                    firstItemDate = content.inclusionTime
+                    firstItemDate = content.inclusionTimeInt
                 }
                 if index == array.count - 1{
-                    lastItemDate = content.inclusionTime
+                    lastItemDate = content.inclusionTimeInt
                 }
                 
                 if realm.objects(User.self).first?.contents.filter("id == %i", content.id).count == 0{
@@ -186,19 +194,17 @@ class GalleryModelManager: GalleryModelManagerProtocol {
                     }
                 }
             }
-        }else{
-            print(content.mimeType)
         }
       
     }
     
-    func removeUnexistingContentItems(from: Date, to: Date, apiItems: [Int]) -> Bool{
+    func removeUnexistingContentItems(from: Int64, to: Int64, apiItems: [Int]) -> Bool{
         var changes = false
         let realm = try! Realm()
         if let auth = realm.objects(AuthResponse.self).first, let user = realm.objects(User.self).filter("id == %i", auth.userId).first{
             if apiItems.count == 10{
                 
-                let contents = user.contents.filter("inclusionTime <= %@ && inclusionTime >= %@", to, from)
+                let contents = user.contents.filter("inclusionTimeInt <= %@ && inclusionTimeInt >= %@", to, from)
                 for content in contents{
                     var remove = true
                     for id in apiItems{
@@ -219,7 +225,7 @@ class GalleryModelManager: GalleryModelManagerProtocol {
             }
             else{
                 
-                let contents = user.contents.filter("inclusionTime <= %@", to)
+                let contents = user.contents.filter("inclusionTimeInt <= %@", to)
                 for content in contents{
                     var remove = true
                     for id in apiItems{
@@ -305,5 +311,34 @@ class GalleryModelManager: GalleryModelManagerProtocol {
         
     }
     
+    func checkMimeTypes(){
+        let realm = try! Realm()
+        let contents = realm.objects(Content.self)
+        for content in contents{
+            if content.mimeType.contains("video"){
+                do {
+                    let documentDirectory = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
+                    let fileURLVideo = documentDirectory.appendingPathComponent("gallery\(content.idContent).mp4")
+                    let fileURLImage = documentDirectory.appendingPathComponent("gallery\(content.idContent).jpeg")
+                    if FileManager.default.fileExists(atPath: fileURLVideo.path) {
+                        if let _ = try UIImage(data: Data(contentsOf: fileURLVideo)){                            
+                            try! realm.write {
+                                content.mimeType = "image/jpeg"
+                            }
+                           
+                            if FileManager.default.fileExists(atPath: fileURLImage.path){
+                                try FileManager.default.removeItem(at: fileURLImage)
+                            }
+                            
+                            try FileManager.default.moveItem(at: fileURLVideo, to: fileURLImage)
+                        }
+                    }
+                }catch {
+                    print(error)
+                }
+            }
+        }
+        
+    }
     
 }

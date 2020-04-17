@@ -14,6 +14,7 @@ protocol GroupUsersDataSourceClickDelegate{
 }
 
 class GroupUsersDataSource: NSObject , UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
+    var descInfo = ""
     
     var cellSpacing = CGFloat(5.0)
     var columns = 1
@@ -40,7 +41,6 @@ class GroupUsersDataSource: NSObject , UICollectionViewDataSource, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(group.users.count)
         let me = profileModelManager.getUserMe()
        // return 1 + group.users.filter("id != %i", me?.id ?? -1).count
         return 1 + group.users.count
@@ -55,6 +55,12 @@ class GroupUsersDataSource: NSObject , UICollectionViewDataSource, UICollectionV
 
        
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let cell = cell as? GroupParticipantCollectionViewCell{
+            cell.setAvatar()
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -74,17 +80,74 @@ class GroupUsersDataSource: NSObject , UICollectionViewDataSource, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row != 0{
-            
+            let me = profileModelManager.getUserMe()
+
             let user = getItem(indexPath: indexPath.row)
-            let circlesGroupsModelManager = CirclesGroupsModelManager()
-            if circlesGroupsModelManager.contactWithId(id: user.id) == nil{
-                clickDelegate?.selectedContact(user: user)
+            if user.id != me?.id{
+                let circlesGroupsModelManager = CirclesGroupsModelManager.shared
+                if circlesGroupsModelManager.contactWithId(id: user.id) == nil{
+                    clickDelegate?.selectedContact(user: user)
+                }
             }
 
         }
         
         
         
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+            // 1
+            switch kind {
+            // 2
+            case UICollectionView.elementKindSectionHeader:
+                // 3
+                guard
+                    let headerView = collectionView.dequeueReusableSupplementaryView(
+                        ofKind: kind,
+                        withReuseIdentifier: "GroupInfoHeaderCollectionReusableView",
+                        for: indexPath) as? GroupInfoHeaderCollectionReusableView
+                    else {
+                        fatalError("Invalid view type")
+                }
+                
+                headerView.headerLabel.font = UIFont(font: FontFamily.Akkurat.regular, size: 18.0)
+                
+                headerView.headerLabel.numberOfLines = 0
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    headerView.headerLabel.font = UIFont(font: FontFamily.Akkurat.regular, size: 15.0)
+                    
+                }
+                
+                headerView.headerLabel.text = descInfo
+                return headerView
+            default:
+                // 4
+                return UICollectionReusableView()
+            }
+      
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+     
+        
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            print(CGSize(width: collectionView.frame.size.width, height: descInfo.heightWithConstrainedWidth(font: UIFont(font: FontFamily.Akkurat.regular, size: 15.0))))
+            return CGSize(width: collectionView.frame.size.width, height: 60 + descInfo.heightWithConstrainedWidth(font: UIFont(font: FontFamily.Akkurat.regular, size: 15.0)))
+        }
+        
+        return CGSize(width: collectionView.frame.size.width, height: 60 + descInfo.heightWithConstrainedWidth(font: UIFont(font: FontFamily.Akkurat.regular, size: 18.0)))
+    }
+}
+
+
+extension String {
+    func heightWithConstrainedWidth(font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: UIScreen.main.bounds.width - 32, height: CGFloat.greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+        
+        return boundingBox.height
     }
 }
 

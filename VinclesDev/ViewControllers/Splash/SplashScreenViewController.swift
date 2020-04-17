@@ -10,6 +10,8 @@ import RealmSwift
 import SlideMenuControllerSwift
 import CoreDataManager
 import EventKit
+import Firebase
+import VersionControl
 
 class SplashScreenViewController: UIViewController {
     
@@ -22,8 +24,8 @@ class SplashScreenViewController: UIViewController {
     lazy var circlesManager = CirclesManager()
     lazy var profileManager = ProfileManager()
     lazy var authModelManager = AuthModelManager()
-    lazy var  notificationsManager = NotificationManager()
-    lazy var  notificationsModelManager = NotificationsModelManager()
+    lazy var notificationsManager = NotificationManager()
+    lazy var notificationsModelManager = NotificationsModelManager()
     lazy var libraryManager = GalleryManager()
     
     var msg = ""
@@ -40,11 +42,38 @@ class SplashScreenViewController: UIViewController {
     var idMeeting: Int?
     var code:String?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    func controlVersion () {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+        if !appDelegate.showingVersionControl{
+            appDelegate.showingVersionControl = true
+            let instanceOfAlert: T21AlertComponent = T21AlertComponent()
+            print(VERSION_CONTROL_URL)
+            instanceOfAlert.showAlert(withService: VERSION_CONTROL_URL, withLanguage:UserDefaults.standard.string(forKey: "i18n_language"), andCompletionBlock:
+                { (error: Error?) in
+                    appDelegate.showingVersionControl = false
+                    appDelegate.managePendingPushes()
+
+                    self.doFlow()
+
+                    if let error=error {
+                        print("ERROR CONTROLVERSION: ",error)
+                    }
+            })
+            
+            
+        }
         
+       
         
+    }
+    
+    func doFlow(){
         
+        if !UserDefaults.standard.bool(forKey: "CheckedMimeTypesForExistingContents"){
+            UserDefaults.standard.set(true, forKey: "CheckedMimeTypesForExistingContents")
+            GalleryModelManager().checkMimeTypes()
+        }
         
         self.slideMenuController()?.removeLeftGestures()
         
@@ -58,11 +87,11 @@ class SplashScreenViewController: UIViewController {
                 let authorizationStatus = EKEventStore.authorizationStatus(for: .event);
                 switch authorizationStatus {
                 case .notDetermined:
-                    print("notDetermined");
+                    break
                 case .restricted:
-                    print("restricted");
+                    break
                 case .denied:
-                    print("denied");
+                    break
                 case .authorized:
                     EventsLoader.removeAllEvents()
                     EventsLoader.removeCalendar()
@@ -115,7 +144,12 @@ class SplashScreenViewController: UIViewController {
             labelTitle.font = UIFont(font: FontFamily.SourceSansPro.extraLight, size: 55)
         }
         
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
+        self.controlVersion()
     }
     
     func removeOldDatabase(){
@@ -125,7 +159,6 @@ class SplashScreenViewController: UIViewController {
             let fileURLs = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
             for file in fileURLs{
                 let pathExtention = file.pathExtension
-                print(file.path)
                 if !file.path.contains("realm") && !file.path.contains("webrtc_logs"){
                     try? fileManager.removeItem(at: file)
                 }
@@ -140,15 +173,18 @@ class SplashScreenViewController: UIViewController {
     }
     
     func checkMigration() -> Bool{
-        CoreDataManager.sharedInstance.setupWithModel("Vincles", andFileName: "SingleViewCoreData.sqlite")
         
-        let cdm = CoreDataManager.sharedInstance
+        return false
         
-        let mainCtx = cdm.mainContext
-        
-        let users = mainCtx.managerFor(UserCercle.self).array
-        
-        return users.count > 0
+//        CoreDataManager.sharedInstance.setupWithModel("Vincles", andFileName: "SingleViewCoreData.sqlite")
+//        
+//        let cdm = CoreDataManager.sharedInstance
+//        
+//        let mainCtx = cdm.mainContext
+//        
+//        let users = mainCtx.managerFor(UserCercle.self).array
+//        
+//        return users.count > 0
         
     }
     
@@ -159,10 +195,11 @@ class SplashScreenViewController: UIViewController {
         // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_SPLASH)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        Analytics.setScreenName(ANALYTICS_SPLASH, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_SPLASH)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -230,13 +267,18 @@ class SplashScreenViewController: UIViewController {
     
     func setNavigation(){
         AlarmSingleton.sharedInstance.setupAlarm()
+      
         
         if cannotRenew{
             if UserDefaults.standard.bool(forKey: "termsApproved"){
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 if (!appDelegate.navigated){
                     appDelegate.navigated = true
-                    self.navigationController?.pushViewController(StoryboardScene.Auth.loginViewController.instantiate(), animated: true)
+                    
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    if !appDelegate.showingLogin{
+                        self.navigationController?.pushViewController(StoryboardScene.Auth.loginViewController.instantiate(), animated: true)
+                    }
                 }
             }
             else{
@@ -256,7 +298,7 @@ class SplashScreenViewController: UIViewController {
             self.slideMenuController()?.addLeftGestures()
             
             if let chatId = chatFrom{
-                let circlesModelManager = CirclesGroupsModelManager()
+                let circlesModelManager = CirclesGroupsModelManager.shared
                 
                 let chatVC = StoryboardScene.Chat.chatContainerViewController.instantiate()
                 chatVC.toUserId = chatId
@@ -271,7 +313,7 @@ class SplashScreenViewController: UIViewController {
                 
             }
             else if let chatId = idChat{
-                let circlesModelManager = CirclesGroupsModelManager()
+                let circlesModelManager = CirclesGroupsModelManager.shared
                 
                 let chatVC = StoryboardScene.Chat.chatContainerViewController.instantiate()
                 if let group = circlesModelManager.groupWithChatId(idChat: chatId){
@@ -297,7 +339,7 @@ class SplashScreenViewController: UIViewController {
                         let baseVC = StoryboardScene.Base.baseViewController.instantiate()
                         
                         let chatVC = StoryboardScene.Chat.chatContainerViewController.instantiate()
-                        let circlesModelManager = CirclesGroupsModelManager()
+                        let circlesModelManager = CirclesGroupsModelManager.shared
                         chatVC.toUserId = idUser!
                         chatVC.toUser = circlesModelManager.contactWithId(id: idUser!)
                         chatVC.showBackButton = true
@@ -365,7 +407,7 @@ class SplashScreenViewController: UIViewController {
                         let baseVC = StoryboardScene.Base.baseViewController.instantiate()
                         
                         let chatVC = StoryboardScene.Chat.chatContainerViewController.instantiate()
-                        let circlesModelManager = CirclesGroupsModelManager()
+                        let circlesModelManager = CirclesGroupsModelManager.shared
                         chatVC.group = circlesModelManager.groupWithId(id: idOpenGroup!)
                         chatVC.showBackButton = true
                         chatVC.openHomeOnBack = true
@@ -477,7 +519,11 @@ class SplashScreenViewController: UIViewController {
         }
         else{
             if UserDefaults.standard.bool(forKey: "termsApproved"){
-                self.navigationController?.pushViewController(StoryboardScene.Auth.loginViewController.instantiate(), animated: true)
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                if !appDelegate.showingLogin{
+                    self.navigationController?.pushViewController(StoryboardScene.Auth.loginViewController.instantiate(), animated: true)
+                }
+                
             }
             else{
                 self.navigationController?.pushViewController(StoryboardScene.Auth.termsConditionsViewController.instantiate(), animated: true)
@@ -516,7 +562,6 @@ class SplashScreenViewController: UIViewController {
     }
     
     func getProfile(){
-        print("LOGIN 1")
         
         
         let profileManager = ProfileManager()
@@ -530,7 +575,6 @@ class SplashScreenViewController: UIViewController {
     }
     
     func getGalleryItems(){
-        print("LOGIN 2")
         libraryManager.fromDate = nil
         libraryManager.getContentsLibrary(onSuccess: { (hasMoreItems, needsReload) in
             if hasMoreItems{
@@ -548,7 +592,6 @@ class SplashScreenViewController: UIViewController {
     }
     
     func getCirclesUser(){
-        print("LOGIN 3")
         
         circlesManager.getCirclesUser(onSuccess: { needsReload in
             let profileModelManager = ProfileModelManager()
@@ -569,7 +612,6 @@ class SplashScreenViewController: UIViewController {
     }
     
     func getMissatgesChatsUser(){
-        print("LOGIN 4")
         
         let chatManager = ChatManager()
         chatManager.getAllChatUserMessages(onSuccess: {
@@ -587,7 +629,6 @@ class SplashScreenViewController: UIViewController {
     }
     
     func getParticipantsGroup(){
-        print("LOGIN 5")
         
         let circlesManager = CirclesManager()
         circlesManager.getAllGroupsParticipants(onSuccess: {
@@ -622,7 +663,7 @@ class SplashScreenViewController: UIViewController {
     
     func getMeetings(){
         let agendaManager = AgendaManager()
-        agendaManager.getMeetings(onSuccess: { (hasMoreItems) in
+        agendaManager.getMeetings(startDate: Date(), onSuccess: { (hasMoreItems) in
             if hasMoreItems{
                 self.getMeetings()
             }
@@ -650,7 +691,7 @@ class SplashScreenViewController: UIViewController {
     }
     
     func getServerTime(){
-        notificationsManager.getServerTime(onSuccess: {
+        ApiClientURLSession.sharedInstance.getServerTime(onSuccess: {
             self.notificationsManager.setWatchedNotifications()
             self.getMeetings()
         }) {

@@ -6,9 +6,12 @@
 
 
 import UIKit
+import Firebase
 
 
-class GalleryCompartirContactsViewController: UIViewController {
+class GalleryCompartirContactsViewController: UIViewController, ProfileImageManagerDelegate, GroupImageManagerDelegate {
+
+    
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var cancelarCompartirButton: HoverButton!
@@ -18,12 +21,15 @@ class GalleryCompartirContactsViewController: UIViewController {
     lazy var galleryManager = GalleryManager()
     lazy var circlesManager = CirclesManager()
     lazy var dataSource = GalleryContactsCollectionViewDataSource()
-    lazy var circlesGroupsModelManager = CirclesGroupsModelManager()
+    lazy var circlesGroupsModelManager = CirclesGroupsModelManager.shared
 
     var contentIds = [Int]()
     let shareErrorTag = 1001
     let sharedTag = 1000
-    
+    let maxErrorTag = 1002
+
+    var metadataTipus = [String]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,10 +67,46 @@ class GalleryCompartirContactsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_GALLERY_SHARE)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        ProfileImageManager.sharedInstance.delegate = self
+        GroupImageManager.sharedInstance.delegate = self
+
+        Analytics.setScreenName(ANALYTICS_GALLERY_SHARE, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_GALLERY_SHARE)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
+    }
+    
+    func didDownload(userId: Int) {
+        for cell in collectionView.visibleCells{
+            if let inCell = cell as? GaleriaContactCollectionViewCell, inCell.userId == userId{
+                inCell.setAvatar()
+            }
+        }
+    }
+    
+    func didError(userId: Int) {
+        for cell in collectionView.visibleCells{
+            if let inCell = cell as? GaleriaContactCollectionViewCell, inCell.userId == userId{
+                inCell.setAvatar()
+            }
+        }
+    }
+    
+    func didDownload(groupId: Int) {
+        for cell in collectionView.visibleCells{
+            if let inCell = cell as? GaleriaContactCollectionViewCell, inCell.groupId == groupId{
+                inCell.setAvatar()
+            }
+        }
+    }
+    
+    func didError(groupId: Int) {
+        for cell in collectionView.visibleCells{
+            if let inCell = cell as? GaleriaContactCollectionViewCell, inCell.groupId == groupId{
+                inCell.setAvatar()
+            }
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -125,7 +167,7 @@ class GalleryCompartirContactsViewController: UIViewController {
             baseViewController.leftButtonImage = UIImage(asset: Asset.Icons.Navigation.tornar)
             baseViewController.leftButtonHightlightedImage = UIImage(asset: Asset.Icons.Navigation.tornarHover)
             
-            baseViewController.navTitle = L10n.galeriaCompartirContactesTitle
+            updateCompartirTitle()
             
             baseViewController.leftAction = leftAction
             //    baseViewController.navigationBar.rightTitle = "Dreta llarg"
@@ -134,6 +176,12 @@ class GalleryCompartirContactsViewController: UIViewController {
             
         }
         
+    }
+    
+    func updateCompartirTitle(){
+        if let baseViewController = self.parent as? BaseViewController{
+            baseViewController.navTitle = "\(L10n.galeriaCompartirContactesTitle) (\(dataSource.selectedIndexPaths.count)/\(dataSource.maxSelectItems))"
+        }
     }
     
     func leftAction(_params: Any...) -> UIViewController?{
@@ -151,7 +199,7 @@ class GalleryCompartirContactsViewController: UIViewController {
         collectionView.delegate = dataSource
         collectionView.dataSource = dataSource
         dataSource.clickDelegate = self
-        dataSource.circlesGroupsModelManager = CirclesGroupsModelManager()
+        dataSource.circlesGroupsModelManager = CirclesGroupsModelManager.shared
     }
     
 
@@ -177,7 +225,7 @@ class GalleryCompartirContactsViewController: UIViewController {
     func share(){
         let selectedContacts = dataSource.selectedContactsForSelectedIndexPaths()
         
-        galleryManager.shareContent(contentId: contentIds, contactIds: selectedContacts, onSuccess: {
+        galleryManager.shareContent(contentId: contentIds, contactIds: selectedContacts, metadataTipus: metadataTipus, onSuccess: {
        
             let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
             popupVC.delegate = self
@@ -214,7 +262,22 @@ class GalleryCompartirContactsViewController: UIViewController {
 
 extension GalleryCompartirContactsViewController: GalleryContactsCollectionViewDataSourceClickDelegate{
     
+    func maxError() {
+        let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+        popupVC.view.tag = maxErrorTag
+        popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.popupTitle = "Error"
+
+        popupVC.popupDescription = L10n.galeriaMaxContacts
+        
+        popupVC.button1Title = L10n.ok
+        
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
     func selectedShareContacts(indexes: [Int]){
+         updateCompartirTitle()
         switch indexes.count {
         case 0:
             if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClass.regular) {
@@ -260,6 +323,10 @@ extension GalleryCompartirContactsViewController: PopUpDelegate{
             }
             
         }
+        else{
+            popup.dismissPopup {
+            }
+        }
     
     }
     
@@ -267,7 +334,9 @@ extension GalleryCompartirContactsViewController: PopUpDelegate{
         popup.dismissPopup {
         }
     }
-    
+    func closeButtonClicked(popup: PopupViewController) {
+        
+    }
 }
 
 

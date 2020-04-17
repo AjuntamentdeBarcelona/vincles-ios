@@ -44,6 +44,14 @@ struct ColorAsset {
 
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 enum Asset {
+  enum AppRTC {
+    static let audioOff = ImageAsset(name: "audioOff")
+    static let audioOn = ImageAsset(name: "audioOn")
+    static let hangup = ImageAsset(name: "hangup")
+    static let icSwitchVideoBlack24dp = ImageAsset(name: "ic_switch_video_black_24dp")
+    static let videoOff = ImageAsset(name: "videoOff")
+    static let videoOn = ImageAsset(name: "videoOn")
+  }
   enum Icons {
     enum Agenda {
       static let anteriorAgenda = ImageAsset(name: "AnteriorAgenda")
@@ -57,6 +65,7 @@ enum Asset {
       static let novaCitaHover = ImageAsset(name: "Nova_cita_hover")
       static let seguentAgenda = ImageAsset(name: "SeguentAgenda")
       static let seguentAgendaHover = ImageAsset(name: "SeguentAgenda_hover")
+      static let checkGreen = ImageAsset(name: "check_green")
       static let meetingBack = ImageAsset(name: "meetingBack")
     }
     enum Call {
@@ -102,6 +111,8 @@ enum Asset {
       static let filtrar = ImageAsset(name: "filtrar")
       static let novaFoto = ImageAsset(name: "nova_foto")
     }
+    static let image1 = ImageAsset(name: "Image-1")
+    static let image = ImageAsset(name: "Image")
     enum Menu {
       static let menuCalendari = ImageAsset(name: "menu_calendari")
       static let menuConfiguracio = ImageAsset(name: "menu_configuracio")
@@ -122,6 +133,7 @@ enum Asset {
     static let calendariIcon = ImageAsset(name: "calendari_icon")
     static let calnot = ImageAsset(name: "calnot")
     static let camara = ImageAsset(name: "camara")
+    static let cancel = ImageAsset(name: "cancel")
     static let contactes = ImageAsset(name: "contactes")
     static let contactesnot = ImageAsset(name: "contactesnot")
     static let edit = ImageAsset(name: "edit")
@@ -129,6 +141,9 @@ enum Asset {
     static let grupsnot = ImageAsset(name: "grupsnot")
     static let menu = ImageAsset(name: "menu")
     static let perfilplaceholder = ImageAsset(name: "perfilplaceholder")
+    static let stop = ImageAsset(name: "stop")
+    static let test = ImageAsset(name: "test")
+    static let test2 = ImageAsset(name: "test2")
     static let triangleincoming = ImageAsset(name: "triangleincoming")
     static let triangleoutgoing = ImageAsset(name: "triangleoutgoing")
   }
@@ -189,11 +204,18 @@ enum Asset {
     static let tablet5PortraitCat = ImageAsset(name: "Tablet_5_portrait_cat")
   }
   static let photoCircle = ImageAsset(name: "photo-circle")
+  static let test4 = ImageAsset(name: "test4")
 
   // swiftlint:disable trailing_comma
   static let allColors: [ColorAsset] = [
   ]
   static let allImages: [ImageAsset] = [
+    AppRTC.audioOff,
+    AppRTC.audioOn,
+    AppRTC.hangup,
+    AppRTC.icSwitchVideoBlack24dp,
+    AppRTC.videoOff,
+    AppRTC.videoOn,
     Icons.Agenda.anteriorAgenda,
     Icons.Agenda.anteriorAgendaHover,
     Icons.Agenda.checkmark,
@@ -205,6 +227,7 @@ enum Asset {
     Icons.Agenda.novaCitaHover,
     Icons.Agenda.seguentAgenda,
     Icons.Agenda.seguentAgendaHover,
+    Icons.Agenda.checkGreen,
     Icons.Agenda.meetingBack,
     Icons.Call.calling,
     Icons.Call.chat,
@@ -241,6 +264,8 @@ enum Asset {
     Icons.Galeria.eliminar,
     Icons.Galeria.filtrar,
     Icons.Galeria.novaFoto,
+    Icons.image1,
+    Icons.image,
     Icons.Menu.menuCalendari,
     Icons.Menu.menuConfiguracio,
     Icons.Menu.menuGaleria,
@@ -257,6 +282,7 @@ enum Asset {
     Icons.calendariIcon,
     Icons.calnot,
     Icons.camara,
+    Icons.cancel,
     Icons.contactes,
     Icons.contactesnot,
     Icons.edit,
@@ -264,6 +290,9 @@ enum Asset {
     Icons.grupsnot,
     Icons.menu,
     Icons.perfilplaceholder,
+    Icons.stop,
+    Icons.test,
+    Icons.test2,
     Icons.triangleincoming,
     Icons.triangleoutgoing,
     Logos.bloomberg,
@@ -317,6 +346,7 @@ enum Asset {
     Tutorial.tablet5PortraitCast,
     Tutorial.tablet5PortraitCat,
     photoCircle,
+    test4,
   ]
   // swiftlint:enable trailing_comma
   @available(*, deprecated, renamed: "allImages")

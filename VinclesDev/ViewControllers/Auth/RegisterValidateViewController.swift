@@ -8,6 +8,7 @@
 
 import UIKit
 import SlideMenuControllerSwift
+import Firebase
 
 class RegisterValidateViewController: UIViewController {
 
@@ -46,10 +47,12 @@ class RegisterValidateViewController: UIViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_REGISTER_VALIDATE)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        
+        Analytics.setScreenName(ANALYTICS_REGISTER_VALIDATE, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_REGISTER_VALIDATE)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     
     func addDelegates(){
@@ -91,6 +94,7 @@ class RegisterValidateViewController: UIViewController {
         HUDHelper.sharedInstance.showHud(message: L10n.cargando)
         
         authManager.login(email: params!["email"] as! String, password: params!["password"] as! String, onSuccess: { () in
+
             self.getProfile()
             
             
@@ -101,10 +105,10 @@ class RegisterValidateViewController: UIViewController {
     }
     
     func getProfile(){
-        
+
         profileManager.getSelfProfile(onSuccess: {
             self.sendPhoto()
-            
+
         }) { (error) in
             HUDHelper.sharedInstance.hideHUD()
         }
@@ -112,11 +116,12 @@ class RegisterValidateViewController: UIViewController {
     
     
     func sendPhoto(){
-        let mediaManager = MediaManager()
-        
-        mediaManager.getUserPhotoRegister(onCompletion: { (image) in
+       
+        ProfileImageManager.sharedInstance.getUserPhotoRegister(onCompletion: { (image) in
             if let image = image{
+
                 self.profileManager.changeUserPhoto(photo: image, onSuccess: {
+
                     self.getServerTime()
                     
                 }, onError: { (error) in
@@ -131,11 +136,16 @@ class RegisterValidateViewController: UIViewController {
     }
     
     func getServerTime(){
-        let notificationsManager = NotificationManager()
-        notificationsManager.getServerTime(onSuccess: {
-            self.manageKeychainData()
-            HUDHelper.sharedInstance.hideHUD()
-            self.navigationController?.pushViewController(StoryboardScene.Main.homeViewController.instantiate(), animated: true)
+        ApiClientURLSession.sharedInstance.getServerTime(onSuccess: {
+
+            DispatchQueue.main.async {
+                self.manageKeychainData()
+                HUDHelper.sharedInstance.hideHUD()
+                self.navigationController?.pushViewController(StoryboardScene.Main.homeViewController.instantiate(), animated: true)
+                UserDefaults.standard.set(true, forKey: "loginDone")
+
+            }
+          
             
         }) {
 
@@ -153,7 +163,7 @@ class RegisterValidateViewController: UIViewController {
     
     func manageKeychainData(){
         if saveData{
-            keychainManager.saveCredentials(email: params!["email"] as! String!, password: params!["password"] as! String)
+            keychainManager.saveCredentials(email: params!["email"] as! String, password: params!["password"] as! String)
         }
         else{
             keychainManager.removeCredentials()

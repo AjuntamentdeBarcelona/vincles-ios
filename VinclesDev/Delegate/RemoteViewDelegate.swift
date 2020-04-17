@@ -6,20 +6,20 @@
 
 
 import UIKit
-import webrtcat4
 
 protocol RemoteViewDelegateChangeSizeDelegate{
     func remoteChangedSize(size: CGSize)
     
 }
 
-class RemoteViewDelegate: NSObject, RTCEAGLVideoViewDelegate {
+class RemoteViewDelegate: NSObject {
     
     var sizeDelegate: RemoteViewDelegateChangeSizeDelegate?
-
+    
+    /*
     func videoView(_ videoView: RTCVideoRenderer, didChangeVideoSize size: CGSize) {
         print("changed RemoteViewDelegate")
         sizeDelegate?.remoteChangedSize(size: size)
     }
-
+*/
 }

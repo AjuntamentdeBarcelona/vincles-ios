@@ -8,8 +8,9 @@
 import UIKit
 import AVKit
 import SimpleImageViewer
+import Firebase
 
-class GallerySwipeViewController: UIViewController {
+class GallerySwipeViewController: UIViewController, ContentManagerDelegate {
     
     @IBOutlet weak var dismissButton: UIButton!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -30,6 +31,7 @@ class GallerySwipeViewController: UIViewController {
         configDataSources()
         updateGalleryGrid()
         
+        
         self.collectionView?.alpha = 0
         DispatchQueue.main.async {
             self.collectionView?.scrollToItem(at:IndexPath(item: self.currentContentIndex!, section: 0), at: .left, animated: false)
@@ -38,19 +40,58 @@ class GallerySwipeViewController: UIViewController {
     }
     
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        UIApplication.shared.isStatusBarHidden = true
+
+        ContentManager.sharedInstance.delegate = self
         
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_GALLERY_DETAIL)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        
+        let notificationName = Notification.Name(NOTI_TOKEN_EXPIRED)
+        NotificationCenter.default.addObserver(self, selector: #selector(GallerySwipeViewController.dismissProg), name: notificationName, object: nil)
+        
+        Analytics.setScreenName(ANALYTICS_GALLERY_DETAIL, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_GALLERY_DETAIL)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
         
         if  (UIDevice.current.userInterfaceIdiom == .pad){
             self.dismissButtonSize.constant = 60
             self.dismissButton.layoutIfNeeded()
-            print(self.dismissButton.layer.frame.width)
         }
+   
+     
+    }
+    
+    func didDownload(contentId: Int) {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func didError(contentId: Int) {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+    
+    
+    func didCorrupted(contentId: Int) {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        UIApplication.shared.isStatusBarHidden = false
+
+        NotificationCenter.default.removeObserver(self)
+    }
+    @objc func dismissProg(){
+        self.dismiss(animated: false, completion: nil)
     }
     override func viewWillLayoutSubviews() {
         
@@ -130,11 +171,21 @@ class GallerySwipeViewController: UIViewController {
         
         switch filterGalleryType {
         case .all:
-            detailVC.contentIds = [self.galleryModelManager.contentAt(index: self.currentContentIndex!).idContent]
+            guard let content =  self.galleryModelManager.contentAt(index: self.currentContentIndex!) else{
+                return
+            }
+            detailVC.contentIds = [content.idContent]
         case .mine:
-            detailVC.contentIds = [self.galleryModelManager.mineContentAt(index: self.currentContentIndex!).idContent]
+            guard let content =  self.galleryModelManager.mineContentAt(index: self.currentContentIndex!) else{
+                return
+            }
+            detailVC.contentIds = [content.idContent]
         case .sent:
-            detailVC.contentIds = [self.galleryModelManager.sharedContentAt(index: self.currentContentIndex!).idContent]
+            guard let content =  self.galleryModelManager.sharedContentAt(index: self.currentContentIndex!) else{
+                return
+            }
+            detailVC.contentIds = [content.idContent]
+            
         }
         
         baseVC.containedViewController = detailVC
@@ -147,13 +198,13 @@ class GallerySwipeViewController: UIViewController {
     @IBAction func panGestureRecognizerHandler(_ sender: UIPanGestureRecognizer) {
         let touchPoint = sender.location(in: self.view?.window)
         
-        if sender.state == UIGestureRecognizerState.began {
+        if sender.state == UIGestureRecognizer.State.began {
             initialTouchPoint = touchPoint
-        } else if sender.state == UIGestureRecognizerState.changed {
+        } else if sender.state == UIGestureRecognizer.State.changed {
             if touchPoint.y - initialTouchPoint.y > 0 {
                 self.view.frame = CGRect(x: 0, y: touchPoint.y - initialTouchPoint.y, width: self.view.frame.size.width, height: self.view.frame.size.height)
             }
-        } else if sender.state == UIGestureRecognizerState.ended || sender.state == UIGestureRecognizerState.cancelled {
+        } else if sender.state == UIGestureRecognizer.State.ended || sender.state == UIGestureRecognizer.State.cancelled {
             if touchPoint.y - initialTouchPoint.y > 100 {
                 self.dismiss(animated: true, completion: nil)
             } else {
@@ -172,21 +223,36 @@ class GallerySwipeViewController: UIViewController {
 }
 
 extension GallerySwipeViewController: GalleryDetailCollectionViewDataSourceClickDelegate{
+    func showVideoCorruptedError() {
+        let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+        popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.popupTitle = "Error"
+        popupVC.popupDescription = L10n.chatVideoCorrupted
+        popupVC.button1Title = L10n.ok
+        
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    func reloadCollectionView() {
+        collectionView.reloadData()
+    }
+    
     
     func selectedContent(content: Content) {
-        let mediaManager = MediaManager()
-        mediaManager.setGalleryVideo(contentId: content.idContent, imageView: nil) { (success, fileUrl, id) in
-            if let url = fileUrl{
-                let player = AVPlayer(url: url)
-                let playerViewController = AVPlayerViewController()
-                playerViewController.player = player
-                if playerViewController.player != nil{
-                    self.present(playerViewController, animated: true) {
-                        playerViewController.player!.play()
-                    }
+        
+        if let url = ContentManager.sharedInstance.getVideoLink(contentId: content.idContent, isGroup: false){
+            let player = AVPlayer(url: url)
+            let playerViewController = AVPlayerViewController()
+            playerViewController.player = player
+            if playerViewController.player != nil{
+                self.present(playerViewController, animated: true) {
+                    playerViewController.player!.play()
                 }
             }
+            
         }
+        
+       
     }
     
     func selectedImageView(imageView: UIImageView) {
@@ -210,11 +276,20 @@ extension GallerySwipeViewController: PopUpDelegate{
                 var contentId = -1
                 switch self.filterGalleryType {
                 case .all:
-                    contentId = self.galleryModelManager.contentAt(index: self.currentContentIndex!).id
+                    guard let content =  self.galleryModelManager.contentAt(index: self.currentContentIndex!) else{
+                        return
+                    }
+                    contentId = content.id
                 case .mine:
-                    contentId = self.galleryModelManager.mineContentAt(index: self.currentContentIndex!).id
+                    guard let content =  self.galleryModelManager.mineContentAt(index: self.currentContentIndex!) else{
+                        return
+                    }
+                    contentId = content.id
                 case .sent:
-                    contentId = self.galleryModelManager.sharedContentAt(index: self.currentContentIndex!).id
+                    guard let content =  self.galleryModelManager.sharedContentAt(index: self.currentContentIndex!) else{
+                        return
+                    }
+                    contentId = content.id
                 }
                 
                 let mediaManager = MediaManager()
@@ -265,7 +340,9 @@ extension GallerySwipeViewController: PopUpDelegate{
         popup.dismissPopup {
         }
     }
-    
+    func closeButtonClicked(popup: PopupViewController) {
+        
+    }
 }
 
 class GallerySwipeCollectionViewDataSource:GalleryDetailCollectionViewDataSource{
@@ -285,11 +362,18 @@ class GallerySwipeCollectionViewDataSource:GalleryDetailCollectionViewDataSource
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SwipeImageCell", for: indexPath) as! GallerySwipeCollectionViewCell
             switch galleryFilter {
             case .all:
-                cell.setContent(content: galleryModelManager.contentAt(index: indexPath.row))
+                if let content = content{
+                    cell.configWithCont(contentId: content.idContent)
+                }
             case .mine:
-                cell.setContent(content: galleryModelManager.mineContentAt(index: indexPath.row))
+                if let content = content{
+                    cell.configWithCont(contentId: content.idContent)
+                }
             case .sent:
-                cell.setContent(content: galleryModelManager.sharedContentAt(index: indexPath.row))
+                if let content = content{
+                    cell.configWithCont(contentId: content.idContent)
+                }
+                
             }
             return cell
         }
@@ -297,11 +381,18 @@ class GallerySwipeCollectionViewDataSource:GalleryDetailCollectionViewDataSource
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "videoCell", for: indexPath) as! SingleVideoCollectionViewCell
         switch galleryFilter {
         case .all:
-            cell.configWithContent(content: galleryModelManager.contentAt(index: indexPath.row))
+            if let content = content{
+                cell.configWithCont(contentId: content.idContent)
+            }
         case .mine:
-            cell.configWithContent(content: galleryModelManager.mineContentAt(index: indexPath.row))
+            if let content = content{
+                cell.configWithCont(contentId: content.idContent)
+            }
         case .sent:
-            cell.configWithContent(content: galleryModelManager.sharedContentAt(index: indexPath.row))
+            if let content = content{
+                cell.configWithCont(contentId: content.idContent)
+            }
+            
         }
         return cell
     }

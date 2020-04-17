@@ -10,7 +10,6 @@ import UIKit
 import SwiftyJSON
 
 class CirclesManager: NSObject {
-    lazy var circlesGroupsModelManager = CirclesGroupsModelManager()
     lazy var profileModelManager = ProfileModelManager()
 
     func getCirclesUser(onSuccess: @escaping (Bool) -> (), onError: @escaping (String) -> ()) {
@@ -18,23 +17,25 @@ class CirclesManager: NSObject {
         if profileModelManager.userIsVincle{
             ApiClient.getCirclesUser(onSuccess: { (array) in
                 
-                changes = self.circlesGroupsModelManager.addCircles(array: array)
+                changes = CirclesGroupsModelManager.shared.addCircles(array: array)
                 
                 onSuccess(changes)
                 
             }) { (error) in
                 print(error)
+                onError(error)
             }
         }
         else{
             ApiClient.getCirclesUserVinculat(onSuccess: { (array) in
                 
-                changes = self.circlesGroupsModelManager.addCirclesVinculat(array: array)
+                changes = CirclesGroupsModelManager.shared.addCirclesVinculat(array: array)
                 
                 onSuccess(changes)
                 
             }) { (error) in
                 print(error)
+                onError(error)
             }
         }
       
@@ -45,12 +46,13 @@ class CirclesManager: NSObject {
 
         ApiClient.getGroupsUser(onSuccess: { (array) in
             
-           changes = self.circlesGroupsModelManager.addGroups(array: array)
+           changes = CirclesGroupsModelManager.shared.addGroups(array: array)
 
             onSuccess(changes)
             
         }) { (error) in
             print(error)
+            onError(error)
         }
     }
     
@@ -62,14 +64,13 @@ class CirclesManager: NSObject {
             
             if let registerCode = dict["registerCode"] as? String{
                 onSuccess(registerCode)
-
             }
             else{
                 onSuccess("")
-
             }
             
         }) { (error) in
+            onError( L10n.errorNetworkCodi)
             print(error)
         }
     }
@@ -79,15 +80,12 @@ class CirclesManager: NSObject {
         HUDHelper.sharedInstance.showHud(message: "")
         ApiClient.removeContact(contactId: contactId, onSuccess: {
             
-           // let mediaManager = MediaManager()
-          //  mediaManager.removeFiles(contactId: contactId)
-            self.circlesGroupsModelManager.removeContactItem(id: contactId)
+            CirclesGroupsModelManager.shared.removeContactItem(id: contactId)
             HUDHelper.sharedInstance.hideHUD()
-            
             onSuccess()
         }) { (error) in
             HUDHelper.sharedInstance.hideHUD()
-            onError("")
+            onError(error)
         }
     }
     
@@ -96,13 +94,12 @@ class CirclesManager: NSObject {
         
         HUDHelper.sharedInstance.showHud(message: "")
         ApiClient.removeContactFromVinculat(idCircle: idCircle, onSuccess: {
-            self.circlesGroupsModelManager.removeContactItemCircle(id: idCircle)
-           HUDHelper.sharedInstance.hideHUD()
-            
+            CirclesGroupsModelManager.shared.removeContactItemCircle(id: idCircle)
+            HUDHelper.sharedInstance.hideHUD()
             onSuccess()
         }) { (error) in
             HUDHelper.sharedInstance.hideHUD()
-            onError("")
+            onError(error)
         }
     }
     
@@ -111,14 +108,10 @@ class CirclesManager: NSObject {
     func addCode(code: String, relationShip: String, onSuccess: @escaping (User) -> (), onError: @escaping (String) -> ()) {
         
         HUDHelper.sharedInstance.showHud(message: "")
-        
         ApiClient.addCode(code: code, relationShip: relationShip, onSuccess: { (respDict) in
             
-            
-            onSuccess(self.circlesGroupsModelManager.addCircle(dict: respDict)!)
-
+            onSuccess(CirclesGroupsModelManager.shared.addCircle(dict: respDict)!)
             HUDHelper.sharedInstance.hideHUD()
-
         }) { (error) in
             HUDHelper.sharedInstance.hideHUD()
             onError(error)
@@ -128,18 +121,14 @@ class CirclesManager: NSObject {
     
     func getUserBasicInfo(id: Int, onSuccess: @escaping (User) -> (), onError: @escaping (String, Int) -> ()) {
         
-        
         ApiClient.getUserBasicInfo(id: id, onSuccess: { (respDict) in
             
-            if let user = self.circlesGroupsModelManager.updateUser(dict: respDict){
+            if let user = CirclesGroupsModelManager.shared.updateUser(dict: respDict){
                 onSuccess(user)
-
             }
             else{
                 onError("", 403)
             }
-            
-            
         }) { (error, status) in
             onError(error, status)
         }
@@ -148,18 +137,14 @@ class CirclesManager: NSObject {
     
     func getUserFullInfo(id: Int, onSuccess: @escaping (User) -> (), onError: @escaping (String, Int) -> ()) {
         
-        
         ApiClient.getUserFullInfo(id: id, onSuccess: { (respDict) in
             
-            if let user = self.circlesGroupsModelManager.addContact(dict: respDict){
+            if let user = CirclesGroupsModelManager.shared.addContact(dict: respDict){
                 onSuccess(user)
-                
             }
             else{
                 onError("", 0)
             }
-            
-            
         }) { (error, status) in
             onError(error, status)
         }
@@ -168,9 +153,9 @@ class CirclesManager: NSObject {
     
     
     func getAllGroupsParticipants(onSuccess: @escaping () -> (), onError: @escaping (String) -> ()) {
-        let numberOfGroups = circlesGroupsModelManager.numberOfGroups
+        let numberOfGroups = CirclesGroupsModelManager.shared.numberOfGroups
         var completed = 0
-        if let groups = circlesGroupsModelManager.groups{
+        if let groups = CirclesGroupsModelManager.shared.groups{
             if groups.count == 0{
                 onSuccess()
                 
@@ -183,7 +168,7 @@ class CirclesManager: NSObject {
                             onSuccess()
                         }
                     }) { (error, status) in
-                        onError("")
+                        onError(error)
                     }
                   
                 }
@@ -202,7 +187,7 @@ class CirclesManager: NSObject {
         var changes = false
         
         ApiClient.getGroupParticipants(id: id, onSuccess: { (array) in
-            changes = self.circlesGroupsModelManager.addGroupParticipants(id: id, array: array)
+            changes = CirclesGroupsModelManager.shared.addGroupParticipants(id: id, array: array)
             
             onSuccess(changes)
         }) { (error, status) in
@@ -214,20 +199,18 @@ class CirclesManager: NSObject {
     }
     
     func userIsCircle(id: Int) -> Bool{
-        if let circles = circlesGroupsModelManager.circles{
+        if let circles = CirclesGroupsModelManager.shared.circles{
             for user in circles{
                 if user.id == id{
                     return true
                 }
             }
         }
-        
-        
         return false
     }
     
     func userIsDinamitzador(id: Int) -> Bool{
-        if let groups = circlesGroupsModelManager.groups{
+        if let groups = CirclesGroupsModelManager.shared.groups{
             for group in groups{
                 if group.dynamizer?.id == id{
                     return true
@@ -241,7 +224,7 @@ class CirclesManager: NSObject {
     
     
     func userIsCircleOrDynamizer(id: Int) -> Bool{
-        if let circles = circlesGroupsModelManager.circles{
+        if let circles = CirclesGroupsModelManager.shared.circles{
             for user in circles{
                 if user.id == id{
                     return true
@@ -250,7 +233,7 @@ class CirclesManager: NSObject {
         }
     
         
-        if let groups = circlesGroupsModelManager.groups{
+        if let groups = CirclesGroupsModelManager.shared.groups{
             for group in groups{
                 if group.dynamizer?.id == id{
                     return true
@@ -263,7 +246,7 @@ class CirclesManager: NSObject {
     }
     
     func groupForDinamitzador(id: Int) -> Group?{
-        if let groups = circlesGroupsModelManager.groups{
+        if let groups = CirclesGroupsModelManager.shared.groups{
             for group in groups{
                 if group.dynamizer?.id == id{
                     return group
@@ -286,12 +269,11 @@ class CirclesManager: NSObject {
                 if let groupDict = dict["group"] as? [String:AnyObject]{
                     if let dictId = groupDict["id"] as? Int, dictId == id{
                         found = true
-                        if self.circlesGroupsModelManager.updateGroup(id: id, dict: dict){
+                        if CirclesGroupsModelManager.shared.updateGroup(id: id, dict: dict){
                             onSuccess()
                         }
                         else{
                             onError("", 403)
-
                         }
                     }
                 }

@@ -21,42 +21,53 @@ import VersionControl
 import CoreDataManager
 import CryptoSwift
 import Alamofire
+import WebRTC
+import Firebase
+import FirebaseMessaging
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-    
-    var showingCallVC: OutgoingCallViewController?
-    
+class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
+
+    var showingVersionControl = false
+    public var pendingToStoreInAlbum = [DownloadItem]()
+    public var storedInAlbum = [Int]()
+ var pendingPushes = [[String: String]]()
+
+    var showingCallVC: CallContainerViewController?
+    var recordingAudio = false
+    var ratingShown = false
+
     var navigated = false
-    
     var window: UIWindow?
     var versionLanguage = ""
-    
-    let reachability = Reachability()!
-    
-    let dbVersion: UInt64 = 33
-    
+    let reachability = try! Reachability()
+    let dbVersion: UInt64 = 34
     var registrationToken: String?
     let messageKey = "onMessageReceived"
     let serialQueueNotisAppD = DispatchQueue(label: "com.vincles.serialQueueNotisAD")
     var splashVC: SplashScreenViewController?
+    var showingLogin = false
+    
     
     var batteryLevel: Float {
         return UIDevice.current.batteryLevel
     }
     
-    var batteryState: UIDeviceBatteryState {
+    var batteryState: UIDevice.BatteryState {
         return UIDevice.current.batteryState
     }
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        let fieldTrials = [String:String]()
+        RTCInitFieldTrialDictionary(fieldTrials)
+        RTCInitializeSSL()
+        RTCSetupInternalTracer()
         
         UserDefaults.standard.setValue(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
         UIDevice.current.isBatteryMonitoringEnabled = true
         
-        NotificationCenter.default.addObserver(self, selector: #selector(batteryLevelDidChange), name: .UIDeviceBatteryLevelDidChange, object: nil)
-        
-        let _ = CallManager.sharedInstance
+        NotificationCenter.default.addObserver(self, selector: #selector(batteryLevelDidChange), name: UIDevice.batteryLevelDidChangeNotification, object: nil)
         
         if UserDefaults.standard.value(forKey: "tamanyLletra") == nil{
             UserDefaults.standard.set("MITJA", forKey: "tamanyLletra")
@@ -66,20 +77,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.set(true, forKey: "saveToCameraRoll")
         }
         
-        
-        startReachability()
-        
-        UIApplication.shared.statusBarStyle = .lightContent
+        startReachability()        
         //  Crashlytics().debugMode = true
-        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
         print(Realm.Configuration.defaultConfiguration.fileURL!)
         
         Fabric.with([Crashlytics.self])
         
         // PUSH CONFIG
         
+        FirebaseApp.configure()
         startPush(application: application)
-        //  NotificationManager.loadLastProcessNotiEpoch()
         
         IQKeyboardManager.shared.enable = true
         
@@ -87,76 +95,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setInitialLanguage()
         configMenu()
         configEnvironmentVars()
-        self.controlVersion()
-        configAnalytics()
-        
-        
+       // self.controlVersion()
+
         if !navigated{
             let splash = StoryboardScene.Splash.splashScreenViewController.instantiate()
             
-            self.window?.rootViewController = SlideMenuController(mainViewController: UINavigationController(rootViewController: splash) , leftMenuViewController: StoryboardScene.Menu.leftMenuTableViewController.instantiate())
-            
+            self.window?.rootViewController = SlideMenuController(mainViewController: UINavigationController(rootViewController: splash), leftMenuViewController: StoryboardScene.Menu.leftMenuTableViewController.instantiate())
         }
-        
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "UserCercle")
-        
-        do {
-            let results = try context.fetch(fetchRequest)
-            
-            print(results.count)
-        }catch let err as NSError {
-            print(err.debugDescription)
-        }
-        
-        let fetchRequestMissatge = NSFetchRequest<NSFetchRequestResult>(entityName: "Missatges")
-        
-        do {
-            let results = try context.fetch(fetchRequestMissatge)
-            
-            print(results.count)
-        }catch let err as NSError {
-            print(err.debugDescription)
-        }
-        
-        
         
         return true
     }
     
-    func configAnalytics(){
-        var configureError:NSError? = nil
-        GGLContext.sharedInstance().configureWithError(&configureError)
-        assert(configureError == nil, "Error configuring Google Analytics services: \(configureError)")
-        let gai = GAI.sharedInstance()
-        _ = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING)
-        gai?.trackUncaughtExceptions = true
-        // gai?.logger.logLevel = GAILogLevel.verbose
-    }
-    
     func controlVersion () {
-        print ("CONTROL VERSION")
-        
+        if !showingVersionControl{
+            showingVersionControl = true
+            
         let instanceOfAlert: T21AlertComponent = T21AlertComponent()
-        
-        instanceOfAlert.showAlert(withService: VERSION_CONTROL_URL, withLanguage:UserDefaults.standard.string(forKey: "i18n_language"), andCompletionBlock:
-            { (error: Error?) in
-                // this is where the completion handler code goes
-                
-                if let error=error {
-                    print("ERROR CONTROLVERSION: ",error)
-                }
+        instanceOfAlert.showAlert(withService: VERSION_CONTROL_URL, withLanguage:UserDefaults.standard.string(forKey: "i18n_language"), andCompletionBlock: { (error: Error?) in
+            self.showingVersionControl = false
+            self.managePendingPushes()
+            if let error=error {
+                print("ERROR CONTROLVERSION: ",error)
+            }
         })
+        }
         
     }
     
     func startReachability(){
         reachability.whenReachable = { reachability in
-            if reachability.connection == .wifi {
-                print("Reachable via WiFi")
-            } else {
-                print("Reachable via Cellular")
-            }
+           
         }
         reachability.whenUnreachable = { _ in
             self.showNetworkPopup()
@@ -170,7 +138,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     @objc func batteryLevelDidChange(_ notification: Notification) {
-        print(batteryLevel)
         if batteryState == .unplugged && batteryLevel == 0.2{
             showBatteryPopup(level: batteryLevel)
         }
@@ -180,8 +147,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         else if batteryState == .unplugged && batteryLevel == 0.05{
             showBatteryPopup(level: batteryLevel)
         }
-        
-        
     }
     
     func showBatteryPopup(level: Float){
@@ -197,7 +162,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let alertWindow = UIWindow(frame: UIScreen.main.bounds)
         alertWindow.rootViewController = UIViewController()
-        alertWindow.windowLevel = UIWindowLevelAlert + 11;
+        alertWindow.windowLevel = UIWindow.Level.alert + 11;
         alertWindow.makeKeyAndVisible()
         
         alertWindow.rootViewController?.present(popupVC, animated: true, completion: nil)
@@ -214,22 +179,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let alertWindow = UIWindow(frame: UIScreen.main.bounds)
         alertWindow.rootViewController = UIViewController()
-        alertWindow.windowLevel = UIWindowLevelAlert + 10;
+        alertWindow.windowLevel = UIWindow.Level.alert + 10;
         alertWindow.makeKeyAndVisible()
         
         alertWindow.rootViewController?.present(popupVC, animated: true, completion: nil)
-        
     }
     
     @objc func rotated() {
         HUDHelper.sharedInstance.manageRotation()
-        if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
-            print("Landscape")
-        }
-        
-        if UIDeviceOrientationIsPortrait(UIDevice.current.orientation) {
-            print("Portrait")
-        }
         
     }
     
@@ -238,11 +195,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let envName = Bundle.main.infoDictionary!["ENVIRONMENT"] as! String
         var envKeys = "env_keys"
         envKeys.append(envName)
-        print(envKeys)
         let envKeysPlist = Bundle.main.path(forResource: envKeys, ofType: "plist")!
         if let envDict = NSDictionary(contentsOfFile: envKeysPlist) as? [String: String]{
-            print(envDict)
-
+            
             IP = envDict["api_base_url"]!
             BASIC_AUTH_STR = envDict["api_key"]!
             SERVER_HOST_URL = envDict["vc_base_url"]!
@@ -262,9 +217,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         configKeys.append(envName)
         let configKeysPlist = Bundle.main.path(forResource: configKeys, ofType: "plist")!
         if let configDict = NSDictionary(contentsOfFile: configKeysPlist) as? [String: String]{
-            print(configDict)
             VERSION_CONTROL_URL = configDict["control_version_url"]!
             GA_TRACKING = configDict["analytic_key"]!
+            RATING_URL = configDict["rate_url"]!
+
         }
     }
     
@@ -280,7 +236,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func setInitialLanguage(){
-        print(UserDefaults.standard.string(forKey: "i18n_language"))
         
         if let _ = UserDefaults.standard.string(forKey: "i18n_language") {} else {
             if(Locale.current.languageCode == "es"){
@@ -301,6 +256,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
+        
+        for item in pendingToStoreInAlbum{
+            if let id = item.downloadId, !storedInAlbum.contains(id){
+                let albumSingleton = AlbumSingleton()
+                albumSingleton.downloadImage = item.downloadImage
+                albumSingleton.downloadId = item.downloadId
+                albumSingleton.downloadVideo = item.downloadVideo
+                albumSingleton.startDownloadToCameraRoll()
+                storedInAlbum.append(id)
+            }
+        }
+      
+        storedInAlbum.removeAll()
+        pendingToStoreInAlbum.removeAll()
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
@@ -313,7 +282,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
         self.controlVersion()
-
+        
         
     }
     
@@ -323,55 +292,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        // Saves changes in the application's managed object context before the application terminates.
+        RTCShutdownInternalTracer()
+        RTCCleanupSSL()
     }
-    
-    // MARK: - Core Data stack
-    
-    lazy var persistentContainer: NSPersistentContainer = {
-        /*
-         The persistent container for the application. This implementation
-         creates and returns a container, having loaded the store for the
-         application to it. This property is optional since there are legitimate
-         error conditions that could cause the creation of the store to fail.
-         */
-        let container = NSPersistentContainer(name: "SingleViewCoreData")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        })
-        return container
-    }()
-    
-    // MARK: - Core Data Saving support
-    
-    func saveContext () {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }
-    }
-    
     
 }
 
@@ -386,36 +309,26 @@ extension AppDelegate{
     
     func startPush(application: UIApplication){
         self.registerVoIPPush()
-        
+
         UNUserNotificationCenter.current().delegate = self
-        
+
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
             completionHandler: {_, _ in })
-        
+
         application.registerForRemoteNotifications()
+        Messaging.messaging().delegate = self
     }
     
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        print(fcmToken)
+    }
     
-    
-    func application(
-        _ application: UIApplication,
-        didReceiveRemoteNotification userInfo: [AnyHashable : Any],
-        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
+        print(userInfo)
         let aps = userInfo["aps"] as! [String: AnyObject]
-        
-        
-        /*
-         NotificationCenter.default.post(
-         name: Notification(name: "onMessageReceived"),
-         object: self,
-         userInfo: userInfo
-         )
-         
-         handler(UIBackgroundFetchResult.NewData);
-         */
     }
     
     func getNotificationSettings() {
@@ -440,41 +353,22 @@ extension AppDelegate{
         }
     }
     
-    func application(_ application: UIApplication,
-                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let tokenParts = deviceToken.map { data -> String in
-            print(String(format: "%02.2hhx", data))
-            return String(format: "%02.2hhx", data)
-        }
-        
-        let token = tokenParts.joined()
-        
-        ()
-        
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
     }
     
-    func application(_ application: UIApplication,
-                     didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    
     }
-    
-    
-    
-    func registerVoIPPush() {
-        let voipPushResgistry = PKPushRegistry(queue: DispatchQueue.main)
-        voipPushResgistry.delegate = self
-        voipPushResgistry.desiredPushTypes = [PKPushType.voIP]
-    }
-    
     
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate{
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Swift.Void){
-        
-        print(response.notification.request.identifier)
-        print(response.notification.request.content.categoryIdentifier)
-        
-        
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void){
+        UIApplication.shared.applicationIconBadgeNumber = 0
+
+        print(response.notification.request.content.userInfo)
+
         let idString = response.notification.request.identifier
         let comps = idString.components(separatedBy: "_")
         
@@ -532,11 +426,11 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
             let baseVC = StoryboardScene.Base.baseViewController.instantiate()
             
             if let chatFrom = chatFrom{
-                let circlesModelManager = CirclesGroupsModelManager()
+                let circlesModelManager = CirclesGroupsModelManager.shared
                 
                 if (circlesModelManager.contactWithId(id: chatFrom) != nil){
                     let chatVC = StoryboardScene.Chat.chatContainerViewController.instantiate()
-                    let circlesModelManager = CirclesGroupsModelManager()
+                    let circlesModelManager = CirclesGroupsModelManager.shared
                     chatVC.toUserId = chatFrom
                     chatVC.toUser = circlesModelManager.contactWithId(id: chatFrom)
                     chatVC.showBackButton = true
@@ -546,6 +440,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                     baseVC.containedViewController = chatVC
                     if let nav = slideMenuController.mainViewController as? UINavigationController{
                         nav.pushViewController(baseVC, animated: true)
+                        navigated = true
+
                     }
                 }
                 else{
@@ -557,13 +453,15 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                     baseVC.containedViewController = notsVC
                     if let nav = slideMenuController.mainViewController as? UINavigationController{
                         nav.pushViewController(baseVC, animated: true)
+                        navigated = true
+
                     }
                 }
                 
                 
             }
             else if let idChat = idChat{
-                let circlesModelManager = CirclesGroupsModelManager()
+                let circlesModelManager = CirclesGroupsModelManager.shared
                 if circlesModelManager.userGroupWithIdChat(idChat: idChat) != nil || circlesModelManager.dinamitzadorWithChatId(idChat: idChat) != nil{
                     let chatVC = StoryboardScene.Chat.chatContainerViewController.instantiate()
                     if !navigated{
@@ -585,6 +483,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                     baseVC.containedViewController = chatVC
                     if let nav = slideMenuController.mainViewController as? UINavigationController{
                         nav.pushViewController(baseVC, animated: true)
+                        navigated = true
+
                     }
                     
                 }
@@ -597,6 +497,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                     baseVC.containedViewController = notsVC
                     if let nav = slideMenuController.mainViewController as? UINavigationController{
                         nav.pushViewController(baseVC, animated: true)
+                        navigated = true
+
                     }
                 }
                 
@@ -604,7 +506,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
             else if idUser != nil{
                 switch response.notification.request.content.categoryIdentifier{
                 case  NOTI_USER_LINKED:
-                    let circlesModelManager = CirclesGroupsModelManager()
+                    let circlesModelManager = CirclesGroupsModelManager.shared
                     
                     if (circlesModelManager.contactWithId(id: idUser!) != nil){
                         let chatVC = StoryboardScene.Chat.chatContainerViewController.instantiate()
@@ -617,6 +519,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                         baseVC.containedViewController = chatVC
                         if let nav = slideMenuController.mainViewController as? UINavigationController{
                             nav.pushViewController(baseVC, animated: true)
+                            navigated = true
+
                         }
                     }
                     else{
@@ -628,16 +532,18 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                         baseVC.containedViewController = notsVC
                         if let nav = slideMenuController.mainViewController as? UINavigationController{
                             nav.pushViewController(baseVC, animated: true)
+                            navigated = true
+
                         }
                     }
                     
                 case NOTI_INCOMING_CALL:
-                    let circlesModelManager = CirclesGroupsModelManager()
+                    let circlesModelManager = CirclesGroupsModelManager.shared
                     
                     if (circlesModelManager.contactWithId(id: idUser!) != nil){
                         let chatVC = StoryboardScene.Chat.chatContainerViewController.instantiate()
                         
-                        let circlesManager = CirclesGroupsModelManager()
+                        let circlesManager = CirclesGroupsModelManager.shared
                         if circlesManager.contactWithId(id: idUser!) != nil{
                             chatVC.toUserId = idUser!
                             chatVC.toUser = circlesModelManager.contactWithId(id: idUser!)
@@ -668,6 +574,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                         baseVC.containedViewController = chatVC
                         if let nav = slideMenuController.mainViewController as? UINavigationController{
                             nav.pushViewController(baseVC, animated: true)
+                            navigated = true
+
                         }
                     }
                     else{
@@ -679,6 +587,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                         baseVC.containedViewController = notsVC
                         if let nav = slideMenuController.mainViewController as? UINavigationController{
                             nav.pushViewController(baseVC, animated: true)
+                            navigated = true
+
                         }
                     }
                     
@@ -688,6 +598,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                     baseVC.containedViewController = contactsVC
                     if let nav = slideMenuController.mainViewController as? UINavigationController{
                         nav.pushViewController(baseVC, animated: true)
+                        navigated = true
+
                     }
                 }
                 
@@ -704,10 +616,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                     }
                     if let nav = slideMenuController.mainViewController as? UINavigationController{
                         nav.pushViewController(baseVC, animated: true)
+                        navigated = true
+
                     }
                 case NOTI_ADDED_TO_GROUP:
                     let chatVC = StoryboardScene.Chat.chatContainerViewController.instantiate()
-                    let circlesModelManager = CirclesGroupsModelManager()
+                    let circlesModelManager = CirclesGroupsModelManager.shared
                     if (circlesModelManager.userGroupWithId(id: idGroup!) != nil){
                         chatVC.group = circlesModelManager.groupWithId(id: idGroup!)
                         chatVC.showBackButton = true
@@ -717,6 +631,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                         }
                         if let nav = slideMenuController.mainViewController as? UINavigationController{
                             nav.pushViewController(baseVC, animated: true)
+                            navigated = true
+
                         }
                     }
                     else{
@@ -728,22 +644,26 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                         baseVC.containedViewController = notsVC
                         if let nav = slideMenuController.mainViewController as? UINavigationController{
                             nav.pushViewController(baseVC, animated: true)
+                            navigated = true
+
                         }
                     }
                     
                 case NOTI_NEW_USER_GROUP, NOTI_REMOVED_USER_GROUP, NOTI_ADDED_TO_GROUP:
-                    let circlesModelManager = CirclesGroupsModelManager()
+                    let circlesModelManager = CirclesGroupsModelManager.shared
                     if (circlesModelManager.userGroupWithId(id: idGroup!) != nil){
                         let groupVC = StoryboardScene.Chat.groupInfoViewController.instantiate()
                         groupVC.showBackButton = true
                         baseVC.containedViewController = groupVC
-                        let circlesModelManager = CirclesGroupsModelManager()
+                        let circlesModelManager = CirclesGroupsModelManager.shared
                         groupVC.group = circlesModelManager.groupWithId(id: idGroup!)
                         if !navigated{
                             groupVC.openHomeOnBack = true
                         }
                         if let nav = slideMenuController.mainViewController as? UINavigationController{
                             nav.pushViewController(baseVC, animated: true)
+                            navigated = true
+
                         }
                     }
                     else{
@@ -755,6 +675,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                         baseVC.containedViewController = notsVC
                         if let nav = slideMenuController.mainViewController as? UINavigationController{
                             nav.pushViewController(baseVC, animated: true)
+                            navigated = true
+
                         }
                     }
                     
@@ -779,6 +701,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                         meetingVC.meeting = agendaModelManager.meetingWithId(id: idMeeting!)
                         if let nav = slideMenuController.mainViewController as? UINavigationController{
                             nav.pushViewController(baseVC, animated: true)
+                            navigated = true
+
                         }
                     }
                     else{
@@ -790,6 +714,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                         baseVC.containedViewController = notsVC
                         if let nav = slideMenuController.mainViewController as? UINavigationController{
                             nav.pushViewController(baseVC, animated: true)
+                            navigated = true
+
                         }
                     }
                     
@@ -805,15 +731,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                         if !navigated{
                             agendaVC.openHomeOnBack = true
                         }
-                        /*
-                         let agendaVC = StoryboardScene.Agenda.ndaDayViewController.instantiate()
-                         agendaVC.selectedDate = Date(timeIntervalSince1970: TimeInterval(meeting.date / 1000))
-                         let baseVC = StoryboardScene.Base.baseViewController.instantiate()
-                         agendaVC.showBackButton = true
-                         */
+                        
                         baseVC.containedViewController = agendaVC
                         if let nav = slideMenuController.mainViewController as? UINavigationController{
                             nav.pushViewController(baseVC, animated: true)
+                            navigated = true
+
                         }
                     }
                     else{
@@ -825,6 +748,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                         baseVC.containedViewController = notsVC
                         if let nav = slideMenuController.mainViewController as? UINavigationController{
                             nav.pushViewController(baseVC, animated: true)
+                            navigated = true
+
                         }
                     }
                     
@@ -847,62 +772,11 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
                 baseVC.containedViewController = addContactVC
                 if let nav = slideMenuController.mainViewController as? UINavigationController{
                     nav.pushViewController(baseVC, animated: true)
+                    navigated = true
+
                 }
             }
-            
-            
-            
-            navigated = true
-            
-            
         }
-        else{
-            
-            
-            
-            
-            
-            if CallManager.sharedInstance.client?.state != .connected || CallManager.sharedInstance.client == nil{
-                
-                let splashVC = StoryboardScene.Splash.splashScreenViewController.instantiate()
-                splashVC.notificationType = response.notification.request.content.categoryIdentifier
-                if let chatFrom = chatFrom{
-                    splashVC.chatFrom = chatFrom
-                }
-                else if let idChat = idChat{
-                    splashVC.idChat = idChat
-                }
-                else if let idUser = idUser{
-                    splashVC.idUser = idUser
-                }
-                else if let idGroup = idGroup{
-                    
-                    switch response.notification.request.content.categoryIdentifier{
-                    case NOTI_REMOVED_FROM_GROUP:
-                        splashVC.idGroup = idGroup
-                    case NOTI_NEW_USER_GROUP, NOTI_REMOVED_USER_GROUP, NOTI_ADDED_TO_GROUP:
-                        splashVC.idOpenGroup = idGroup
-                        
-                    default:
-                        break
-                    }
-                }
-                else if let idMeeting = idMeeting{
-                    splashVC.idMeeting = idMeeting
-                }
-                else if let code = code{
-                    splashVC.code = code
-                }
-                self.window?.rootViewController = SlideMenuController(mainViewController: UINavigationController(rootViewController: splashVC) , leftMenuViewController: StoryboardScene.Menu.leftMenuTableViewController.instantiate())
-            }
-            
-            
-            
-        }
-        
-        
-        
-        
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Swift.Void){
@@ -914,10 +788,14 @@ extension AppDelegate: UNUserNotificationCenterDelegate{
 
 extension AppDelegate : PKPushRegistryDelegate {
     
+    func registerVoIPPush() {
+        let voipPushResgistry = PKPushRegistry(queue: DispatchQueue.main)
+        voipPushResgistry.delegate = self
+        voipPushResgistry.desiredPushTypes = [.voIP]
+    }
     
     func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
         if type == PKPushType.voIP {
-            print(pushCredentials.token.hexEncodedString())
             self.registrationToken = pushCredentials.token.hexEncodedString()
             let profileModelManager = ProfileModelManager()
             profileModelManager.setPushkitToken(token: pushCredentials.token.hexEncodedString())
@@ -925,148 +803,181 @@ extension AppDelegate : PKPushRegistryDelegate {
     }
     
     func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType) {
-        let payloadDict = payload.dictionaryPayload["aps"] as? Dictionary<String, String>
-        let message = payloadDict?["alert"]
-        print(message)
         
-        if UserDefaults.standard.bool(forKey: "loginDone"){
+        print(payload.dictionaryPayload)
+        let payloadDict = payload.dictionaryPayload["aps"] as? Dictionary<String, String>
+        
+        if UserDefaults.standard.bool(forKey: "loginDone") && !showingVersionControl{
+            let message = payloadDict?["alert"]
+            managePushMessage(message: message)
             
-            if let message = message{
-                if let notificationDict = JSON(parseJSON: message).dictionaryObject{
-                    let notificationManager = NotificationManager()
+        }
+        else if UserDefaults.standard.bool(forKey: "loginDone") && showingVersionControl{
+            if let payload = payloadDict{
+                pendingPushes.append(payload)
+            }
+        }
+    }
+    
+    func managePushMessage(message: String?){
+        if let message = message{
+            if let notificationDict = JSON(parseJSON: message).dictionaryObject{
+                let notificationManager = NotificationManager()
+                
+                if let idUser = notificationDict["idUser"] as? Int ,  var idRoom = notificationDict["idRoom"] as? String,  let push_notification_time = notificationDict["push_notification_time"] as? Int64 , let idPush = notificationDict["id_push"] as? Int, let push_notification_type = notificationDict["push_notification_type"] as? String{
                     
-                    if let idUser = notificationDict["idUser"] as? Int ,  var idRoom = notificationDict["idRoom"] as? String,  let push_notification_time = notificationDict["push_notification_time"] as? Int64 , let idPush = notificationDict["id_push"] as? Int, let push_notification_type = notificationDict["push_notification_type"] as? String{
+                    if push_notification_type == NOTI_INCOMING_CALL{
+                        let notificationsModelManager = NotificationsModelManager()
                         
-                        if push_notification_type == NOTI_INCOMING_CALL{
-                            let notificationsModelManager = NotificationsModelManager()
-                            
-                            _ = notificationsModelManager.getNextFakeNotificationId
-                            
-                            let notification = VincleNotification()
-                            notification.type = NOTI_INCOMING_CALL
-                            notification.id = idPush
-                            
-                            
-                            
-                            print(idRoom)
-                            
-                            notification.idRoom = idRoom
-                            notification.idUser = idUser
-                            
-
-                            let realm = try! Realm()
-                            
-                            let callee = realm.objects(AuthResponse.self).first?.userId
-                            let profileModelManager = ProfileModelManager()
-                            if let user = profileModelManager.getUserMe(){
-                                if let calleeInt = callee{
-                                    if calleeInt == user.id{
-                                        notification.creationTimeInt = push_notification_time
-                                        notification.processed = true
+                        _ = notificationsModelManager.getNextFakeNotificationId
+                        
+                        let notification = VincleNotification()
+                        notification.type = NOTI_INCOMING_CALL
+                        notification.id = idPush
+                        
+                        notification.idRoom = idRoom
+                        notification.idUser = idUser
+                        
+                        let realm = try! Realm()
+                        
+                        let callee = realm.objects(AuthResponse.self).first?.userId
+                        let profileModelManager = ProfileModelManager()
+                        if let user = profileModelManager.getUserMe(){
+                            if let calleeInt = callee{
+                                if calleeInt == user.id{
+                                    notification.creationTimeInt = push_notification_time
+                                    notification.processed = true
+                                    DispatchQueue.main.async {
                                         
                                         let realm = try! Realm()
                                         try! realm.write {
                                             realm.add(notification, update: true)
                                         }
+                                    }
+                                    
+                                    ApiClient.cancelTasks()
+                                    
+                                    let notificationManager = NotificationManager()
+                                    
+                                    ApiClientURLSession.sharedInstance.getServerTime(onSuccess: {
                                         
-                                        let notificationManager = NotificationManager()
-                                        
-                                        print("PUSH CALL")
-                                        notificationManager.getServerTime(onSuccess: {
-                                            
-                                            if let timeInt = UserDefaults.standard.object(forKey: "loginTime") as? Int64{
-                                                print(timeInt - push_notification_time)
-                                                if timeInt - push_notification_time < 30000{
+                                        if let timeInt = UserDefaults.standard.object(forKey: "loginTime") as? Int64{
+                                            if timeInt - push_notification_time < 30000{
+                                                
+                                                let circlesModelManager = CirclesGroupsModelManager.shared
+                                                
+                                                var show = true
+                                                if circlesModelManager.userWithId(id: idUser) == nil{
+                                                    show = false
+                                                }
+                                                
+                                                let notificationNameCallStart = Notification.Name(NOTI_START_CALL)
+                                                NotificationCenter.default.post(name: notificationNameCallStart, object: nil)
+                                                
+                                                if show{
                                                     
-                                                    if CallManager.sharedInstance.roomName == nil{
-                                                        notificationManager.showLocalNotificationForNewCall(user: idUser, room: idRoom)
-                                                        CallManager.sharedInstance.roomName = idRoom
-                                                        CallManager.sharedInstance.vincleNotification = notification
+                                                    DispatchQueue.main.async {
                                                         
-                                                        let baseVC = StoryboardScene.Base.baseViewController.instantiate()
-                                                        let outgoingCallVC = StoryboardScene.Call.outgoingCallViewController.instantiate()
-                                                        outgoingCallVC.incoming = true
-                                                        let circlesModelManager = CirclesGroupsModelManager()
-                                                        if let fromUser = circlesModelManager.userWithId(id: idUser){
-                                                            outgoingCallVC.user = fromUser
-                                                        }
-                                                        baseVC.containedViewController = outgoingCallVC
+                                                        let baseVC2 = StoryboardScene.Base.baseViewController.instantiate()
+                                                        let callVC = StoryboardScene.Call.callContainerViewController.instantiate()
+                                                        callVC.isCaller = false
+                                                        callVC.callerId = idUser
+                                                        callVC.notification = notification
+                                                        callVC.roomId = idRoom
+                                                        
+                                                        baseVC2.containedViewController = callVC
+                                                        
                                                         
                                                         let alertWindow = UIWindow(frame: UIScreen.main.bounds)
+                                                        alertWindow.backgroundColor = .clear
                                                         alertWindow.rootViewController = UIViewController()
-                                                        alertWindow.windowLevel = UIWindowLevelAlert + 5;
+                                                        alertWindow.windowLevel = UIWindow.Level.alert + 5;
                                                         alertWindow.makeKeyAndVisible()
                                                         
+                                                        
+                                                        
+                                                        
                                                         if (self.showingCallVC != nil){
-                                                            self.showingCallVC?.dismiss(animated: false, completion: {
-                                                                alertWindow.rootViewController?.present(outgoingCallVC, animated: false, completion: nil)
+                                                            DispatchQueue.main.async {
+                                                                UIApplication.shared.beginIgnoringInteractionEvents()
                                                                 
-                                                            })
+                                                                self.showingCallVC?.dismiss(animated: false, completion: {
+                                                                    
+                                                                    alertWindow.rootViewController?.present(baseVC2, animated: false, completion: nil)
+                                                                    UIApplication.shared.endIgnoringInteractionEvents()
+                                                                    
+                                                                })
+                                                            }
+                                                            
                                                         }
                                                         else{
-                                                            alertWindow.rootViewController?.present(outgoingCallVC, animated: true, completion: nil)
+                                                            UIApplication.shared.beginIgnoringInteractionEvents()
+                                                            
+                                                            alertWindow.rootViewController?.present(baseVC2, animated: false, completion: nil)
+                                                            UIApplication.shared.endIgnoringInteractionEvents()
                                                         }
                                                         
-                                                        self.showingCallVC = outgoingCallVC
+                                                        let state = UIApplication.shared.applicationState
+                                                        if state == .background  || state == .inactive{
+                                                            Timer.after(1.seconds, {
+                                                                CallKitManager.incomingCall(user: user)
+                                                            })
+                                                        }
                                                         
-                                                        
-                                                    }
-                                                    else{
-                                                        notificationManager.showLocalNotificationForMissedCall(user: idUser, room: idRoom)
                                                     }
                                                     
                                                 }
                                                 else{
+                                                    DispatchQueue.main.async {
+                                                        CallKitManager.endCall()
+                                                        
+                                                        notificationManager.showLocalNotificationForMissedCall(user: idUser, room: idRoom)
+                                                    }
+                                                }
+                                                
+                                            }
+                                            else{
+                                                DispatchQueue.main.async {
+                                                    CallKitManager.endCall()
                                                     notificationManager.showLocalNotificationForMissedCall(user: idUser, room: idRoom)
                                                 }
                                             }
-                                            
-                                        }) {
-                                            
                                         }
                                         
+                                    }) {
+                                        
                                     }
+                                    
                                 }
                             }
                         }
-                        else if push_notification_type == NOTI_ERROR_IN_CALL{
-                            if CallManager.sharedInstance != nil && CallManager.sharedInstance.roomName != nil{
-                                CallManager.sharedInstance.receivedErrorInCall()
-                            }
-                            
+                    }
+                    else if push_notification_type == NOTI_ERROR_IN_CALL{
+                        if (self.showingCallVC != nil){
+                            self.showingCallVC!.receivedErrorInCall()
+                            CallKitManager.endCall()
                         }
                         
-                        
-                        
-                        
-                        
                     }
-                    else if (notificationDict["id_push"] as? Int) != nil {
-                        /*
-                         let diceRoll = Int(arc4random_uniform(99999999) + 1)
-                         
-                         let content = UNMutableNotificationContent()
-                         content.title = "titol"
-                         content.body = "body"
-                         
-                         content.sound = UNNotificationSound.default()
-                         content.categoryIdentifier = NOTI_NEW_MESSAGE
-                         
-                         
-                         let request = UNNotificationRequest(identifier: "test\(Date().timeIntervalSince1970)\(diceRoll)", content: "testttt", trigger: nil)
-                         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-                         */
-                        
-                        print(message)
-                        notificationManager.processNotification(noti: message)
-                    }
-                    
                 }
+                else if (notificationDict["id_push"] as? Int) != nil {
+                    
+                    notificationManager.processNotification(noti: message)
+                }
+                
             }
-            
         }
-        // processNotification(message!)
     }
+    
+    func managePendingPushes(){
+        if pendingPushes.count > 0{
+            let pending = pendingPushes.remove(at: 0)
+            let message = pending["alert"]
+            managePushMessage(message: message)
+        }
+        
+    }
+    
     
     func pushRegistry(_ registry: PKPushRegistry, didInvalidatePushTokenFor type: PKPushType) {
         NSLog("token invalidated")
@@ -1095,7 +1006,9 @@ extension AppDelegate : PopUpDelegate {
             
         }
     }
-    
+    func closeButtonClicked(popup: PopupViewController) {
+        
+    }
     
 }
 

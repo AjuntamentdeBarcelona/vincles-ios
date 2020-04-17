@@ -7,6 +7,7 @@
 
 import UIKit
 import ContextMenu
+import Firebase
 
 class AddContactViewController: UIViewController  {
 
@@ -59,8 +60,8 @@ class AddContactViewController: UIViewController  {
         if UIDevice.current.userInterfaceIdiom == .phone{
             
             self.selectKinkshipButton.titleLabel?.font = UIFont(font: FontFamily.Akkurat.regular, size: 13.0)
-            veureCodiLabel.font = UIFont(font: FontFamily.Akkurat.regular, size: 12.0)
-            tincCodiLabel.font = UIFont(font: FontFamily.Akkurat.regular, size: 12.0)
+            veureCodiLabel.font = UIFont(font: FontFamily.Akkurat.regular, size: 14.0)
+            tincCodiLabel.font = UIFont(font: FontFamily.Akkurat.regular, size: 14.0)
             veureCodiButton.titleLabel?.font = UIFont(font: FontFamily.Akkurat.regular, size: 13.0)
             cancelarButton.titleLabel?.font = UIFont(font: FontFamily.Akkurat.regular, size: 13.0)
             afegirContacteButton.titleLabel?.font = UIFont(font: FontFamily.Akkurat.regular, size: 13.0)
@@ -135,7 +136,14 @@ class AddContactViewController: UIViewController  {
         circlesManager.generateCode(onSuccess: { (result) in
             self.codiLabel.text = result
         }) { (error) in
+            let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+            popupVC.delegate = self
+            popupVC.modalPresentationStyle = .overCurrentContext
+            popupVC.popupTitle = "Error"
+            popupVC.popupDescription = error
+            popupVC.button1Title = L10n.ok
             
+            self.present(popupVC, animated: true, completion: nil)
         }
         
     }
@@ -199,16 +207,18 @@ class AddContactViewController: UIViewController  {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_ADD_CONTACTS)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        
+        Analytics.setScreenName(ANALYTICS_ADD_CONTACTS, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_ADD_CONTACTS)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClass.compact && self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClass.compact) {
-            veureCodiLabel.isHidden = true
-            tincCodiLabel.isHidden = true
+            veureCodiLabel.isHidden = false
+            tincCodiLabel.isHidden = false
 
         }
         else{
@@ -229,6 +239,8 @@ extension AddContactViewController: PopUpDelegate{
     func secondButtonClicked(popup: PopupViewController) {
         
     }
-    
+    func closeButtonClicked(popup: PopupViewController) {
+        
+    }
 }
 

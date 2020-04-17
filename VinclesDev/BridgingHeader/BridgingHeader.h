@@ -4,4 +4,8 @@
 //
 //  Copyright © 2018 i2Cat. All rights reserved.
 
-#import <Google/Analytics.h>
+#import "ARDAppClient.h"
+#import "ARDSettingsModel.h"
+#import "ARDVideoCallView.h"
+#import "ARDCaptureController.h"
+

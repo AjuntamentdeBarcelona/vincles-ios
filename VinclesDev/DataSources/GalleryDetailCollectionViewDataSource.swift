@@ -13,6 +13,9 @@ protocol GalleryDetailCollectionViewDataSourceClickDelegate{
     func didScrollTo(content: Content, index: Int)
     func selectedImageView(imageView: UIImageView)
     func loadMoreItems()
+    func reloadCollectionView()
+    func showVideoCorruptedError()
+
 }
 
 class GalleryDetailCollectionViewDataSource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
@@ -51,11 +54,18 @@ class GalleryDetailCollectionViewDataSource: NSObject, UICollectionViewDataSourc
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! SinglePhotoCollectionViewCell
             switch galleryFilter {
             case .all:
-                cell.configWithContent(content: galleryModelManager.contentAt(index: indexPath.row))
+                if let content = galleryModelManager.contentAt(index: indexPath.row){
+                    cell.configWithCont(contentId: content.idContent)
+                }
             case .mine:
-                cell.configWithContent(content: galleryModelManager.mineContentAt(index: indexPath.row))
+                if let content = galleryModelManager.mineContentAt(index: indexPath.row){
+                    cell.configWithCont(contentId: content.idContent)
+                }
             case .sent:
-                cell.configWithContent(content: galleryModelManager.sharedContentAt(index: indexPath.row))
+                if let content = galleryModelManager.sharedContentAt(index: indexPath.row){
+                    cell.configWithCont(contentId: content.idContent)
+                }
+                
             }
             return cell
         }
@@ -63,11 +73,18 @@ class GalleryDetailCollectionViewDataSource: NSObject, UICollectionViewDataSourc
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "videoCell", for: indexPath) as! SingleVideoCollectionViewCell
         switch galleryFilter {
         case .all:
-            cell.configWithContent(content: galleryModelManager.contentAt(index: indexPath.row))
+            if let content = galleryModelManager.contentAt(index: indexPath.row){
+                cell.configWithCont(contentId: content.idContent)
+            }
         case .mine:
-            cell.configWithContent(content: galleryModelManager.mineContentAt(index: indexPath.row))
+            if let content = galleryModelManager.mineContentAt(index: indexPath.row){
+                cell.configWithCont(contentId: content.idContent)
+            }
         case .sent:
-            cell.configWithContent(content: galleryModelManager.sharedContentAt(index: indexPath.row))
+            if let content = galleryModelManager.sharedContentAt(index: indexPath.row){
+                cell.configWithCont(contentId: content.idContent)
+            }
+            
         }
         return cell
     }
@@ -91,22 +108,28 @@ class GalleryDetailCollectionViewDataSource: NSObject, UICollectionViewDataSourc
         
         switch galleryFilter {
         case .all:
-            if galleryModelManager.contentAt(index: indexPath.row).mimeType.contains("video"){
+            guard let content = galleryModelManager.contentAt(index: indexPath.row) else{
+                return
+            }
+            if content.mimeType.contains("video"){
                 let cell = collectionView.cellForItem(at: indexPath) as! SingleVideoCollectionViewCell  
 
                 if cell.photoImage.image?.size != CGSize.zero{
-                    clickDelegate?.selectedContent(content: galleryModelManager.contentAt(index: indexPath.row))
+                    clickDelegate?.selectedContent(content: content)
                     if cell.activityIndicator != nil{
                         cell.activityIndicator.isHidden = true
                         cell.activityIndicator.stopAnimating()
                     }
                    
                 }
+                else if !cell.videoCorruptedButton.isHidden{
+                    clickDelegate?.showVideoCorruptedError()
+                }
                 else{
-                    cell.downloadContent(content: galleryModelManager.contentAt(index: indexPath.row))
+                    cell.setImageWith(contentId: content.idContent)
                 }
             }
-            else if galleryModelManager.contentAt(index: indexPath.row).mimeType.contains("image"){
+            else if content.mimeType.contains("image"){
                 let cell = collectionView.cellForItem(at: indexPath) as! SinglePhotoCollectionViewCell
                 if cell.photoImage.image?.size != CGSize.zero{
                     clickDelegate?.selectedImageView(imageView: cell.photoImage)
@@ -115,27 +138,36 @@ class GalleryDetailCollectionViewDataSource: NSObject, UICollectionViewDataSourc
                         cell.activityIndicator.stopAnimating()
                     }
                 }
+                else if !cell.videoCorruptedButton.isHidden{
+                    clickDelegate?.showVideoCorruptedError()
+                }
                 else{
-                    cell.downloadContent(content: galleryModelManager.contentAt(index: indexPath.row))
+                    cell.setImageWith(contentId: content.idContent)
                 }
             }
         case .mine:
-            if galleryModelManager.mineContentAt(index: indexPath.row).mimeType.contains("video"){
+            guard let content = galleryModelManager.mineContentAt(index: indexPath.row) else{
+                return
+            }
+            if content.mimeType.contains("video"){
                 let cell = collectionView.cellForItem(at: indexPath) as! SingleVideoCollectionViewCell
                 
                 if cell.photoImage.image?.size != CGSize.zero{
-                    clickDelegate?.selectedContent(content: galleryModelManager.mineContentAt(index: indexPath.row))
+                    clickDelegate?.selectedContent(content: content)
                     if cell.activityIndicator != nil{
                         cell.activityIndicator.isHidden = true
                         cell.activityIndicator.stopAnimating()
                     }
 
                 }
+                else if !cell.videoCorruptedButton.isHidden{
+                    clickDelegate?.showVideoCorruptedError()
+                }
                 else{
-                    cell.downloadContent(content: galleryModelManager.mineContentAt(index: indexPath.row))
+                    cell.setImageWith(contentId: content.idContent)
                 }
             }
-            else if galleryModelManager.mineContentAt(index: indexPath.row).mimeType.contains("image"){
+            else if content.mimeType.contains("image"){
                 let cell = collectionView.cellForItem(at: indexPath) as! SinglePhotoCollectionViewCell
                 if cell.photoImage.image?.size != CGSize.zero{
                     clickDelegate?.selectedImageView(imageView: cell.photoImage)
@@ -144,26 +176,35 @@ class GalleryDetailCollectionViewDataSource: NSObject, UICollectionViewDataSourc
                         cell.activityIndicator.stopAnimating()
                     }
                 }
+                else if !cell.videoCorruptedButton.isHidden{
+                    clickDelegate?.showVideoCorruptedError()
+                }
                 else{
-                    cell.downloadContent(content: galleryModelManager.mineContentAt(index: indexPath.row))
+                    cell.setImageWith(contentId: content.idContent)
                 }
             }
         case .sent:
-            if galleryModelManager.sharedContentAt(index: indexPath.row).mimeType.contains("video"){
+            guard let content = galleryModelManager.sharedContentAt(index: indexPath.row) else{
+                return
+            }
+            if content.mimeType.contains("video"){
                 let cell = collectionView.cellForItem(at: indexPath) as! SingleVideoCollectionViewCell
                 
                 if cell.photoImage.image?.size != CGSize.zero{
-                    clickDelegate?.selectedContent(content: galleryModelManager.sharedContentAt(index: indexPath.row))
+                    clickDelegate?.selectedContent(content: content)
                     if cell.activityIndicator != nil{
                         cell.activityIndicator.isHidden = true
                         cell.activityIndicator.stopAnimating()
                     }
                 }
+                else if !cell.videoCorruptedButton.isHidden{
+                    clickDelegate?.showVideoCorruptedError()
+                }
                 else{
-                    cell.downloadContent(content: galleryModelManager.sharedContentAt(index: indexPath.row))
+                    cell.setImageWith(contentId: content.idContent)
                 }
             }
-            else if galleryModelManager.sharedContentAt(index: indexPath.row).mimeType.contains("image"){
+            else if content.mimeType.contains("image"){
                 let cell = collectionView.cellForItem(at: indexPath) as! SinglePhotoCollectionViewCell
                 if cell.photoImage.image?.size != CGSize.zero{
                     clickDelegate?.selectedImageView(imageView: cell.photoImage)
@@ -172,8 +213,11 @@ class GalleryDetailCollectionViewDataSource: NSObject, UICollectionViewDataSourc
                         cell.activityIndicator.stopAnimating()
                     }
                 }
+                else if !cell.videoCorruptedButton.isHidden{
+                    clickDelegate?.showVideoCorruptedError()
+                }
                 else{
-                    cell.downloadContent(content: galleryModelManager.sharedContentAt(index: indexPath.row))
+                    cell.setImageWith(contentId: content.idContent)
                 }
             }
         }
@@ -189,18 +233,24 @@ class GalleryDetailCollectionViewDataSource: NSObject, UICollectionViewDataSourc
         switch galleryFilter {
         case .all:
             if currentPage >= 0 && currentPage < galleryModelManager.numberOfContents{
-                
-                clickDelegate?.didScrollTo(content: galleryModelManager.contentAt(index: currentPage), index: currentPage)
+                guard let content =  galleryModelManager.contentAt(index: currentPage) else{
+                    return
+                }
+                clickDelegate?.didScrollTo(content: content, index: currentPage)
             }
         case .mine:
             if currentPage >= 0 && currentPage < galleryModelManager.numberOfMineContents{
-                
-                clickDelegate?.didScrollTo(content: galleryModelManager.mineContentAt(index: currentPage), index: currentPage)
+                guard let content =  galleryModelManager.mineContentAt(index: currentPage) else{
+                    return
+                }
+                clickDelegate?.didScrollTo(content: content, index: currentPage)
             }
         case .sent:
             if currentPage >= 0 && currentPage < galleryModelManager.numberOfSharedContents{
-                
-                clickDelegate?.didScrollTo(content: galleryModelManager.sharedContentAt(index: currentPage), index: currentPage)
+                guard let content =  galleryModelManager.sharedContentAt(index: currentPage) else{
+                    return
+                }
+                clickDelegate?.didScrollTo(content: content, index: currentPage)
             }
             
         }
@@ -209,11 +259,30 @@ class GalleryDetailCollectionViewDataSource: NSObject, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        /*
-        if let galleryManagerDate = galleryManager?.lastItemDate, galleryManagerDate == modelManager.contentAt(index: indexPath.row).inclusionTime, let loading = galleryManager?.loadingItems, loading == false{
-            clickDelegate?.loadMoreItems()
+        if indexPath.row == collectionView.numberOfItems(inSection: 0) - 1{
+            if !galleryManager!.loadingItems{
+                
+                loadNext()
+            }
+            
         }
-       */
+    }
+    
+    func loadNext(){
+        
+        if !(galleryManager?.reachedEnd)!{
+            galleryManager!.getContentsLibrary(onSuccess: { (hasMoreItems, needsReload) in
+                
+                if needsReload{
+                    self.clickDelegate?.reloadCollectionView()
+                }
+            }) { (error) in
+                
+                
+            }
+            
+        }
+        
     }
 }
 

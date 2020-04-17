@@ -15,7 +15,7 @@ class ChatManager: NSObject {
     var loadingItems = false
     var fromDate: Date?
     lazy var circlesManager = CirclesManager()
-    lazy var circlesGroupsModelManager = CirclesGroupsModelManager()
+    lazy var circlesGroupsModelManager = CirclesGroupsModelManager.shared
 
     func sendUserTextMessage(toUser: Int, message: String, onSuccess: @escaping (Int) -> (), onError: @escaping (String) -> ()) {
 
@@ -27,21 +27,40 @@ class ChatManager: NSObject {
         
         let params = ["idUserTo": toUser, "idUserFrom": id, "text": message, "metadataTipus": "TEXT_MESSAGE"] as [String : Any]
         
-        ApiClient.sendUserMessage(params: params, onSuccess: {dict in
-           
-            
+        ApiClientURLSession.sharedInstance.sendUserMessage(params: params, onSuccess: { (dict) in
             if let id = dict["id"] as? Int{
                 onSuccess(id)
-
             }
             else{
                 onError(L10n.errorGenerico)
             }
-            
         }) { (error) in
-            onError(error)
+            if error == TOKEN_FAIL{
+                ApiClientURLSession.sharedInstance.refreshToken(onSuccess: {
 
+                    ApiClientURLSession.sharedInstance.sendUserMessage(params: params, onSuccess: { (dict) in
+                        if let id = dict["id"] as? Int{
+                            onSuccess(id)
+                        }
+                        else{
+                            onError(L10n.errorGenerico)
+                        }
+                    }) { (error) in
+                            onError(error)
+                        }
+                }) { (error) in
+                    DispatchQueue.main.async {
+                        let navigationManager = NavigationManager()
+                        navigationManager.showUnauthorizedLogin()
+                    }
+                   
+                }
+            }
+            else{
+                onError(error)
+            }
         }
+       
     }
     
     func sendUserImageMessage(toUser: Int, contentId: Int, onSuccess: @escaping (Int) -> (), onError: @escaping (String) -> ()) {
@@ -54,16 +73,37 @@ class ChatManager: NSObject {
         
         let params = ["idUserTo": toUser, "idUserFrom": id, "idAdjuntContents": [contentId], "metadataTipus": "IMAGES_MESSAGE"] as [String : Any]
         
-        ApiClient.sendUserMessage(params: params, onSuccess: {dict in 
+        ApiClientURLSession.sharedInstance.sendUserMessage(params: params, onSuccess: { (dict) in
             if let id = dict["id"] as? Int{
                 onSuccess(id)
-                
             }
             else{
                 onError(L10n.errorGenerico)
             }
         }) { (error) in
-            
+            if error == TOKEN_FAIL{
+                ApiClientURLSession.sharedInstance.refreshToken(onSuccess: {
+                    
+                    ApiClientURLSession.sharedInstance.sendUserMessage(params: params, onSuccess: { (dict) in
+                        if let id = dict["id"] as? Int{
+                            onSuccess(id)
+                        }
+                        else{
+                            onError(L10n.errorGenerico)
+                        }
+                    }) { (error) in
+                        onError(error)
+                    }
+                }) { (error) in
+                    DispatchQueue.main.async {
+                        let navigationManager = NavigationManager()
+                        navigationManager.showUnauthorizedLogin()
+                    }
+                }
+            }
+            else{
+                onError(error)
+            }
         }
     }
     
@@ -77,21 +117,43 @@ class ChatManager: NSObject {
         
         let params = ["idUserTo": toUser, "idUserFrom": id, "idAdjuntContents": [contentId], "metadataTipus": "VIDEO_MESSAGE"] as [String : Any]
         
-        ApiClient.sendUserMessage(params: params, onSuccess: {dict in
+        ApiClientURLSession.sharedInstance.sendUserMessage(params: params, onSuccess: { (dict) in
             if let id = dict["id"] as? Int{
                 onSuccess(id)
-                
             }
             else{
                 onError(L10n.errorGenerico)
             }
         }) { (error) in
-            
+            if error == TOKEN_FAIL{
+                ApiClientURLSession.sharedInstance.refreshToken(onSuccess: {
+                    
+                    ApiClientURLSession.sharedInstance.sendUserMessage(params: params, onSuccess: { (dict) in
+                        if let id = dict["id"] as? Int{
+                            onSuccess(id)
+                        }
+                        else{
+                            onError(L10n.errorGenerico)
+                        }
+                    }) { (error) in
+                        onError(error)
+                    }
+                }) { (error) in
+                    DispatchQueue.main.async {
+                        let navigationManager = NavigationManager()
+                        navigationManager.showUnauthorizedLogin()
+                    }
+                }
+            }
+            else{
+                onError(error)
+            }
         }
     }
     
     func sendAudioMessage(toUser: Int, contentId: Int, onSuccess: @escaping (Int) -> (), onError: @escaping (String) -> ()) {
-        
+      
+
         let profileModelManager = ProfileModelManager()
         guard let id = profileModelManager.getUserMe()?.id else{
             onError(L10n.errorGenerico)
@@ -100,16 +162,37 @@ class ChatManager: NSObject {
         
         let params = ["idUserTo": toUser, "idUserFrom": id, "idAdjuntContents": [contentId], "metadataTipus": "AUDIO_MESSAGE"] as [String : Any]
         
-        ApiClient.sendUserMessage(params: params, onSuccess: {dict in
+        ApiClientURLSession.sharedInstance.sendUserMessage(params: params, onSuccess: { (dict) in
             if let id = dict["id"] as? Int{
                 onSuccess(id)
-                
             }
             else{
                 onError(L10n.errorGenerico)
             }
         }) { (error) in
-            
+            if error == TOKEN_FAIL{
+                ApiClientURLSession.sharedInstance.refreshToken(onSuccess: {
+                    
+                    ApiClientURLSession.sharedInstance.sendUserMessage(params: params, onSuccess: { (dict) in
+                        if let id = dict["id"] as? Int{
+                            onSuccess(id)
+                        }
+                        else{
+                            onError(L10n.errorGenerico)
+                        }
+                    }) { (error) in
+                        onError(error)
+                    }
+                }) { (error) in
+                    DispatchQueue.main.async {
+                        let navigationManager = NavigationManager()
+                        navigationManager.showUnauthorizedLogin()
+                    }
+                }
+            }
+            else{
+                onError(error)
+            }
         }
     }
     
@@ -271,13 +354,40 @@ class ChatManager: NSObject {
         
         let params = ["idMessage": idMessage] as [String : Any]
         
-        ApiClient.getMessageById(params: params, onSuccess: { (dict) in
-            print(dict)
-            let message = self.chatModelManager.addMessage(dict: dict as [String : AnyObject])
-            onSuccess(message)
-
+        ApiClientURLSession.sharedInstance.getMessageById(params: params, onSuccess: { (dict) in
+            DispatchQueue.main.async {
+                let message = self.chatModelManager.addMessage(dict: dict as [String : AnyObject])
+                onSuccess(message)
+            }
+          
         }) { (error, status) in
-            onError(error, status)
+            if error == TOKEN_FAIL{
+                ApiClientURLSession.sharedInstance.refreshToken(onSuccess: {
+                    
+                    ApiClientURLSession.sharedInstance.getMessageById(params: params, onSuccess: { (dict) in
+                        DispatchQueue.main.async {
+                            let message = self.chatModelManager.addMessage(dict: dict as [String : AnyObject])
+                            onSuccess(message)
+                        }
+                        
+                    }) { (error, status) in
+                        
+                            onError(error,status)
+                        
+                        
+                    }
+                }) { (error) in
+                    DispatchQueue.main.async {
+                        let navigationManager = NavigationManager()
+                        navigationManager.showUnauthorizedLogin()
+                    }
+                    
+                }
+            }
+            else{
+                onError(error,status)
+            }
+
         }
         
     }
@@ -299,11 +409,10 @@ class ChatManager: NSObject {
     
     func getBubbleSizeForMessage(message: Message, width: CGFloat, font: UIFont) -> CGSize{
   
-        print(message.messageText)
         if message.idAdjuntContents.count > 0{
             // TODO MEDIA MESSAGE
             let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-            let boundingBox = message.messageText.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
+            let boundingBox = message.messageText.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
             
             var height = boundingBox.height
            
@@ -318,7 +427,7 @@ class ChatManager: NSObject {
         else{
            
             let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-            let boundingBox = message.messageText.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
+            let boundingBox = message.messageText.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
 
             return CGSize(width: boundingBox.width, height: boundingBox.height + 10)
             
@@ -333,7 +442,7 @@ class ChatManager: NSObject {
         
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         
-        let attributes = [NSAttributedStringKey.font: font]
+        let attributes = [NSAttributedString.Key.font: font]
         
         let rectangleHeight = String(text).boundingRect(with: size, options: options, attributes: attributes, context: nil).height
         
@@ -444,7 +553,7 @@ class ChatManager: NSObject {
         if message.idContent != -1{
             // TODO MEDIA MESSAGE
             let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-            let boundingBox = message.text.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
+            let boundingBox = message.text.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
             
             var height = boundingBox.height
             
@@ -457,13 +566,10 @@ class ChatManager: NSObject {
             return CGSize(width: width, height: height)
         }
         else{
-            
             let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-            let boundingBox = message.text.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
+            let boundingBox = message.text.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
             
-            let height = boundingBox.height
-            
-            return CGSize(width: boundingBox.width + 5, height: height)
+            return CGSize(width: boundingBox.width, height: boundingBox.height + 10)
             
         }
         
@@ -479,20 +585,39 @@ class ChatManager: NSObject {
         
         let params = ["text": message, "metadataTipus": "TEXT_MESSAGE", "idChat": idChat] as [String : Any]
         
-        ApiClient.sendGroupMessage(params: params, onSuccess: {dict in
-
+        ApiClientURLSession.sharedInstance.sendGroupMessage(params: params, onSuccess: { (dict) in
             if let id = dict["id"] as? Int{
                 onSuccess(id)
-                
             }
             else{
                 onError(L10n.errorGenerico)
             }
-            
         }) { (error) in
-            onError(error)
-            
+            if error == TOKEN_FAIL{
+                ApiClientURLSession.sharedInstance.refreshToken(onSuccess: {
+                    
+                    ApiClientURLSession.sharedInstance.sendGroupMessage(params: params, onSuccess: { (dict) in
+                        if let id = dict["id"] as? Int{
+                            onSuccess(id)
+                        }
+                        else{
+                            onError(L10n.errorGenerico)
+                        }
+                    }) { (error) in
+                        onError(error)
+                    }
+                }) { (error) in
+                    DispatchQueue.main.async {
+                        let navigationManager = NavigationManager()
+                        navigationManager.showUnauthorizedLogin()
+                    }
+                }
+            }
+            else{
+                onError(error)
+            }
         }
+        
     }
     
     func sendGroupVideoMessage(idChat: Int, contentId: Int, onSuccess: @escaping (Int) -> (), onError: @escaping (String) -> ()) {
@@ -506,16 +631,37 @@ class ChatManager: NSObject {
         let params = ["idContent": contentId, "metadataTipus": "VIDEO_MESSAGE", "idChat": idChat] as [String : Any]
 
         
-        ApiClient.sendGroupMessage(params: params, onSuccess: {dict in
+        ApiClientURLSession.sharedInstance.sendGroupMessage(params: params, onSuccess: { (dict) in
             if let id = dict["id"] as? Int{
                 onSuccess(id)
-                
             }
             else{
                 onError(L10n.errorGenerico)
             }
         }) { (error) in
-            
+            if error == TOKEN_FAIL{
+                ApiClientURLSession.sharedInstance.refreshToken(onSuccess: {
+                    
+                    ApiClientURLSession.sharedInstance.sendGroupMessage(params: params, onSuccess: { (dict) in
+                        if let id = dict["id"] as? Int{
+                            onSuccess(id)
+                        }
+                        else{
+                            onError(L10n.errorGenerico)
+                        }
+                    }) { (error) in
+                        onError(error)
+                    }
+                }) { (error) in
+                    DispatchQueue.main.async {
+                        let navigationManager = NavigationManager()
+                        navigationManager.showUnauthorizedLogin()
+                    }
+                }
+            }
+            else{
+                onError(error)
+            }
         }
     }
     
@@ -530,16 +676,37 @@ class ChatManager: NSObject {
         let params = ["idContent": contentId, "metadataTipus": "IMAGES_MESSAGE", "idChat": idChat] as [String : Any]
         
         
-        ApiClient.sendGroupMessage(params: params, onSuccess: {dict in
+        ApiClientURLSession.sharedInstance.sendGroupMessage(params: params, onSuccess: { (dict) in
             if let id = dict["id"] as? Int{
                 onSuccess(id)
-                
             }
             else{
                 onError(L10n.errorGenerico)
             }
         }) { (error) in
-            
+            if error == TOKEN_FAIL{
+                ApiClientURLSession.sharedInstance.refreshToken(onSuccess: {
+                    
+                    ApiClientURLSession.sharedInstance.sendGroupMessage(params: params, onSuccess: { (dict) in
+                        if let id = dict["id"] as? Int{
+                            onSuccess(id)
+                        }
+                        else{
+                            onError(L10n.errorGenerico)
+                        }
+                    }) { (error) in
+                        onError(error)
+                    }
+                }) { (error) in
+                    DispatchQueue.main.async {
+                        let navigationManager = NavigationManager()
+                        navigationManager.showUnauthorizedLogin()
+                    }
+                }
+            }
+            else{
+                onError(error)
+            }
         }
     }
     
@@ -554,16 +721,37 @@ class ChatManager: NSObject {
         let params = ["idContent": contentId, "metadataTipus": "AUDIO_MESSAGE", "idChat": idChat] as [String : Any]
         
         
-        ApiClient.sendGroupMessage(params: params, onSuccess: {dict in
+        ApiClientURLSession.sharedInstance.sendGroupMessage(params: params, onSuccess: { (dict) in
             if let id = dict["id"] as? Int{
                 onSuccess(id)
-                
             }
             else{
                 onError(L10n.errorGenerico)
             }
         }) { (error) in
-            
+            if error == TOKEN_FAIL{
+                ApiClientURLSession.sharedInstance.refreshToken(onSuccess: {
+                    
+                    ApiClientURLSession.sharedInstance.sendGroupMessage(params: params, onSuccess: { (dict) in
+                        if let id = dict["id"] as? Int{
+                            onSuccess(id)
+                        }
+                        else{
+                            onError(L10n.errorGenerico)
+                        }
+                    }) { (error) in
+                        onError(error)
+                    }
+                }) { (error) in
+                    DispatchQueue.main.async {
+                        let navigationManager = NavigationManager()
+                        navigationManager.showUnauthorizedLogin()
+                    }
+                }
+            }
+            else{
+                onError(error)
+            }
         }
     }
     
@@ -571,42 +759,75 @@ class ChatManager: NSObject {
         
         let params = ["idMessage": idMessage, "idChat": idChat] as [String : Any]
         
-        ApiClient.getGroupMessageById(params: params, onSuccess: { (dict) in
-            let circlesModelManager = CirclesGroupsModelManager()
-            
-            if circlesModelManager.groupWithChatId(idChat: idChat) != nil{
-                let message = self.chatModelManager.addGroupMessage(dict: dict as [String : AnyObject])
-                onSuccess(message)
+        ApiClientURLSession.sharedInstance.getGroupMessageById(params: params, onSuccess: { (dict) in
+            DispatchQueue.main.async {
+                let circlesModelManager = CirclesGroupsModelManager.shared
                 
+                if circlesModelManager.groupWithChatId(idChat: idChat) != nil{
+                    let message = self.chatModelManager.addGroupMessage(dict: dict as [String : AnyObject])
+                    onSuccess(message)
+                    
+                }
+                else if circlesModelManager.dinamitzadorWithChatId(idChat: idChat) != nil{
+                    let message = self.chatModelManager.addDinamitzadorMessage(dict: dict as [String : AnyObject])
+                    onSuccess(message)
+                }
+                else{
+                    onError("error", 403 )
+                }
             }
-            else if circlesModelManager.dinamitzadorWithChatId(idChat: idChat) != nil{
-                let message = self.chatModelManager.addDinamitzadorMessage(dict: dict as [String : AnyObject])
-                onSuccess(message)
+           
+        }) { (error, status) in
+            if error == TOKEN_FAIL{
+                ApiClientURLSession.sharedInstance.refreshToken(onSuccess: {
+                    
+                    ApiClientURLSession.sharedInstance.sendGroupMessage(params: params, onSuccess: { (dict) in
+                        DispatchQueue.main.async {
+                            let circlesModelManager = CirclesGroupsModelManager.shared
+                            
+                            if circlesModelManager.groupWithChatId(idChat: idChat) != nil{
+                                let message = self.chatModelManager.addGroupMessage(dict: dict as [String : AnyObject])
+                                onSuccess(message)
+                                
+                            }
+                            else if circlesModelManager.dinamitzadorWithChatId(idChat: idChat) != nil{
+                                let message = self.chatModelManager.addDinamitzadorMessage(dict: dict as [String : AnyObject])
+                                onSuccess(message)
+                            }
+                            else{
+                                onError("error", 403 )
+                            }
+                        }
+                    }) { (error) in
+                        onError(error, status)
+                    }
+                }) { (error) in
+                    DispatchQueue.main.async {
+                        let navigationManager = NavigationManager()
+                        navigationManager.showUnauthorizedLogin()
+                    }
+                }
             }
             else{
-                onError("error", 403 )
+                onError(error,status)
             }
-            
-           
-            
-        }) { (error, status) in
-            onError(error, status )
         }
-        
+       
     }
     
     func getChatDinamitzadorMessageById(idChat: Int, idMessage: Int, onSuccess: @escaping (GroupMessage) -> (), onError: @escaping (String) -> ()) {
         
         let params = ["idMessage": idMessage, "idChat": idChat] as [String : Any]
         
-        ApiClient.getGroupMessageById(params: params, onSuccess: { (dict) in
-            
-            let message = self.chatModelManager.addDinamitzadorMessage(dict: dict as [String : AnyObject])
-            onSuccess(message)
+        ApiClientURLSession.sharedInstance.getGroupMessageById(params: params, onSuccess: { (dict) in
+            DispatchQueue.main.async {
+                let message = self.chatModelManager.addDinamitzadorMessage(dict: dict as [String : AnyObject])
+                onSuccess(message)
+            }
             
         }) { (error, status) in
             onError(error )
         }
-        
+  
     }
 }

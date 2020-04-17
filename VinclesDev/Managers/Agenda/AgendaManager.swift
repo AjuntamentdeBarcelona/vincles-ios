@@ -17,36 +17,47 @@ class AgendaManager {
     lazy var agendaModelManager = AgendaModelManager()
    
   
-    func getMeetings(onSuccess: @escaping (Bool) -> (), onError: @escaping (String) -> ()) {
+    func getMeetings(startDate: Date, onSuccess: @escaping (Bool) -> (), onError: @escaping (String) -> ()) {
         
         let date = agendaModelManager.oldestMeetingDate
+      
+            ApiClient.getMeetings(to: date, onSuccess: { (array) in
+                
+                
+                if array.count > 0{
+                    self.agendaModelManager.addMeetings(array: array)
+                }
+                
+                if array.count == 10{
+                    let date = self.agendaModelManager.oldestMeetingDate
+                    let initDate = Date(timeIntervalSince1970: TimeInterval(date! / 1000))
+                    if initDate > startDate {
+                        onSuccess(true)
+
+                    }
+                    else{
+                        onSuccess(false)
+                    }
+                }
+                else{
+                    onSuccess(false)
+                }
+                
+            }) { (error) in
+                onError(error )
+            }
         
-        ApiClient.getMeetings(to: date, onSuccess: { (array) in
-            
-            
-            if array.count > 0{
-                self.agendaModelManager.addMeetings(array: array)
-            }
-            
-            if array.count == 10{
-                onSuccess(true)
-            }
-            else{
-                onSuccess(false)
-            }
-            
-        }) { (error) in
-            onError(error )
-        }
+    
         
     }
+    
+    
     
     func createMeeting(date: Int64, duration: Int, description: String, inviteTo: [Int], onSuccess: @escaping () -> (), onError: @escaping (String) -> ()) {
         
         let params = ["date": date, "duration": duration, "description": description, "inviteTo": inviteTo] as [String : Any]
         
         ApiClient.createMeeting(params: params, onSuccess: { dict in
-            print(dict)
             if let id = dict["id"] as? Int{
 
                 ApiClient.getMeeting(id: id, onSuccess: { (dict) in
@@ -71,7 +82,6 @@ class AgendaManager {
         let params = ["date": date, "duration": duration, "description": description, "inviteTo": inviteTo, "id": meetingId] as [String : Any]
         
         ApiClient.editMeeting(params: params, onSuccess: { (dict) in
-            print(dict)
             if let id = dict["id"] as? Int{
                 
                 ApiClient.getMeeting(id: meetingId, onSuccess: { (dict) in

@@ -11,6 +11,13 @@ class GallerySwipeCollectionViewCell: UICollectionViewCell, UIScrollViewDelegate
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView:UIImageView!
+    @IBOutlet weak var downloadButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
+    var contentId = -1
+    var loadingImage = false
+    var isVideo = false
+    
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -23,17 +30,75 @@ class GallerySwipeCollectionViewCell: UICollectionViewCell, UIScrollViewDelegate
         self.scrollView.addGestureRecognizer(tapGestureRecognizer)
     }
     
-    func setContent(content: Content){
+    func configWithCont(contentId: Int){
+   
+        self.contentId = contentId
+        self.backgroundColor = UIColor(named: .clearGrayChat)
+        self.imageView.backgroundColor = UIColor(named: .clearGrayChat)
         
-        self.imageView.tag = content.idContent
-        MediaManager().setGalleryPicture(contentId: content.idContent, imageView: self.imageView, onCompletion: { (success, id) in
-            if success {
-                //self.scrollView.addSubview(self.imageView)
-                self.scrollView.contentSize = self.scrollView.frame.size
-                self.imageView.frame.size = self.scrollView.contentSize
+        downloadButton.addTargetClosure { (sender) in
+            self.downloadButton.isHidden = true
+            self.setImageWith(contentId: contentId)
+        }
+        
+    
+        if ContentManager.sharedInstance.errorIds.contains(contentId){
+            setError()
+            return
+        }
+        
+        downloadButton.isHidden = true
+        activityIndicator.hidesWhenStopped = true
+        
+        if let url = ContentManager.sharedInstance.getGalleryMediaImageUrl(contentId: contentId, isGroup: false, messageType: .image),  let image = UIImage(contentsOfFile: url.path){
+            imageView.image = image
+            self.backgroundColor = .white
+            self.imageView.backgroundColor = .white
+          
+        }
+        else{
+            if UserDefaults.standard.bool(forKey: "manualDownload") && !ContentManager.sharedInstance.galleryMediaExists(contentId: contentId, isGroup: false){
+                imageView.image = UIImage()
+                self.activityIndicator.isHidden = true
+                downloadButton.isHidden = false
             }
+            else{
+                downloadButton.isHidden = true
+                self.setImageWith(contentId: contentId)
+                
+            }
+        }
+        
+        
+        
+    }
+    
+    func setImageWith(contentId: Int){
+        if let url = ContentManager.sharedInstance.getGalleryMedia(contentId: contentId, isGroup: false, messageType: .image){
+            DispatchQueue.main.async {
+                if let image = UIImage(contentsOfFile: url.path) {
+                    self.backgroundColor = .white
+                    self.imageView.backgroundColor = .white
+                    self.imageView.image = image
+                    self.activityIndicator.isHidden = true
+                }
+                self.downloadButton.isHidden = true
+            }
+        }
+        else{
             
-        })
+            DispatchQueue.main.async {
+                self.imageView.image = UIImage()
+                self.activityIndicator.startAnimating()
+                self.activityIndicator.isHidden = false
+                self.downloadButton.isHidden = true
+            }
+        }
+    }
+    
+    func setError(){
+        self.activityIndicator.isHidden = true
+        self.downloadButton.isHidden = false
     }
 
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {

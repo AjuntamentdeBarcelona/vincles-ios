@@ -8,8 +8,9 @@
 import UIKit
 import AVKit
 import SimpleImageViewer
+import Firebase
 
-class GalleryDetailViewController: UIViewController {
+class GalleryDetailViewController: UIViewController, ContentManagerDelegate, ProfileImageManagerDelegate, GroupImageManagerDelegate {
 
     @IBOutlet weak var compartirButton: HoverButton!
     @IBOutlet weak var eliminarButton: HoverButton!
@@ -50,7 +51,44 @@ class GalleryDetailViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(GalleryDetailViewController.notificationProcessed), name: Notification.Name(NOTIFICATION_PROCESSED), object: nil)
 
+     
+        
     }
+    
+    func didDownload(contentId: Int) {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func didError(contentId: Int) {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func didError(userId: Int) {
+        configHeaderView()
+    }
+    
+    func didDownload(userId: Int) {
+        configHeaderView()
+    }
+    
+    func didError(groupId: Int) {
+        configHeaderView()
+    }
+    
+    func didDownload(groupId: Int) {
+        configHeaderView()
+    }
+    
+    func didCorrupted(contentId: Int) {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+   
     
     @objc func notificationProcessed(_ notification: NSNotification){
       if let type = notification.userInfo?["type"] as? String, (type == NOTI_USER_UPDATED){
@@ -65,10 +103,15 @@ class GalleryDetailViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
-        tracker.set(kGAIScreenName, value: ANALYTICS_GALLERY_DETAIL)
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
+        ContentManager.sharedInstance.delegate = self
+        ProfileImageManager.sharedInstance.delegate = self
+        GroupImageManager.sharedInstance.delegate = self
+
+        Analytics.setScreenName(ANALYTICS_GALLERY_DETAIL, screenClass: nil)
+//        guard let tracker = GAI.sharedInstance().tracker(withTrackingId: GA_TRACKING) else {return}
+//        tracker.set(kGAIScreenName, value: ANALYTICS_GALLERY_DETAIL)
+//        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
+//        tracker.send(builder.build() as [NSObject : AnyObject])
     }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -131,31 +174,7 @@ class GalleryDetailViewController: UIViewController {
             headerView = GalleryDetailUserHeader(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
             
             
-            switch filterGalleryType {
-            case .all:
-                if let user =  self.galleryModelManager.contentAt(index: self.currentContentIndex!).userCreator{
-                    headerView!.configWithUser(user: user)
-                }
-                else{
-                    headerView!.configWithName(name: self.galleryModelManager.contentAt(index: self.currentContentIndex!).userName)
-                }
-            case .mine:
-                if let user =  self.galleryModelManager.mineContentAt(index: self.currentContentIndex!).userCreator{
-                    headerView!.configWithUser(user: user)
-                }
-                else{
-                    headerView!.configWithName(name: self.galleryModelManager.mineContentAt(index: self.currentContentIndex!).userName)
-                }
-            case .sent:
-                if let user =  self.galleryModelManager.sharedContentAt(index: self.currentContentIndex!).userCreator{
-                    headerView!.configWithUser(user: user)
-                }
-                else{
-                    headerView!.configWithName(name: self.galleryModelManager.sharedContentAt(index: self.currentContentIndex!).userName)
-                }
-                
-            }
-            
+            configHeaderView()
             baseViewController.customCentralView = headerView!
      
             
@@ -172,14 +191,61 @@ class GalleryDetailViewController: UIViewController {
             }
             switch filterGalleryType {
             case .all:
-                timeView!.configWithContent(content: self.galleryModelManager.contentAt(index: self.currentContentIndex!))
+                guard let content =  galleryModelManager.contentAt(index: self.currentContentIndex!) else{
+                    return
+                }
+                timeView!.configWithContent(content: content)
             case .mine:
-                timeView!.configWithContent(content: self.galleryModelManager.mineContentAt(index: self.currentContentIndex!))
+                guard let content =  galleryModelManager.mineContentAt(index: self.currentContentIndex!) else{
+                    return
+                }
+                timeView!.configWithContent(content: content)
             case .sent:
-                timeView!.configWithContent(content: self.galleryModelManager.sharedContentAt(index: self.currentContentIndex!))
+                guard let content =  galleryModelManager.sharedContentAt(index: self.currentContentIndex!) else{
+                    return
+                }
+                timeView!.configWithContent(content: content)
             }
             
         }
+    }
+    
+    func configHeaderView(){
+        switch filterGalleryType {
+        case .all:
+            guard let content =  galleryModelManager.contentAt(index: self.currentContentIndex!) else{
+                return
+            }
+            if let user =  content.userCreator{
+                headerView!.configWithUser(user: user)
+            }
+            else{
+                headerView!.configWithName(name: content.userName)
+            }
+        case .mine:
+            guard let content =  galleryModelManager.mineContentAt(index: self.currentContentIndex!) else{
+                return
+            }
+            
+            if let user =  content.userCreator{
+                headerView!.configWithUser(user: user)
+            }
+            else{
+                headerView!.configWithName(name: content.userName)
+            }
+        case .sent:
+            guard let content =  galleryModelManager.sharedContentAt(index: self.currentContentIndex!) else{
+                return
+            }
+            if let user =  content.userCreator{
+                headerView!.configWithUser(user: user)
+            }
+            else{
+                headerView!.configWithName(name: content.userName)
+            }
+            
+        }
+        
     }
     
     func getContentsLibrary(){
@@ -250,16 +316,26 @@ class GalleryDetailViewController: UIViewController {
     func updateContentInfo(){
         switch filterGalleryType {
         case .all:
-            headerView!.configWithUser(user: self.galleryModelManager.contentAt(index: self.currentContentIndex!).userCreator!)
-            timeView!.configWithContent(content: self.galleryModelManager.contentAt(index: self.currentContentIndex!))
+            guard let content =  galleryModelManager.contentAt(index: self.currentContentIndex!) else{
+                return
+            }
+            headerView!.configWithUser(user: content.userCreator!)
+            timeView!.configWithContent(content: content)
             
         case .mine:
-            headerView!.configWithUser(user: self.galleryModelManager.contentAt(index: self.currentContentIndex!).userCreator!)
-            timeView!.configWithContent(content: self.galleryModelManager.mineContentAt(index: self.currentContentIndex!))
+            guard let content =  galleryModelManager.mineContentAt(index: self.currentContentIndex!) else{
+                return
+            }
+            headerView!.configWithUser(user: content.userCreator!)
+            timeView!.configWithContent(content: content)
         case .sent:
-            headerView!.configWithUser(user: self.galleryModelManager.contentAt(index: self.currentContentIndex!).userCreator!)
-            timeView!.configWithContent(content: self.galleryModelManager.sharedContentAt(index: self.currentContentIndex!))
+            guard let content =  galleryModelManager.sharedContentAt(index: self.currentContentIndex!) else{
+                return
+            }
+            headerView!.configWithUser(user: content.userCreator!)
+            timeView!.configWithContent(content: content)
         }
+        
         
     }
     
@@ -270,11 +346,8 @@ class GalleryDetailViewController: UIViewController {
     
     func playVideo(content: Content){
         
-        let mediaManager = MediaManager()
-        mediaManager.setGalleryVideo(contentId: content.idContent, imageView: nil) { (success, fileUrl, id) in
-            if let url = fileUrl{
-                self.playVideoUrl(url: url)
-            }
+        if let url = ContentManager.sharedInstance.getVideoLink(contentId: content.idContent, isGroup: false){
+            self.playVideoUrl(url: url)
         }
        
     }
@@ -314,14 +387,27 @@ class GalleryDetailViewController: UIViewController {
         let baseVC = StoryboardScene.Base.baseViewController.instantiate()
         let detailVC = StoryboardScene.Gallery.galleryCompartirContactsViewController.instantiate()
         
+        var content: Content?
         switch filterGalleryType {
         case .all:
-            detailVC.contentIds = [self.galleryModelManager.contentAt(index: self.currentContentIndex!).idContent]
+             content = self.galleryModelManager.contentAt(index: self.currentContentIndex!)
         case .mine:
-            detailVC.contentIds = [self.galleryModelManager.mineContentAt(index: self.currentContentIndex!).idContent]
+             content = self.galleryModelManager.mineContentAt(index: self.currentContentIndex!)
         case .sent:
-            detailVC.contentIds = [self.galleryModelManager.sharedContentAt(index: self.currentContentIndex!).idContent]
+            content = self.galleryModelManager.sharedContentAt(index: self.currentContentIndex!)
         }
+        
+        if content != nil{
+            detailVC.contentIds = [content!.idContent]
+            
+            if content!.mimeType.contains("video"){
+                detailVC.metadataTipus = ["VIDEO_MESSAGE"]
+            }
+            else{
+                detailVC.metadataTipus = ["IMAGES_MESSAGE"]
+            }
+        }
+       
         
         baseVC.containedViewController = detailVC
         self.navigationController?.pushViewController(baseVC, animated: true)
@@ -336,6 +422,21 @@ class GalleryDetailViewController: UIViewController {
 }
 
 extension GalleryDetailViewController: GalleryDetailCollectionViewDataSourceClickDelegate{
+    func showVideoCorruptedError() {
+        let popupVC = StoryboardScene.Popup.popupViewController.instantiate()
+        popupVC.delegate = self
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.popupTitle = "Error"
+        popupVC.popupDescription = L10n.chatVideoCorrupted
+        popupVC.button1Title = L10n.ok
+        
+        self.present(popupVC, animated: true, completion: nil)
+    }
+    
+    func reloadCollectionView() {
+        collectionView.reloadData()
+    }
+    
     func selectedContent(content: Content) {
         
         if content.mimeType.contains("video"){
@@ -346,6 +447,8 @@ extension GalleryDetailViewController: GalleryDetailCollectionViewDataSourceClic
     func selectedImageView(imageView: UIImageView) {
         
         let gallerySwipeVC = StoryboardScene.Gallery.gallerySwipeViewController.instantiate()
+        gallerySwipeVC.filterGalleryType = filterGalleryType
+        gallerySwipeVC.galleryManager = galleryManager
         gallerySwipeVC.currentContentIndex = self.currentContentIndex
         present(gallerySwipeVC, animated: true)
     }
@@ -370,11 +473,21 @@ extension GalleryDetailViewController: PopUpDelegate{
                 var contentId = -1
                 switch self.filterGalleryType {
                 case .all:
-                    contentId = self.galleryModelManager.contentAt(index: self.currentContentIndex!).id
+                    guard let content =  self.galleryModelManager.contentAt(index: self.currentContentIndex!) else{
+                        return
+                    }
+                    contentId = content.id
                 case .mine:
-                    contentId = self.galleryModelManager.mineContentAt(index: self.currentContentIndex!).id
+                    guard let content =  self.galleryModelManager.mineContentAt(index: self.currentContentIndex!) else{
+                        return
+                    }
+                    contentId = content.id
                 case .sent:
-                    contentId = self.galleryModelManager.sharedContentAt(index: self.currentContentIndex!).id
+                    guard let content =  self.galleryModelManager.sharedContentAt(index: self.currentContentIndex!) else{
+                        return
+                    }
+                    contentId = content.id
+                    
                 }
                 
                 let mediaManager = MediaManager()
@@ -428,6 +541,8 @@ extension GalleryDetailViewController: PopUpDelegate{
         popup.dismissPopup {
         }
     }
-    
+    func closeButtonClicked(popup: PopupViewController) {
+        
+    }
 }
 
